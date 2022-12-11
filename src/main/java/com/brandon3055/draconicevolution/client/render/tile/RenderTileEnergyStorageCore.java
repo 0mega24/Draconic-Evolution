@@ -69,12 +69,12 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             red = (float) DEConfig.energyCoreAltCoreColors[0];
             green = (float) colour * (float) DEConfig.energyCoreAltCoreColors[1];
             blue = (float) colour * (float) DEConfig.energyCoreAltCoreColors[2];
-        }
 
-        if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
-            red = (float) (DEConfig.energyCoreAltT8CoreColors[0]);
-            green = (float) (DEConfig.energyCoreAltT8CoreColors[1]);
-            blue = (float) (DEConfig.energyCoreAltT8CoreColors[2]);
+            if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
+                red = (float) (DEConfig.energyCoreAltT8CoreColors[0]);
+                green = (float) (DEConfig.energyCoreAltT8CoreColors[1]);
+                blue = (float) (DEConfig.energyCoreAltT8CoreColors[2]);
+            }
         }
         //endregion
 
@@ -124,22 +124,6 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
                     ModelUtils.renderQuadsRGB(outerQuads, 0.2F, 1F, 1F);
                 }
             }
-            
-            // if (te.tier.value == 8 && !DEConfig.energyCoreAltT8OuterRender) {
-            //     ModelUtils.renderQuadsRGB(outerQuads, 0.95F, 0.45F, 0F);
-            // }
-            // else if (!DEConfig.energyCoreAltT8OuterRender) {
-            //     ModelUtils.renderQuadsRGB(outerQuads, 0.2F, 1F, 1F);
-            // }
-
-            // if (DEConfig.energyCoreAltOuterRender) {
-            //     ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltOuterColors[0]), (float) (DEConfig.energyCoreAltOuterColors[1]), (float) (DEConfig.energyCoreAltOuterColors[2]));
-            // }
-
-            // if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
-            //     ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltT8OuterColors[0]), (float) (DEConfig.energyCoreAltT8OuterColors[1]), (float) (DEConfig.energyCoreAltT8OuterColors[2]));
-            // }
-            // ModelUtils.renderQuadsRGB(outerQuads, 0.35F, 0.35F, 0.35F);
         }
 
         GlStateManager.enableTexture2D();

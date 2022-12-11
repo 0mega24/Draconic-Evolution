@@ -289,7 +289,7 @@ public class DEConfig implements IModConfigHelper {
     public static boolean energyCoreAltT8OuterRender = true;
 
     @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8OuterColors", comment = "This defines the T8 alternate color renderer for the energy storage multiblock.")
-    public static double[] energyCoreAltT8OuterColors = new double[]{0.95F, 0.45F, 0F};
+    public static double[] energyCoreAltT8OuterColors = new double[]{0.95, 0.45, 0};
 
     public static Map<String, Integer> itemDislocatorBlacklistMap = new HashMap<String, Integer>();
     public static Set<String> oreBlacklist = new HashSet<>();
