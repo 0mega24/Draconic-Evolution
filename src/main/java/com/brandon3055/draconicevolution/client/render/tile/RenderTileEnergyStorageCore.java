@@ -111,7 +111,7 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             translateScaleTranslate(0.5D, scale, scale, scale);
             translateRotateTranslate(0.5, rotation * 0.5F, 0F, -1F, -0.5F);
             List<BakedQuad> outerQuads = ModelUtils.getModelQuads(DEFeatures.energyStorageCore.getDefaultState().withProperty(EnergyStorageCore.RENDER_TYPE, 2));
-            if (DECOnfig.energyCoreAltOuterRender) {
+            if (DEConfig.energyCoreAltOuterRender) {
                 if (te.tier.value == 8) {
                     ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltT8OuterColors[0]), (float) (DEConfig.energyCoreAltT8OuterColors[1]), (float) (DEConfig.energyCoreAltT8OuterColors[2]));
                 } else {
@@ -139,7 +139,7 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             // if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
             //     ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltT8OuterColors[0]), (float) (DEConfig.energyCoreAltT8OuterColors[1]), (float) (DEConfig.energyCoreAltT8OuterColors[2]));
             // }
-            ModelUtils.renderQuadsRGB(outerQuads, 0.35F, 0.35F, 0.35F);
+            // ModelUtils.renderQuadsRGB(outerQuads, 0.35F, 0.35F, 0.35F);
         }
 
         GlStateManager.enableTexture2D();
