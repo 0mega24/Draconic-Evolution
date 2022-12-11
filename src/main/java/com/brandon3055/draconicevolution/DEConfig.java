@@ -32,6 +32,7 @@ public class DEConfig implements IModConfigHelper {
         comments.put("Client Settings", "These are client side properties that have no effect server side.");
         comments.put("Stat Tweaks", "These allow you to tweak the stats of the tools, weapons and armor.");
         comments.put("Misc", "Just some misc settings.");
+        comments.put("Unofficial", "Some things added to allow for more color options of rendered objects.");
     }
 
     @Override
