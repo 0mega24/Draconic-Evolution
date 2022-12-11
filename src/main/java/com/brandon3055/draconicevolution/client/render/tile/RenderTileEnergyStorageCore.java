@@ -112,7 +112,7 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             translateRotateTranslate(0.5, rotation * 0.5F, 0F, -1F, -0.5F);
             List<BakedQuad> outerQuads = ModelUtils.getModelQuads(DEFeatures.energyStorageCore.getDefaultState().withProperty(EnergyStorageCore.RENDER_TYPE, 2));
             if (DEConfig.energyCoreAltOuterRender) {
-                if (te.tier.value == 8) {
+                if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
                     ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltT8OuterColors[0]), (float) (DEConfig.energyCoreAltT8OuterColors[1]), (float) (DEConfig.energyCoreAltT8OuterColors[2]));
                 } else {
                     ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltOuterColors[0]), (float) (DEConfig.energyCoreAltOuterColors[1]), (float) (DEConfig.energyCoreAltOuterColors[2]));
