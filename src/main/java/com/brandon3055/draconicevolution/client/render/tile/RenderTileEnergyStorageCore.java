@@ -54,26 +54,63 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
         double scale = SCALES[te.tier.value - 1];
 
         double colour = 1D - ((double) te.getExtendedStorage() / (double) te.getExtendedCapacity());
-        float red = 1F;
-        float green = (float) colour * 0.3f;
-        float blue = (float) colour * 0.7f;
+        float redCore;
+        float greenCore;
+        float blueCore;
 
-        if (te.tier.value == 8) {
-            red = 1F;
-            green = 0.28F;
-            blue = 0.05F;
-        }
+        float redOuter;
+        float greenOuter;
+        float blueOuter;
 
         if (DEConfig.energyCoreAltCoreRender) {
-            colour = 1D - ((double) te.getExtendedStorage() / (double) te.getExtendedCapacity());
-            red = (float) DEConfig.energyCoreAltCoreColors[0];
-            green = (float) colour * (float) DEConfig.energyCoreAltCoreColors[1];
-            blue = (float) colour * (float) DEConfig.energyCoreAltCoreColors[2];
-
             if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
-                red = (float) (DEConfig.energyCoreAltT8CoreColors[0]);
-                green = (float) (DEConfig.energyCoreAltT8CoreColors[1]);
-                blue = (float) (DEConfig.energyCoreAltT8CoreColors[2]);
+                redCore = (float) (DEConfig.energyCoreAltT8CoreColors[0]);
+                greenCore = (float) (DEConfig.energyCoreAltT8CoreColors[1]);
+                blueCore = (float) (DEConfig.energyCoreAltT8CoreColors[2]);
+            } else {
+                redCore = (float) DEConfig.energyCoreAltCoreColors[0];
+                greenCore = (float) colour * (float) DEConfig.energyCoreAltCoreColors[1];
+                blueCore = (float) colour * (float) DEConfig.energyCoreAltCoreColors[2];
+            }
+        } else {
+            if (te.tier.value == 8) {
+                redCore = 1F;
+                greenCore = 0.28F;
+                blueCore = 0.05F;
+            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
+                redCore = (float) (DEConfig.energyCoreAltT8CoreColors[0]);
+                greenCore = (float) (DEConfig.energyCoreAltT8CoreColors[1]);
+                blueCore = (float) (DEConfig.energyCoreAltT8CoreColors[2]);
+            } else {
+                redCore = 1F;
+                greenCore = (float) colour * 0.3f;
+                blueCore = (float) colour * 0.7f;
+            }
+        }
+
+        if (DEConfig.energyCoreAltOuterRender) {
+            if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
+                redOuter = (float) (DEConfig.energyCoreAltT8OuterColors[0]);
+                greenOuter = (float) (DEConfig.energyCoreAltT8OuterColors[1]);
+                blueOuter = (float) (DEConfig.energyCoreAltT8OuterColors[2]);
+            } else {
+                redOuter = (float) (DEConfig.energyCoreAltOuterColors[0]);
+                greenOuter = (float) (DEConfig.energyCoreAltOuterColors[1]);
+                blueOuter = (float) (DEConfig.energyCoreAltOuterColors[2]);
+            }
+        } else {
+            if (te.tier.value == 8) {
+                redOuter = 0.95F;
+                greenOuter = 0.45F;
+                blueOuter = 0.0F;
+            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
+                redOuter = (float) (DEConfig.energyCoreAltT8OuterColors[0]);
+                greenOuter = (float) (DEConfig.energyCoreAltT8OuterColors[1]);
+                blueOuter = (float) (DEConfig.energyCoreAltT8OuterColors[2]);
+            } else {
+                redOuter = 0.2F;
+                greenOuter = 1.0f;
+                blueOuter = 1.0f;
             }
         }
         //endregion
@@ -97,7 +134,7 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             setLighting(80f + brightness);
             translateRotateTranslate(0.5, rotation, 0F, 1F, 0.5F);
             List<BakedQuad> innerQuads = ModelUtils.getModelQuads(DEFeatures.energyStorageCore.getDefaultState().withProperty(EnergyStorageCore.RENDER_TYPE, 1));
-            ModelUtils.renderQuadsRGB(innerQuads, red, green, blue);
+            ModelUtils.renderQuadsRGB(innerQuads, redCore, greenCore, blueCore);
             GlStateManager.popMatrix();
             setLighting(200F);
             renderStabilizers(te, false, partialTicks);
@@ -111,19 +148,7 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             translateScaleTranslate(0.5D, scale, scale, scale);
             translateRotateTranslate(0.5, rotation * 0.5F, 0F, -1F, -0.5F);
             List<BakedQuad> outerQuads = ModelUtils.getModelQuads(DEFeatures.energyStorageCore.getDefaultState().withProperty(EnergyStorageCore.RENDER_TYPE, 2));
-            if (DEConfig.energyCoreAltOuterRender) {
-                if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
-                    ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltT8OuterColors[0]), (float) (DEConfig.energyCoreAltT8OuterColors[1]), (float) (DEConfig.energyCoreAltT8OuterColors[2]));
-                } else {
-                    ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltOuterColors[0]), (float) (DEConfig.energyCoreAltOuterColors[1]), (float) (DEConfig.energyCoreAltOuterColors[2]));
-                }
-            } else {
-                if (te.tier.value == 8) {
-                    ModelUtils.renderQuadsRGB(outerQuads, 0.95F, 0.45F, 0F);
-                } else {
-                    ModelUtils.renderQuadsRGB(outerQuads, 0.2F, 1F, 1F);
-                }
-            }
+            ModelUtils.renderQuadsRGB(outerQuads, redOuter, greenOuter, blueOuter);
         }
 
         GlStateManager.enableTexture2D();

@@ -280,13 +280,13 @@ public class DEConfig implements IModConfigHelper {
     public static double[] energyCoreAltOuterColors = new double[]{0.2, 1.0, 1};
 
     @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8CoreRender", comment = "This enables the T8 alternate color renderer for the energy storage multiblock.")
-    public static boolean energyCoreAltT8CoreRender = true;
+    public static boolean energyCoreAltT8CoreRender = false;
 
     @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8CoreColors", comment = "This defines the T8 alternate color renderer for the energy storage multiblock.")
     public static double[] energyCoreAltT8CoreColors = new double[]{1.0, 0.28, 0.05};
 
     @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8OuterRender", comment = "This enables the T8 alternate color renderer for the energy storage multiblock.")
-    public static boolean energyCoreAltT8OuterRender = true;
+    public static boolean energyCoreAltT8OuterRender = false;
 
     @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8OuterColors", comment = "This defines the T8 alternate color renderer for the energy storage multiblock.")
     public static double[] energyCoreAltT8OuterColors = new double[]{0.95, 0.45, 0};
