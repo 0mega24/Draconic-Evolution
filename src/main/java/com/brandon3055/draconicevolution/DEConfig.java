@@ -19,6 +19,11 @@ import java.util.Set;
  * Created by brandon3055 on 24/3/2016.
  * This class holds all of the config values for Draconic Evolution
  */
+
+ /**
+ * Forked by 0mega24 on 10/3/2022.
+ * This class holds all of the added config options and values for Ωmegacraft Reloaded
+ */
 @ModConfigContainer(modid = DraconicEvolution.MODID)
 public class DEConfig implements IModConfigHelper {
 
@@ -259,6 +264,32 @@ public class DEConfig implements IModConfigHelper {
 
     @ModConfigProperty(category = "Misc", name = "chaosGuardianLoading", comment = "Set this to false to disable the Chaos Guardian's chunkloading ability.\nNote. The chaos guardian is ONLY loaded when a player is within a couple hundred blocks.\nThis setting is here to avoid issues where the guardian would fly out of the loaded chunks \nand freeze; especially an issue on servers with reduced render distance.")
     public static boolean chaosGuardianLoading = true;
+
+    //Category Unofficial
+
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltCoreRender", comment = "This enables the alternate color renderer for the energy storage multiblock.")
+    public static boolean energyCoreAltCoreRender = false;
+
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltCoreColors", comment = "This defines the alternate color renderer for the energy storage multiblock.")
+    public static double[] energyCoreAltCoreColors = new double[]{1.0, 0.3, 0.7};
+
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltOuterRender", comment = "This enables the alternate color renderer for the energy storage multiblock.")
+    public static boolean energyCoreAltOuterRender = false;
+
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltOuterColors", comment = "This defines the alternate color renderer for the energy storage multiblock.")
+    public static double[] energyCoreAltOuterColors = new double[]{0.2, 1.0, 1};
+
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8CoreRender", comment = "This enables the T8 alternate color renderer for the energy storage multiblock.")
+    public static boolean energyCoreAltT8CoreRender = true;
+
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8CoreColors", comment = "This defines the T8 alternate color renderer for the energy storage multiblock.")
+    public static double[] energyCoreAltT8CoreColors = new double[]{1.0, 0.28, 0.05};
+
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8OuterRender", comment = "This enables the T8 alternate color renderer for the energy storage multiblock.")
+    public static boolean energyCoreAltT8OuterRender = true;
+
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8OuterColors", comment = "This defines the T8 alternate color renderer for the energy storage multiblock.")
+    public static double[] energyCoreAltT8OuterColors = new double[]{0.95F, 0.45F, 0F};
 
     public static Map<String, Integer> itemDislocatorBlacklistMap = new HashMap<String, Integer>();
     public static Set<String> oreBlacklist = new HashSet<>();

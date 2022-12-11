@@ -10,6 +10,7 @@ import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
+import com.brandon3055.draconicevolution.DEConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -62,6 +63,19 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             green = 0.28F;
             blue = 0.05F;
         }
+
+        if (DEConfig.energyCoreAltCoreRender) {
+            colour = 1D - ((double) te.getExtendedStorage() / (double) te.getExtendedCapacity());
+            red = (float) DEConfig.energyCoreAltCoreColors[0];
+            green = (float) colour * (float) DEConfig.energyCoreAltCoreColors[1];
+            blue = (float) colour * (float) DEConfig.energyCoreAltCoreColors[2];
+        }
+
+        if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
+            red = (float) (DEConfig.energyCoreAltT8CoreColors[0]);
+            green = (float) (DEConfig.energyCoreAltT8CoreColors[1]);
+            blue = (float) (DEConfig.energyCoreAltT8CoreColors[2]);
+        }
         //endregion
 
         //region Render Core
@@ -97,12 +111,35 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             translateScaleTranslate(0.5D, scale, scale, scale);
             translateRotateTranslate(0.5, rotation * 0.5F, 0F, -1F, -0.5F);
             List<BakedQuad> outerQuads = ModelUtils.getModelQuads(DEFeatures.energyStorageCore.getDefaultState().withProperty(EnergyStorageCore.RENDER_TYPE, 2));
-            if (te.tier.value == 8) {
-                ModelUtils.renderQuadsRGB(outerQuads, 0.95F, 0.45F, 0F);
+            if (DECOnfig.energyCoreAltOuterRender) {
+                if (te.tier.value == 8) {
+                    ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltT8OuterColors[0]), (float) (DEConfig.energyCoreAltT8OuterColors[1]), (float) (DEConfig.energyCoreAltT8OuterColors[2]));
+                } else {
+                    ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltOuterColors[0]), (float) (DEConfig.energyCoreAltOuterColors[1]), (float) (DEConfig.energyCoreAltOuterColors[2]));
+                }
+            } else {
+                if (te.tier.value == 8) {
+                    ModelUtils.renderQuadsRGB(outerQuads, 0.95F, 0.45F, 0F);
+                } else {
+                    ModelUtils.renderQuadsRGB(outerQuads, 0.2F, 1F, 1F);
+                }
             }
-            else {
-                ModelUtils.renderQuadsRGB(outerQuads, 0.2F, 1F, 1F);
-            }
+            
+            // if (te.tier.value == 8 && !DEConfig.energyCoreAltT8OuterRender) {
+            //     ModelUtils.renderQuadsRGB(outerQuads, 0.95F, 0.45F, 0F);
+            // }
+            // else if (!DEConfig.energyCoreAltT8OuterRender) {
+            //     ModelUtils.renderQuadsRGB(outerQuads, 0.2F, 1F, 1F);
+            // }
+
+            // if (DEConfig.energyCoreAltOuterRender) {
+            //     ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltOuterColors[0]), (float) (DEConfig.energyCoreAltOuterColors[1]), (float) (DEConfig.energyCoreAltOuterColors[2]));
+            // }
+
+            // if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
+            //     ModelUtils.renderQuadsRGB(outerQuads, (float) (DEConfig.energyCoreAltT8OuterColors[0]), (float) (DEConfig.energyCoreAltT8OuterColors[1]), (float) (DEConfig.energyCoreAltT8OuterColors[2]));
+            // }
+            ModelUtils.renderQuadsRGB(outerQuads, 0.35F, 0.35F, 0.35F);
         }
 
         GlStateManager.enableTexture2D();
