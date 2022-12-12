@@ -24,6 +24,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
+import static java.lang.Math.abs;
 
 /**
  * Created by brandon3055 on 2/4/2016.
@@ -187,24 +188,61 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
                 GlStateManager.scale(0.45, 0.45, 0.45);
             }
 //            LogHelper.dev(vec3I);
-            renderStabilizer(renderStage, partialTick);
+            renderStabilizer(te, renderStage, partialTick);
             GlStateManager.popMatrix();
         }
     }
 
-    private void renderStabilizer(boolean renderStage, float partialTick) {
+    private void renderStabilizer(TileEnergyStorageCore te, boolean renderStage, float partialTick) {
         IBakedModel bakedModel = ModelUtils.loadBakedModel(ResourceHelperDE.getResource("block/obj_models/stabilizer_sphere.obj"));
         List<BakedQuad> listQuads = bakedModel.getQuads(DEFeatures.energyStorageCore.getDefaultState(), null, 0);
         GlStateManager.bindTexture(Minecraft.getMinecraft().getTextureMapBlocks().getGlTextureId());
+
+        float redOuter;
+        float greenOuter;
+        float blueOuter;
+
+        if (DEConfig.energyCoreAltOuterRender) {
+            if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
+                redOuter = (float) (DEConfig.energyCoreAltT8OuterColors[0]);
+                greenOuter = (float) (DEConfig.energyCoreAltT8OuterColors[1]);
+                blueOuter = (float) (DEConfig.energyCoreAltT8OuterColors[2]);
+            } else {
+                redOuter = (float) (DEConfig.energyCoreAltOuterColors[0]);
+                greenOuter = (float) (DEConfig.energyCoreAltOuterColors[1]);
+                blueOuter = (float) (DEConfig.energyCoreAltOuterColors[2]);
+            }
+        } else {
+            if (te.tier.value == 8) {
+                redOuter = 0.95F;
+                greenOuter = 0.45F;
+                blueOuter = 0.0F;
+            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
+                redOuter = (float) (DEConfig.energyCoreAltT8OuterColors[0]);
+                greenOuter = (float) (DEConfig.energyCoreAltT8OuterColors[1]);
+                blueOuter = (float) (DEConfig.energyCoreAltT8OuterColors[2]);
+            } else {
+                redOuter = 0.2F;
+                greenOuter = 1.0f;
+                blueOuter = 1.0f;
+            }
+        }
+
+        int redOuterInt = (int) (redOuter * 255);
+        int greenOuterInt = (int) (greenOuter * 255);
+        int blueOuterInt = (int) (blueOuter * 255);
+
         if (!renderStage) {
             GlStateManager.scale(0.9F, 0.9F, 0.9F);
             GlStateManager.rotate(ClientEventHandler.elapsedTicks + partialTick, 0, -1, 0);
-            ModelUtils.renderQuadsARGB(listQuads, 0xFF00FFFF);
+            String argbHex = String.format("ff%02x%02x%02x", redOuterInt, greenOuterInt, blueOuterInt);
+            ModelUtils.renderQuadsARGB(listQuads, abs(Integer.parseUnsignedInt(argbHex, 16)));
         }
         else {
             GlStateManager.rotate((ClientEventHandler.elapsedTicks + partialTick) * 0.5F, 0, 1, 0);
             GlStateManager.scale(1.1F, 1.1F, 1.1F);
-            ModelUtils.renderQuadsARGB(listQuads, 0x5000FFFF);
+            String argbHex = String.format("50%02x%02x%02x", redOuterInt, greenOuterInt, blueOuterInt);
+            ModelUtils.renderQuadsARGB(listQuads, abs(Integer.parseUnsignedInt(argbHex, 16)));
         }
     }
 
