@@ -34,6 +34,112 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
 
     public RenderTileEnergyStorageCore() {}
 
+    public float getRedCore(TileEnergyStorageCore te) {
+        double colour = 1D - ((double) te.getExtendedStorage() / (double) te.getExtendedCapacity());
+        if (DEConfig.energyCoreAltCoreRender) {
+            if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
+                return ((float) (DEConfig.energyCoreAltT8CoreColors[0]));
+            } else {
+                return ((float) (DEConfig.energyCoreAltCoreColors[0]));
+            }
+        } else {
+            if (te.tier.value == 8) {
+                return (1.0F);
+            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
+                return ((float) (DEConfig.energyCoreAltT8CoreColors[0]));
+            } else {
+                return (1.0F);
+            }
+        }
+    }
+    public float getGreenCore(TileEnergyStorageCore te) {
+        double colour = 1D - ((double) te.getExtendedStorage() / (double) te.getExtendedCapacity());
+        if (DEConfig.energyCoreAltCoreRender) {
+            if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
+                return ((float) (DEConfig.energyCoreAltT8CoreColors[1]));
+            } else {
+                return ( (float) colour * (float) (DEConfig.energyCoreAltCoreColors[1]));
+            }
+        } else {
+            if (te.tier.value == 8) {
+                return (0.28F);
+            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
+                return ((float) (DEConfig.energyCoreAltT8CoreColors[1]));
+            } else {
+                return ((float) colour * 0.3F);
+            }
+        }
+    }
+    public float getBlueCore(TileEnergyStorageCore te) {
+        double colour = 1D - ((double) te.getExtendedStorage() / (double) te.getExtendedCapacity());
+        if (DEConfig.energyCoreAltCoreRender) {
+            if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
+                return ((float) (DEConfig.energyCoreAltT8CoreColors[2]));
+            } else {
+                return ( (float) colour * (float) (DEConfig.energyCoreAltCoreColors[2]));
+            }
+        } else {
+            if (te.tier.value == 8) {
+                return (0.05F);
+            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
+                return ((float) (DEConfig.energyCoreAltT8CoreColors[2]));
+            } else {
+                return ((float) colour * 0.7F);
+            }
+        }
+    }
+    public float getRedOuter(TileEnergyStorageCore te) {
+        if (DEConfig.energyCoreAltOuterRender) {
+            if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
+                return ((float) (DEConfig.energyCoreAltT8OuterColors[0]));
+            } else {
+                return ((float) (DEConfig.energyCoreAltOuterColors[0]));
+            }
+        } else {
+            if (te.tier.value == 8) {
+                return (0.92F);
+            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
+                return ((float) (DEConfig.energyCoreAltT8OuterColors[0]));
+            } else {
+                return (0.2F);
+            }
+        }
+    }
+    public float getGreenOuter(TileEnergyStorageCore te) {
+        if (DEConfig.energyCoreAltOuterRender) {
+            if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
+                return ((float) (DEConfig.energyCoreAltT8OuterColors[1]));
+            } else {
+                return ((float) (DEConfig.energyCoreAltOuterColors[1]));
+            }
+        } else {
+            if (te.tier.value == 8) {
+                return (0.45F);
+            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
+                return ((float) (DEConfig.energyCoreAltT8OuterColors[1]));
+            } else {
+                return (1.0F);
+            }
+        }
+    }
+    public float getBlueOuter(TileEnergyStorageCore te) {
+        if (DEConfig.energyCoreAltOuterRender) {
+            if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
+                return ((float) (DEConfig.energyCoreAltT8OuterColors[2]));
+            } else {
+                return ((float) (DEConfig.energyCoreAltOuterColors[2]));
+            }
+        } else {
+            if (te.tier.value == 8) {
+                return (0.0F);
+            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
+                return ((float) (DEConfig.energyCoreAltT8OuterColors[2]));
+            } else {
+                return (1.0F);
+            }
+        }
+    }
+
     @Override
     public void render(TileEnergyStorageCore te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         //region Build Guide
@@ -55,65 +161,13 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
         double scale = SCALES[te.tier.value - 1];
 
         double colour = 1D - ((double) te.getExtendedStorage() / (double) te.getExtendedCapacity());
-        float redCore;
-        float greenCore;
-        float blueCore;
+        float redCore = getRedCore(te);
+        float greenCore = getGreenCore(te);
+        float blueCore = getBlueCore(te);
 
-        float redOuter;
-        float greenOuter;
-        float blueOuter;
-
-        if (DEConfig.energyCoreAltCoreRender) {
-            if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
-                redCore = (float) (DEConfig.energyCoreAltT8CoreColors[0]);
-                greenCore = (float) (DEConfig.energyCoreAltT8CoreColors[1]);
-                blueCore = (float) (DEConfig.energyCoreAltT8CoreColors[2]);
-            } else {
-                redCore = (float) DEConfig.energyCoreAltCoreColors[0];
-                greenCore = (float) colour * (float) DEConfig.energyCoreAltCoreColors[1];
-                blueCore = (float) colour * (float) DEConfig.energyCoreAltCoreColors[2];
-            }
-        } else {
-            if (te.tier.value == 8) {
-                redCore = 1F;
-                greenCore = 0.28F;
-                blueCore = 0.05F;
-            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
-                redCore = (float) (DEConfig.energyCoreAltT8CoreColors[0]);
-                greenCore = (float) (DEConfig.energyCoreAltT8CoreColors[1]);
-                blueCore = (float) (DEConfig.energyCoreAltT8CoreColors[2]);
-            } else {
-                redCore = 1F;
-                greenCore = (float) colour * 0.3f;
-                blueCore = (float) colour * 0.7f;
-            }
-        }
-
-        if (DEConfig.energyCoreAltOuterRender) {
-            if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
-                redOuter = (float) (DEConfig.energyCoreAltT8OuterColors[0]);
-                greenOuter = (float) (DEConfig.energyCoreAltT8OuterColors[1]);
-                blueOuter = (float) (DEConfig.energyCoreAltT8OuterColors[2]);
-            } else {
-                redOuter = (float) (DEConfig.energyCoreAltOuterColors[0]);
-                greenOuter = (float) (DEConfig.energyCoreAltOuterColors[1]);
-                blueOuter = (float) (DEConfig.energyCoreAltOuterColors[2]);
-            }
-        } else {
-            if (te.tier.value == 8) {
-                redOuter = 0.95F;
-                greenOuter = 0.45F;
-                blueOuter = 0.0F;
-            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
-                redOuter = (float) (DEConfig.energyCoreAltT8OuterColors[0]);
-                greenOuter = (float) (DEConfig.energyCoreAltT8OuterColors[1]);
-                blueOuter = (float) (DEConfig.energyCoreAltT8OuterColors[2]);
-            } else {
-                redOuter = 0.2F;
-                greenOuter = 1.0f;
-                blueOuter = 1.0f;
-            }
-        }
+        float redOuter = getRedOuter(te);
+        float greenOuter = getGreenOuter(te);
+        float blueOuter = getBlueOuter(te);
         //endregion
 
         //region Render Core
@@ -180,7 +234,8 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             }
 
             GlStateManager.rotate(90, 1, 0, 0);
-            renderStabilizerBeam(te, vec3I.vec, renderStage, partialTick);
+            renderStabilizerBeamInner(te, vec3I.vec, renderStage, partialTick);
+            renderStabilizerBeamOuter(te, vec3I.vec, renderStage, partialTick);
             if (te.tier.value >= 5) {
                 GlStateManager.scale(1.2F, 0.5F, 1.2F);
             }
@@ -198,39 +253,9 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
         List<BakedQuad> listQuads = bakedModel.getQuads(DEFeatures.energyStorageCore.getDefaultState(), null, 0);
         GlStateManager.bindTexture(Minecraft.getMinecraft().getTextureMapBlocks().getGlTextureId());
 
-        float redOuter;
-        float greenOuter;
-        float blueOuter;
-
-        if (DEConfig.energyCoreAltOuterRender) {
-            if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
-                redOuter = (float) (DEConfig.energyCoreAltT8OuterColors[0]);
-                greenOuter = (float) (DEConfig.energyCoreAltT8OuterColors[1]);
-                blueOuter = (float) (DEConfig.energyCoreAltT8OuterColors[2]);
-            } else {
-                redOuter = (float) (DEConfig.energyCoreAltOuterColors[0]);
-                greenOuter = (float) (DEConfig.energyCoreAltOuterColors[1]);
-                blueOuter = (float) (DEConfig.energyCoreAltOuterColors[2]);
-            }
-        } else {
-            if (te.tier.value == 8) {
-                redOuter = 0.95F;
-                greenOuter = 0.45F;
-                blueOuter = 0.0F;
-            } else if (te.tier.value == 8 && DEConfig.energyCoreAltT8OuterRender) {
-                redOuter = (float) (DEConfig.energyCoreAltT8OuterColors[0]);
-                greenOuter = (float) (DEConfig.energyCoreAltT8OuterColors[1]);
-                blueOuter = (float) (DEConfig.energyCoreAltT8OuterColors[2]);
-            } else {
-                redOuter = 0.2F;
-                greenOuter = 1.0f;
-                blueOuter = 1.0f;
-            }
-        }
-
-        int redOuterInt = (int) (redOuter * 255);
-        int greenOuterInt = (int) (greenOuter * 255);
-        int blueOuterInt = (int) (blueOuter * 255);
+        int redOuterInt = (int) (getRedOuter(te) * 255);
+        int greenOuterInt = (int) (getGreenOuter(te) * 255);
+        int blueOuterInt = (int) (getBlueOuter(te) * 255);
 
         if (!renderStage) {
             GlStateManager.scale(0.9F, 0.9F, 0.9F);
@@ -246,8 +271,141 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
         }
     }
 
-    private void renderStabilizerBeam(TileEnergyStorageCore te, Vec3I vec, boolean renderStage, float partialTick) {
-        ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM);
+    private void renderStabilizerBeamInner(TileEnergyStorageCore te, Vec3I vec, boolean renderStage, float partialTick) {
+        ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM_INNER);
+        if (DEConfig.energyCoreBeamRender) {
+            //GlStateManager.color(((int) (getRedCore(te) * 255)), ((int) (getGreenCore(te) * 255)), ((int) (getBlueCore(te) * 255)), 255);
+            GlStateManager.color(50, 255, 50, 255);
+        }
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder vertexBuffer = tessellator.getBuffer();
+        GL11.glPushMatrix();
+        GlStateManager.rotate(180, 0, 0, 1);
+        double beamLength = Math.abs(vec.x + vec.y + vec.z) - 0.5;
+        float time = ClientEventHandler.elapsedTicks + partialTick;
+        double rotation = (double) time * 0.025D * -1.5D;
+        float beamMotion = -time * 0.2F - (float) MathHelper.floor(-time * 0.1F);
+
+        if (!renderStage) {
+            //region Render Inner Beam
+            double scale = 0.2;
+            double d7 = 0.5D + Math.cos(rotation + 2.356194490192345D) * scale;  //x point 1
+            double d9 = 0.5D + Math.sin(rotation + 2.356194490192345D) * scale;  //z point 1
+            double d11 = 0.5D + Math.cos(rotation + (Math.PI / 4D)) * scale;        //x point 2
+            double d13 = 0.5D + Math.sin(rotation + (Math.PI / 4D)) * scale;     //z point 2
+            double d15 = 0.5D + Math.cos(rotation + 3.9269908169872414D) * scale;//Dist from x-3
+            double d17 = 0.5D + Math.sin(rotation + 3.9269908169872414D) * scale;
+            double d19 = 0.5D + Math.cos(rotation + 5.497787143782138D) * scale;
+            double d21 = 0.5D + Math.sin(rotation + 5.497787143782138D) * scale;
+            double texXMin = 0.0D;
+            double texXMax = 1.0D;
+            double d28 = (double) (-1.0F + beamMotion);
+            double texHeight = beamLength * (0.5D / scale) + d28;
+
+            if (te.tier.value >= 5) {
+                GlStateManager.scale(3.5, 1, 3.5);
+            }
+            GlStateManager.translate(-0.5, 0, -0.5);
+
+            vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+            vertexBuffer.pos(d7, beamLength, d9).tex(texXMax, texHeight).endVertex();
+            vertexBuffer.pos(d7, 0, d9).tex(texXMax, d28).endVertex();
+            vertexBuffer.pos(d11, 0, d13).tex(texXMin, d28).endVertex();
+            vertexBuffer.pos(d11, beamLength, d13).tex(texXMin, texHeight).endVertex();
+
+            vertexBuffer.pos(d19, beamLength, d21).tex(texXMax, texHeight).endVertex();
+            vertexBuffer.pos(d19, 0, d21).tex(texXMax, d28).endVertex();
+            vertexBuffer.pos(d15, 0, d17).tex(texXMin, d28).endVertex();
+            vertexBuffer.pos(d15, beamLength, d17).tex(texXMin, texHeight).endVertex();
+
+            vertexBuffer.pos(d11, beamLength, d13).tex(texXMax, texHeight).endVertex();
+            vertexBuffer.pos(d11, 0, d13).tex(texXMax, d28).endVertex();
+            vertexBuffer.pos(d19, 0, d21).tex(texXMin, d28).endVertex();
+            vertexBuffer.pos(d19, beamLength, d21).tex(texXMin, texHeight).endVertex();
+
+            vertexBuffer.pos(d15, beamLength, d17).tex(texXMax, texHeight).endVertex();
+            vertexBuffer.pos(d15, 0, d17).tex(texXMax, d28).endVertex();
+            vertexBuffer.pos(d7, 0, d9).tex(texXMin, d28).endVertex();
+            vertexBuffer.pos(d7, beamLength, d9).tex(texXMin, texHeight).endVertex();
+
+            rotation += 0.77f;
+            d7 = 0.5D + Math.cos(rotation + 2.356194490192345D) * scale;
+            d9 = 0.5D + Math.sin(rotation + 2.356194490192345D) * scale;
+            d11 = 0.5D + Math.cos(rotation + (Math.PI / 4D)) * scale;
+            d13 = 0.5D + Math.sin(rotation + (Math.PI / 4D)) * scale;
+            d15 = 0.5D + Math.cos(rotation + 3.9269908169872414D) * scale;
+            d17 = 0.5D + Math.sin(rotation + 3.9269908169872414D) * scale;
+            d19 = 0.5D + Math.cos(rotation + 5.497787143782138D) * scale;
+            d21 = 0.5D + Math.sin(rotation + 5.497787143782138D) * scale;
+
+            d28 = (-1F + (beamMotion * 1));
+            texHeight = beamLength * (0.5D / scale) + d28;
+
+            vertexBuffer.pos(d7, beamLength, d9).tex(texXMax, texHeight).endVertex();
+            vertexBuffer.pos(d7, 0, d9).tex(texXMax, d28).endVertex();
+            vertexBuffer.pos(d11, 0, d13).tex(texXMin, d28).endVertex();
+            vertexBuffer.pos(d11, beamLength, d13).tex(texXMin, texHeight).endVertex();
+
+            vertexBuffer.pos(d19, beamLength, d21).tex(texXMax, texHeight).endVertex();
+            vertexBuffer.pos(d19, 0, d21).tex(texXMax, d28).endVertex();
+            vertexBuffer.pos(d15, 0, d17).tex(texXMin, d28).endVertex();
+            vertexBuffer.pos(d15, beamLength, d17).tex(texXMin, texHeight).endVertex();
+
+            vertexBuffer.pos(d11, beamLength, d13).tex(texXMax, texHeight).endVertex();
+            vertexBuffer.pos(d11, 0, d13).tex(texXMax, d28).endVertex();
+            vertexBuffer.pos(d19, 0, d21).tex(texXMin, d28).endVertex();
+            vertexBuffer.pos(d19, beamLength, d21).tex(texXMin, texHeight).endVertex();
+
+            vertexBuffer.pos(d15, beamLength, d17).tex(texXMax, texHeight).endVertex();
+            vertexBuffer.pos(d15, 0, d17).tex(texXMax, d28).endVertex();
+            vertexBuffer.pos(d7, 0, d9).tex(texXMin, d28).endVertex();
+            vertexBuffer.pos(d7, beamLength, d9).tex(texXMin, texHeight).endVertex();
+            //endregion
+        }
+        else {
+            //region Render Outer Beam
+            GlStateManager.rotate(90, -1, 0, 0);
+            GlStateManager.rotate(45, 0, 0, 1);
+            GlStateManager.translate(0, 0, 0.4);
+            GlStateManager.depthMask(true);
+
+            int sides = 4;
+            float enlarge = 0.35F;
+            if (te.tier.value >= 5) {
+                sides = 12;
+                enlarge = 0.5F + ((te.tier.value - 5) * 0.1F);
+                GlStateManager.rotate((ClientEventHandler.elapsedTicks + partialTick) * 0.6F, 0, 0, -1);
+                GlStateManager.scale(3.5, 3.5, 1);
+            }
+
+            vertexBuffer.begin(5, DefaultVertexFormats.POSITION_TEX_COLOR);
+//            for (int i = 0; i < 4; ++i) {
+//                vertexBuffer.putColorRGBA(i + 1, 255, 255, 255, 32);
+//            }
+
+            for (int i = 0; i <= sides; i++) {
+
+                float verX = MathHelper.sin((float) (i % sides) * (float) Math.PI * 2F / (float) sides) * 1;
+                float verY = MathHelper.cos((float) (i % sides) * (float) Math.PI * 2F / (float) sides) * 1;
+                vertexBuffer.pos((double) (verX * 0.35F), (double) (verY * 0.35F), 0.0D).tex((double) i, (beamMotion * 2)).color(255, 255, 255, 32).endVertex();
+                vertexBuffer.pos((double) verX * enlarge, (double) verY * enlarge, beamLength).tex((double) i, beamLength + (beamMotion * 2)).color(255, 255, 255, 32).endVertex();
+            }
+
+            GlStateManager.depthMask(false);
+            //endregion
+        }
+
+        tessellator.draw();
+        GlStateManager.popMatrix();
+    }
+
+    private void renderStabilizerBeamOuter(TileEnergyStorageCore te, Vec3I vec, boolean renderStage, float partialTick) {
+        if (DEConfig.energyCoreBeamRender) {
+            ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM_OUTER);
+            GlStateManager.color((int) (getRedOuter(te) * 255), (int) (getGreenOuter(te) * 255), (int) (getBlueOuter(te) * 255), 255);
+        } else {
+            ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM_OUTER_ALT);
+        }
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder vertexBuffer = tessellator.getBuffer();
         GL11.glPushMatrix();
