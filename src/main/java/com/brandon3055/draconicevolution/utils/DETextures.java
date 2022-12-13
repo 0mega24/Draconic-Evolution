@@ -133,7 +133,8 @@ public class DETextures implements IIconRegister, IResourceManagerReloadListener
     public static final String REACTOR_CORE = "textures/models/reactor_core.png";
     public static final String REACTOR_SHIELD = "textures/models/reactor_shield.png";
     public static final String STABILIZER_BEAM_INNER = "textures/models/stabilizer_beam.png";
-    public static final String STABILIZER_BEAM_OUTER = "textures/models/stabilizer_beam_alt.png";
+    public static final String STABILIZER_BEAM_INNER_ALT = "textures/models/stabilizer_beam_alt.png";
+    public static final String STABILIZER_BEAM_OUTER = "textures/models/stabilizer_beam_outer.png";
     public static final String STABILIZER_BEAM_OUTER_ALT = "textures/models/stabilizer_beam_outer_alt.png";
     public static final String CELESTIAL_PARTICLE = "textures/particle/celestial_manipulator.png";
     public static final String ENERGY_CRYSTAL_BASE = "textures/models/crystal_purple_transparent.png";

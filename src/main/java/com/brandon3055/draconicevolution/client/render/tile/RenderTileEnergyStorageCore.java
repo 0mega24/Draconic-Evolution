@@ -260,22 +260,31 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
         if (!renderStage) {
             GlStateManager.scale(0.9F, 0.9F, 0.9F);
             GlStateManager.rotate(ClientEventHandler.elapsedTicks + partialTick, 0, -1, 0);
-            String argbHex = String.format("ff%02x%02x%02x", redOuterInt, greenOuterInt, blueOuterInt);
-            ModelUtils.renderQuadsARGB(listQuads, abs(Integer.parseUnsignedInt(argbHex, 16)));
+            String argbHex = String.format("FF%02x%02x%02x", redOuterInt, greenOuterInt, blueOuterInt);
+            if (DEConfig.energyCoreStabRender) {
+                ModelUtils.renderQuadsARGB(listQuads, abs(Integer.parseUnsignedInt(argbHex, 16)));
+            } else {
+                ModelUtils.renderQuadsARGB(listQuads, 0xFF00FFFF);
+            }
         }
         else {
             GlStateManager.rotate((ClientEventHandler.elapsedTicks + partialTick) * 0.5F, 0, 1, 0);
             GlStateManager.scale(1.1F, 1.1F, 1.1F);
             String argbHex = String.format("50%02x%02x%02x", redOuterInt, greenOuterInt, blueOuterInt);
-            ModelUtils.renderQuadsARGB(listQuads, abs(Integer.parseUnsignedInt(argbHex, 16)));
+            if (DEConfig.energyCoreStabRender) {
+                ModelUtils.renderQuadsARGB(listQuads, abs(Integer.parseUnsignedInt(argbHex, 16)));
+            } else {
+                ModelUtils.renderQuadsARGB(listQuads, 0x5000FFFF);
+            }
         }
     }
 
     private void renderStabilizerBeamInner(TileEnergyStorageCore te, Vec3I vec, boolean renderStage, float partialTick) {
-        ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM_INNER);
         if (DEConfig.energyCoreBeamRender) {
-            //GlStateManager.color(((int) (getRedCore(te) * 255)), ((int) (getGreenCore(te) * 255)), ((int) (getBlueCore(te) * 255)), 255);
-            GlStateManager.color(50, 255, 50, 255);
+            ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM_INNER_ALT);
+            GlStateManager.color(getRedCore(te), getGreenCore(te), getBlueCore(te), 1.0F);
+        } else {
+            ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM_INNER);
         }
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder vertexBuffer = tessellator.getBuffer();
@@ -328,7 +337,7 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             vertexBuffer.pos(d7, 0, d9).tex(texXMin, d28).endVertex();
             vertexBuffer.pos(d7, beamLength, d9).tex(texXMin, texHeight).endVertex();
 
-            rotation += 0.77f;
+            rotation += 0.77F;
             d7 = 0.5D + Math.cos(rotation + 2.356194490192345D) * scale;
             d9 = 0.5D + Math.sin(rotation + 2.356194490192345D) * scale;
             d11 = 0.5D + Math.cos(rotation + (Math.PI / 4D)) * scale;
@@ -401,10 +410,10 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
 
     private void renderStabilizerBeamOuter(TileEnergyStorageCore te, Vec3I vec, boolean renderStage, float partialTick) {
         if (DEConfig.energyCoreBeamRender) {
-            ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM_OUTER);
-            GlStateManager.color((int) (getRedOuter(te) * 255), (int) (getGreenOuter(te) * 255), (int) (getBlueOuter(te) * 255), 255);
-        } else {
             ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM_OUTER_ALT);
+            GlStateManager.color(getRedOuter(te), getGreenOuter(te), getBlueOuter(te), 1.0F);
+        } else {
+            ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM_OUTER);
         }
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder vertexBuffer = tessellator.getBuffer();
