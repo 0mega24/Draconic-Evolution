@@ -291,8 +291,11 @@ public class DEConfig implements IModConfigHelper {
     @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8OuterColors", comment = "This defines the T8 alternate color renderer for the energy storage multiblock.")
     public static double[] energyCoreAltT8OuterColors = new double[]{0.95, 0.45, 0};
 
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreBeamRender", comment = "This enables the syncing beam color renderer for the energy storage multiblock.")
-    public static boolean energyCoreBeamRender = false;
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreBeamOuterRender", comment = "This enables the syncing beam's outer edge color renderer for the energy storage multiblock.")
+    public static boolean energyCoreBeamOuterRender = false;
+
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreBeamInnerRender", comment = "This enables the syncing beam's inner core color renderer for the energy storage multiblock.")
+    public static boolean energyCoreBeamInnerRender = false;
 
     @ModConfigProperty(category = "Unofficial", name = "energyCoreStabRender", comment = "This enables the syncing stabilizer color renderer for the energy storage multiblock.")
     public static boolean energyCoreStabRender = false;

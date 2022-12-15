@@ -280,7 +280,7 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
     }
 
     private void renderStabilizerBeamInner(TileEnergyStorageCore te, Vec3I vec, boolean renderStage, float partialTick) {
-        if (DEConfig.energyCoreBeamRender) {
+        if (DEConfig.energyCoreBeamInnerRender) {
             ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM_INNER_ALT);
             GlStateManager.color(getRedCore(te), getGreenCore(te), getBlueCore(te), 1.0F);
         } else {
@@ -409,7 +409,7 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
     }
 
     private void renderStabilizerBeamOuter(TileEnergyStorageCore te, Vec3I vec, boolean renderStage, float partialTick) {
-        if (DEConfig.energyCoreBeamRender) {
+        if (DEConfig.energyCoreBeamOuterRender) {
             ResourceHelperDE.bindTexture(DETextures.STABILIZER_BEAM_OUTER_ALT);
             GlStateManager.color(getRedOuter(te), getGreenOuter(te), getBlueOuter(te), 1.0F);
         } else {
