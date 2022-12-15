@@ -58,7 +58,7 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             if (te.tier.value == 8 && DEConfig.energyCoreAltT8CoreRender) {
                 return ((float) (DEConfig.energyCoreAltT8CoreColors[1]));
             } else {
-                return ( (float) colour * (float) (DEConfig.energyCoreAltCoreColors[1]));
+                return ((float) colour * (float) (DEConfig.energyCoreAltCoreColors[1]));
             }
         } else {
             if (te.tier.value == 8) {
