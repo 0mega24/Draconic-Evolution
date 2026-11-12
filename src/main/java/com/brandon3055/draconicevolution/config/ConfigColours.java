@@ -54,6 +54,13 @@ public final class ConfigColours {
         }
     }
 
+    /** Splits 0xRRGGBB into {r, g, b} floats in the range 0-1, for shader uniforms. */
+    public static float[] toFloats(int rgb) {
+        return new float[] {
+            (rgb >> 16 & 0xFF) / 255F, (rgb >> 8 & 0xFF) / 255F, (rgb & 0xFF) / 255F
+        };
+    }
+
     /**
      * Blends each channel from rgb (progress 0) to rgb * ratio (progress 1). Channels are clamped
      * to 0-255.

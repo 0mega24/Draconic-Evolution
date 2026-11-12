@@ -16,6 +16,11 @@ public final class Visuals {
             "Energy core colours. Client side only. Colours are #RRGGBB, ratios are R:G:B"
                     + " multipliers."
         },
+        {
+            ReactorVisuals.CATEGORY,
+            "Reaction reactor colours and animation speeds. Client side only. Colours are"
+                    + " #RRGGBB, speeds are multipliers (1.0 is the default speed)."
+        },
     };
 
     private Visuals() {}
@@ -23,5 +28,6 @@ public final class Visuals {
     /** Parses all visuals options. Called on config load and on config change. */
     public static void load() {
         EnergyCoreVisuals.load();
+        ReactorVisuals.load();
     }
 }
