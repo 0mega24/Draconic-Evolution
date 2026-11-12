@@ -14,6 +14,8 @@ jobs:
           distribution: temurin
           java-version: '8'
           cache: gradle
+      - name: Format check
+        run: ./gradlew formatCheck --no-daemon
       - name: Build, Checkstyle and PMD
         run: ./gradlew build --no-daemon
       - name: Upload lint reports
