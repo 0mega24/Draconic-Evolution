@@ -362,9 +362,11 @@ public class GuiConfigureTool extends GuiScreen
                     case PLUS3_MINUS3:
                         buttonList.add(new Button(0, x + 31, y + 1, 18, 16, "<<<", MINUS3));
                         buttonList.add(new Button(1, x + width - 49, y + 1, 18, 16, ">>>", PLUS3));
+                        // fall through: each size also gets the smaller buttons
                     case PLUS2_MINUS2:
                         buttonList.add(new Button(2, x + 50, y + 1, 14, 16, "<<", MINUS2));
                         buttonList.add(new Button(3, x + width - 64, y + 1, 14, 16, ">>", PLUS2));
+                        // fall through
                     case PLUS1_MINUS1:
                         buttonList.add(new Button(4, x + 65, y + 1, 10, 16, "<", MINUS1));
                         buttonList.add(new Button(5, x + width - 75, y + 1, 10, 16, ">", PLUS1));

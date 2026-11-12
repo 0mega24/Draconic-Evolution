@@ -256,6 +256,7 @@ public class Generator extends BlockBCore implements ITileEntityProvider {
                             0.0D,
                             0.0D,
                             new int[0]);
+                    break;
                 default:
                     break;
             }

@@ -59,8 +59,8 @@ public class GuiParticleGenerator extends GuiScreen {
         }
 
         switch (page) {
-            default:
             case 1:
+            default:
                 buttonList.add(
                         new GuiRangeSliderI(
                                 0,

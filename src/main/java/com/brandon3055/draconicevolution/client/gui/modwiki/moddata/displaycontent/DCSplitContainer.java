@@ -325,6 +325,7 @@ public class DCSplitContainer extends DisplayComponentBase {
             try {
                 newWidth = Integer.parseInt(((MGuiTextField) eventElement).getText());
             } catch (Exception e) {
+                // Not a number: keep the default width.
             }
 
             if (newWidth < 10) {
@@ -417,6 +418,7 @@ public class DCSplitContainer extends DisplayComponentBase {
             try {
                 splitMinWidth = Integer.parseInt(element.getAttribute(ATTRIB_WIDTH));
             } catch (Exception e) {
+                // Not a number: keep the default width.
             }
         }
 

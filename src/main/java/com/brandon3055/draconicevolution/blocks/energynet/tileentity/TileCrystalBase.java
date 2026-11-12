@@ -839,10 +839,5 @@ public abstract class TileCrystalBase extends TileBCBase
             data.data = ByteBufUtils.readUTF8String(buf);
             return data;
         }
-
-        @Override
-        public int hashCode() {
-            return super.hashCode();
-        }
     }
 }

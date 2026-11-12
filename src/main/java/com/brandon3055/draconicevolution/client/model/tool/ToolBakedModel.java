@@ -68,8 +68,9 @@ public class ToolBakedModel extends AbstractBakedPropertiesModel {
                 state = TransformUtils.DEFAULT_ITEM;
                 break;
             case GUI:
-                // Force gui to the standard mode, Fall through to default because switch.
+                // Force gui to the standard mode.
                 model = this;
+                // fall through
             default:
                 state = TransformUtils.DEFAULT_TOOL;
                 break;

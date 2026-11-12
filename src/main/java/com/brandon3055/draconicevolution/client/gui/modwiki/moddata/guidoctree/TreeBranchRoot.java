@@ -136,6 +136,7 @@ public class TreeBranchRoot extends MGuiListEntry {
                     sortingWeight = 0;
                 }
             } catch (Exception e) {
+                // Not a number: keep the default sorting weight.
             }
         }
 
