@@ -32,6 +32,7 @@ public class ReactorBeamFX extends BCParticle {
     private final EnumFacing facing;
     private double dist;
     private int boltSeed = -1;
+    private final Vec3D point = new Vec3D();
 
     public static ShaderProgram beam_E;
     public static ShaderProgram beam_O;
@@ -270,7 +271,7 @@ public class ReactorBeamFX extends BCParticle {
             double sin = MathHelper.sin(((i % sides) * Math.PI * 2.13325D / sides) + beamRotation);
             double cos = MathHelper.cos(((i % sides) * Math.PI * 2.13325D / sides) + beamRotation);
             double texX = (i % sides) * 1.0D / sides;
-            Vec3D point = pos.copy().radialOffset(facing.getAxis(), sin, cos, widthStart);
+            point.set(pos).radialOffset(facing.getAxis(), sin, cos, widthStart);
             buffer.pos(point.x, point.y, point.z)
                     .tex(texX, beamAnimation)
                     .color(r, g, b, fadeReverse ? 0F : fxState)
@@ -306,7 +307,7 @@ public class ReactorBeamFX extends BCParticle {
             double s = sides - 0.99999999;
             double texX = (i % s) * (1.0D / s);
 
-            Vec3D point = pos.copy().radialOffset(facing.getAxis(), sin, cos, widthStart);
+            point.set(pos).radialOffset(facing.getAxis(), sin, cos, widthStart);
             buffer.pos(point.x, point.y, point.z)
                     .tex(texX, (fadeReverse ? 0.1 : 1) + beamAnimation)
                     .color(1F, 1F, 1F, 1F)
