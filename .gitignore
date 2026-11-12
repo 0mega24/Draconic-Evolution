@@ -24,3 +24,7 @@
 
 # Other Important Folders
 !src/
+
+# Lint config and CI
+!config/
+!.github/
