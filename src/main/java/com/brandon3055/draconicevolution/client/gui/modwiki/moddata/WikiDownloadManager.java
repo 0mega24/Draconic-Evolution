@@ -21,6 +21,8 @@ import java.util.Map;
 /** Created by brandon3055 on 20/09/2016. */
 public class WikiDownloadManager {
 
+    private WikiDownloadManager() {}
+
     public static List<ManifestEntry> manifest = new ArrayList<>();
     public static List<DownloadThread> dlThreads =
             Collections.synchronizedList(new ArrayList<DownloadThread>());

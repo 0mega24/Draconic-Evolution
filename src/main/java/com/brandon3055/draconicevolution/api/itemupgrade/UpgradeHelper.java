@@ -16,6 +16,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * upgrade system.
  */
 public class UpgradeHelper {
+
+    private UpgradeHelper() {}
+
     public static final String UPGRADE_TAG = "DEUpgrades";
 
     /**

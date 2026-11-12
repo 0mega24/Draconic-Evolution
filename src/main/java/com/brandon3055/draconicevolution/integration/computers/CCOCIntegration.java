@@ -22,6 +22,8 @@ import net.minecraftforge.fml.common.Optional;
 /** Created by brandon3055 on 21/9/2015. */
 public class CCOCIntegration {
 
+    private CCOCIntegration() {}
+
     public static void init() {
         if (Loader.isModLoaded("computercraft")) {
             initCC();

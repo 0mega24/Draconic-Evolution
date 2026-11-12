@@ -13,6 +13,8 @@ import net.minecraftforge.oredict.OreDictionary;
 /** Created by brandon3055 on 21/06/2016. */
 public class OreDictHelper {
 
+    private OreDictHelper() {}
+
     /**
      * Takes an object which may be an ore string, an item, a block or an ItemStack and returns true
      * if it matches the given ItemStack.

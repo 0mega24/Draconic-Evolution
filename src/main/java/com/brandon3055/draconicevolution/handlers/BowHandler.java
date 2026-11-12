@@ -26,6 +26,8 @@ import net.minecraftforge.event.ForgeEventFactory;
 
 public class BowHandler {
 
+    private BowHandler() {}
+
     public static ActionResult<ItemStack> onBowRightClick(
             ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
         BowHandler.BowProperties properties = new BowHandler.BowProperties(stack, player);

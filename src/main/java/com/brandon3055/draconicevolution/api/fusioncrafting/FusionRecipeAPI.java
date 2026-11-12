@@ -6,6 +6,8 @@ import java.util.List;
 /** Created by brandon3055 on 11/06/2016. This API allows you to register custom IFusionRecipe's */
 public class FusionRecipeAPI {
 
+    private FusionRecipeAPI() {}
+
     /**
      * The fusion recipe registry. Assigned by Draconic Evolution during pre-initialization.<br>
      * This field should not be accessed directly. Instead use the methods provided in this class.

@@ -15,6 +15,8 @@ import org.lwjgl.opengl.GL11;
 /** Created by brandon3055 on 22/06/2016. */
 public class RenderEnergyBolt {
 
+    private RenderEnergyBolt() {}
+
     public static void renderBoltBetween(
             Vec3D point1,
             Vec3D point2,

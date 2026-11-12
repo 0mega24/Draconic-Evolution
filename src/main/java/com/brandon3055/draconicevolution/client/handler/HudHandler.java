@@ -26,6 +26,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 /** Created by brandon3055 on 4/07/2016. */
 public class HudHandler {
 
+    private HudHandler() {}
+
     private static List<String> hudList = null;
     private static List<String> ltHudList = null;
     private static float toolTipFadeOut = 0F;

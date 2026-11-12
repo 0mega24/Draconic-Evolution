@@ -11,6 +11,8 @@ import net.minecraftforge.common.model.TRSRTransformation;
 /** Created by brandon3055 on 1/09/2016. */
 public class ToolTransforms {
 
+    private ToolTransforms() {}
+
     public static final CCModelState STAFF_STATE;
     public static final CCModelState DR_SWORD_STATE;
     public static final CCModelState WY_SWORD_STATE;

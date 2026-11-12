@@ -14,6 +14,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class LogHelper {
 
+    private LogHelper() {}
+
     private static long startTime = 0;
     private static String timerName = "";
     private static boolean timerRunning = false;
