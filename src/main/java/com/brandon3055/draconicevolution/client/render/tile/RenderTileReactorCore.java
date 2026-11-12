@@ -18,6 +18,7 @@ import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorCore;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.client.render.shaders.DEShaders;
+import com.brandon3055.draconicevolution.config.visuals.ReactorVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
 import java.util.Map;
@@ -135,11 +136,15 @@ public class RenderTileReactorCore extends TESRBase<TileReactorCore> {
         if (MinecraftForgeClient.getRenderPass() == 0) {
             float animation =
                     (te.coreAnimation + (partialTicks * (float) te.shaderAnimationState.value))
-                            / 20F;
+                            / 20F
+                            * (float) ReactorVisuals.coreAnimationSpeed;
             renderCore(
                     x, y, z, partialTicks, intensity, animation, diameter, DEShaders.useShaders());
         } else if (te.shieldAnimationState > 0) {
-            float animation = (te.shieldAnimation + (partialTicks * te.shieldAnimationState)) / 20F;
+            float animation =
+                    (te.shieldAnimation + (partialTicks * te.shieldAnimationState))
+                            / 20F
+                            * (float) ReactorVisuals.shieldAnimationSpeed;
 
             float power = (0.7F * shieldPower) - (1 - te.shieldAnimationState);
             if (te.reactorState.value == TileReactorCore.ReactorState.BEYOND_HOPE) {
@@ -224,6 +229,8 @@ public class RenderTileReactorCore extends TESRBase<TileReactorCore> {
                     cache -> {
                         cache.glUniform1F("time", animation);
                         cache.glUniform1F("intensity", intensity);
+                        float[] tint = ReactorVisuals.coreTint;
+                        cache.glUniform3F("tint", tint[0], tint[1], tint[2]);
                     });
         }
 
@@ -233,7 +240,12 @@ public class RenderTileReactorCore extends TESRBase<TileReactorCore> {
                 RenderUtils.getMatrix(
                         new Vector3(x + 0.5, y + 0.5, z + 0.5),
                         new Rotation(
-                                (ClientEventHandler.elapsedTicks + partialTicks) / 400F, 0, 1, 0),
+                                (ClientEventHandler.elapsedTicks + partialTicks)
+                                        / 400F
+                                        * (float) ReactorVisuals.rotationSpeed,
+                                0,
+                                1,
+                                0),
                         diameter);
         model.render(ccrs, mat);
         ccrs.draw();
@@ -262,15 +274,13 @@ public class RenderTileReactorCore extends TESRBase<TileReactorCore> {
                     cache -> {
                         cache.glUniform1F("time", animation);
                         cache.glUniform1F("intensity", power);
+                        float[] tint = ReactorVisuals.shieldTintRGB;
+                        cache.glUniform3F("tint", tint[0], tint[1], tint[2]);
                     });
         } else {
-            float ff =
-                    0.5F; // tile.maxFieldCharge > 0 ? tile.fieldCharge / tile.maxFieldCharge : 0;
-            float r = ff < 0.5F ? 1 - (ff * 2) : 0;
-            float g = ff > 0.5F ? (ff - 0.5F) * 2 : 0;
-            float b = ff * 2;
-            float a = ff < 0.1F ? (ff * 10) : 1;
-            GlStateManager.color(r, g, b, a);
+            int rgb = ReactorVisuals.shieldRGBNoShaders;
+            GlStateManager.color(
+                    (rgb >> 16 & 0xFF) / 255F, (rgb >> 8 & 0xFF) / 255F, (rgb & 0xFF) / 255F, 1F);
         }
 
         GlStateManager.enableBlend();
@@ -283,7 +293,9 @@ public class RenderTileReactorCore extends TESRBase<TileReactorCore> {
                     RenderUtils.getMatrix(
                             new Vector3(x + 0.5, y + 0.5, z + 0.5),
                             new Rotation(
-                                    (ClientEventHandler.elapsedTicks + partialTicks) / 400F,
+                                    (ClientEventHandler.elapsedTicks + partialTicks)
+                                            / 400F
+                                            * (float) ReactorVisuals.rotationSpeed,
                                     0,
                                     1,
                                     0),
@@ -294,7 +306,9 @@ public class RenderTileReactorCore extends TESRBase<TileReactorCore> {
                     RenderUtils.getMatrix(
                             new Vector3(x + 0.5, y + 0.5, z + 0.5),
                             new Rotation(
-                                    (ClientEventHandler.elapsedTicks + partialTicks) / 400F,
+                                    (ClientEventHandler.elapsedTicks + partialTicks)
+                                            / 400F
+                                            * (float) ReactorVisuals.rotationSpeed,
                                     0,
                                     1,
                                     0),
@@ -303,6 +317,7 @@ public class RenderTileReactorCore extends TESRBase<TileReactorCore> {
         }
 
         ccrs.draw();
+        GlStateManager.color(1F, 1F, 1F, 1F);
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
 
         if (useShader) {

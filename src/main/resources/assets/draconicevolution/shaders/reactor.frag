@@ -2,6 +2,7 @@
 
 uniform float time;
 uniform float intensity;
+uniform vec3 tint; // channel weights, stock (1.0, 0.4, 0.15)
 
 
 float snoise(vec3 uv, float res){
@@ -33,7 +34,7 @@ void main() {
         brightness += (1.5 / power) * max(snoise(coord + vec3(0, 0, time * 0.01), power * density), -1 + (offline * 1.5));
     }
 
-    vec4 colour = vec4(brightness, pow(brightness, 2.0) * 0.4 * iCap, pow(brightness ,3.0) * 0.15 * iCap, 1.0);
+    vec4 colour = vec4(brightness * tint.r, pow(brightness, 2.0) * tint.g * iCap, pow(brightness ,3.0) * tint.b * iCap, 1.0);
 
 	gl_FragColor = colour;
 }

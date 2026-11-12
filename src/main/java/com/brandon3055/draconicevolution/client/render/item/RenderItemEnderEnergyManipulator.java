@@ -64,6 +64,7 @@ public class RenderItemEnderEnergyManipulator implements IItemRenderer {
                                                 + mc.getRenderPartialTicks())
                                         / -100F);
                         cache.glUniform1F("intensity", 0.09F);
+                        cache.glUniform3F("tint", 1F, 1F, 1F);
                     });
             renderSkull();
             shaderProgram.useShader(
