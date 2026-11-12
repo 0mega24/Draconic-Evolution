@@ -93,8 +93,8 @@ public class GuiConfigureTool extends GuiScreen
             int x = -159 + centerX + i % 2 * 180;
             int y = -103 + centerY + i / 2 * bHeight;
 
-            buttonList.add(
-                    fieldButtons[i] = new FieldButton(i, x, y, 138, bHeight - 1, field, this));
+            fieldButtons[i] = new FieldButton(i, x, y, 138, bHeight - 1, field, this);
+            buttonList.add(fieldButtons[i]);
 
             i++;
         }
@@ -464,7 +464,8 @@ public class GuiConfigureTool extends GuiScreen
                         } else if (sliderPos < 0) {
                             sliderPos = 0;
                         }
-                        dragPos = releasePos = sliderPos;
+                        releasePos = sliderPos;
+                        dragPos = releasePos;
                         dragTick = 20;
                     }
 

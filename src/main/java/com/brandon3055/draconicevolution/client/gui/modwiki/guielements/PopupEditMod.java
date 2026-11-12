@@ -50,89 +50,83 @@ public class PopupEditMod extends MGuiPopUpDialog implements IMGuiListener {
                         .setAlignment(EnumAlignment.LEFT);
         y += 12;
         addChild(label);
-        addChild(
-                nameField =
-                        new MGuiTextField(
-                                modularGui,
-                                xPos + 2,
-                                y,
-                                xSize - 4,
-                                16,
-                                modularGui.getMinecraft().fontRenderer));
+        nameField =
+                new MGuiTextField(
+                        modularGui,
+                        xPos + 2,
+                        y,
+                        xSize - 4,
+                        16,
+                        modularGui.getMinecraft().fontRenderer);
+        addChild(nameField);
         nameField.setText(branch.branchName);
         y += 30;
-        addChild(
-                okButton =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                                modularGui,
-                                                "OK",
-                                                xPos + 2,
-                                                y,
-                                                (xSize / 2) - 2,
-                                                14,
-                                                "OK")
-                                        .setColours(0xFF00a000, 0xFF000000, 0xFFFFFFFF)
-                                        .setListener(this));
-        addChild(
-                cancelButton =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                                modularGui,
-                                                "CANCEL",
-                                                xPos + 1 + (xSize / 2),
-                                                y,
-                                                (xSize / 2) - 2,
-                                                14,
-                                                "Cancel")
-                                        .setColours(0xFF504040, 0xFF000000, 0xFFFFFFFF)
-                                        .setListener(this));
-        addChild(
-                deleteButton =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                                modularGui,
-                                                "DELETE",
-                                                xPos + 1 + (xSize / 2),
-                                                yPos + ySize - 16,
-                                                (xSize / 2) - 2,
-                                                14,
-                                                "Delete")
-                                        .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
-                                        .setListener(this));
+        okButton =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                        modularGui, "OK", xPos + 2, y, (xSize / 2) - 2, 14, "OK")
+                                .setColours(0xFF00a000, 0xFF000000, 0xFFFFFFFF)
+                                .setListener(this);
+        addChild(okButton);
+        cancelButton =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                        modularGui,
+                                        "CANCEL",
+                                        xPos + 1 + (xSize / 2),
+                                        y,
+                                        (xSize / 2) - 2,
+                                        14,
+                                        "Cancel")
+                                .setColours(0xFF504040, 0xFF000000, 0xFFFFFFFF)
+                                .setListener(this);
+        addChild(cancelButton);
+        deleteButton =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                        modularGui,
+                                        "DELETE",
+                                        xPos + 1 + (xSize / 2),
+                                        yPos + ySize - 16,
+                                        (xSize / 2) - 2,
+                                        14,
+                                        "Delete")
+                                .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
+                                .setListener(this);
+        addChild(deleteButton);
 
         MGuiLabel confirm =
                 new MGuiLabel(modularGui, xPos, yPos + ySize - 30, xSize, 12, "Are You Sure?");
         confirm.id = "CONFIRM_LABEL";
         addChild(confirm);
         setChildIDEnabled("CONFIRM_LABEL", false);
+        confirmYes =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                        modularGui,
+                                        "DELETE_YES",
+                                        xPos + 2,
+                                        yPos + ySize - 16,
+                                        (xSize / 2) - 2,
+                                        14,
+                                        "Yes")
+                                .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
+                                .setListener(this);
 
-        addChild(
-                confirmYes =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                                modularGui,
-                                                "DELETE_YES",
-                                                xPos + 2,
-                                                yPos + ySize - 16,
-                                                (xSize / 2) - 2,
-                                                14,
-                                                "Yes")
-                                        .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
-                                        .setListener(this));
-        addChild(
-                confirmNo =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                                modularGui,
-                                                "DELETE_NO",
-                                                xPos + 1 + (xSize / 2),
-                                                yPos + ySize - 16,
-                                                (xSize / 2) - 2,
-                                                14,
-                                                "No")
-                                        .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
-                                        .setListener(this));
+        addChild(confirmYes);
+        confirmNo =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                        modularGui,
+                                        "DELETE_NO",
+                                        xPos + 1 + (xSize / 2),
+                                        yPos + ySize - 16,
+                                        (xSize / 2) - 2,
+                                        14,
+                                        "No")
+                                .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
+                                .setListener(this);
+        addChild(confirmNo);
         confirmYes.setEnabled(false);
         confirmNo.setEnabled(false);
 
@@ -146,12 +140,12 @@ public class PopupEditMod extends MGuiPopUpDialog implements IMGuiListener {
                                 "Mod ID can only be edited manually because its tied to every single branch. If you need to edit it I recommend opening the xml and Find&Replace modid: with newmodid:")
                         .setWrap(true));
         y += 80;
-        addChild(
-                errorLabel =
-                        new MGuiLabel(modularGui, xPos, y, xSize, 100, "")
-                                .setWrap(true)
-                                .setAlignment(EnumAlignment.LEFT)
-                                .setTextColour(0xFFFF0000));
+        errorLabel =
+                new MGuiLabel(modularGui, xPos, y, xSize, 100, "")
+                        .setWrap(true)
+                        .setAlignment(EnumAlignment.LEFT)
+                        .setTextColour(0xFFFF0000);
+        addChild(errorLabel);
         errorLabel.setEnabled(true);
 
         super.initElement();

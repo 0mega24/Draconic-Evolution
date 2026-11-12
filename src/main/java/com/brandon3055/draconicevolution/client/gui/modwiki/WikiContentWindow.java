@@ -52,75 +52,59 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
     @Override
     public void initElement() {
         toRemove.addAll(childElements);
+        label =
+                new MGuiLabel(
+                        guiModWiki,
+                        xPos,
+                        yPos + 1,
+                        xSize,
+                        12,
+                        "ROOT".equals(activeBranch.branchID)
+                                ? "Project Intelligence"
+                                : activeBranch.branchName) {
+                    @Override
+                    public int getTextColour() {
+                        return NAV_TEXT;
+                    }
 
-        addChild(
-                label =
-                        new MGuiLabel(
-                                guiModWiki,
-                                xPos,
-                                yPos + 1,
-                                xSize,
-                                12,
-                                "ROOT".equals(activeBranch.branchID)
-                                        ? "Project Intelligence"
-                                        : activeBranch.branchName) {
+                    @Override
+                    public boolean getDropShadow() {
+                        Colour colour = new ColourARGB(NAV_TEXT);
+                        long l = ((colour.r & 0xff) + (colour.g & 0xff) + (colour.b & 0xff)) / 3;
+                        return l > 80;
+                    }
+                }.setAlignment(EnumAlignment.LEFT);
+
+        addChild(label);
+        delete =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                guiModWiki, "DELETE", xPos + xSize - 12, yPos, 12, 12, "X") {
                             @Override
-                            public int getTextColour() {
-                                return NAV_TEXT;
+                            public int getFillColour(boolean hovering, boolean disabled) {
+                                return disabled ? 0xFF777777 : hovering ? 0xFFFFFFFF : 0xFFFF0000;
                             }
 
                             @Override
-                            public boolean getDropShadow() {
-                                Colour colour = new ColourARGB(NAV_TEXT);
-                                long l =
-                                        ((colour.r & 0xff) + (colour.g & 0xff) + (colour.b & 0xff))
-                                                / 3;
-                                return l > 80;
+                            public int getBorderColour(boolean hovering, boolean disabled) {
+                                return disabled ? 0xFF555555 : hovering ? 0xFFFF0000 : 0xFFFFFFFF;
                             }
-                        }.setAlignment(EnumAlignment.LEFT));
+                        }.setListener(this)
+                                .setToolTip(new String[] {"Delete Selected Display Component"});
 
-        addChild(
-                delete =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                        guiModWiki,
-                                        "DELETE",
-                                        xPos + xSize - 12,
-                                        yPos,
-                                        12,
-                                        12,
-                                        "X") {
-                                    @Override
-                                    public int getFillColour(boolean hovering, boolean disabled) {
-                                        return disabled
-                                                ? 0xFF777777
-                                                : hovering ? 0xFFFFFFFF : 0xFFFF0000;
-                                    }
-
-                                    @Override
-                                    public int getBorderColour(boolean hovering, boolean disabled) {
-                                        return disabled
-                                                ? 0xFF555555
-                                                : hovering ? 0xFFFF0000 : 0xFFFFFFFF;
-                                    }
-                                }.setListener(this)
-                                        .setToolTip(
-                                                new String[] {
-                                                    "Delete Selected Display Component"
-                                                }));
+        addChild(delete);
         delete.disabled = true;
+        add =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                modularGui, "ADD", xPos + xSize - 38, yPos, 25, 12, "Add") {
+                            @Override
+                            public int getBorderColour(boolean hovering, boolean disabled) {
+                                return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                            }
+                        }.setListener(this).setToolTip(new String[] {"Add New Display Component"});
 
-        addChild(
-                add =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                        modularGui, "ADD", xPos + xSize - 38, yPos, 25, 12, "Add") {
-                                    @Override
-                                    public int getBorderColour(boolean hovering, boolean disabled) {
-                                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
-                                    }
-                                }.setListener(this)
-                                        .setToolTip(new String[] {"Add New Display Component"}));
+        addChild(add);
 
         delete.setEnabled(WikiConfig.editMode && activeBranch.branchData != null);
         add.setEnabled(WikiConfig.editMode && activeBranch.branchData != null);

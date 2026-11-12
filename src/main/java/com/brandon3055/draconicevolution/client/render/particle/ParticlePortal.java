@@ -24,7 +24,9 @@ public class ParticlePortal extends BCParticle {
         this.motionY = (target.y - start.y) * speed;
         this.motionZ = (target.z - start.z) * speed;
         this.particleMaxAge = 120;
-        this.particleRed = this.particleGreen = this.particleBlue = 1.0f;
+        this.particleBlue = 1.0f;
+        this.particleGreen = this.particleBlue;
+        this.particleRed = this.particleGreen;
         float baseSize =
                 0.05F
                         + ((float) Minecraft.getMinecraft().player.getDistance(pos.x, pos.y, pos.z))

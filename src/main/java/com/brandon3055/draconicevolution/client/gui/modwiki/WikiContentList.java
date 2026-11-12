@@ -57,73 +57,71 @@ public class WikiContentList extends MGuiList implements IMGuiListener {
     @Override
     public void initElement() {
         toRemove.addAll(childElements);
-
-        addChild(
-                buttonToggleNav =
-                        ((MGuiButtonSolid)
-                                        new MGuiButtonSolid(
-                                                modularGui,
-                                                "TOGGLE_PANEL",
-                                                xSize - 11,
-                                                yPos + 1,
-                                                10,
-                                                10,
-                                                "<") {
-                                            @Override
-                                            public int getTextColour(
-                                                    boolean hovered, boolean disabled) {
-                                                return mixColours(
-                                                        WikiConfig.NAV_WINDOW,
-                                                        (hovered ? 0x606060 : 0x404040));
-                                            }
-                                        }.setListener(this)
-                                                .setToolTip(
-                                                        new String[] {"Toggle Navigation Window"}))
-                                .setColours(0, 0, 0));
-        addChild(
-                navLabel =
-                        new MGuiLabel(
-                                modularGui,
-                                xPos,
-                                yPos,
-                                xSize,
-                                12,
-                                I18n.format("guiwiki.label.navigation")) {
-                            @Override
-                            public int getTextColour() {
-                                return WikiConfig.TEXT_COLOUR;
-                            }
-                        }.setAlignment(EnumAlignment.LEFT).setShadow(false));
-        addChild(
-                branchLabel =
-                        new MGuiLabel(
-                                modularGui,
-                                xPos + 12,
-                                yPos + 12,
-                                maxXSize - 12,
-                                12,
-                                I18n.format("guiwiki.label.mods")) {
-                            @Override
-                            public int getTextColour() {
-                                return WikiConfig.TEXT_COLOUR;
-                            }
-                        }.setShadow(false));
-        addChild(
-                buttonAddBranch =
-                        (MGuiButtonSolid)
+        buttonToggleNav =
+                ((MGuiButtonSolid)
                                 new MGuiButtonSolid(
                                         modularGui,
-                                        "ADD_BRANCH",
-                                        xPos + maxXSize - 40,
-                                        yPos,
-                                        28,
-                                        12,
-                                        "[" + Utils.SELECT + "4add" + Utils.SELECT + "r]") {
+                                        "TOGGLE_PANEL",
+                                        xSize - 11,
+                                        yPos + 1,
+                                        10,
+                                        10,
+                                        "<") {
                                     @Override
                                     public int getTextColour(boolean hovered, boolean disabled) {
-                                        return hovered ? 0xFFFFFF : 0xFF000000;
+                                        return mixColours(
+                                                WikiConfig.NAV_WINDOW,
+                                                (hovered ? 0x606060 : 0x404040));
                                     }
-                                }.setColours(0, 0, 0).setShadow(false));
+                                }.setListener(this)
+                                        .setToolTip(new String[] {"Toggle Navigation Window"}))
+                        .setColours(0, 0, 0);
+
+        addChild(buttonToggleNav);
+        navLabel =
+                new MGuiLabel(
+                        modularGui,
+                        xPos,
+                        yPos,
+                        xSize,
+                        12,
+                        I18n.format("guiwiki.label.navigation")) {
+                    @Override
+                    public int getTextColour() {
+                        return WikiConfig.TEXT_COLOUR;
+                    }
+                }.setAlignment(EnumAlignment.LEFT).setShadow(false);
+        addChild(navLabel);
+        branchLabel =
+                new MGuiLabel(
+                        modularGui,
+                        xPos + 12,
+                        yPos + 12,
+                        maxXSize - 12,
+                        12,
+                        I18n.format("guiwiki.label.mods")) {
+                    @Override
+                    public int getTextColour() {
+                        return WikiConfig.TEXT_COLOUR;
+                    }
+                }.setShadow(false);
+        addChild(branchLabel);
+        buttonAddBranch =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                modularGui,
+                                "ADD_BRANCH",
+                                xPos + maxXSize - 40,
+                                yPos,
+                                28,
+                                12,
+                                "[" + Utils.SELECT + "4add" + Utils.SELECT + "r]") {
+                            @Override
+                            public int getTextColour(boolean hovered, boolean disabled) {
+                                return hovered ? 0xFFFFFF : 0xFF000000;
+                            }
+                        }.setColours(0, 0, 0).setShadow(false);
+        addChild(buttonAddBranch);
         buttonAddBranch
                 .setListener(this)
                 .setToolTip(

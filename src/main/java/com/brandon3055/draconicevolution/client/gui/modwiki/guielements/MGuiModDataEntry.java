@@ -43,20 +43,15 @@ public class MGuiModDataEntry extends MGuiListEntry {
                                         .size()
                                 * 8)
                         + 10;
-        addChild(
-                label =
-                        new MGuiLabel(
-                                modularGui,
-                                xPos,
-                                yPos,
-                                xSize,
-                                getEntryHeight(),
-                                dataEntry.readableName) {
-                            @Override
-                            public int getTextColour() {
-                                return WikiConfig.NAV_TEXT;
-                            }
-                        }.setAlignment(EnumAlignment.LEFT).setWrap(true));
+        label =
+                new MGuiLabel(
+                        modularGui, xPos, yPos, xSize, getEntryHeight(), dataEntry.readableName) {
+                    @Override
+                    public int getTextColour() {
+                        return WikiConfig.NAV_TEXT;
+                    }
+                }.setAlignment(EnumAlignment.LEFT).setWrap(true);
+        addChild(label);
         super.initElement();
     }
 

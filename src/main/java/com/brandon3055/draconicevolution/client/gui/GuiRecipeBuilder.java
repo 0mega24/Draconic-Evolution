@@ -84,54 +84,54 @@ public class GuiRecipeBuilder extends GuiContainer {
                         0xFF440000,
                         0xFF000066,
                         0xFF006600));
-        buttonList.add(
-                genShaped =
-                        new ButtonColourRect(
-                                10,
-                                "Shaped",
-                                guiLeft + 18,
-                                guiTop + 100,
-                                42,
-                                12,
-                                0xFF440000,
-                                0xFF000066,
-                                0xFF006600));
-        buttonList.add(
-                genShapeless =
-                        new ButtonColourRect(
-                                11,
-                                "Shapeless",
-                                guiLeft + 61,
-                                guiTop + 100,
-                                56,
-                                12,
-                                0xFF440000,
-                                0xFF000066,
-                                0xFF006600));
-        buttonList.add(
-                genOre =
-                        new ButtonColourRect(
-                                12,
-                                "Ore: true",
-                                guiLeft + 118,
-                                guiTop + 100,
-                                56,
-                                12,
-                                0xFF440000,
-                                0xFF000066,
-                                0xFF006600));
-        buttonList.add(
-                genFusion =
-                        new ButtonColourRect(
-                                13,
-                                "Gen Fusion",
-                                guiLeft + 18,
-                                guiTop + 100,
-                                70,
-                                12,
-                                0xFF440000,
-                                0xFF000066,
-                                0xFF006600));
+        genShaped =
+                new ButtonColourRect(
+                        10,
+                        "Shaped",
+                        guiLeft + 18,
+                        guiTop + 100,
+                        42,
+                        12,
+                        0xFF440000,
+                        0xFF000066,
+                        0xFF006600);
+        buttonList.add(genShaped);
+        genShapeless =
+                new ButtonColourRect(
+                        11,
+                        "Shapeless",
+                        guiLeft + 61,
+                        guiTop + 100,
+                        56,
+                        12,
+                        0xFF440000,
+                        0xFF000066,
+                        0xFF006600);
+        buttonList.add(genShapeless);
+        genOre =
+                new ButtonColourRect(
+                        12,
+                        "Ore: true",
+                        guiLeft + 118,
+                        guiTop + 100,
+                        56,
+                        12,
+                        0xFF440000,
+                        0xFF000066,
+                        0xFF006600);
+        buttonList.add(genOre);
+        genFusion =
+                new ButtonColourRect(
+                        13,
+                        "Gen Fusion",
+                        guiLeft + 18,
+                        guiTop + 100,
+                        70,
+                        12,
+                        0xFF440000,
+                        0xFF000066,
+                        0xFF006600);
+        buttonList.add(genFusion);
         buttonList.add(
                 new ButtonColourRect(
                         100,
@@ -254,12 +254,15 @@ public class GuiRecipeBuilder extends GuiContainer {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button.id <= 1) {
-            container.arangeCraftingSlots(recipeType = button.id);
+            recipeType = button.id;
+            container.arangeCraftingSlots(recipeType);
             if (button.id == 0) {
-                genShaped.visible = genShapeless.visible = true;
+                genShapeless.visible = true;
+                genShaped.visible = genShapeless.visible;
                 genFusion.visible = false;
             } else {
-                genShaped.visible = genShapeless.visible = false;
+                genShapeless.visible = false;
+                genShaped.visible = genShapeless.visible;
                 genFusion.visible = true;
             }
         } else if (button.id == 2) {

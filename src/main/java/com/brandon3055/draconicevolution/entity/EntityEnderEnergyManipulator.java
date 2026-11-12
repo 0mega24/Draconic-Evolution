@@ -111,7 +111,9 @@ public class EntityEnderEnergyManipulator extends EntityLivingBase {
             this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
         } else {
             setPosition(0.5, exitPortalLocation.getY() + 0.5, 0.5);
-            motionX = motionY = motionZ = 0;
+            motionZ = 0;
+            motionY = motionZ;
+            motionX = motionY;
         }
 
         if (!world.isRemote) {
@@ -200,7 +202,9 @@ public class EntityEnderEnergyManipulator extends EntityLivingBase {
                         motionZ = dirVec.z * speed;
                         stageTime++;
                     } else {
-                        motionX = motionY = motionZ = 0;
+                        motionZ = 0;
+                        motionY = motionZ;
+                        motionX = motionY;
                         setPosition(0.5, exitPortalLocation.getY() + 0.5, 0.5);
                         setStage(Stage.ACQUIRE_DRAGON);
                         stageTime = 0;
@@ -420,7 +424,9 @@ public class EntityEnderEnergyManipulator extends EntityLivingBase {
                                 new EntityPersistentItem(
                                         world, posX, posY, posZ, new ItemStack(Blocks.DRAGON_EGG));
                         world.spawnEntity(entityItem);
-                        entityItem.motionX = entityItem.motionY = entityItem.motionZ = 0;
+                        entityItem.motionZ = 0;
+                        entityItem.motionY = entityItem.motionZ;
+                        entityItem.motionX = entityItem.motionY;
                         cleanup();
                         if (dragon != null) {
                             dragon.getPhaseManager().setPhase(PhaseList.CHARGING_PLAYER);

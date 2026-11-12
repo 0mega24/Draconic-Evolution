@@ -79,7 +79,8 @@ public class GuiEnergyCrystal extends ModularGuiContainer<ContainerEnergyCrystal
         manager.add(
                 new MGuiBorderedRect(this, guiLeft, guiTop + 26, xSize, 1)
                         .setBorderColour(0x30909090));
-        manager.add(linkData = new MGuiList(this, guiLeft, guiTop + 26, xSize - 1, ySize - 26));
+        linkData = new MGuiList(this, guiLeft, guiTop + 26, xSize - 1, ySize - 26);
+        manager.add(linkData);
         linkData.lockScrollBar = true;
 
         manager.add(

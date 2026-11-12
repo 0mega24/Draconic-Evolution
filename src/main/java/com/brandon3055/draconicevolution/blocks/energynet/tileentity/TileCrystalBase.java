@@ -194,8 +194,9 @@ public abstract class TileCrystalBase extends TileBCBase
         if (transfer < minFlow) {
             transfer = (int) Math.min(minFlow, energyToEqual);
         }
+        transfer = energyStorage.extractEnergy(transfer, false);
 
-        sendTo.modifyEnergyStored((transfer = energyStorage.extractEnergy(transfer, false)));
+        sendTo.modifyEnergyStored((transfer));
 
         return transfer;
     }

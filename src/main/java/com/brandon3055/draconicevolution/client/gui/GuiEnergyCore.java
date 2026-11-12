@@ -57,51 +57,49 @@ public class GuiEnergyCore extends GuiContainer {
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(
-                activate =
-                        new GuiButtonAHeight(
-                                0, guiLeft + 9, guiTop + 99 + 10, 162, 12, "Activate-L"));
-        buttonList.add(
-                tierUp =
-                        new GuiButtonAHeight(
-                                1,
-                                guiLeft + 91,
-                                guiTop + 86 + 10,
-                                80,
-                                12,
-                                I18n.format("button.de.tierUp.txt")));
-        buttonList.add(
-                tierDown =
-                        new GuiButtonAHeight(
-                                2,
-                                guiLeft + 9,
-                                guiTop + 86 + 10,
-                                80,
-                                12,
-                                I18n.format("button.de.tierDown.txt")));
-        buttonList.add(
-                toggleGuide =
-                        new GuiButtonAHeight(
-                                3,
-                                guiLeft + 9,
-                                guiTop + 73 + 10,
-                                162,
-                                12,
-                                I18n.format("button.de.buildGuide.txt")));
-        buttonList.add(
-                assembleCore =
-                        new GuiButtonAHeight(
-                                4,
-                                guiLeft + 9,
-                                guiTop + 99 + 10,
-                                162,
-                                12,
-                                I18n.format("button.de.assembleCore.txt")));
+        activate = new GuiButtonAHeight(0, guiLeft + 9, guiTop + 99 + 10, 162, 12, "Activate-L");
+        buttonList.add(activate);
+        tierUp =
+                new GuiButtonAHeight(
+                        1,
+                        guiLeft + 91,
+                        guiTop + 86 + 10,
+                        80,
+                        12,
+                        I18n.format("button.de.tierUp.txt"));
+        buttonList.add(tierUp);
+        tierDown =
+                new GuiButtonAHeight(
+                        2,
+                        guiLeft + 9,
+                        guiTop + 86 + 10,
+                        80,
+                        12,
+                        I18n.format("button.de.tierDown.txt"));
+        buttonList.add(tierDown);
+        toggleGuide =
+                new GuiButtonAHeight(
+                        3,
+                        guiLeft + 9,
+                        guiTop + 73 + 10,
+                        162,
+                        12,
+                        I18n.format("button.de.buildGuide.txt"));
+        buttonList.add(toggleGuide);
+        assembleCore =
+                new GuiButtonAHeight(
+                        4,
+                        guiLeft + 9,
+                        guiTop + 99 + 10,
+                        162,
+                        12,
+                        I18n.format("button.de.assembleCore.txt"));
+        buttonList.add(assembleCore);
+        layerMinus = new GuiButtonAHeight(5, guiLeft + 5, guiTop - 13, 70, 12, "Layer-");
 
-        buttonList.add(
-                layerMinus = new GuiButtonAHeight(5, guiLeft + 5, guiTop - 13, 70, 12, "Layer-"));
-        buttonList.add(
-                layerPlus = new GuiButtonAHeight(6, guiLeft + 105, guiTop - 13, 70, 12, "Layer+"));
+        buttonList.add(layerMinus);
+        layerPlus = new GuiButtonAHeight(6, guiLeft + 105, guiTop - 13, 70, 12, "Layer+");
+        buttonList.add(layerPlus);
         layerPlus.visible = tile.buildGuide.value;
         layerMinus.visible = tile.buildGuide.value;
 
@@ -380,8 +378,10 @@ public class GuiEnergyCore extends GuiContainer {
             tierUp.enabled = tile.tier.value < 8;
             tierDown.enabled = tile.tier.value > 1;
         }
+        toggleGuide.visible = !tile.active.value;
+        tierDown.visible = toggleGuide.visible;
+        tierUp.visible = tierDown.visible;
 
-        tierUp.visible = tierDown.visible = toggleGuide.visible = !tile.active.value;
         assembleCore.visible = !tile.coreValid.value;
         activate.visible = tile.coreValid.value;
 
