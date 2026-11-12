@@ -50,7 +50,9 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             te.coreStructure.renderTier(te.tier.value);
             GlStateManager.popMatrix();
         }
-        if (!te.active.value) return;
+        if (!te.active.value) {
+            return;
+        }
 
         // endregion
 

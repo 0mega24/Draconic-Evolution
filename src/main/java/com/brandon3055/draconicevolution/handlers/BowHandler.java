@@ -45,7 +45,9 @@ public class BowHandler {
     public static void onBowUsingTick(ItemStack stack, EntityPlayer player, int count) {
         BowHandler.BowProperties properties = new BowHandler.BowProperties(stack, player);
         int j = 72000 - count;
-        if (properties.autoFire && j >= properties.getDrawTicks()) player.stopActiveHand();
+        if (properties.autoFire && j >= properties.getDrawTicks()) {
+            player.stopActiveHand();
+        }
     }
 
     public static void onPlayerStoppedUsingBow(

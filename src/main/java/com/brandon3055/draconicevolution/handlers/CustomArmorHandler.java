@@ -79,7 +79,9 @@ public class CustomArmorHandler {
             player.attackEntityFrom(ADMIN_KILL, Float.MAX_VALUE);
             return;
         }
-        if ((float) player.hurtResistantTime > (float) player.maxHurtResistantTime - 4) return;
+        if ((float) player.hurtResistantTime > (float) player.maxHurtResistantTime - 4) {
+            return;
+        }
 
         float newEntropy = Math.min(summery.entropy + 1 + (hitAmount / 20), 100F);
 
@@ -88,7 +90,9 @@ public class CustomArmorHandler {
         float totalAbsorbed = 0;
         int remainingPoints = 0;
         for (int i = 0; i < summery.allocation.length; i++) {
-            if (summery.allocation[i] == 0) continue;
+            if (summery.allocation[i] == 0) {
+                continue;
+            }
             ItemStack armorPiece = summery.armorStacks.get(i);
 
             float dmgShear = summery.allocation[i] / summery.protectionPoints;
@@ -179,7 +183,9 @@ public class CustomArmorHandler {
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.START) return;
+        if (event.phase != TickEvent.Phase.START) {
+            return;
+        }
 
         EntityPlayer player = event.player;
         ArmorSummery summery = new ArmorSummery().getSummery(player);
@@ -276,7 +282,9 @@ public class CustomArmorHandler {
             if (summery != null && summery.flight[0]) {
                 playersWithFlight.put(player, true);
                 player.capabilities.allowFlying = true;
-                if (summery.flight[1]) player.capabilities.isFlying = true;
+                if (summery.flight[1]) {
+                    player.capabilities.isFlying = true;
+                }
 
                 if (player.world.isRemote) {
                     setPlayerFlySpeed(
@@ -397,7 +405,9 @@ public class CustomArmorHandler {
 
     /** @return true if the damage was blocked */
     private static boolean applyArmorDamageBlocking(LivingAttackEvent event, ArmorSummery summery) {
-        if (summery == null) return false;
+        if (summery == null) {
+            return false;
+        }
 
         if (event.getSource().isFireDamage() && summery.fireResistance >= 1F) {
             event.setCanceled(true);
@@ -480,7 +490,9 @@ public class CustomArmorHandler {
 
             for (int i = 0; i < armorStacks.size(); i++) {
                 ItemStack stack = armorStacks.get(i);
-                if (stack.isEmpty() || !(stack.getItem() instanceof ICustomArmor)) continue;
+                if (stack.isEmpty() || !(stack.getItem() instanceof ICustomArmor)) {
+                    continue;
+                }
                 ICustomArmor armor = (ICustomArmor) stack.getItem();
                 pieces++;
                 allocation[i] = ItemNBTHelper.getFloat(stack, "ProtectionPoints", 0);
@@ -496,7 +508,9 @@ public class CustomArmorHandler {
                 energyAllocation[i] = armor.getEnergyStored(stack);
                 totalEnergyStored += energyAllocation[i];
                 maxTotalEnergyStorage += armor.getMaxEnergyStored(stack);
-                if (stack.getItem() instanceof DraconicArmor) hasDraconic = true;
+                if (stack.getItem() instanceof DraconicArmor) {
+                    hasDraconic = true;
+                }
 
                 fireResistance += armor.getFireResistance(stack);
 

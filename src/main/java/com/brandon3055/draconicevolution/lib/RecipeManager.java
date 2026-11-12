@@ -185,8 +185,11 @@ public class RecipeManager {
 
                 if (!validateRecipe(add, result, catalyst, energy, tier)) {
                     LogHelper.error("Failed to load recipe entry!\n" + entry);
-                    if (add) failedToAdd++;
-                    else failedToRemove++;
+                    if (add) {
+                        failedToAdd++;
+                    } else {
+                        failedToRemove++;
+                    }
                     continue;
                 }
 

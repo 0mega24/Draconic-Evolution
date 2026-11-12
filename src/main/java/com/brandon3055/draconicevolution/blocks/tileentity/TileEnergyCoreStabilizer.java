@@ -127,7 +127,9 @@ public class TileEnergyCoreStabilizer extends TileBCBase
     // region Activation
 
     public void onTileClicked(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
-        if (world.isRemote) return;
+        if (world.isRemote) {
+            return;
+        }
 
         TileEnergyStorageCore core = getCore();
         if (core == null) {

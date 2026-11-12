@@ -77,7 +77,9 @@ public class TileGenerator extends TileEnergyInventoryBase
     }
 
     public void tryRefuel() {
-        if (burnTimeRemaining.value > 0 || getEnergyStored() >= getMaxEnergyStored()) return;
+        if (burnTimeRemaining.value > 0 || getEnergyStored() >= getMaxEnergyStored()) {
+            return;
+        }
         ItemStack stack = getStackInSlot(0);
         if (!stack.isEmpty()) {
             int itemBurnTime = TileEntityFurnace.getItemBurnTime(stack);

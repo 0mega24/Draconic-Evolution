@@ -122,9 +122,12 @@ public class GuiEnergyinfuser extends GuiContainer {
     }
 
     private void drawAnimatedParts(float partial) {
-        if (!tile.running.value)
+        if (!tile.running.value) {
             drawTexturedModalRect(guiLeft + 79, guiTop + 21, xSize, 45, 18, 18);
-        if (tile.running.value) rotation += 0.2F;
+        }
+        if (tile.running.value) {
+            rotation += 0.2F;
+        }
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.translate(guiLeft + 62, guiTop + 4, 0);

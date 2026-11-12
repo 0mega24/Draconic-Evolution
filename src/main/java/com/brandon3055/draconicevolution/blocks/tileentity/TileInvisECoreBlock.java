@@ -55,7 +55,9 @@ public class TileInvisECoreBlock extends TileBCBase implements IMultiBlockPart, 
         if (master == null) {
             revert();
             return false;
-        } else return master.validateStructure();
+        } else {
+            return master.validateStructure();
+        }
     }
 
     // endregion

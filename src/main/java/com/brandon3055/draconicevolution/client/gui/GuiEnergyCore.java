@@ -460,17 +460,22 @@ public class GuiEnergyCore extends GuiContainer {
     }
 
     public static String formatYear(long value) {
-        if (value < 1000L) return value + " Years";
-        else if (value < 1000000L) return Math.round(value / 10D) / 100D + " Thousand Years";
-        else if (value < 1000000000L) return Math.round(value / 10000D) / 100D + " Million Years";
-        else if (value < 1000000000000L)
+        if (value < 1000L) {
+            return value + " Years";
+        } else if (value < 1000000L) {
+            return Math.round(value / 10D) / 100D + " Thousand Years";
+        } else if (value < 1000000000L) {
+            return Math.round(value / 10000D) / 100D + " Million Years";
+        } else if (value < 1000000000000L) {
             return Math.round(value / 10000000D) / 100D + " Billion Years";
-        else if (value < 1000000000000000L)
+        } else if (value < 1000000000000000L) {
             return Math.round(value / 10000000000D) / 100D + " Trillion Years";
-        else if (value < 1000000000000000000L)
+        } else if (value < 1000000000000000000L) {
             return Math.round(value / 10000000000000D) / 100D + " Quadrillion Years";
-        else if (value <= Long.MAX_VALUE)
+        } else if (value <= Long.MAX_VALUE) {
             return Math.round(value / 10000000000000000D) / 100D + " Quintillion Years";
-        else return "Something is very broken!!!!";
+        } else {
+            return "Something is very broken!!!!";
+        }
     }
 }

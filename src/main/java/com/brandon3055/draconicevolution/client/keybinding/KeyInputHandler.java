@@ -49,7 +49,9 @@ public class KeyInputHandler {
         onInput(player);
 
         int change = event.getDwheel();
-        if (change == 0 || !player.isSneaking()) return;
+        if (change == 0 || !player.isSneaking()) {
+            return;
+        }
 
         ItemStack item = player.inventory.getStackInSlot(player.inventory.currentItem);
         if (item.getItem() == DEFeatures.dislocatorAdvanced) {
@@ -95,9 +97,15 @@ public class KeyInputHandler {
     }
 
     private int previouseSlot(int i, int c) {
-        if (c > 0 && c < 8) return c + i;
-        if (c == 0 && i < 0) return 8;
-        if (c == 8 && i > 0) return 0;
+        if (c > 0 && c < 8) {
+            return c + i;
+        }
+        if (c == 0 && i < 0) {
+            return 8;
+        }
+        if (c == 8 && i > 0) {
+            return 0;
+        }
         return c + i;
     }
 }

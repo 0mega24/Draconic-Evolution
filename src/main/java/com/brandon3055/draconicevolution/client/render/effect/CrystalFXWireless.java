@@ -120,7 +120,9 @@ public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
         for (PTracker tracker : trackers) {
             double progress =
                     ((double) tracker.ticksActive + partialTicks) / (double) tracker.travelTime;
-            if (!output) progress = 1 - progress;
+            if (!output) {
+                progress = 1 - progress;
+            }
             if (progress >= 1 || progress <= 0) {
                 continue;
             }

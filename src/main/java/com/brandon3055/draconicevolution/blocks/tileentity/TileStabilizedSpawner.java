@@ -228,16 +228,24 @@ public class TileStabilizedSpawner extends TileBCBase
         } else if (!stack.isEmpty()) {
             SpawnerTier prevTier = spawnerTier.value;
             if (stack.getItem() == DEFeatures.draconicCore) {
-                if (spawnerTier.value == SpawnerTier.BASIC) return false;
+                if (spawnerTier.value == SpawnerTier.BASIC) {
+                    return false;
+                }
                 spawnerTier.value = SpawnerTier.BASIC;
             } else if (stack.getItem() == DEFeatures.wyvernCore) {
-                if (spawnerTier.value == SpawnerTier.WYVERN) return false;
+                if (spawnerTier.value == SpawnerTier.WYVERN) {
+                    return false;
+                }
                 spawnerTier.value = SpawnerTier.WYVERN;
             } else if (stack.getItem() == DEFeatures.awakenedCore) {
-                if (spawnerTier.value == SpawnerTier.DRACONIC) return false;
+                if (spawnerTier.value == SpawnerTier.DRACONIC) {
+                    return false;
+                }
                 spawnerTier.value = SpawnerTier.DRACONIC;
             } else if (stack.getItem() == DEFeatures.chaoticCore) {
-                if (spawnerTier.value == SpawnerTier.CHAOTIC) return false;
+                if (spawnerTier.value == SpawnerTier.CHAOTIC) {
+                    return false;
+                }
                 spawnerTier.value = SpawnerTier.CHAOTIC;
             } else {
                 return false;

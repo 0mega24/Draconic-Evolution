@@ -103,7 +103,9 @@ public class WorldGenEnderComet extends WorldGenerator {
             float pc = (float) p / 100F;
 
             int density = 500 - (int) (pc * 550);
-            if (density < 20) density = 20;
+            if (density < 20) {
+                density = 20;
+            }
             generateTrailSphere(
                     world, cX, cY, cZ, (size + 3) - (int) (pc * (size - 2)), density, rand);
 
@@ -115,8 +117,12 @@ public class WorldGenEnderComet extends WorldGenerator {
 
     public void generateTrailSphere(
             World world, int xi, int yi, int zi, int r, int density, Random rand) {
-        if (density <= 0) return;
-        if (density > 10000) density = 10000;
+        if (density <= 0) {
+            return;
+        }
+        if (density > 10000) {
+            density = 10000;
+        }
         for (int x = xi - r; x <= xi + r; x++) {
             for (int z = zi - r; z <= zi + r; z++) {
                 for (int y = yi - r; y <= yi + r; y++) {

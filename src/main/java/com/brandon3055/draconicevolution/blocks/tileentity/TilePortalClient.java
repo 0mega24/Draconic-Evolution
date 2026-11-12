@@ -25,7 +25,9 @@ public class TilePortalClient extends TilePortal implements ITickable {
 
     @Override
     public void update() {
-        if (disabled) return;
+        if (disabled) {
+            return;
+        }
         EntityPlayer player = Minecraft.getMinecraft().player;
 
         double distanceMod =

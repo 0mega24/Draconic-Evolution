@@ -930,10 +930,18 @@ public class TileDraconiumChest extends TileEnergyInventoryBase
             nsweIO = compound.getByte("SR_" + regionID + "_nsweIO");
             dufIO = compound.getByte("SR_" + regionID + "_dufIO");
 
-            if (xPos < 0 || xPos > 25) xPos = 0;
-            if (yPos < 0 || yPos > 9) yPos = 0;
-            if (xSize < 1 || xSize > 26 - xPos) xSize = 0;
-            if (ySize < 1 || ySize > 10 - yPos) ySize = 0;
+            if (xPos < 0 || xPos > 25) {
+                xPos = 0;
+            }
+            if (yPos < 0 || yPos > 9) {
+                yPos = 0;
+            }
+            if (xSize < 1 || xSize > 26 - xPos) {
+                xSize = 0;
+            }
+            if (ySize < 1 || ySize > 10 - yPos) {
+                ySize = 0;
+            }
 
             validate();
         }

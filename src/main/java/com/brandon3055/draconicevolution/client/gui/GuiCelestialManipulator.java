@@ -386,8 +386,11 @@ public class GuiCelestialManipulator extends ModularGuiContainer<ContainerDummy>
         } else if (!rsTabEnabled && rsTabAnim > 0) {
             rsTabAnim -= 0.2;
         }
-        if (rsTabAnim > 1) rsTabAnim = 1;
-        else if (rsTabAnim < 0) rsTabAnim = 0;
+        if (rsTabAnim > 1) {
+            rsTabAnim = 1;
+        } else if (rsTabAnim < 0) {
+            rsTabAnim = 0;
+        }
 
         rsBackGround.xSize = 18 + (int) (rsTabAnim * 48);
         rsBackGround.ySize = 18 + (int) (rsTabAnim * 84);

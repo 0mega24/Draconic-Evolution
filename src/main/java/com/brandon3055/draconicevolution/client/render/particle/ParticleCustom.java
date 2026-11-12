@@ -29,9 +29,12 @@ public class ParticleCustom extends BCParticle {
         prevPosZ = posZ;
 
         if (particleAge++ >= particleMaxAge) {
-            if (fadeAge++ >= maxFade) setExpired();
-            if (maxFade > 0)
+            if (fadeAge++ >= maxFade) {
+                setExpired();
+            }
+            if (maxFade > 0) {
                 setAlphaF(spawnAlpha - spawnAlpha * ((float) fadeAge / (float) maxFade));
+            }
         }
 
         motionY -= particleGravity;

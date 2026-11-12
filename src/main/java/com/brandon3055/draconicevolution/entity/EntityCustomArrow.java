@@ -413,8 +413,9 @@ public class EntityCustomArrow extends EntityArrow {
                             shootingEntity != null ? shootingEntity : this)
                     .setProjectile()
                     .setDamageIsAbsolute();
-        } else
+        } else {
             return DamageSource.causeArrowDamage(
                     this, shootingEntity != null ? shootingEntity : this);
+        }
     }
 }

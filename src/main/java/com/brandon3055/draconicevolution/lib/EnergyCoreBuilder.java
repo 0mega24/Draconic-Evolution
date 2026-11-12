@@ -56,7 +56,9 @@ public class EnergyCoreBuilder implements IProcess {
         World world = core.getWorld();
         for (BlockPos key : structureBlocks.keySet()) {
             Block targetBlock = structureBlocks.get(key);
-            if (targetBlock == null) continue;
+            if (targetBlock == null) {
+                continue;
+            }
             if (world.isAirBlock(key)) {
                 workList.put(key, targetBlock.getDefaultState());
                 continue;
@@ -125,7 +127,9 @@ public class EnergyCoreBuilder implements IProcess {
     private boolean extractItem(ItemStack toExtract) {
         IItemHandler handler =
                 player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-        if (handler == null) return false;
+        if (handler == null) {
+            return false;
+        }
         for (int i = 0; i < handler.getSlots(); i++) {
             ItemStack inSlot = handler.getStackInSlot(i);
             if (!inSlot.isEmpty() && inSlot.getItem() == toExtract.getItem()) {

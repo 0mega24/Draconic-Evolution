@@ -50,11 +50,13 @@ public class GuiParticleGenerator extends GuiScreen {
         int posY = (this.height - ySize) / 2;
         buttonList.clear();
 
-        if (page > 1)
+        if (page > 1) {
             buttonList.add(new GuiButtonExt(100, posX + 5, posY + ySize - 25, 20, 20, "<"));
-        if (page < 4)
+        }
+        if (page < 4) {
             buttonList.add(
                     new GuiButtonExt(101, posX + xSize - 25, posY + ySize - 25, 20, 20, ">"));
+        }
 
         switch (page) {
             default:
@@ -309,16 +311,19 @@ public class GuiParticleGenerator extends GuiScreen {
                     net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre event =
                             new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent
                                     .Pre(this, guibutton, this.buttonList);
-                    if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) break;
+                    if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) {
+                        break;
+                    }
                     guibutton = event.getButton();
                     this.selectedButton = guibutton;
                     guibutton.playPressSound(this.mc.getSoundHandler());
                     this.actionPerformed(guibutton);
-                    if (this.equals(this.mc.currentScreen))
+                    if (this.equals(this.mc.currentScreen)) {
                         net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
                                 new net.minecraftforge.client.event.GuiScreenEvent
                                         .ActionPerformedEvent.Post(
                                         this, event.getButton(), this.buttonList));
+                    }
                 }
             }
         }
@@ -510,7 +515,9 @@ public class GuiParticleGenerator extends GuiScreen {
                 updateSlider();
                 rightDragging = true;
                 return true;
-            } else return false;
+            } else {
+                return false;
+            }
         }
 
         @Override
@@ -669,10 +676,14 @@ public class GuiParticleGenerator extends GuiScreen {
         public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
             if (super.mousePressed(mc, mouseX, mouseY)) {
                 index++;
-                if (index >= options.length) index = 0;
+                if (index >= options.length) {
+                    index = 0;
+                }
                 update();
                 return true;
-            } else return false;
+            } else {
+                return false;
+            }
         }
 
         public void update() {

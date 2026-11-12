@@ -1202,7 +1202,9 @@ public class TileReactorCore extends TileBCBase implements ITickable {
                     p = p.down();
                 }
             } else {
-                while (!world.isAirBlock(p)) p = p.up();
+                while (!world.isAirBlock(p)) {
+                    p = p.up();
+                }
             }
 
             int y = p.getY();

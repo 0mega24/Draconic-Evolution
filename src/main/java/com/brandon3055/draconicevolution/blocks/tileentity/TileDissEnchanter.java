@@ -29,7 +29,9 @@ public class TileDissEnchanter extends TileInventoryBase {
             return stack.isItemEnchanted() && ModHelper.canRemoveEnchants(stack);
         } else if (index == 1) {
             return stack.getItem() == Items.BOOK;
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
     @Override

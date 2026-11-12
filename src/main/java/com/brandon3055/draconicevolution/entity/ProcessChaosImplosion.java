@@ -97,12 +97,15 @@ public class ProcessChaosImplosion implements IProcess {
                                 Entity.class,
                                 new AxisAlignedBB(
                                         xCoord, y, zCoord, xCoord + 1, y + 1, zCoord + 1));
-                for (Entity entity : entities)
+                for (Entity entity : entities) {
                     entity.attackEntityFrom(ProcessChaosImplosion.chaosImplosion, power * 100);
+                }
 
                 // energy -= block instanceof BlockLiquid ? 10 : block.getExplosionResistance(null);
 
-                if (energy >= 0) world.setBlockToAir(new BlockPos(xCoord, y, zCoord));
+                if (energy >= 0) {
+                    world.setBlockToAir(new BlockPos(xCoord, y, zCoord));
+                }
                 energy -= 0.5F + (0.1F * (yCoord - y));
             }
 
@@ -120,7 +123,9 @@ public class ProcessChaosImplosion implements IProcess {
                 }
 
                 // energy -= block instanceof BlockLiquid ? 10 : block.getExplosionResistance(null);
-                if (energy >= 0) world.setBlockToAir(new BlockPos(xCoord, y, zCoord));
+                if (energy >= 0) {
+                    world.setBlockToAir(new BlockPos(xCoord, y, zCoord));
+                }
 
                 energy -= 0.5F + (0.1F * (y - yCoord));
             }

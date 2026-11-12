@@ -759,7 +759,9 @@ public class GuiReactor extends ModularGuiContainer<ContainerReactor>
 
     @Override
     public List<Rectangle> getGuiExtraAreas() {
-        if (compPanel == null) return Collections.emptyList();
+        if (compPanel == null) {
+            return Collections.emptyList();
+        }
         return Collections.singletonList(
                 new Rectangle(compPanel.xPos, compPanel.yPos, compPanel.xSize, compPanel.ySize));
     }

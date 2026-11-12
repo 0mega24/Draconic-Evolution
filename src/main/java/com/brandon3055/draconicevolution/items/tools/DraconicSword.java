@@ -52,12 +52,19 @@ public class DraconicSword extends WyvernSword {
     @Override
     public double getMaxWeaponAOE(ItemStack stack) {
         int level = UpgradeHelper.getUpgradeLevel(stack, ToolUpgrade.ATTACK_AOE);
-        if (level == 0) return 1;
-        else if (level == 1) return 2;
-        else if (level == 2) return 4;
-        else if (level == 3) return 6;
-        else if (level == 4) return 12;
-        else return 0;
+        if (level == 0) {
+            return 1;
+        } else if (level == 1) {
+            return 2;
+        } else if (level == 2) {
+            return 4;
+        } else if (level == 3) {
+            return 6;
+        } else if (level == 4) {
+            return 12;
+        } else {
+            return 0;
+        }
     }
 
     // endregion

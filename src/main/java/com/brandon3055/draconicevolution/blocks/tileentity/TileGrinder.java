@@ -191,7 +191,9 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
     }
 
     private boolean isBlackListed(EntityLivingBase livingBase) {
-        if (TweaksConfig.grinderBlacklist.isEmpty()) return false;
+        if (TweaksConfig.grinderBlacklist.isEmpty()) {
+            return false;
+        }
         ResourceLocation reg = EntityList.getKey(livingBase);
         return reg != null && TweaksConfig.grinderBlacklist.contains(reg.toString());
     }
