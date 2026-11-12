@@ -5,6 +5,7 @@ import com.brandon3055.brandonscore.handlers.FileHandler;
 import com.brandon3055.brandonscore.registry.IModConfigHelper;
 import com.brandon3055.brandonscore.registry.ModConfigContainer;
 import com.brandon3055.brandonscore.registry.ModConfigProperty;
+import com.brandon3055.draconicevolution.utils.ConfigColours;
 import com.google.common.collect.Sets;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -53,6 +54,7 @@ public class DEConfig implements IModConfigHelper {
     @Override
     public void onConfigChanged(String propertyName, String propertyCategory) {
         loadToolStats();
+        loadColours();
     }
 
     //Category World
@@ -267,38 +269,33 @@ public class DEConfig implements IModConfigHelper {
 
     //Category Unofficial
 
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltCoreRender", comment = "This enables the alternate color renderer for the energy storage multiblock.")
-    public static boolean energyCoreAltCoreRender = false;
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreColour", comment = "Energy core inner colour for tiers 1-7 when empty, as #RRGGBB.")
+    public static String energyCoreColour = "#FF4DB3";
 
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltCoreColors", comment = "This defines the alternate color renderer for the energy storage multiblock.")
-    public static double[] energyCoreAltCoreColors = new double[]{1.0, 0.3, 0.7};
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreFullRatio", comment = "Energy core inner colour for tiers 1-7 when full, as R:G:B multipliers of energyCoreColour.\nThe colour blends from energyCoreColour to this as the core fills. 1.0:1.0:1.0 gives no change.")
+    public static String energyCoreFullRatio = "1.0:0.0:0.0";
 
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltOuterRender", comment = "This enables the alternate color renderer for the energy storage multiblock.")
-    public static boolean energyCoreAltOuterRender = false;
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreColourT8", comment = "Energy core inner colour for tier 8 when empty, as #RRGGBB.")
+    public static String energyCoreColourT8 = "#FF470D";
 
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltOuterColors", comment = "This defines the alternate color renderer for the energy storage multiblock.")
-    public static double[] energyCoreAltOuterColors = new double[]{0.2, 1.0, 1};
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreFullRatioT8", comment = "Energy core inner colour for tier 8 when full, as R:G:B multipliers of energyCoreColourT8.")
+    public static String energyCoreFullRatioT8 = "1.0:1.0:1.0";
 
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8CoreRender", comment = "This enables the T8 alternate color renderer for the energy storage multiblock.")
-    public static boolean energyCoreAltT8CoreRender = false;
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreShellColour", comment = "Energy core outer shell colour for tiers 1-7, as #RRGGBB.")
+    public static String energyCoreShellColour = "#33FFFF";
 
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8CoreColors", comment = "This defines the T8 alternate color renderer for the energy storage multiblock.")
-    public static double[] energyCoreAltT8CoreColors = new double[]{1.0, 0.28, 0.05};
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreShellColourT8", comment = "Energy core outer shell colour for tier 8, as #RRGGBB.")
+    public static String energyCoreShellColourT8 = "#F27300";
 
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8OuterRender", comment = "This enables the T8 alternate color renderer for the energy storage multiblock.")
-    public static boolean energyCoreAltT8OuterRender = false;
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreTintBeams", comment = "Tint the stabilizer beams: the beam centre takes the core colour and the beam edges take the shell colour.")
+    public static boolean energyCoreTintBeams = false;
 
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreAltT8OuterColors", comment = "This defines the T8 alternate color renderer for the energy storage multiblock.")
-    public static double[] energyCoreAltT8OuterColors = new double[]{0.95, 0.45, 0};
+    @ModConfigProperty(category = "Unofficial", name = "energyCoreTintStabilizers", comment = "Tint the stabilizer spheres with the shell colour.")
+    public static boolean energyCoreTintStabilizers = false;
 
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreBeamOuterRender", comment = "This enables the syncing beam's outer edge color renderer for the energy storage multiblock.")
-    public static boolean energyCoreBeamOuterRender = false;
-
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreBeamInnerRender", comment = "This enables the syncing beam's inner core color renderer for the energy storage multiblock.")
-    public static boolean energyCoreBeamInnerRender = false;
-
-    @ModConfigProperty(category = "Unofficial", name = "energyCoreStabRender", comment = "This enables the syncing stabilizer color renderer for the energy storage multiblock.")
-    public static boolean energyCoreStabRender = false;
+    /** Parsed values of the colour options above. Set in {@link #loadColours()}, read every render frame. */
+    public static int energyCoreRGB, energyCoreRGBT8, energyCoreShellRGB, energyCoreShellRGBT8;
+    public static float[] energyCoreRatio, energyCoreRatioT8;
 
     public static Map<String, Integer> itemDislocatorBlacklistMap = new HashMap<String, Integer>();
     public static Set<String> oreBlacklist = new HashSet<>();
@@ -322,6 +319,16 @@ public class DEConfig implements IModConfigHelper {
         grinderBlacklist = Sets.newHashSet(grinderBlackList);
         chestBlacklist = Sets.newHashSet(chestBlackList);
         loadToolStats();
+        loadColours();
+    }
+
+    private static void loadColours() {
+        energyCoreRGB = ConfigColours.parseRGB(energyCoreColour, 0xFF4DB3);
+        energyCoreRGBT8 = ConfigColours.parseRGB(energyCoreColourT8, 0xFF470D);
+        energyCoreShellRGB = ConfigColours.parseRGB(energyCoreShellColour, 0x33FFFF);
+        energyCoreShellRGBT8 = ConfigColours.parseRGB(energyCoreShellColourT8, 0xF27300);
+        energyCoreRatio = ConfigColours.parseRatio(energyCoreFullRatio, new float[]{1F, 0F, 0F});
+        energyCoreRatioT8 = ConfigColours.parseRatio(energyCoreFullRatioT8, new float[]{1F, 1F, 1F});
     }
 
     private void loadToolStats() {
