@@ -327,7 +327,6 @@
     <suppress checks="MissingSwitchDefault" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]network[\\/]ccnetwork[\\/]ServerPacketHandler\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]repack[\\/]codechicken[\\/]lib[\\/]render[\\/]ModelHelper\.java$"/>
     <suppress checks="RedundantModifier" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]repack[\\/]codechicken[\\/]lib[\\/]render[\\/]ModelHelper\.java$"/>
-    <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]utils[\\/]ConfigColours\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]utils[\\/]LogHelper\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]world[\\/]ChaosWorldGenHandler\.java$"/>
     <suppress checks="MultipleVariableDeclarations" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]world[\\/]ChaosWorldGenHandler\.java$"/>
