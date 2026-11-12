@@ -636,7 +636,7 @@ public abstract class MiningToolBase extends ToolBase {
         private ICapabilityProvider parentProvider;
         private ItemStackHandler itemHandler;
 
-        public ItemCapProvider(ICapabilityProvider parentProvider, ItemStackHandler iItemHandler) {
+        ItemCapProvider(ICapabilityProvider parentProvider, ItemStackHandler iItemHandler) {
             this.parentProvider = parentProvider;
             this.itemHandler = iItemHandler;
         }

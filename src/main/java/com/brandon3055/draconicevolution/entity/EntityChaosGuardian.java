@@ -1328,7 +1328,7 @@ public class EntityChaosGuardian extends EntityDragonOld {
         return true;
     }
 
-    private static enum EnumBehaviour {
+    private enum EnumBehaviour {
         /** Will roam around home until a player is spotted */
         ROAMING(1F),
         /** Will head home */
@@ -1347,7 +1347,7 @@ public class EntityChaosGuardian extends EntityDragonOld {
         DEAD(0.5F);
         public float dragonSpeed;
 
-        private EnumBehaviour(float dragonSpeed) {
+        EnumBehaviour(float dragonSpeed) {
             this.dragonSpeed = dragonSpeed;
         }
     }
@@ -1355,7 +1355,7 @@ public class EntityChaosGuardian extends EntityDragonOld {
     private static class WeightedAttack extends WeightedRandom.Item {
         public int attack;
 
-        public WeightedAttack(int weight, int attack) {
+        WeightedAttack(int weight, int attack) {
             super(weight);
             this.attack = attack;
         }
@@ -1364,7 +1364,7 @@ public class EntityChaosGuardian extends EntityDragonOld {
     private static class WeightedBehaviour extends WeightedRandom.Item {
         public EnumBehaviour randomBehaviour;
 
-        public WeightedBehaviour(int weight, EnumBehaviour randomBehaviour) {
+        WeightedBehaviour(int weight, EnumBehaviour randomBehaviour) {
             super(weight);
             this.randomBehaviour = randomBehaviour;
         }

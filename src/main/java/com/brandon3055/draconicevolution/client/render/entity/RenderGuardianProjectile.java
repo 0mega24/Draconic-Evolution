@@ -95,7 +95,6 @@ public class RenderGuardianProjectile extends Render<EntityGuardianProjectile> {
         tessellator.draw();
 
         GlStateManager.enableLighting();
-        ;
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
         GlStateManager.disableBlend();
         GlStateManager.disableRescaleNormal();

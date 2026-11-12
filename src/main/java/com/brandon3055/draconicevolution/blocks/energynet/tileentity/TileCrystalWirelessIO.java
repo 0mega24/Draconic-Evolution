@@ -519,7 +519,7 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         private TileEntity tileCache = null;
         private int invalidTime = 0;
 
-        public LinkedDevice(int index, BlockPos pos, EnumFacing side) {
+        LinkedDevice(int index, BlockPos pos, EnumFacing side) {
             this.index = index;
             this.pos = pos;
             this.side = side;

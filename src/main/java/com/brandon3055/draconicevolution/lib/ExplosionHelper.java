@@ -164,7 +164,7 @@ public class ExplosionHelper {
         int index = 0;
         private MinecraftServer server;
 
-        public RemovalProcess(ExplosionHelper helper) {
+        RemovalProcess(ExplosionHelper helper) {
             this.helper = helper;
             this.server = helper.serverWorld.getMinecraftServer();
         }

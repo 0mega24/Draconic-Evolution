@@ -241,7 +241,7 @@ public class DEWorldGenHandler implements IWorldGenerator {
         public final int xPos;
         public final int zPos;
 
-        public ChunkReference(int dim, int x, int z) {
+        ChunkReference(int dim, int x, int z) {
             dimension = dim;
             xPos = x;
             zPos = z;

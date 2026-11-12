@@ -109,7 +109,7 @@ public class ModelHelper {
             verts[s & 3] = newVec;
         }
 
-        public Face(Vertex5... v) {
+        Face(Vertex5... v) {
 
             assert v.length == 4;
             this.verts = v;

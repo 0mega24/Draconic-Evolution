@@ -4,8 +4,8 @@ package com.brandon3055.draconicevolution.capabilities;
 public interface IShieldState {
 
     /** Gets the current shield state. */
-    public boolean getShieldState();
+    boolean getShieldState();
 
     /** Sets the current shield state. */
-    public void setShieldState(boolean state);
+    void setShieldState(boolean state);
 }

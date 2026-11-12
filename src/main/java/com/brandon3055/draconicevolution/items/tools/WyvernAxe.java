@@ -196,7 +196,7 @@ public class WyvernAxe extends MiningToolBase {
         private boolean hasFinished = false;
         private boolean showHarvest = false;
 
-        public SelectionController(
+        SelectionController(
                 EntityPlayer player,
                 ItemStack stack,
                 BlockPos clicked,

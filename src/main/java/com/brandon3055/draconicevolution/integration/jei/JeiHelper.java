@@ -85,7 +85,7 @@ public class JeiHelper { // TODO This Is Now Borked
         private int yPos = 0;
         private String title;
 
-        public RecipeRenderer(IRecipeCategory category, IRecipeWrapper wrapper, ItemStack result) {
+        RecipeRenderer(IRecipeCategory category, IRecipeWrapper wrapper, ItemStack result) {
             IFocus<?> f =
                     DEJEIPlugin.jeiRuntime
                             .getRecipeRegistry()

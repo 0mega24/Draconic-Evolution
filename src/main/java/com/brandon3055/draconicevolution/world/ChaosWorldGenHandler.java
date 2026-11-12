@@ -67,8 +67,13 @@ public class ChaosWorldGenHandler {
                         int z = trueZ - closestSpawn.z;
                         int size = 80;
                         double dist = Math.sqrt(x * x + (y - 16) * (y - 16) + z * z);
-                        double xd, yd, zd;
-                        double density, centerFalloff, plateauFalloff, heightMapFalloff;
+                        double xd;
+                        double yd;
+                        double zd;
+                        double density;
+                        double centerFalloff;
+                        double plateauFalloff;
+                        double heightMapFalloff;
 
                         xd = (double) x / size;
                         yd = (double) y / (32);

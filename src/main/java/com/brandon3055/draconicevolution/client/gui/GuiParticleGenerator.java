@@ -344,7 +344,7 @@ public class GuiParticleGenerator extends GuiScreen {
 
     class GuiSliderI extends GuiSlider {
 
-        public GuiSliderI(
+        GuiSliderI(
                 int id,
                 int xPos,
                 int yPos,
@@ -389,7 +389,7 @@ public class GuiParticleGenerator extends GuiScreen {
         private int dragFrom = 0;
         private double fromValue = 0;
 
-        public GuiRangeSlider(
+        GuiRangeSlider(
                 int id,
                 int xPos,
                 int yPos,
@@ -624,7 +624,7 @@ public class GuiParticleGenerator extends GuiScreen {
 
     class GuiRangeSliderI extends GuiRangeSlider {
 
-        public GuiRangeSliderI(
+        GuiRangeSliderI(
                 int id,
                 int xPos,
                 int yPos,
@@ -657,7 +657,7 @@ public class GuiParticleGenerator extends GuiScreen {
         String[] options;
         int index;
 
-        public GuiButtonToggle(
+        GuiButtonToggle(
                 int id,
                 int xPos,
                 int yPos,
