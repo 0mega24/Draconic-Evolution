@@ -209,6 +209,7 @@ public class GuiHandler implements IGuiHandler {
                 if (tile instanceof TileParticleGenerator) {
                     return new GuiParticleGenerator((TileParticleGenerator) tile);
                 }
+                break;
             case GUIID_ENTITY_DETECTOR:
                 if (tile instanceof TileEntityDetector) {
                     return new GuiEntityDetector(player, (TileEntityDetector) tile);

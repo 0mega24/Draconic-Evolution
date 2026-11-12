@@ -101,6 +101,7 @@ public abstract class TileFlowGate extends TileBCBase
                 maxFlow.value = (int) l;
             }
         } catch (NumberFormatException ignored) {
+            // Not a number: keep the current value.
         }
     }
 

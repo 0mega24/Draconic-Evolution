@@ -216,10 +216,7 @@ public class DCImage extends DisplayComponentBase {
                 new Predicate<String>() {
                     @Override
                     public boolean apply(@Nullable String input) {
-                        try {
-                            Integer.parseInt(input);
-                        } catch (Exception e) {
-                        }
+                        // Any text is allowed; the scale is parsed with a fallback when applied.
                         return true;
                     }
                 });
@@ -243,6 +240,7 @@ public class DCImage extends DisplayComponentBase {
             try {
                 newScale = Integer.parseInt(((MGuiTextField) eventElement).getText());
             } catch (Exception e) {
+                // Not a number: keep the default scale.
             }
 
             if (newScale < 1) {
@@ -336,6 +334,7 @@ public class DCImage extends DisplayComponentBase {
         try {
             scale = Integer.parseInt(element.getAttribute(ATTRIB_SCALE));
         } catch (Exception e) {
+            // Not a number: keep the default scale.
         }
         if (scale < 1) {
             scale = 1;

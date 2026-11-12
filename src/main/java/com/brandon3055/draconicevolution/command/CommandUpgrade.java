@@ -93,6 +93,7 @@ public class CommandUpgrade extends CommandBase {
             list.addAll(((IUpgradableItem) stack.getItem()).getValidUpgrades(stack));
             return getListOfStringsMatchingLastWord(args, list);
         } catch (Exception ignored) {
+            // Not an upgradable item: no completions.
         }
         return super.getTabCompletions(server, sender, args, targetPos);
     }

@@ -43,6 +43,9 @@ public class CCAdapter implements IPeripheral {
     @Override
     public void detach(IComputerAccess iComputerAccess) {}
 
+    // IPeripheral (ComputerCraft API) declares equals(IPeripheral), so this cannot be
+    // equals(Object).
+    @SuppressWarnings("checkstyle:covariantequals")
     @Override
     public boolean equals(IPeripheral iPeripheral) {
         return false;

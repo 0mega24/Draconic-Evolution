@@ -283,6 +283,7 @@ public class GuiRecipeBuilder extends GuiContainer {
                         .getSystemClipboard()
                         .setContents(stringselection, (ClipboardOwner) null);
             } catch (Exception var2) {
+                // Clipboard not available: nothing to copy to.
             }
         } else if (button.id == 100) {
             //            RecipeManager.loadRecipes();

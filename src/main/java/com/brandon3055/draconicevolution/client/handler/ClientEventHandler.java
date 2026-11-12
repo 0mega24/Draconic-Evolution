@@ -228,6 +228,7 @@ public class ClientEventHandler {
                                 : Utils.addCommas(Long.MAX_VALUE) + " RF!!!!";
                 ReflectionManager.setField(splashTextMapping, event.getGui(), s);
             } catch (Exception e) {
+                // Splash text field not found: keep the vanilla splash.
             }
         }
     }

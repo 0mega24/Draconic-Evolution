@@ -1048,6 +1048,7 @@ public class TileDraconiumChest extends TileEnergyInventoryBase
                     return;
                 case EAST:
                     nsweIO = (byte) ((nsweIO & 0xFC) | io);
+                    return;
                 default:
                     break;
             }
