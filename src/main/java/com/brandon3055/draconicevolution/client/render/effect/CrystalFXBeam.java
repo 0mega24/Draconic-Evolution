@@ -55,14 +55,6 @@ public class CrystalFXBeam extends CrystalGLFXBase<IENetEffectTile> {
         }
         //        setExpired();
 
-        float[] r = {0.0F, 0.8F, 1.0F};
-        float[] g = {0.8F, 0.1F, 0.7F};
-        float[] b = {1F, 1F, 0.2F};
-
-        particleRed = r[tile.getTier()];
-        particleGreen = g[tile.getTier()];
-        particleBlue = b[tile.getTier()];
-
         powerLevel = (float) MathHelper.approachExp(powerLevel, fxState, 0.05);
         BCProfiler.TICK.stop();
     }

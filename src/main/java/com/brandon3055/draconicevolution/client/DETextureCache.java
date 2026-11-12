@@ -15,6 +15,8 @@ public class DETextureCache implements IIconRegister {
     private static HashMap<ResourceLocation, TextureAtlasSprite> textureCache =
             new HashMap<ResourceLocation, TextureAtlasSprite>();
     private static ArrayList<ResourceLocation> locations = new ArrayList<ResourceLocation>();
+    private static HashMap<String, TextureAtlasSprite> byName =
+            new HashMap<String, TextureAtlasSprite>();
 
     static {
         locations.add(
@@ -29,12 +31,15 @@ public class DETextureCache implements IIconRegister {
     @Override
     public void registerIcons(TextureMap textureMap) {
         textureCache.clear();
+        byName.clear();
         for (ResourceLocation location : locations) {
-            textureCache.put(location, textureMap.registerSprite(location));
+            TextureAtlasSprite sprite = textureMap.registerSprite(location);
+            textureCache.put(location, sprite);
+            byName.put(location.getResourcePath(), sprite);
         }
     }
 
     public static TextureAtlasSprite getDETexture(String texture) {
-        return textureCache.get(new ResourceLocation(DraconicEvolution.MOD_PREFIX + texture));
+        return byName.get(texture);
     }
 }

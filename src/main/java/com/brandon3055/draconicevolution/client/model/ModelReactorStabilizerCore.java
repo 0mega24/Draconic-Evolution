@@ -282,6 +282,7 @@ public class ModelReactorStabilizerCore extends ModelBase {
         this.rotor2R.render(f5);
         GlStateManager.rotate(rotation * 2F, 0F, 0F, 1F);
         this.rotor1R.render(f5);
+        GlStateManager.color(1F, 1F, 1F, 1F);
         GlStateManager.rotate(1F, 1F, 1F, 1F);
 
         OpenGlHelper.setLightmapTextureCoords(
