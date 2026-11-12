@@ -6,7 +6,6 @@ import codechicken.lib.render.CCRenderEventHandler;
 import codechicken.lib.texture.TextureUtils;
 import codechicken.lib.util.ResourceUtils;
 import com.brandon3055.draconicevolution.CommonProxy;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.api.IENetEffectTile;
 import com.brandon3055.draconicevolution.blocks.energynet.rendering.ENetFXHandler;
@@ -18,6 +17,7 @@ import com.brandon3055.draconicevolution.client.keybinding.KeyBindings;
 import com.brandon3055.draconicevolution.client.keybinding.KeyInputHandler;
 import com.brandon3055.draconicevolution.client.model.ArmorModelHelper;
 import com.brandon3055.draconicevolution.client.render.entity.*;
+import com.brandon3055.draconicevolution.config.ClientConfig;
 import com.brandon3055.draconicevolution.entity.*;
 import com.brandon3055.draconicevolution.lib.DEImageHandler;
 import com.brandon3055.draconicevolution.network.ccnetwork.ClientPacketHandler;
@@ -101,7 +101,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(
                 EntityChaosImplosion.class, RenderEntityChaosVortex::new);
 
-        if (DEConfig.disableCustomArrowModel) {
+        if (ClientConfig.disableCustomArrowModel) {
             RenderingRegistry.registerEntityRenderingHandler(
                     EntityCustomArrow.class,
                     manager ->

@@ -3,8 +3,8 @@ package com.brandon3055.draconicevolution.network;
 import com.brandon3055.brandonscore.BrandonsCore;
 import com.brandon3055.brandonscore.lib.PairKV;
 import com.brandon3055.brandonscore.network.MessageHandlerWrapper;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
+import com.brandon3055.draconicevolution.config.ClientConfig;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
@@ -48,7 +48,7 @@ public class PacketShieldHit implements IMessage {
                 ClientEventHandler.playerShieldStatus.put(
                         (EntityPlayer) entity,
                         new PairKV<>(message.shieldPowerF, ClientEventHandler.elapsedTicks));
-                if (!DEConfig.disableShieldHitSound) {
+                if (!ClientConfig.disableShieldHitSound) {
                     entity.world.playSound(
                             entity.posX + 0.5D,
                             entity.posY + 0.5D,

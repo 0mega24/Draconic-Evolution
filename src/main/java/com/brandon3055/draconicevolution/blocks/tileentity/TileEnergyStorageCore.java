@@ -6,10 +6,10 @@ import codechicken.lib.data.MCDataInput;
 import com.brandon3055.brandonscore.blocks.TileBCBase;
 import com.brandon3055.brandonscore.lib.Vec3I;
 import com.brandon3055.brandonscore.lib.datamanager.*;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.GuiHandler;
 import com.brandon3055.draconicevolution.api.IExtendedRFStorage;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.lib.EnergyCoreBuilder;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.brandon3055.draconicevolution.world.EnergyCoreStructure;
@@ -237,7 +237,7 @@ public class TileEnergyStorageCore extends TileBCBase
             LogHelper.error("Tier not valid! WTF!!!");
             return 0;
         }
-        return (long) DEConfig.coreCapacity[tier.value - 1];
+        return (long) TweaksConfig.coreCapacity[tier.value - 1];
     }
 
     @Override

@@ -5,8 +5,8 @@ import com.brandon3055.brandonscore.handlers.HandHelper;
 import com.brandon3055.brandonscore.network.MessageHandlerWrapper;
 import com.brandon3055.brandonscore.utils.ItemNBTHelper;
 import com.brandon3055.brandonscore.utils.Teleporter.TeleportLocation;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.init.Items;
@@ -324,7 +324,7 @@ public class PacketDislocator implements IMessage { // TODO Re Write this mess!!
                     } else break;
                 }
                 ItemNBTHelper.setInteger(
-                        teleporter, "Fuel", fuel + (DEConfig.dislocatorUsesPerPearl * count));
+                        teleporter, "Fuel", fuel + (TweaksConfig.dislocatorUsesPerPearl * count));
             }
 
             if (message.function == CHANGESELECTION) {

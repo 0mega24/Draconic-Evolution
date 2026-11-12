@@ -4,8 +4,8 @@ import cofh.redstoneflux.api.IEnergyReceiver;
 import com.brandon3055.brandonscore.blocks.TileEnergyInventoryBase;
 import com.brandon3055.brandonscore.lib.EnergyHelper;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.blocks.machines.Grinder;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.google.common.base.Predicate;
 import com.mojang.authlib.GameProfile;
@@ -87,7 +87,7 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
             updateKillBox();
         }
 
-        int eph = DEConfig.grinderEnergyPerHeart;
+        int eph = TweaksConfig.grinderEnergyPerHeart;
 
         // Only run if there is a reasonable energy buffer
         if (getEnergyStored() < eph * 50) {
@@ -149,7 +149,7 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
                     "Grinder: Failed to deal damage to entity: "
                             + EntityList.getEntityString(target)
                             + " Waiting 3 ticks...");
-            LogHelper.dev("Grinder: Blacklisted Entities: " + DEConfig.grinderBlacklist);
+            LogHelper.dev("Grinder: Blacklisted Entities: " + TweaksConfig.grinderBlacklist);
             coolDown = 3;
         }
 
@@ -191,9 +191,9 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
     }
 
     private boolean isBlackListed(EntityLivingBase livingBase) {
-        if (DEConfig.grinderBlacklist.isEmpty()) return false;
+        if (TweaksConfig.grinderBlacklist.isEmpty()) return false;
         ResourceLocation reg = EntityList.getKey(livingBase);
-        return reg != null && DEConfig.grinderBlacklist.contains(reg.toString());
+        return reg != null && TweaksConfig.grinderBlacklist.contains(reg.toString());
     }
 
     public void updateKillBox() {

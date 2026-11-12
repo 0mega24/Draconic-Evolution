@@ -3,7 +3,7 @@ package com.brandon3055.draconicevolution.client.model.tool;
 import codechicken.lib.model.bakedmodels.AbstractBakedPropertiesModel;
 import codechicken.lib.model.bakedmodels.ModelProperties;
 import codechicken.lib.util.TransformUtils;
-import com.brandon3055.draconicevolution.DEConfig;
+import com.brandon3055.draconicevolution.config.ClientConfig;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -56,7 +56,7 @@ public class ToolBakedModel extends AbstractBakedPropertiesModel {
 
         IModelState state;
         IBakedModel model;
-        if (DEConfig.disable3DModels) {
+        if (ClientConfig.disable3DModels) {
             // Override to standard model if config tells us to.
             model = this;
         } else {
@@ -75,7 +75,7 @@ public class ToolBakedModel extends AbstractBakedPropertiesModel {
                 break;
         }
 
-        if (!DEConfig.disable3DModels && fancyOverrideProcessor != null) {
+        if (!ClientConfig.disable3DModels && fancyOverrideProcessor != null) {
             state = fancyOverrideProcessor.apply(transformType, state);
         }
 

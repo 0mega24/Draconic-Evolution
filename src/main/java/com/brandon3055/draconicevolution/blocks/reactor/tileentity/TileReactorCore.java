@@ -11,13 +11,13 @@ import com.brandon3055.brandonscore.lib.datamanager.*;
 import com.brandon3055.brandonscore.utils.FacingUtils;
 import com.brandon3055.brandonscore.utils.HolidayHelper;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.GuiHandler;
 import com.brandon3055.draconicevolution.blocks.reactor.ProcessExplosion;
 import com.brandon3055.draconicevolution.blocks.reactor.ReactorEffectHandler;
 import com.brandon3055.draconicevolution.client.gui.GuiReactor;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import java.util.HashMap;
@@ -424,7 +424,7 @@ public class TileReactorCore extends TileBCBase implements ITickable {
         // region ============= Energy Calculation =============
 
         int baseMaxRFt =
-                (int) ((maxSaturation.value / 1000D) * DEConfig.reactorOutputMultiplier * 1.5D);
+                (int) ((maxSaturation.value / 1000D) * TweaksConfig.reactorOutputMultiplier * 1.5D);
         int maxRFt = (int) (baseMaxRFt * (1D + (convLVL * 2)));
         generationRate.value = (1D - coreSat) * maxRFt;
         saturation.value += generationRate.value;
@@ -462,7 +462,8 @@ public class TileReactorCore extends TileBCBase implements ITickable {
                 tempDrainFactor.value
                         * (1D - coreSat)
                         * (0.001
-                                * DEConfig.reactorFuelUsageMultiplier); // <Last number is base fuel
+                                * TweaksConfig
+                                        .reactorFuelUsageMultiplier); // <Last number is base fuel
         // usage rate
         if (reactableFuel.value > 0) {
             convertedFuel.value += fuelUseRate.value;
@@ -503,7 +504,7 @@ public class TileReactorCore extends TileBCBase implements ITickable {
         temperature.value =
                 MathHelper.approachExp(temperature.value, MAX_TEMPERATURE * 1.2, 0.0005);
 
-        if (DEConfig.disableLargeReactorBoom) {
+        if (TweaksConfig.disableLargeReactorBoom) {
             if (explosionCountdown.value == -1) {
                 explosionCountdown.value = 1200 + world.rand.nextInt(2400);
             }
@@ -523,7 +524,7 @@ public class TileReactorCore extends TileBCBase implements ITickable {
         if (explosionProcess == null) {
             double radius =
                     Utils.map(convertedFuel.value + reactableFuel.value, 144, 10368, 50D, 350D)
-                            * DEConfig.reactorExplosionScale;
+                            * TweaksConfig.reactorExplosionScale;
             explosionProcess = new ProcessExplosion(pos, (int) radius, (WorldServer) world, -1);
             ProcessHandler.addProcess(explosionProcess);
             explosionCountdown.value = -1;

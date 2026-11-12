@@ -9,9 +9,9 @@ import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
 import com.brandon3055.brandonscore.client.utils.GuiHelper;
 import com.brandon3055.brandonscore.utils.InfoHelper;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileEntityDetector;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.inventory.ContainerDummy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -223,7 +223,7 @@ public class GuiEntityDetector extends ModularGuiContainer<ContainerDummy>
                                         I18n.format("gui.entityDetector.filter"))
                                 .setButtonName("OPEN_FILTER"));
 
-        if (DEConfig.entityDetectorPowerModifier > 0) {
+        if (TweaksConfig.entityDetectorPowerModifier > 0) {
             manager.add(
                     element =
                             new MGuiLabel(

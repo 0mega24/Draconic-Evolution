@@ -14,11 +14,11 @@ import codechicken.lib.vec.Vector3;
 import com.brandon3055.brandonscore.client.render.TESRBase;
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.blocks.energynet.tileentity.TileCrystalBase;
 import com.brandon3055.draconicevolution.blocks.energynet.tileentity.TileCrystalDirectIO;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.client.render.shaders.DEShaders;
+import com.brandon3055.draconicevolution.config.ClientConfig;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
 import java.util.Map;
@@ -106,7 +106,7 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
             crystalFull.render(ccrs, mat);
             ccrs.draw();
             releaseShader();
-        } else if (!(DEShaders.useShaders() && DEConfig.useCrystalShaders)) {
+        } else if (!(DEShaders.useShaders() && ClientConfig.useCrystalShaders)) {
             // Render overlay if shaders are not supported
             ResourceHelperDE.bindTexture(DETextures.ENERGY_CRYSTAL_BASE);
             GlStateManager.enableBlend();
@@ -162,7 +162,7 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
             crystalHalf.render(ccrs, mat);
             ccrs.draw();
             releaseShader();
-        } else if (!(DEShaders.useShaders() && DEConfig.useCrystalShaders)) {
+        } else if (!(DEShaders.useShaders() && ClientConfig.useCrystalShaders)) {
             // Render overlay if shaders are not supported
             GlStateManager.enableBlend();
             mat.apply(
@@ -186,7 +186,7 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
             TileCrystalBase te, double x, double y, double z, float partialTicks, int tier) {
         BlockPos pos = te == null ? new BlockPos(0, 0, 0) : te.getPos();
         double mm = MathHelper.clip((((x * x) + (y * y) + (z * z) - 5) / 512), 0, 1);
-        if (DEShaders.useShaders() && DEConfig.useCrystalShaders && mm < 1) {
+        if (DEShaders.useShaders() && ClientConfig.useCrystalShaders && mm < 1) {
 
             float xrot = (float) Math.atan2(x + 0.5, z + 0.5);
             float dist =
@@ -220,7 +220,7 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
     }
 
     private void releaseShader() {
-        if (DEShaders.useShaders() && DEConfig.useCrystalShaders && shaderProgram != null) {
+        if (DEShaders.useShaders() && ClientConfig.useCrystalShaders && shaderProgram != null) {
             shaderProgram.releaseShader();
         }
     }

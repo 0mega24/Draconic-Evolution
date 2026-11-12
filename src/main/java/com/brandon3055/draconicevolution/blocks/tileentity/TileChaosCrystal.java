@@ -4,7 +4,7 @@ import com.brandon3055.brandonscore.blocks.TileBCBase;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedInt;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedLong;
-import com.brandon3055.draconicevolution.DEConfig;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.entity.EntityChaosImplosion;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -91,7 +91,7 @@ public class TileChaosCrystal extends TileBCBase implements ITickable {
             return;
         }
 
-        if (DEConfig.disableChaosIslandExplosion || hasBeenMoved()) {
+        if (TweaksConfig.disableChaosIslandExplosion || hasBeenMoved()) {
             world.setBlockToAir(pos);
         } else {
             EntityChaosImplosion vortex = new EntityChaosImplosion(world);
