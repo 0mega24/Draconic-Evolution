@@ -1,6 +1,8 @@
 package com.brandon3055.draconicevolution.blocks;
 
-import static net.minecraft.util.EnumFacing.Axis.*;
+import static net.minecraft.util.EnumFacing.Axis.X;
+import static net.minecraft.util.EnumFacing.Axis.Y;
+import static net.minecraft.util.EnumFacing.Axis.Z;
 
 import com.brandon3055.brandonscore.blocks.BlockBCore;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileDislocatorReceptacle;

@@ -1,6 +1,17 @@
 package com.brandon3055.draconicevolution.client.gui.toolconfig;
 
-import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.*;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.MAX;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.MIN;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.MINUS1;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.MINUS2;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.MINUS3;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.PLUS1;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.PLUS2;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.PLUS3;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.SELECTION;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.SLIDER;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.TOGGLE;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.values;
 
 import com.brandon3055.brandonscore.client.utils.GuiHelper;
 import com.brandon3055.brandonscore.inventory.PlayerSlot;

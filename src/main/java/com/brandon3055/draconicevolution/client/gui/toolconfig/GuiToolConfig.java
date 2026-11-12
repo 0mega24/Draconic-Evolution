@@ -1,6 +1,8 @@
 package com.brandon3055.draconicevolution.client.gui.toolconfig;
 
-import static com.brandon3055.brandonscore.inventory.PlayerSlot.EnumInvCategory.*;
+import static com.brandon3055.brandonscore.inventory.PlayerSlot.EnumInvCategory.ARMOR;
+import static com.brandon3055.brandonscore.inventory.PlayerSlot.EnumInvCategory.MAIN;
+import static com.brandon3055.brandonscore.inventory.PlayerSlot.EnumInvCategory.OFF_HAND;
 
 import com.brandon3055.brandonscore.client.gui.ButtonColourRect;
 import com.brandon3055.brandonscore.client.utils.GuiHelper;

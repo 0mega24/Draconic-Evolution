@@ -1,6 +1,6 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree;
 
-import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.*;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_MOD_NAME;
 
 import com.brandon3055.draconicevolution.client.gui.modwiki.GuiModWiki;
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.ModDocContainer;

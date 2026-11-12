@@ -1,6 +1,9 @@
 package com.brandon3055.draconicevolution.lib;
 
-import static com.brandon3055.draconicevolution.blocks.tileentity.TileStabilizedSpawner.SpawnerTier.*;
+import static com.brandon3055.draconicevolution.blocks.tileentity.TileStabilizedSpawner.SpawnerTier.BASIC;
+import static com.brandon3055.draconicevolution.blocks.tileentity.TileStabilizedSpawner.SpawnerTier.CHAOTIC;
+import static com.brandon3055.draconicevolution.blocks.tileentity.TileStabilizedSpawner.SpawnerTier.DRACONIC;
+import static com.brandon3055.draconicevolution.blocks.tileentity.TileStabilizedSpawner.SpawnerTier.WYVERN;
 
 import com.brandon3055.brandonscore.utils.DataUtils;
 import com.brandon3055.draconicevolution.DEFeatures;

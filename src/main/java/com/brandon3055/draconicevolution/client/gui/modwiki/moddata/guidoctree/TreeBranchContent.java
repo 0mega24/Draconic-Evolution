@@ -2,7 +2,12 @@ package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree;
 
 import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_TEXT;
 import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_WINDOW;
-import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.*;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_BRANCH_CATEGORY;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_BRANCH_ID;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_BRANCH_NAME;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_ICON;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_ICON_TYPE;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ICON_TYPE_STACK;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourARGB;
