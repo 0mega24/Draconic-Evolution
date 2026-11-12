@@ -11,6 +11,7 @@ import com.brandon3055.brandonscore.client.particle.BCParticle;
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.client.DEParticles;
+import com.brandon3055.draconicevolution.config.visuals.EffectVisuals;
 import java.util.Random;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -56,8 +57,9 @@ public class EffectTrackerCelestialManipulator {
         this.pos = pos.copy();
         this.startPos = pos.copy();
         this.prevPos.set(pos);
-        red = 0.1F;
-        green = 0.1F;
+        red = EffectVisuals.celestialWeatherRGB[0];
+        green = EffectVisuals.celestialWeatherRGB[1];
+        blue = EffectVisuals.celestialWeatherRGB[2];
         alpha = 1F;
     }
 
@@ -176,7 +178,9 @@ public class EffectTrackerCelestialManipulator {
             this.particleScale = 1F;
             this.particleTextureIndexY = 1;
 
-            this.particleRed = 0;
+            this.particleRed = EffectVisuals.celestialSparkRGB[0];
+            this.particleGreen = EffectVisuals.celestialSparkRGB[1];
+            this.particleBlue = EffectVisuals.celestialSparkRGB[2];
         }
 
         @Override
@@ -324,7 +328,9 @@ public class EffectTrackerCelestialManipulator {
             this.particleScale = 1F;
             this.particleTextureIndexY = 1;
 
-            this.particleRed = 0;
+            this.particleRed = EffectVisuals.celestialSparkRGB[0];
+            this.particleGreen = EffectVisuals.celestialSparkRGB[1];
+            this.particleBlue = EffectVisuals.celestialSparkRGB[2];
         }
 
         @Override

@@ -4,6 +4,7 @@ import com.brandon3055.brandonscore.client.particle.BCParticle;
 import com.brandon3055.brandonscore.client.particle.IBCParticleFactory;
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.utils.Utils;
+import com.brandon3055.draconicevolution.config.visuals.EffectVisuals;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.entity.Entity;
@@ -207,11 +208,17 @@ public class ParticleInfuser extends BCParticle {
             if (args.length >= 1) {
                 if (args[0] == 0) {
                     particleEnergy.type = 0;
-                    particleEnergy.setRBGColorF(1, 0.2F, 0);
+                    particleEnergy.setRBGColorF(
+                            EffectVisuals.infuserChargeRGB[0],
+                            EffectVisuals.infuserChargeRGB[1],
+                            EffectVisuals.infuserChargeRGB[2]);
                     particleEnergy.setScale(0.5F);
                 } else {
                     particleEnergy.type = 1;
-                    particleEnergy.setRBGColorF(0, 1, 1);
+                    particleEnergy.setRBGColorF(
+                            EffectVisuals.infuserIdleRGB[0],
+                            EffectVisuals.infuserIdleRGB[1],
+                            EffectVisuals.infuserIdleRGB[2]);
                     particleEnergy.setScale(0.5F);
                 }
             }
