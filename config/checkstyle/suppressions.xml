@@ -8,7 +8,6 @@
     <suppress checks="NeedBraces" files="api[\\/]java[\\/]baubles[\\/]api[\\/]BaublesApi\.java$"/>
     <suppress checks="RedundantModifier" files="api[\\/]java[\\/]baubles[\\/]api[\\/]IBauble\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="api[\\/]java[\\/]baubles[\\/]api[\\/]cap[\\/]BaublesCapabilities\.java$"/>
-    <suppress checks="ModifierOrder" files="api[\\/]java[\\/]baubles[\\/]api[\\/]cap[\\/]BaublesContainer\.java$"/>
     <suppress checks="NeedBraces" files="api[\\/]java[\\/]baubles[\\/]api[\\/]cap[\\/]BaublesContainer\.java$"/>
     <suppress checks="NeedBraces" files="api[\\/]java[\\/]baubles[\\/]api[\\/]cap[\\/]BaublesContainerProvider\.java$"/>
     <suppress checks="RedundantModifier" files="api[\\/]java[\\/]baubles[\\/]api[\\/]cap[\\/]IBaublesItemHandler\.java$"/>
@@ -59,7 +58,6 @@
     <suppress checks="InnerAssignment" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]reactor[\\/]tileentity[\\/]TileReactorCore\.java$"/>
     <suppress checks="MissingSwitchDefault" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]reactor[\\/]tileentity[\\/]TileReactorCore\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]reactor[\\/]tileentity[\\/]TileReactorCore\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]StabilizedSpawnerLogic\.java$"/>
     <suppress checks="MissingSwitchDefault" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileCelestialManipulator\.java$"/>
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileCraftingInjector\.java$"/>
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileDislocatorReceptacle\.java$"/>
@@ -71,7 +69,6 @@
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileDraconiumChest\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileEnergyCoreStabilizer\.java$"/>
     <suppress checks="InnerAssignment" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileEnergyInfuser\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileEnergyInfuser\.java$"/>
     <suppress checks="EqualsAvoidNull" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileEnergyPylon\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileEnergyPylon\.java$"/>
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileEnergyStorageCore\.java$"/>
@@ -80,7 +77,6 @@
     <suppress checks="InnerAssignment" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileFusionCraftingCore\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileGenerator\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileGrinder\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileGrinder\.java$"/>
     <suppress checks="EqualsAvoidNull" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileInvisECoreBlock\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileInvisECoreBlock\.java$"/>
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TilePlacedItem\.java$"/>
@@ -90,7 +86,6 @@
     <suppress checks="InnerAssignment" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileStabilizedSpawner\.java$"/>
     <suppress checks="MissingSwitchDefault" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileStabilizedSpawner\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileStabilizedSpawner\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]TileStabilizedSpawner\.java$"/>
     <suppress checks="EmptyCatchBlock" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]flowgate[\\/]TileFlowGate\.java$"/>
     <suppress checks="MissingSwitchDefault" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]blocks[\\/]tileentity[\\/]flowgate[\\/]TileFlowGate\.java$"/>
     <suppress checks="RedundantModifier" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]capabilities[\\/]IShieldState\.java$"/>
@@ -103,7 +98,6 @@
     <suppress checks="InnerAssignment" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiCelestialManipulator\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiCelestialManipulator\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiDislocator\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiDislocator\.java$"/>
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiDissEnchanter\.java$"/>
     <suppress checks="EqualsAvoidNull" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiDissEnchanter\.java$"/>
     <suppress checks="InnerAssignment" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiDissEnchanter\.java$"/>
@@ -112,7 +106,6 @@
     <suppress checks="InnerAssignment" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiDraconiumChest\.java$"/>
     <suppress checks="InnerAssignment" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiEnergyCore\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiEnergyCore\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiEnergyCore\.java$"/>
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiEnergyCrystal\.java$"/>
     <suppress checks="InnerAssignment" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiEnergyCrystal\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]gui[\\/]GuiEnergyinfuser\.java$"/>
@@ -204,16 +197,12 @@
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]handler[\\/]HudHandler\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]handler[\\/]HudHandler\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]keybinding[\\/]KeyBindings\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]keybinding[\\/]KeyBindings\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]keybinding[\\/]KeyInputHandler\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]model[\\/]ModelDraconicArmor\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]model[\\/]ModelWyvernArmor\.java$"/>
     <suppress checks="FallThrough" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]model[\\/]tool[\\/]ToolBakedModel\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]model[\\/]tool[\\/]ToolModelBakery\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]model[\\/]tool[\\/]ToolTransforms\.java$"/>
     <suppress checks="InnerAssignment" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]render[\\/]effect[\\/]CrystalFXWireless\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]render[\\/]effect[\\/]CrystalFXWireless\.java$"/>
-    <suppress checks="ModifierOrder" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]render[\\/]effect[\\/]ExplosionFX\.java$"/>
     <suppress checks="RedundantModifier" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]render[\\/]effect[\\/]ExplosionFX\.java$"/>
     <suppress checks="MultipleVariableDeclarations" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]render[\\/]effect[\\/]ReactorBeamFX\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]render[\\/]effect[\\/]RenderEnergyBolt\.java$"/>
@@ -231,7 +220,6 @@
     <suppress checks="MultipleVariableDeclarations" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]render[\\/]tile[\\/]RenderTileEnergyStorageCore\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]render[\\/]tile[\\/]RenderTileEnergyStorageCore\.java$"/>
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]render[\\/]tile[\\/]RenderTilePotentiometer\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]client[\\/]render[\\/]tile[\\/]RenderTileStabilizedSpawner\.java$"/>
     <suppress checks="EmptyCatchBlock" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]command[\\/]CommandUpgrade\.java$"/>
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]entity[\\/]EntityChaosGuardian\.java$"/>
     <suppress checks="InnerAssignment" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]entity[\\/]EntityChaosGuardian\.java$"/>
@@ -252,7 +240,6 @@
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]entity[\\/]EntityGuardianCrystal\.java$"/>
     <suppress checks="MissingSwitchDefault" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]entity[\\/]EntityGuardianProjectile\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]entity[\\/]EntityGuardianProjectile\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]entity[\\/]EntityLootCore\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]entity[\\/]EntityPersistentItem\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]entity[\\/]ProcessChaosImplosion\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]handlers[\\/]BinderHandler\.java$"/>
@@ -262,7 +249,6 @@
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]handlers[\\/]CustomArmorHandler\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]handlers[\\/]CustomArmorHandler\.java$"/>
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]handlers[\\/]DEEventHandler\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]handlers[\\/]DEEventHandler\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]helpers[\\/]ResourceHelperDE\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]integration[\\/]AE2Compat\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]integration[\\/]BaublesHelper\.java$"/>
@@ -293,12 +279,10 @@
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]armor[\\/]WyvernArmor\.java$"/>
     <suppress checks="MissingSwitchDefault" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]armor[\\/]WyvernArmor\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]armor[\\/]WyvernArmor\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]armor[\\/]WyvernArmor\.java$"/>
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]tools[\\/]CreativeExchanger\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]tools[\\/]DislocatorAdvanced\.java$"/>
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]tools[\\/]DislocatorBound\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]tools[\\/]DislocatorBound\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]tools[\\/]DraconicShovel\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]tools[\\/]DraconicStaffOfPower\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]tools[\\/]DraconicSword\.java$"/>
     <suppress checks="MissingSwitchDefault" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]items[\\/]tools[\\/]DraconiumCapacitor\.java$"/>
@@ -338,7 +322,6 @@
     <suppress checks="AvoidStarImport" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]network[\\/]CrystalUpdateBatcher\.java$"/>
     <suppress checks="NeedBraces" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]network[\\/]PacketDislocator\.java$"/>
     <suppress checks="MissingSwitchDefault" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]network[\\/]PacketParticleGenerator\.java$"/>
-    <suppress checks="UnusedImports" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]network[\\/]PacketPlaceItem\.java$"/>
     <suppress checks="MissingSwitchDefault" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]network[\\/]ccnetwork[\\/]ClientPacketHandler\.java$"/>
     <suppress checks="HideUtilityClassConstructor" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]network[\\/]ccnetwork[\\/]PacketDispatcher\.java$"/>
     <suppress checks="MissingSwitchDefault" files="main[\\/]java[\\/]com[\\/]brandon3055[\\/]draconicevolution[\\/]network[\\/]ccnetwork[\\/]ServerPacketHandler\.java$"/>
