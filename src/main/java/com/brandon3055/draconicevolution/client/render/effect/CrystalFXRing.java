@@ -6,6 +6,7 @@ import com.brandon3055.draconicevolution.blocks.energynet.EnergyCrystal;
 import com.brandon3055.draconicevolution.blocks.energynet.tileentity.TileCrystalBase;
 import com.brandon3055.draconicevolution.client.DEParticles;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCrystalVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -33,13 +34,10 @@ public class CrystalFXRing extends CrystalGLFXBase<TileCrystalBase> {
             setExpired();
         }
 
-        float[] r = {0.0F, 0.8F, 1.0F};
-        float[] g = {0.8F, 0.1F, 0.7F};
-        float[] b = {1F, 1F, 0.2F};
-
-        particleRed = r[tile.getTier()];
-        particleGreen = g[tile.getTier()];
-        particleBlue = b[tile.getTier()];
+        int rgb = EnergyCrystalVisuals.particleRGB[tile.getTier()];
+        particleRed = (rgb >> 16 & 0xFF) / 255F;
+        particleGreen = (rgb >> 8 & 0xFF) / 255F;
+        particleBlue = (rgb & 0xFF) / 255F;
     }
 
     @Override
@@ -59,7 +57,9 @@ public class CrystalFXRing extends CrystalGLFXBase<TileCrystalBase> {
         boolean wierless = tile.getType() == EnergyCrystal.CrystalType.WIRELESS;
 
         rand.setSeed(rSeed);
-        float animTime = ClientEventHandler.elapsedTicks + particleAge + partialTicks;
+        float animTime =
+                (ClientEventHandler.elapsedTicks + particleAge + partialTicks)
+                        * (float) EnergyCrystalVisuals.ringSpeed;
 
         // region variables
 
@@ -171,9 +171,13 @@ public class CrystalFXRing extends CrystalGLFXBase<TileCrystalBase> {
             drawY = renderY;
             drawZ = renderZ + (float) oz;
 
-            r = wierless ? 1 : 0;
-            g = wierless ? 0 : 1;
-            b = wierless ? 0 : 1;
+            int ringRGB =
+                    wierless
+                            ? EnergyCrystalVisuals.wirelessRingRGB
+                            : EnergyCrystalVisuals.relayRingRGB;
+            r = (ringRGB >> 16 & 0xFF) / 255F;
+            g = (ringRGB >> 8 & 0xFF) / 255F;
+            b = (ringRGB & 0xFF) / 255F;
 
             particleTextureIndexX = 0;
             particleTextureIndexY = 0;

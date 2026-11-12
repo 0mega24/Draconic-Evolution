@@ -21,6 +21,11 @@ public final class Visuals {
             "Reaction reactor colours and animation speeds. Client side only. Colours are"
                     + " #RRGGBB, speeds are multipliers (1.0 is the default speed)."
         },
+        {
+            EnergyCrystalVisuals.CATEGORY,
+            "Energy crystal and energy network colours and animation speeds. Client side only."
+                    + " Lists have one entry per tier: basic, wyvern, draconic."
+        },
     };
 
     private Visuals() {}
@@ -29,5 +34,6 @@ public final class Visuals {
     public static void load() {
         EnergyCoreVisuals.load();
         ReactorVisuals.load();
+        EnergyCrystalVisuals.load();
     }
 }

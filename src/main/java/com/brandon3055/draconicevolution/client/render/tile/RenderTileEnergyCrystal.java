@@ -19,6 +19,7 @@ import com.brandon3055.draconicevolution.blocks.energynet.tileentity.TileCrystal
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.client.render.shaders.DEShaders;
 import com.brandon3055.draconicevolution.config.ClientConfig;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCrystalVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
 import java.util.Map;
@@ -89,7 +90,14 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
                         new Vector3(x + 0.5, y + 0.5, z + 0.5),
                         new Rotation(180 * MathHelper.torad, 1, 0, 0),
                         -0.5);
-        mat.apply(new Rotation((ClientEventHandler.elapsedTicks + partialTicks) / 400F, 0, 1, 0));
+        mat.apply(
+                new Rotation(
+                        (ClientEventHandler.elapsedTicks + partialTicks)
+                                / 400F
+                                * (float) EnergyCrystalVisuals.rotationSpeed,
+                        0,
+                        1,
+                        0));
 
         if (destroyStage >= 0) {
             bindTexture(DESTROY_STAGES[destroyStage]);
@@ -139,7 +147,13 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
             ccrs.startDrawing(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX);
             crystalBase.render(ccrs, mat);
             mat.apply(
-                    new Rotation((ClientEventHandler.elapsedTicks + partialTicks) / 400F, 0, 1, 0));
+                    new Rotation(
+                            (ClientEventHandler.elapsedTicks + partialTicks)
+                                    / 400F
+                                    * (float) EnergyCrystalVisuals.rotationSpeed,
+                            0,
+                            1,
+                            0));
             crystalHalf.render(ccrs, mat);
             ccrs.draw();
             return;
@@ -153,7 +167,13 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
 
             // Apply Crystal Rotation
             mat.apply(
-                    new Rotation((ClientEventHandler.elapsedTicks + partialTicks) / 400F, 0, 1, 0));
+                    new Rotation(
+                            (ClientEventHandler.elapsedTicks + partialTicks)
+                                    / 400F
+                                    * (float) EnergyCrystalVisuals.rotationSpeed,
+                            0,
+                            1,
+                            0));
 
             // Render Crystal
             ResourceHelperDE.bindTexture(DETextures.REACTOR_CORE);
@@ -167,7 +187,9 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
             GlStateManager.enableBlend();
             mat.apply(
                             new Rotation(
-                                    (ClientEventHandler.elapsedTicks + partialTicks) / 400F,
+                                    (ClientEventHandler.elapsedTicks + partialTicks)
+                                            / 400F
+                                            * (float) EnergyCrystalVisuals.rotationSpeed,
                                     0,
                                     1,
                                     0))
@@ -177,10 +199,6 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
             ccrs.draw();
         }
     }
-
-    private static float[] r = {0.0F, 0.55F, 1.0F};
-    private static float[] g = {0.35F, 0.3F, 0.572F};
-    private static float[] b = {0.65F, 0.9F, 0.172F};
 
     public void bindShader(
             TileCrystalBase te, double x, double y, double z, float partialTicks, int tier) {
@@ -207,15 +225,21 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
             shaderProgram.useShader(
                     cache -> {
                         cache.glUniform1F(
-                                "time", (ClientEventHandler.elapsedTicks + partialTicks) / 50);
+                                "time",
+                                (ClientEventHandler.elapsedTicks + partialTicks)
+                                        / 50
+                                        * (float) EnergyCrystalVisuals.crystalAnimationSpeed);
                         cache.glUniform1F("mipmap", (float) mm);
-                        cache.glUniform1I("type", tier);
+                        float[] tint = EnergyCrystalVisuals.crystalTints[tier];
+                        cache.glUniform3F("tint", tint[0], tint[1], tint[2]);
                         cache.glUniform2F("angle", xrot / -3.125F, yrot / 3.125F);
                     });
         } else {
             ResourceHelperDE.bindTexture(DETextures.ENERGY_CRYSTAL_NO_SHADER);
             GlStateManager.disableLighting();
-            GlStateManager.color(r[tier], g[tier], b[tier], 0.5F);
+            int rgb = EnergyCrystalVisuals.crystalRGBNoShaders[tier];
+            GlStateManager.color(
+                    (rgb >> 16 & 0xFF) / 255F, (rgb >> 8 & 0xFF) / 255F, (rgb & 0xFF) / 255F, 0.5F);
         }
     }
 
