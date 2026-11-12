@@ -173,3 +173,74 @@ uploadArchives {
         }
     }
 }
+
+// ---------------------------------------------------------------------------
+// Format and lint tooling
+// ---------------------------------------------------------------------------
+
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    googleJavaFormat
+}
+
+dependencies {
+    // 1.7 is the last release that runs on Java 8.
+    googleJavaFormat 'com.google.googlejavaformat:google-java-format:1.7'
+}
+
+def formatSources = fileTree('src') { include '**/*.java' }
+
+task format(type: JavaExec) {
+    description = 'Rewrites all Java sources with google-java-format (AOSP style).'
+    group = 'formatting'
+    classpath = configurations.googleJavaFormat
+    main = 'com.google.googlejavaformat.java.Main'
+    doFirst {
+        args = ['--aosp', '--replace'] + formatSources.files.collect { it.path }.sort()
+    }
+}
+
+task formatCheck(type: JavaExec) {
+    description = 'Fails and lists the Java sources that are not formatted with google-java-format (AOSP style).'
+    group = 'formatting'
+    classpath = configurations.googleJavaFormat
+    main = 'com.google.googlejavaformat.java.Main'
+    // --dry-run prints the files that would change; the exit code is 1 when there are any.
+    doFirst {
+        args = ['--aosp', '--dry-run', '--set-exit-if-changed'] + formatSources.files.collect { it.path }.sort()
+    }
+}
+
+checkstyle {
+    toolVersion = '8.45.1'
+    configDir = file('config/checkstyle')
+    configFile = file('config/checkstyle/checkstyle.xml')
+    maxWarnings = 0
+}
+
+pmd {
+    toolVersion = '6.55.0'
+    ruleSets = []
+    ruleSetFiles = files('config/pmd/ruleset.xml')
+    // PMD 6 has no baseline file. Report only, until the existing findings are fixed.
+    ignoreFailures = true
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+tasks.withType(Pmd) {
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
