@@ -104,6 +104,8 @@ public class DCSplitContainer extends DisplayComponentBase {
                 case BOTTOM:
                     newY = yPos + ySize - smaller.ySize;
                     break;
+                default:
+                    break;
             }
             smaller.moveBy(0, newY - smaller.yPos);
         }

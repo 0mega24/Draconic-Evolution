@@ -69,6 +69,8 @@ public class DCStack extends DisplayComponentBase {
             case RIGHT:
                 xOffset = xSize - size - 2;
                 break;
+            default:
+                break;
         }
 
         stackIcon.xPos = xPos + xOffset;

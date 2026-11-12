@@ -194,6 +194,8 @@ public class WikiDownloadManager {
 
                                     reader.endObject();
                                     break;
+                                default:
+                                    break;
                             }
                         }
 

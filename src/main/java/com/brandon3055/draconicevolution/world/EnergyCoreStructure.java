@@ -69,6 +69,8 @@ public class EnergyCoreStructure extends MultiBlockHelper {
                 return structureTiers[6].checkStructure(core.getWorld(), core.getPos().add(offset));
             case 8:
                 return structureTiers[7].checkStructure(core.getWorld(), core.getPos().add(offset));
+            default:
+                break;
         }
         if (tier <= 0) {
             LogHelper.error(
@@ -109,6 +111,8 @@ public class EnergyCoreStructure extends MultiBlockHelper {
             case 8:
                 structureTiers[7].placeStructure(core.getWorld(), core.getPos().add(offset));
                 return;
+            default:
+                break;
         }
         if (tier <= 0) {
             LogHelper.error(

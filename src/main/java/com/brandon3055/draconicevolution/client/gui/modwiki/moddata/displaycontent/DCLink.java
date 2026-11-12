@@ -87,6 +87,8 @@ public class DCLink extends DisplayComponentBase {
                 case RIGHT:
                     x = (xSize - scaledWidth) - (2 * scaleFactor);
                     break;
+                default:
+                    break;
             }
 
             if (x < xMin) {
@@ -124,6 +126,8 @@ public class DCLink extends DisplayComponentBase {
                     break;
                 case RIGHT:
                     x = xPos + (xSize - scaledWidth) - (2 * scaleFactor);
+                    break;
+                default:
                     break;
             }
 

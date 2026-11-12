@@ -849,6 +849,8 @@ public class Debugger extends ItemBCore {
                     //                    lightingTest(world, new BlockPos(player));
                 }
                 break;
+            default:
+                break;
         }
 
         return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
@@ -950,6 +952,8 @@ public class Debugger extends ItemBCore {
                     }
                     return EnumActionResult.PASS;
                 }
+                break;
+            default:
                 break;
         }
 

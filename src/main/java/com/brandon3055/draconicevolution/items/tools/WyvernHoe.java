@@ -201,6 +201,8 @@ public abstract class WyvernHoe extends ToolBase {
                                             .withProperty(
                                                     BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
                             return true;
+                        default:
+                            break;
                     }
                 }
             }

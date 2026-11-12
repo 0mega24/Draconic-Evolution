@@ -107,6 +107,8 @@ public class WyvernArmor extends ItemArmor
                 return 0.30F;
             case FEET:
                 return 0.15F;
+            default:
+                break;
         }
         return 0;
     }
@@ -339,6 +341,8 @@ public class WyvernArmor extends ItemArmor
                 return 0.30F;
             case FEET:
                 return 0.15F;
+            default:
+                break;
         }
         return 0;
     }

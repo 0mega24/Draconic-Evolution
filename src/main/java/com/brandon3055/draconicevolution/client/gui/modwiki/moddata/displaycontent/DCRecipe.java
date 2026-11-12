@@ -121,6 +121,8 @@ public class DCRecipe extends DisplayComponentBase {
                             yPos + yOffset,
                             getColour());
                     break;
+                default:
+                    break;
             }
 
             drawBorderedRect(

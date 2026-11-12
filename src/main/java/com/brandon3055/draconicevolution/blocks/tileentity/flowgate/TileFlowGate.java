@@ -157,6 +157,8 @@ public abstract class TileFlowGate extends TileBCBase
                 break;
             case "getSignalLowFlow":
                 return new Object[] {minFlow.value};
+            default:
+                break;
         }
 
         return new Object[0];

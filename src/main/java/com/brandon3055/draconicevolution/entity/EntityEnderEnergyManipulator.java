@@ -463,6 +463,8 @@ public class EntityEnderEnergyManipulator extends EntityLivingBase {
                     }
                     break;
                 }
+            default:
+                break;
         }
     }
 

@@ -108,6 +108,8 @@ public class Portal extends BlockBCore implements ITileEntityProvider {
                         .withProperty(DRAW_DOWN, down.getBlock() != this)
                         .withProperty(DRAW_EAST, east.getBlock() != this)
                         .withProperty(DRAW_WEST, west.getBlock() != this);
+            default:
+                break;
         }
 
         return state;

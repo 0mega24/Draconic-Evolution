@@ -271,6 +271,8 @@ public class TileStabilizedSpawner extends TileBCBase
                 case CHAOTIC:
                     dropStack = new ItemStack(DEFeatures.chaoticCore);
                     break;
+                default:
+                    break;
             }
             if (!world.isRemote) {
                 EntityItem entityItem =

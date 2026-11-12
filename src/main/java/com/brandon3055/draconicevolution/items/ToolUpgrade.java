@@ -155,6 +155,8 @@ public class ToolUpgrade extends ItemBCore implements IRenderOverride {
                                 Blocks.DRAGON_EGG,
                                 DEFeatures.chaoticCore);
                 break;
+            default:
+                break;
         }
 
         if (recipe != null) {

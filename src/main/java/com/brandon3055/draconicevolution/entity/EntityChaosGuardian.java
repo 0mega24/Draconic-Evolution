@@ -748,6 +748,8 @@ public class EntityChaosGuardian extends EntityDragonOld {
                 targetY = homeY;
                 targetZ = homeZ;
                 break;
+            default:
+                break;
         }
         // ignitionChargeTimer = 10;
 
@@ -906,6 +908,8 @@ public class EntityChaosGuardian extends EntityDragonOld {
                     case ATTACK_TELEPORT:
                         attackTimer = 90 + rand.nextInt(80);
                         break;
+                    default:
+                        break;
                 }
             }
 
@@ -1060,6 +1064,8 @@ public class EntityChaosGuardian extends EntityDragonOld {
                         attackTimer = 0;
                     }
                     break;
+                default:
+                    break;
             }
 
             attackTimer--;
@@ -1156,6 +1162,8 @@ public class EntityChaosGuardian extends EntityDragonOld {
                 this.targetZ = homeZ;
                 this.target = null;
                 break;
+            default:
+                break;
         }
     }
 
@@ -1225,6 +1233,8 @@ public class EntityChaosGuardian extends EntityDragonOld {
 
                 break;
             case DEAD:
+                break;
+            default:
                 break;
         }
     }
@@ -1311,6 +1321,8 @@ public class EntityChaosGuardian extends EntityDragonOld {
                 }
                 break;
             case DEAD:
+                break;
+            default:
                 break;
         }
 

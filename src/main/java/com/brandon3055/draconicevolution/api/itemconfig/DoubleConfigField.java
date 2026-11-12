@@ -128,6 +128,8 @@ public class DoubleConfigField implements IItemConfigField {
                 double pos = (data / 10000D) * range;
                 value = minValue + pos;
                 break;
+            default:
+                break;
         }
 
         if (value > maxValue) {

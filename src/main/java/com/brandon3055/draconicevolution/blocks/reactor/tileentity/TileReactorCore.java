@@ -317,6 +317,8 @@ public class TileReactorCore extends TileBCBase implements ITickable {
                 checkBlockIntrusions();
                 updateCriticalState();
                 break;
+            default:
+                break;
         }
 
         //        reactorState.value = ReactorState.BEYOND_HOPE;

@@ -535,6 +535,8 @@ public abstract class MiningToolBase extends ToolBase {
                 zMax = breakRadius;
                 yOffset = breakRadius - 1;
                 break;
+            default:
+                break;
         }
 
         if (breakRadius == 0) {
