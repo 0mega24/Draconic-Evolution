@@ -1,11 +1,18 @@
 package com.brandon3055.draconicevolution.handlers;
 
+import static com.brandon3055.draconicevolution.DEFeatures.dislocatorBound;
+
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.utils.DataUtils;
 import com.brandon3055.brandonscore.utils.ItemNBTHelper;
 import com.brandon3055.draconicevolution.api.ITeleportEndPoint;
 import com.brandon3055.draconicevolution.entity.EntityPersistentItem;
 import com.brandon3055.draconicevolution.utils.LogHelper;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,18 +28,7 @@ import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import static com.brandon3055.draconicevolution.DEFeatures.dislocatorBound;
-
-/**
- * Created by brandon3055 on 27/2/2018.
- *
- */
+/** Created by brandon3055 on 27/2/2018. */
 public class DislocatorLinkHandler extends WorldSavedData {
 
     private static final String SAVE_DATA_NAME = "DECustomData";
@@ -41,7 +37,6 @@ public class DislocatorLinkHandler extends WorldSavedData {
     public DislocatorLinkHandler(String name) {
         super(name);
     }
-
 
     @Nullable
     public static DislocatorLinkHandler getDataInstance(World world) {
@@ -93,9 +88,7 @@ public class DislocatorLinkHandler extends WorldSavedData {
         data.markDirty();
     }
 
-    /**
-     * Returns the location of the dislocator this is bound to
-     */
+    /** Returns the location of the dislocator this is bound to */
     public static Vec3D getLinkPos(World world, ItemStack stack) {
         DislocatorLinkHandler data = getDataInstance(world);
         if (data == null || !dislocatorBound.isValid(stack)) {
@@ -104,16 +97,14 @@ public class DislocatorLinkHandler extends WorldSavedData {
 
         if (dislocatorBound.isPlayer(stack)) {
             return getPlayerPos(ItemNBTHelper.getString(stack, "PlayerLink", "null"), world);
-        }
-        else {
+        } else {
             String linkID = dislocatorBound.getLinkToID(stack);
             LinkData link = data.linkDataMap.get(linkID);
             if (link != null) {
                 if (link.isPlayer) {
                     return getAndValidatePlayerPos(world, data, link, linkID);
-                }
-                else {
-                   return getTileOrEntityPos(link, linkID);
+                } else {
+                    return getTileOrEntityPos(link, linkID);
                 }
             }
         }
@@ -121,9 +112,7 @@ public class DislocatorLinkHandler extends WorldSavedData {
         return null;
     }
 
-    /**
-     * Returns the location of the dislocator with this link id
-     */
+    /** Returns the location of the dislocator with this link id */
     public static Vec3D getLinkPos(World world, String linkID) {
         DislocatorLinkHandler data = getDataInstance(world);
         if (data == null) {
@@ -133,8 +122,7 @@ public class DislocatorLinkHandler extends WorldSavedData {
         if (link != null) {
             if (link.isPlayer) {
                 return getAndValidatePlayerPos(world, data, link, linkID);
-            }
-            else {
+            } else {
                 return getTileOrEntityPos(link, linkID);
             }
         }
@@ -168,7 +156,8 @@ public class DislocatorLinkHandler extends WorldSavedData {
         return null;
     }
 
-    private static Vec3D getAndValidatePlayerPos(World world, DislocatorLinkHandler data, LinkData link, String linkID) {
+    private static Vec3D getAndValidatePlayerPos(
+            World world, DislocatorLinkHandler data, LinkData link, String linkID) {
         if (world.getMinecraftServer() == null) {
             return null;
         }
@@ -177,8 +166,23 @@ public class DislocatorLinkHandler extends WorldSavedData {
         if (player == null) {
             return null;
         }
-        boolean flag = DataUtils.firstMatch(player.inventory.mainInventory, stack -> dislocatorBound.isValid(stack) && dislocatorBound.getLinkID(stack).equals(linkID)) != null;
-        flag = flag || DataUtils.firstMatch(player.inventory.offHandInventory, stack -> dislocatorBound.isValid(stack) && dislocatorBound.getLinkID(stack).equals(linkID)) != null;
+        boolean flag =
+                DataUtils.firstMatch(
+                                player.inventory.mainInventory,
+                                stack ->
+                                        dislocatorBound.isValid(stack)
+                                                && dislocatorBound.getLinkID(stack).equals(linkID))
+                        != null;
+        flag =
+                flag
+                        || DataUtils.firstMatch(
+                                        player.inventory.offHandInventory,
+                                        stack ->
+                                                dislocatorBound.isValid(stack)
+                                                        && dislocatorBound
+                                                                .getLinkID(stack)
+                                                                .equals(linkID))
+                                != null;
         if (!flag) {
             data.linkDataMap.remove(linkID);
             data.markDirty();
@@ -201,11 +205,11 @@ public class DislocatorLinkHandler extends WorldSavedData {
                 return null;
             }
             return new Vec3D(tilePos.getX() + 0.5, tilePos.getY() + 0.2, tilePos.getZ() + 0.5);
-        }
-        else {
+        } else {
             AxisAlignedBB bb = new AxisAlignedBB(link.pos, link.pos.add(1, 1, 1));
             bb.grow(5);
-            List<EntityPersistentItem> items = targetWorld.getEntitiesWithinAABB(EntityPersistentItem.class, bb);
+            List<EntityPersistentItem> items =
+                    targetWorld.getEntitiesWithinAABB(EntityPersistentItem.class, bb);
             for (EntityPersistentItem item : items) {
                 ItemStack i = item.getItem();
                 if (dislocatorBound.isValid(i)) {
@@ -219,9 +223,7 @@ public class DislocatorLinkHandler extends WorldSavedData {
         return null;
     }
 
-    /**
-     * Returns the link data for the dislocator this dislocator is bound to
-     */
+    /** Returns the link data for the dislocator this dislocator is bound to */
     public static LinkData getLink(ItemStack stack, World world) {
         DislocatorLinkHandler data = getDataInstance(world);
         if (data == null || !dislocatorBound.isValid(stack)) {
@@ -240,29 +242,34 @@ public class DislocatorLinkHandler extends WorldSavedData {
     }
 
     public static boolean validateStack(ItemStack stack) {
-        return !stack.isEmpty() && stack.getItem() == dislocatorBound && stack.hasTagCompound() && stack.getMetadata() == 0;
+        return !stack.isEmpty()
+                && stack.getItem() == dislocatorBound
+                && stack.hasTagCompound()
+                && stack.getMetadata() == 0;
     }
-
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         linkDataMap.clear();
         NBTTagList dataList = nbt.getTagList("LinkList", 10);
-        dataList.forEach(nbtBase -> {
-            LinkData data = new LinkData(this).fromNBT((NBTTagCompound) nbtBase);
-            linkDataMap.put(data.linkID, data);
-        });
+        dataList.forEach(
+                nbtBase -> {
+                    LinkData data = new LinkData(this).fromNBT((NBTTagCompound) nbtBase);
+                    linkDataMap.put(data.linkID, data);
+                });
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         NBTTagList dataList = new NBTTagList();
-        linkDataMap.forEach((id, linkData) -> dataList.appendTag(linkData.toNBT(new NBTTagCompound())));
+        linkDataMap.forEach(
+                (id, linkData) -> dataList.appendTag(linkData.toNBT(new NBTTagCompound())));
         compound.setTag("LinkList", dataList);
         return compound;
     }
 
-    //Link data is only required when linking to a block because it its in a players inventory we can just look up the player.
+    // Link data is only required when linking to a block because it its in a players inventory we
+    // can just look up the player.
     public static class LinkData {
         private String linkID;
         public DislocatorLinkHandler handler;
@@ -271,7 +278,9 @@ public class DislocatorLinkHandler extends WorldSavedData {
         private String playerUUID;
         public boolean isPlayer = false;
 
-        public LinkData(DislocatorLinkHandler handler) {this.handler = handler;}
+        public LinkData(DislocatorLinkHandler handler) {
+            this.handler = handler;
+        }
 
         public LinkData(String linkID, DislocatorLinkHandler handler) {
             this.linkID = linkID;
@@ -298,8 +307,7 @@ public class DislocatorLinkHandler extends WorldSavedData {
 
             if (isPlayer) {
                 compound.setString("PlayerID", playerUUID);
-            }
-            else {
+            } else {
                 compound.setLong("Pos", pos.toLong());
             }
             return compound;
@@ -312,8 +320,7 @@ public class DislocatorLinkHandler extends WorldSavedData {
 
             if (isPlayer) {
                 playerUUID = compound.getString("PlayerID");
-            }
-            else {
+            } else {
                 pos = BlockPos.fromLong(compound.getLong("Pos"));
             }
             return this;

@@ -1,18 +1,15 @@
 package com.brandon3055.draconicevolution.inventory;
 
+import java.util.LinkedList;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 
-import javax.annotation.Nullable;
-import java.util.LinkedList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 21/07/2016.
- */
+/** Created by brandon3055 on 21/07/2016. */
 public class ContainerRecipeBuilder extends Container {
 
     private EntityPlayer player;
@@ -34,7 +31,8 @@ public class ContainerRecipeBuilder extends Container {
 
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
-                addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, posX + 18 * x, posY + y * 18));
+                addSlotToContainer(
+                        new Slot(player.inventory, x + y * 9 + 9, posX + 18 * x, posY + y * 18));
             }
         }
 
@@ -62,8 +60,7 @@ public class ContainerRecipeBuilder extends Container {
 
             craftingSlots.get(0).xPos = 107;
             craftingSlots.get(0).yPos = posY + 18;
-        }
-        else if (craftingType == 1) {
+        } else if (craftingType == 1) {
             craftingSlots.get(0).xPos = 90 - 18;
             craftingSlots.get(0).yPos = 20;
             craftingSlots.get(1).xPos = 90 + 18;
@@ -92,15 +89,14 @@ public class ContainerRecipeBuilder extends Container {
                 if (!mergeItemStack(stack, 0, 36, false)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (TileEntityFurnace.getItemBurnTime(stack) == 0 || !mergeItemStack(stack, 36, 36 + inventoryCache.getSizeInventory(), false)) {
+            } else if (TileEntityFurnace.getItemBurnTime(stack) == 0
+                    || !mergeItemStack(stack, 36, 36 + inventoryCache.getSizeInventory(), false)) {
                 return ItemStack.EMPTY;
             }
 
             if (stack.getCount() == 0) {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else {
+            } else {
                 slot.onSlotChanged();
             }
 
@@ -116,5 +112,4 @@ public class ContainerRecipeBuilder extends Container {
     public boolean canInteractWith(EntityPlayer playerIn) {
         return true;
     }
-
 }

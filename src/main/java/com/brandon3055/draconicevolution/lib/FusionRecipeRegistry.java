@@ -4,21 +4,18 @@ import com.brandon3055.draconicevolution.api.fusioncrafting.FusionRegistry;
 import com.brandon3055.draconicevolution.api.fusioncrafting.IFusionCraftingInventory;
 import com.brandon3055.draconicevolution.api.fusioncrafting.IFusionRecipe;
 import com.brandon3055.draconicevolution.utils.LogHelper;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 23/07/2016.
- */
+/** Created by brandon3055 on 23/07/2016. */
 public class FusionRecipeRegistry implements FusionRegistry {
 
     private final List<IFusionRecipe> REGISTRY = new ArrayList<IFusionRecipe>();
 
-    //region API Interface
+    // region API Interface
 
     @Override
     public void add(IFusionRecipe recipe) {
@@ -37,7 +34,7 @@ public class FusionRecipeRegistry implements FusionRegistry {
         return new ArrayList<>(REGISTRY);
     }
 
-    //endregion
+    // endregion
 
     public IFusionRecipe findRecipeForCatalyst(ItemStack catalyst) {
         if (catalyst.isEmpty()) {
@@ -53,7 +50,8 @@ public class FusionRecipeRegistry implements FusionRegistry {
         return null;
     }
 
-    public IFusionRecipe findRecipe(IFusionCraftingInventory inventory, World world, BlockPos corePos) {
+    public IFusionRecipe findRecipe(
+            IFusionCraftingInventory inventory, World world, BlockPos corePos) {
         if (inventory == null || inventory.getStackInCore(0).isEmpty()) {
             return null;
         }

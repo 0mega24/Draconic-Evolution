@@ -6,33 +6,31 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
-/**
- * Created by FoxMcloud5655 on 27/08/2019.
- */
+/** Created by FoxMcloud5655 on 27/08/2019. */
 public class ShieldStateProvider implements ICapabilitySerializable<NBTBase> {
 
-	@CapabilityInject(IShieldState.class)
-	public static final Capability<IShieldState> PLAYER_CAP = null;
-	
-	private IShieldState instance = PLAYER_CAP.getDefaultInstance();
-	
-	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		return capability == PLAYER_CAP;
-	}
+    @CapabilityInject(IShieldState.class)
+    public static final Capability<IShieldState> PLAYER_CAP = null;
 
-	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		return capability == PLAYER_CAP ? PLAYER_CAP.<T> cast(this.instance) : null;
-	}
+    private IShieldState instance = PLAYER_CAP.getDefaultInstance();
 
-	@Override
-	public NBTBase serializeNBT() {
-		return PLAYER_CAP.getStorage().writeNBT(PLAYER_CAP, this.instance, null);
-	}
+    @Override
+    public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+        return capability == PLAYER_CAP;
+    }
 
-	@Override
-	public void deserializeNBT(NBTBase nbt) {
-		PLAYER_CAP.getStorage().readNBT(PLAYER_CAP, this.instance, null, nbt);
-	}
+    @Override
+    public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+        return capability == PLAYER_CAP ? PLAYER_CAP.<T>cast(this.instance) : null;
+    }
+
+    @Override
+    public NBTBase serializeNBT() {
+        return PLAYER_CAP.getStorage().writeNBT(PLAYER_CAP, this.instance, null);
+    }
+
+    @Override
+    public void deserializeNBT(NBTBase nbt) {
+        PLAYER_CAP.getStorage().readNBT(PLAYER_CAP, this.instance, null, nbt);
+    }
 }

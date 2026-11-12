@@ -9,6 +9,7 @@ import com.brandon3055.brandonscore.lib.datamanager.ManagedEnum;
 import com.brandon3055.draconicevolution.blocks.energynet.EnergyCrystal;
 import com.brandon3055.draconicevolution.client.render.effect.CrystalFXIO;
 import com.brandon3055.draconicevolution.client.render.effect.CrystalGLFXBase;
+import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,20 +23,27 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
+/** Created by brandon3055 on 19/11/2016. */
+public class TileCrystalDirectIO extends TileCrystalBase
+        implements IEnergyReceiver, IEnergyProvider {
 
-/**
- * Created by brandon3055 on 19/11/2016.
- */
-public class TileCrystalDirectIO extends TileCrystalBase implements IEnergyReceiver, IEnergyProvider {
+    public final ManagedEnum<EnumFacing> facing =
+            dataManager
+                    .register("facing", new ManagedEnum<>(EnumFacing.DOWN))
+                    .syncViaTile()
+                    .saveToTile()
+                    .finish();
+    public final ManagedBool outputMode =
+            dataManager
+                    .register("outputMode", new ManagedBool(false))
+                    .syncViaTile()
+                    .saveToTile()
+                    .saveToItem()
+                    .finish();
 
-    public final ManagedEnum<EnumFacing> facing = dataManager.register("facing", new ManagedEnum<>(EnumFacing.DOWN)).syncViaTile().saveToTile().finish();
-    public final ManagedBool outputMode = dataManager.register("outputMode", new ManagedBool(false)).syncViaTile().saveToTile().saveToItem().finish();
+    public TileCrystalDirectIO() {}
 
-    public TileCrystalDirectIO() {
-    }
-
-    //region Update Energy IO
+    // region Update Energy IO
 
     @Override
     public void update() {
@@ -48,22 +56,32 @@ public class TileCrystalDirectIO extends TileCrystalBase implements IEnergyRecei
         TileEntity tile = world.getTileEntity(pos.offset(facing.value));
 
         if (outputMode.value && tile != null) {
-            energyStorage.extractEnergy(EnergyHelper.insertEnergy(tile, energyStorage.extractEnergy(energyStorage.getMaxExtract(), true), facing.value.getOpposite(), false), false);
+            energyStorage.extractEnergy(
+                    EnergyHelper.insertEnergy(
+                            tile,
+                            energyStorage.extractEnergy(energyStorage.getMaxExtract(), true),
+                            facing.value.getOpposite(),
+                            false),
+                    false);
         }
     }
 
-    //endregion
+    // endregion
 
-    //region EnergyIO
+    // region EnergyIO
 
     @Override
     public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-        return from != null && !outputMode.value && from.equals(facing.value) ? energyStorage.receiveEnergy(maxReceive, simulate) : 0;
+        return from != null && !outputMode.value && from.equals(facing.value)
+                ? energyStorage.receiveEnergy(maxReceive, simulate)
+                : 0;
     }
 
     @Override
     public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-        return from != null && outputMode.value && from.equals(facing.value) ? energyStorage.extractEnergy(maxExtract, simulate) : 0;
+        return from != null && outputMode.value && from.equals(facing.value)
+                ? energyStorage.extractEnergy(maxExtract, simulate)
+                : 0;
     }
 
     @Override
@@ -71,10 +89,17 @@ public class TileCrystalDirectIO extends TileCrystalBase implements IEnergyRecei
         return from != null && from.equals(facing.value);
     }
 
-    //endregion
+    // endregion
 
     @Override
-    public boolean onBlockActivated(IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            IBlockState state,
+            EntityPlayer player,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         if (player.isSneaking()) {
             outputMode.value = !outputMode.value;
             return true;
@@ -82,7 +107,7 @@ public class TileCrystalDirectIO extends TileCrystalBase implements IEnergyRecei
         return super.onBlockActivated(state, player, hand, side, hitX, hitY, hitZ);
     }
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public EnergyCrystal.CrystalType getType() {
@@ -113,15 +138,23 @@ public class TileCrystalDirectIO extends TileCrystalBase implements IEnergyRecei
         displayList.add(I18n.format("eNet.de.IOOutput_" + outputMode.value + ".info", colour));
     }
 
-    //endregion
+    // endregion
 
-    //region Misc
+    // region Misc
 
     @Override
-    public void onTilePlaced(World world, BlockPos pos, EnumFacing placedAgainst, float hitX, float hitY, float hitZ, EntityPlayer placer, ItemStack stack) {
+    public void onTilePlaced(
+            World world,
+            BlockPos pos,
+            EnumFacing placedAgainst,
+            float hitX,
+            float hitY,
+            float hitZ,
+            EntityPlayer placer,
+            ItemStack stack) {
         super.onTilePlaced(world, pos, placedAgainst, hitX, hitY, hitZ, placer, stack);
         facing.value = placedAgainst.getOpposite();
     }
 
-    //endregion
+    // endregion
 }

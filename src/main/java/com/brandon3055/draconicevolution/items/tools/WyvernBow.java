@@ -1,5 +1,7 @@
 package com.brandon3055.draconicevolution.items.tools;
 
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumControlType.SLIDER;
+
 import codechicken.lib.model.bakery.ModelBakery;
 import codechicken.lib.util.ItemNBTUtils;
 import com.brandon3055.brandonscore.BrandonsCore;
@@ -15,6 +17,9 @@ import com.brandon3055.draconicevolution.client.model.tool.ToolModelBakery;
 import com.brandon3055.draconicevolution.handlers.BowHandler;
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
 import com.brandon3055.draconicevolution.utils.DETextures;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
@@ -34,20 +39,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-
-import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumControlType.SLIDER;
-
-/**
- * Created by brandon3055 on 2/06/2016.
- */
+/** Created by brandon3055 on 2/06/2016. */
 public class WyvernBow extends ToolBase implements IFOVModifierItem, IReaperItem {
 
     public WyvernBow() {
-//        super(1, 0);
-//        setEnergyStats(ToolStats.WYVERN_BASE_CAPACITY, 512000, 0);
+        //        super(1, 0);
+        //        setEnergyStats(ToolStats.WYVERN_BASE_CAPACITY, 512000, 0);
     }
 
     @Override
@@ -65,16 +62,14 @@ public class WyvernBow extends ToolBase implements IFOVModifierItem, IReaperItem
         setEnergyStats(ToolStats.WYVERN_BASE_CAPACITY, 512000, 0);
     }
 
-    //region Bow Stuff
+    // region Bow Stuff
 
     private ItemStack findAmmo(EntityPlayer player) {
         if (this.isArrow(player.getHeldItem(EnumHand.OFF_HAND))) {
             return player.getHeldItem(EnumHand.OFF_HAND);
-        }
-        else if (this.isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
+        } else if (this.isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
             return player.getHeldItem(EnumHand.MAIN_HAND);
-        }
-        else {
+        } else {
             for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
                 ItemStack itemstack = player.inventory.getStackInSlot(i);
 
@@ -92,7 +87,8 @@ public class WyvernBow extends ToolBase implements IFOVModifierItem, IReaperItem
     }
 
     @Override
-    public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entityLiving, int timeLeft) {
+    public void onPlayerStoppedUsing(
+            ItemStack stack, World world, EntityLivingBase entityLiving, int timeLeft) {
         if (entityLiving instanceof EntityPlayer) {
             BowHandler.onPlayerStoppedUsingBow(stack, world, (EntityPlayer) entityLiving, timeLeft);
         }
@@ -120,7 +116,8 @@ public class WyvernBow extends ToolBase implements IFOVModifierItem, IReaperItem
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(
+            World world, EntityPlayer player, EnumHand hand) {
         return BowHandler.onBowRightClick(player.getHeldItem(hand), world, player, hand);
     }
 
@@ -131,50 +128,114 @@ public class WyvernBow extends ToolBase implements IFOVModifierItem, IReaperItem
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Render
+    // region Render
 
     @Override
     public void registerRenderer(Feature feature) {
         super.registerRenderer(feature);
-        ToolModelBakery.registerItemKeyGenerator(this, stack -> ModelBakery.defaultItemKeyGenerator.generateKey(stack) + "|" + ItemNBTUtils.getByte(stack, "render:bow_pull"));
+        ToolModelBakery.registerItemKeyGenerator(
+                this,
+                stack ->
+                        ModelBakery.defaultItemKeyGenerator.generateKey(stack)
+                                + "|"
+                                + ItemNBTUtils.getByte(stack, "render:bow_pull"));
     }
 
     @Override
     public PairKV<TextureAtlasSprite, ResourceLocation> getModels(ItemStack stack) {
         byte pull = ItemNBTUtils.getByte(stack, "render:bow_pull");
-        return new PairKV<>(DETextures.WYVERN_BOW[pull], new ResourceLocation("draconicevolution", String.format("models/item/tools/wyvern_bow0%s.obj", pull)));
+        return new PairKV<>(
+                DETextures.WYVERN_BOW[pull],
+                new ResourceLocation(
+                        "draconicevolution",
+                        String.format("models/item/tools/wyvern_bow0%s.obj", pull)));
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void addDisplayData(@Nullable ItemStack stack, World world, @Nullable BlockPos pos, List<String> displayList)  {
+    public void addDisplayData(
+            @Nullable ItemStack stack,
+            World world,
+            @Nullable BlockPos pos,
+            List<String> displayList) {
         super.addDisplayData(stack, world, pos, displayList);
 
         if (BrandonsCore.proxy.getClientPlayer() != null) {
-            BowHandler.BowProperties properties = new BowHandler.BowProperties(stack, BrandonsCore.proxy.getClientPlayer());
-            displayList.add(InfoHelper.ITC() + I18n.format("gui.de.rfPerShot.txt") + ": " + InfoHelper.HITC() + Utils.addCommas(properties.calculateEnergyCost()));
+            BowHandler.BowProperties properties =
+                    new BowHandler.BowProperties(stack, BrandonsCore.proxy.getClientPlayer());
+            displayList.add(
+                    InfoHelper.ITC()
+                            + I18n.format("gui.de.rfPerShot.txt")
+                            + ": "
+                            + InfoHelper.HITC()
+                            + Utils.addCommas(properties.calculateEnergyCost()));
             if (!properties.canFire() && properties.cantFireMessage != null) {
                 displayList.add(TextFormatting.DARK_RED + I18n.format(properties.cantFireMessage));
             }
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Upgrade & Config
+    // region Upgrade & Config
 
     @Override
     public ItemConfigFieldRegistry getFields(ItemStack stack, ItemConfigFieldRegistry registry) {
-        double maxDamage = ToolStats.BOW_BASE_DAMAGE + (getToolTier(stack) * ToolStats.BOW_TIER_MULT_DAMAGE) + (UpgradeHelper.getUpgradeLevel(stack, ToolUpgrade.ARROW_DAMAGE) * ToolStats.BOW_MULT_DAMAGE);
-        int maxSpeed = ToolStats.BOW_BASE_SPEED + (getToolTier(stack) * ToolStats.BOW_TIER_MULT_SPEED) + UpgradeHelper.getUpgradeLevel(stack, ToolUpgrade.ARROW_SPEED) * ToolStats.BOW_MULT_SPEED;
+        double maxDamage =
+                ToolStats.BOW_BASE_DAMAGE
+                        + (getToolTier(stack) * ToolStats.BOW_TIER_MULT_DAMAGE)
+                        + (UpgradeHelper.getUpgradeLevel(stack, ToolUpgrade.ARROW_DAMAGE)
+                                * ToolStats.BOW_MULT_DAMAGE);
+        int maxSpeed =
+                ToolStats.BOW_BASE_SPEED
+                        + (getToolTier(stack) * ToolStats.BOW_TIER_MULT_SPEED)
+                        + UpgradeHelper.getUpgradeLevel(stack, ToolUpgrade.ARROW_SPEED)
+                                * ToolStats.BOW_MULT_SPEED;
 
-        registry.register(stack, new DoubleConfigField("bowArrowDamage", maxDamage, 0, maxDamage, "config.field.bowArrowDamage.description", SLIDER));
-        registry.register(stack, new IntegerConfigField("bowArrowSpeedModifier", maxSpeed, 0, maxSpeed, "config.field.bowArrowSpeedModifier.description", SLIDER).setPrefix("+").setExtension("%"));
-        registry.register(stack, new BooleanConfigField("bowAutoFire", false, "config.field.bowAutoFire.description"));
-        registry.register(stack, new DoubleConfigField("bowExplosionPower", 0, 0, 4, "config.field.bowExplosionPower.description", SLIDER));
-        registry.register(stack, new IntegerConfigField("bowZoomModifier", 0, 0, getMaxZoomModifier(stack), "config.field.bowZoomModifier.description", SLIDER));
+        registry.register(
+                stack,
+                new DoubleConfigField(
+                        "bowArrowDamage",
+                        maxDamage,
+                        0,
+                        maxDamage,
+                        "config.field.bowArrowDamage.description",
+                        SLIDER));
+        registry.register(
+                stack,
+                new IntegerConfigField(
+                                "bowArrowSpeedModifier",
+                                maxSpeed,
+                                0,
+                                maxSpeed,
+                                "config.field.bowArrowSpeedModifier.description",
+                                SLIDER)
+                        .setPrefix("+")
+                        .setExtension("%"));
+        registry.register(
+                stack,
+                new BooleanConfigField(
+                        "bowAutoFire", false, "config.field.bowAutoFire.description"));
+        registry.register(
+                stack,
+                new DoubleConfigField(
+                        "bowExplosionPower",
+                        0,
+                        0,
+                        4,
+                        "config.field.bowExplosionPower.description",
+                        SLIDER));
+        registry.register(
+                stack,
+                new IntegerConfigField(
+                        "bowZoomModifier",
+                        0,
+                        0,
+                        getMaxZoomModifier(stack),
+                        "config.field.bowZoomModifier.description",
+                        SLIDER));
 
         return registry;
     }
@@ -202,7 +263,8 @@ public class WyvernBow extends ToolBase implements IFOVModifierItem, IReaperItem
         if (getDisabledEnchants(stack).containsKey(enchantment)) {
             return false;
         }
-        return enchantment.type == EnumEnchantmentType.BOW || enchantment.type == EnumEnchantmentType.ALL;
+        return enchantment.type == EnumEnchantmentType.BOW
+                || enchantment.type == EnumEnchantmentType.ALL;
     }
 
     @Override
@@ -210,10 +272,15 @@ public class WyvernBow extends ToolBase implements IFOVModifierItem, IReaperItem
         return 0;
     }
 
-    //endregion
+    // endregion
 
     @Override
-    public float getNewFOV(EntityPlayer player, ItemStack stack, float currentFOV, float originalFOV, EntityEquipmentSlot slot) {
+    public float getNewFOV(
+            EntityPlayer player,
+            ItemStack stack,
+            float currentFOV,
+            float originalFOV,
+            EntityEquipmentSlot slot) {
         float zoom = ((10 + ToolConfigHelper.getIntegerField("bowZoomModifier", stack)) / 605F);
 
         if (player.getActiveItemStack() == stack) {

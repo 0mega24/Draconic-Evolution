@@ -1,5 +1,8 @@
 package com.brandon3055.draconicevolution.blocks.reactor.tileentity;
 
+import static com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorCore.COMPONENT_MAX_DISTANCE;
+import static com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorCore.MAX_TEMPERATURE;
+
 import codechicken.lib.data.MCDataInput;
 import com.brandon3055.brandonscore.blocks.TileEnergyBase;
 import com.brandon3055.brandonscore.lib.Vec3I;
@@ -12,6 +15,10 @@ import com.brandon3055.draconicevolution.integration.computers.ArgHelper;
 import com.brandon3055.draconicevolution.integration.computers.IDEPeripheral;
 import com.brandon3055.draconicevolution.integration.funkylocomotion.IMovableStructure;
 import com.brandon3055.draconicevolution.utils.LogHelper;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
@@ -22,31 +29,37 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+/** Created by brandon3055 on 20/01/2017. */
+public abstract class TileReactorComponent extends TileEnergyBase
+        implements ITickable, IDEPeripheral, IMovableStructure {
 
-import static com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorCore.COMPONENT_MAX_DISTANCE;
-import static com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorCore.MAX_TEMPERATURE;
-
-/**
- * Created by brandon3055 on 20/01/2017.
- */
-public abstract class TileReactorComponent extends TileEnergyBase implements ITickable, IDEPeripheral, IMovableStructure {
-
-    private final ManagedVec3I coreOffset = register("coreOffset", new ManagedVec3I(new Vec3I(0, 0, 0))).saveToTile().syncViaTile().finish();
-    public final ManagedEnum<EnumFacing> facing = register("facing", new ManagedEnum<>(EnumFacing.UP)).saveToTile().syncViaTile().finish();
-    public final ManagedBool isBound = register("isBound", new ManagedBool(false)).saveToTile().syncViaTile().finish();
-    public final ManagedEnum<RSMode> rsMode = register("rsMode", new ManagedEnum<>(RSMode.TEMP)).saveToTile().syncViaTile().finish();
-    public final ManagedInt rsPower = register("rsPower", new ManagedInt(0)).saveToTile().syncViaTile().trigerUpdate().finish();
+    private final ManagedVec3I coreOffset =
+            register("coreOffset", new ManagedVec3I(new Vec3I(0, 0, 0)))
+                    .saveToTile()
+                    .syncViaTile()
+                    .finish();
+    public final ManagedEnum<EnumFacing> facing =
+            register("facing", new ManagedEnum<>(EnumFacing.UP))
+                    .saveToTile()
+                    .syncViaTile()
+                    .finish();
+    public final ManagedBool isBound =
+            register("isBound", new ManagedBool(false)).saveToTile().syncViaTile().finish();
+    public final ManagedEnum<RSMode> rsMode =
+            register("rsMode", new ManagedEnum<>(RSMode.TEMP)).saveToTile().syncViaTile().finish();
+    public final ManagedInt rsPower =
+            register("rsPower", new ManagedInt(0))
+                    .saveToTile()
+                    .syncViaTile()
+                    .trigerUpdate()
+                    .finish();
     public float animRotation = 0;
     public float animRotationSpeed = 0;
     private TileReactorCore cachedCore = null;
     public boolean coreFalureIminent = false;
     private boolean moveCheckComplete = false;
 
-    //region update
+    // region update
 
     @Override
     public void update() {
@@ -57,9 +70,9 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
             TileReactorCore core = tryGetCore();
             if (core != null) {
                 animRotationSpeed = core.shieldAnimationState * 15F;
-                coreFalureIminent = core.reactorState.value == TileReactorCore.ReactorState.BEYOND_HOPE;
-            }
-            else {
+                coreFalureIminent =
+                        core.reactorState.value == TileReactorCore.ReactorState.BEYOND_HOPE;
+            } else {
                 coreFalureIminent = false;
                 animRotationSpeed = 0;
             }
@@ -68,14 +81,26 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
             if (coreFalureIminent && world.rand.nextInt(10) == 0) {
                 animRotation += (world.rand.nextDouble() - 0.5) * 360;
                 if (world.rand.nextBoolean()) {
-                    world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX() + world.rand.nextDouble(), pos.getY() + world.rand.nextDouble(), pos.getZ() + world.rand.nextDouble(), 0, 0, 0);
-                }
-                else {
-                    world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextDouble(), pos.getY() + world.rand.nextDouble(), pos.getZ() + world.rand.nextDouble(), 0, 0, 0);
+                    world.spawnParticle(
+                            EnumParticleTypes.SMOKE_LARGE,
+                            pos.getX() + world.rand.nextDouble(),
+                            pos.getY() + world.rand.nextDouble(),
+                            pos.getZ() + world.rand.nextDouble(),
+                            0,
+                            0,
+                            0);
+                } else {
+                    world.spawnParticle(
+                            EnumParticleTypes.CLOUD,
+                            pos.getX() + world.rand.nextDouble(),
+                            pos.getY() + world.rand.nextDouble(),
+                            pos.getZ() + world.rand.nextDouble(),
+                            0,
+                            0,
+                            0);
                 }
             }
-        }
-        else {
+        } else {
             TileReactorCore core = getCachedCore();
 
             if (core != null) {
@@ -88,14 +113,15 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
         }
     }
 
-    //endregion
+    // endregion
 
-    //region============== Structure ==============
+    // region============== Structure ==============
 
     /**
-     * Called by the core itself to validate this component and bind it to the core.
-     * This should only be called once the core has determined that this component is pointed at the core.
-     * This ignores this components current active isBound state because if the core is calling this method then this component can not possibly be bound to any other core.!
+     * Called by the core itself to validate this component and bind it to the core. This should
+     * only be called once the core has determined that this component is pointed at the core. This
+     * ignores this components current active isBound state because if the core is calling this
+     * method then this component can not possibly be bound to any other core.!
      */
     public void bindToCore(TileReactorCore core) {
         LogHelper.dev("Reactor-Comp: Bind To Core");
@@ -104,7 +130,8 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
     }
 
     /**
-     * Finds the core if it iss location is not already stored and pokes it. Core then validates or revalidates the structure.
+     * Finds the core if it iss location is not already stored and pokes it. Core then validates or
+     * revalidates the structure.
      */
     public void pokeCore() {
         LogHelper.dev("Reactor-Comp: Try Poke Core");
@@ -125,7 +152,9 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
                 LogHelper.dev("Reactor-Comp: Try Poke Core | Found: " + tile);
 
                 if (tile instanceof TileReactorCore && i > 1) {
-                    //I want this to poke the core regardless of weather or not the core structure is already valid in case this is an energy injector. The core will decide what to do.
+                    // I want this to poke the core regardless of weather or not the core structure
+                    // is already valid in case this is an energy injector. The core will decide
+                    // what to do.
                     ((TileReactorCore) tile).pokeCore(this, facing.value.getOpposite());
                 }
                 return;
@@ -137,9 +166,9 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
         isBound.value = false;
     }
 
-    //endregion ===================================
+    // endregion ===================================
 
-    //region Player Interaction
+    // region Player Interaction
 
     public void onPlaced() {
         if (world.isRemote) {
@@ -174,8 +203,7 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
     public void setRSMode(EntityPlayer player, RSMode rsMode) {
         if (world.isRemote) {
             sendPacketToServer(output -> output.writeString(rsMode.name()), 0);
-        }
-        else {
+        } else {
             this.rsMode.value = rsMode;
         }
     }
@@ -187,9 +215,9 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Getters & Setters
+    // region Getters & Setters
 
     protected BlockPos getCorePos() {
         return pos.subtract(coreOffset.vec.getPos());
@@ -200,7 +228,8 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
     }
 
     /**
-     * @return The core this component is bound to or null if not bound or core is nolonger at bound position. Invalidates the block if the core could not be found.
+     * @return The core this component is bound to or null if not bound or core is nolonger at bound
+     *     position. Invalidates the block if the core could not be found.
      */
     protected TileReactorCore checkAndGetCore() {
         if (!isBound.value) {
@@ -243,14 +272,17 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
                 return null;
             }
 
-            TileEntity tileAtPos = coreChunk.getTileEntity(corePos, Chunk.EnumCreateEntityType.CHECK);
-            if (tileAtPos == null || cachedCore == null || tileAtPos != cachedCore || tileAtPos.isInvalid()) {
+            TileEntity tileAtPos =
+                    coreChunk.getTileEntity(corePos, Chunk.EnumCreateEntityType.CHECK);
+            if (tileAtPos == null
+                    || cachedCore == null
+                    || tileAtPos != cachedCore
+                    || tileAtPos.isInvalid()) {
                 TileEntity tile = world.getTileEntity(corePos);
 
                 if (tile instanceof TileReactorCore) {
                     cachedCore = (TileReactorCore) tile;
-                }
-                else {
+                } else {
                     cachedCore = null;
                     isBound.value = false;
                 }
@@ -259,7 +291,7 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
         return cachedCore;
     }
 
-    //endregion
+    // endregion
 
     @Override
     public boolean canRenderBreaking() {
@@ -271,7 +303,7 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
         return from == facing.value.getOpposite();
     }
 
-    //region Peripheral
+    // region Peripheral
 
     @Override
     public String getPeripheralName() {
@@ -280,7 +312,9 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
 
     @Override
     public String[] getMethodNames() {
-        return new String[]{"getReactorInfo", "chargeReactor", "activateReactor", "stopReactor", "setFailSafe"};
+        return new String[] {
+            "getReactorInfo", "chargeReactor", "activateReactor", "stopReactor", "setFailSafe"
+        };
     }
 
     @Override
@@ -303,39 +337,43 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
             map.put("generationRate", (int) reactor.generationRate.value);
             map.put("fieldDrainRate", reactor.fieldDrain.value);
             map.put("fuelConversionRate", (int) Math.round(reactor.fuelUseRate.value * 1000000D));
-            map.put("status", reactor.reactorState.value.name().toLowerCase());//reactor.reactorState.value == TileReactorCore.ReactorState.COLD ? "offline" : reactor.reactorState == 1 && !reactor.canStart() ? "charging" : reactor.reactorState == 1 && reactor.canStart() ? "charged" : reactor.reactorState == 2 ? "online" : reactor.reactorState == 3 ? "stopping" : "invalid");
+            map.put(
+                    "status",
+                    reactor.reactorState
+                            .value
+                            .name()
+                            .toLowerCase()); // reactor.reactorState.value ==
+            // TileReactorCore.ReactorState.COLD ? "offline" :
+            // reactor.reactorState == 1 && !reactor.canStart() ?
+            // "charging" : reactor.reactorState == 1 &&
+            // reactor.canStart() ? "charged" :
+            // reactor.reactorState == 2 ? "online" :
+            // reactor.reactorState == 3 ? "stopping" : "invalid");
             map.put("failSafe", reactor.failSafeMode.value);
-            return new Object[]{map};
-        }
-        else if (method.equals("chargeReactor")) {
+            return new Object[] {map};
+        } else if (method.equals("chargeReactor")) {
             if (reactor.canCharge()) {
                 reactor.chargeReactor();
-                return new Object[]{true};
-            }
-            else return new Object[]{false};
-        }
-        else if (method.equals("activateReactor")) {
+                return new Object[] {true};
+            } else return new Object[] {false};
+        } else if (method.equals("activateReactor")) {
             if (reactor.canActivate()) {
                 reactor.activateReactor();
-                return new Object[]{true};
-            }
-            else return new Object[]{false};
-        }
-        else if (method.equals("stopReactor")) {
+                return new Object[] {true};
+            } else return new Object[] {false};
+        } else if (method.equals("stopReactor")) {
             if (reactor.canStop()) {
                 reactor.shutdownReactor();
-                return new Object[]{true};
-            }
-            else return new Object[]{false};
-        }
-        else if (method.equals("setFailSafe")) {
+                return new Object[] {true};
+            } else return new Object[] {false};
+        } else if (method.equals("setFailSafe")) {
             reactor.failSafeMode.value = args.checkBoolean(0);
-            return new Object[]{true};
+            return new Object[] {true};
         }
-        return new Object[]{};
+        return new Object[] {};
     }
 
-    //endregion
+    // endregion
 
     public enum RSMode {
         TEMP {
@@ -368,7 +406,9 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
         SAT {
             @Override
             public int getRSSignal(TileReactorCore tile) {
-                return (int) (((double) tile.saturation.value / (double) tile.maxSaturation.value) * 15D);
+                return (int)
+                        (((double) tile.saturation.value / (double) tile.maxSaturation.value)
+                                * 15D);
             }
         },
         SAT_INV {
@@ -380,7 +420,9 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
         FUEL {
             @Override
             public int getRSSignal(TileReactorCore tile) {
-                double value = tile.convertedFuel.value / (tile.convertedFuel.value + tile.reactableFuel.value);
+                double value =
+                        tile.convertedFuel.value
+                                / (tile.convertedFuel.value + tile.reactableFuel.value);
                 value += 0.1;
                 value = Utils.map(value, 0.1, 1, 0, 1);
                 return (int) (value * 15);
@@ -396,7 +438,7 @@ public abstract class TileReactorComponent extends TileEnergyBase implements ITi
         public abstract int getRSSignal(TileReactorCore tile);
     }
 
-    //Frame movement
+    // Frame movement
 
     @Override
     public Iterable<BlockPos> getBlocksForFrameMove() {

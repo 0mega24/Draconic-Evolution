@@ -18,18 +18,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 15/11/2016.
- */
-public abstract class TileFlowGate extends TileBCBase implements ITickable, IChangeListener, IDEPeripheral {
+/** Created by brandon3055 on 15/11/2016. */
+public abstract class TileFlowGate extends TileBCBase
+        implements ITickable, IChangeListener, IDEPeripheral {
 
     protected int transferThisTick = 0;
 
-    public final ManagedInt minFlow = register("minFlow", new ManagedInt(0)).syncViaTile().saveToTile().saveToItem().finish();
-    public final ManagedInt maxFlow = register("maxFlow", new ManagedInt(0)).syncViaTile().saveToTile().saveToItem().finish();
-    public final ManagedInt flowOverride = register("flowOverride", new ManagedInt(0)).syncViaTile().saveToTile().finish();
-    public final ManagedBool flowOverridden = register("flowOverridden", new ManagedBool(false)).syncViaTile().saveToTile().finish();
-    public final ManagedByte rsSignal = register("rsSignal", new ManagedByte((byte) -1)).syncViaTile().saveToTile().finish();
+    public final ManagedInt minFlow =
+            register("minFlow", new ManagedInt(0)).syncViaTile().saveToTile().saveToItem().finish();
+    public final ManagedInt maxFlow =
+            register("maxFlow", new ManagedInt(0)).syncViaTile().saveToTile().saveToItem().finish();
+    public final ManagedInt flowOverride =
+            register("flowOverride", new ManagedInt(0)).syncViaTile().saveToTile().finish();
+    public final ManagedBool flowOverridden =
+            register("flowOverridden", new ManagedBool(false)).syncViaTile().saveToTile().finish();
+    public final ManagedByte rsSignal =
+            register("rsSignal", new ManagedByte((byte) -1)).syncViaTile().saveToTile().finish();
 
     public TileFlowGate() {
         setShouldRefreshOnBlockChange();
@@ -41,10 +45,12 @@ public abstract class TileFlowGate extends TileBCBase implements ITickable, ICha
         transferThisTick = 0;
     }
 
-    //region Gate
+    // region Gate
 
     public String getName() {
-        return "tile.draconicevolution:" + (this instanceof TileFluxGate ? "flux_gate" : "fluid_gate") + ".name";
+        return "tile.draconicevolution:"
+                + (this instanceof TileFluxGate ? "flux_gate" : "fluid_gate")
+                + ".name";
     }
 
     public abstract String getUnits();
@@ -66,11 +72,13 @@ public abstract class TileFlowGate extends TileBCBase implements ITickable, ICha
         if (rsSignal.value == -1) {
             rsSignal.value = (byte) world.isBlockIndirectlyGettingPowered(pos);
         }
-        return minFlow.value + (int) (((double) rsSignal.value / 15D) * (double) (maxFlow.value - minFlow.value));
+        return minFlow.value
+                + (int)
+                        (((double) rsSignal.value / 15D)
+                                * (double) (maxFlow.value - minFlow.value));
     }
 
-    //endregion
-
+    // endregion
 
     @Override
     public void receivePacketFromClient(MCDataInput data, EntityPlayerMP client, int id) {
@@ -83,19 +91,16 @@ public abstract class TileFlowGate extends TileBCBase implements ITickable, ICha
             long l = Long.parseLong(value);
             if (l < 0) {
                 l = 0;
-            }
-            else if (l > Integer.MAX_VALUE) {
+            } else if (l > Integer.MAX_VALUE) {
                 l = Integer.MAX_VALUE;
             }
 
             if (id == 0) {
                 minFlow.value = (int) l;
-            }
-            else if (id == 1) {
+            } else if (id == 1) {
                 maxFlow.value = (int) l;
             }
-        }
-        catch (NumberFormatException ignored) {
+        } catch (NumberFormatException ignored) {
         }
     }
 
@@ -113,23 +118,32 @@ public abstract class TileFlowGate extends TileBCBase implements ITickable, ICha
         rsSignal.value = (byte) world.isBlockIndirectlyGettingPowered(pos);
     }
 
-    //region Peripheral
+    // region Peripheral
 
     @Override
     public String[] getMethodNames() {
-        return new String[]{"getFlow", "setOverrideEnabled", "getOverrideEnabled", "setFlowOverride", "setSignalHighFlow", "getSignalHighFlow", "setSignalLowFlow", "getSignalLowFlow"};
+        return new String[] {
+            "getFlow",
+            "setOverrideEnabled",
+            "getOverrideEnabled",
+            "setFlowOverride",
+            "setSignalHighFlow",
+            "getSignalHighFlow",
+            "setSignalLowFlow",
+            "getSignalLowFlow"
+        };
     }
 
     @Override
     public Object[] callMethod(String method, ArgHelper args) {
         switch (method) {
             case "getFlow":
-                return new Object[]{getFlow()};
+                return new Object[] {getFlow()};
             case "setOverrideEnabled":
                 flowOverridden.value = args.checkBoolean(0);
                 break;
             case "getOverrideEnabled":
-                return new Object[]{flowOverridden};
+                return new Object[] {flowOverridden};
             case "setFlowOverride":
                 flowOverride.value = args.checkInteger(0);
                 break;
@@ -137,16 +151,16 @@ public abstract class TileFlowGate extends TileBCBase implements ITickable, ICha
                 maxFlow.value = args.checkInteger(0);
                 break;
             case "getSignalHighFlow":
-                return new Object[]{maxFlow.value};
+                return new Object[] {maxFlow.value};
             case "setSignalLowFlow":
                 minFlow.value = args.checkInteger(0);
                 break;
             case "getSignalLowFlow":
-                return new Object[]{minFlow.value};
+                return new Object[] {minFlow.value};
         }
 
         return new Object[0];
     }
 
-    //endregion
+    // endregion
 }

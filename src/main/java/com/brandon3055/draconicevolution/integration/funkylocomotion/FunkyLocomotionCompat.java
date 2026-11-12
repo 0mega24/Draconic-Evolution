@@ -13,6 +13,8 @@ import com.rwtema.funkylocomotion.api.FunkyRegistry;
 import com.rwtema.funkylocomotion.api.IMoveFactory;
 import com.rwtema.funkylocomotion.compat.CompatHandler;
 import com.rwtema.funkylocomotion.compat.ModCompat;
+import java.util.Collections;
+import javax.annotation.Nullable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
@@ -20,12 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.Validate;
 
-import javax.annotation.Nullable;
-import java.util.Collections;
-
-/**
- * Created by brandon3055 on 2/27/2018.
- */
+/** Created by brandon3055 on 2/27/2018. */
 @ModCompat(modid = DraconicEvolution.MODID)
 public class FunkyLocomotionCompat extends CompatHandler {
 
@@ -33,25 +30,36 @@ public class FunkyLocomotionCompat extends CompatHandler {
 
     @Override
     public void init() {
-        Validate.notNull(FunkyRegistry.INSTANCE).registerProxy(IMovableStructure.class, FunkyCapabilities.ADV_STICKY_BLOCK, (World world, BlockPos pos) -> {
-            TileEntity tile = world.getTileEntity(pos);
-            if (tile instanceof IMovableStructure) {
-                return ((IMovableStructure) tile).getBlocksForFrameMove();
-            }
-            return Collections.emptyList();
-        });
+        Validate.notNull(FunkyRegistry.INSTANCE)
+                .registerProxy(
+                        IMovableStructure.class,
+                        FunkyCapabilities.ADV_STICKY_BLOCK,
+                        (World world, BlockPos pos) -> {
+                            TileEntity tile = world.getTileEntity(pos);
+                            if (tile instanceof IMovableStructure) {
+                                return ((IMovableStructure) tile).getBlocksForFrameMove();
+                            }
+                            return Collections.emptyList();
+                        });
 
-        Validate.notNull(FunkyRegistry.INSTANCE).registerProxy(IMovableStructure.class, FunkyCapabilities.MOVE_CHECK, (World world, BlockPos pos, @Nullable GameProfile profile) -> {
-            TileEntity tile = world.getTileEntity(pos);
-            if (tile instanceof IMovableStructure) {
-                return ((IMovableStructure) tile).canMove();
-            }
-            return EnumActionResult.FAIL;
-        });
+        Validate.notNull(FunkyRegistry.INSTANCE)
+                .registerProxy(
+                        IMovableStructure.class,
+                        FunkyCapabilities.MOVE_CHECK,
+                        (World world, BlockPos pos, @Nullable GameProfile profile) -> {
+                            TileEntity tile = world.getTileEntity(pos);
+                            if (tile instanceof IMovableStructure) {
+                                return ((IMovableStructure) tile).canMove();
+                            }
+                            return EnumActionResult.FAIL;
+                        });
 
-        Validate.notNull(FunkyRegistry.INSTANCE).registerMoveFactoryBlock(DEFeatures.dislocatorReceptacle, moveFactory);
-        Validate.notNull(FunkyRegistry.INSTANCE).registerMoveFactoryBlock(DEFeatures.portal, moveFactory);
-        Validate.notNull(FunkyRegistry.INSTANCE).registerMoveFactoryBlock(DEFeatures.dislocatorPedestal, moveFactory);
+        Validate.notNull(FunkyRegistry.INSTANCE)
+                .registerMoveFactoryBlock(DEFeatures.dislocatorReceptacle, moveFactory);
+        Validate.notNull(FunkyRegistry.INSTANCE)
+                .registerMoveFactoryBlock(DEFeatures.portal, moveFactory);
+        Validate.notNull(FunkyRegistry.INSTANCE)
+                .registerMoveFactoryBlock(DEFeatures.dislocatorPedestal, moveFactory);
     }
 
     public static class WrappedMoveFactory implements IMoveFactory {
@@ -59,11 +67,12 @@ public class FunkyLocomotionCompat extends CompatHandler {
         private static IMoveFactory parent;
 
         static {
-            ObfMapping mapping = new ObfMapping(//
-                    "com/rwtema/funkylocomotion/factory/FactoryRegistry",//
-                    "getDefaultFactory",//
-                    "()Lcom/rwtema/funkylocomotion/api/IMoveFactory;"//
-            );
+            ObfMapping mapping =
+                    new ObfMapping( //
+                            "com/rwtema/funkylocomotion/factory/FactoryRegistry", //
+                            "getDefaultFactory", //
+                            "()Lcom/rwtema/funkylocomotion/api/IMoveFactory;" //
+                            );
             parent = ReflectionManager.callMethod(mapping, IMoveFactory.class, null);
         }
 
@@ -79,11 +88,9 @@ public class FunkyLocomotionCompat extends CompatHandler {
             TileEntity tile = world.getTileEntity(pos);
             if (tile instanceof TilePortal) {
                 ((TilePortal) tile).frameMoving = true;
-            }
-            else if (tile instanceof TileDislocatorReceptacle) {
+            } else if (tile instanceof TileDislocatorReceptacle) {
                 ((TileDislocatorReceptacle) tile).frameMoving = true;
-            }
-            else if (tile instanceof TileDislocatorPedestal) {
+            } else if (tile instanceof TileDislocatorPedestal) {
                 ((TileDislocatorPedestal) tile).checkIn();
             }
 

@@ -11,11 +11,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-/**
- * Created by brandon3055 on 16/07/2016.
- */
+/** Created by brandon3055 on 16/07/2016. */
 public class TilePortal extends TileBCBase {
-    private final ManagedVec3I masterPos = register("masterPos", new ManagedVec3I(new Vec3I(0, -9999, 0))).saveToTile().syncViaTile().finish();
+    private final ManagedVec3I masterPos =
+            register("masterPos", new ManagedVec3I(new Vec3I(0, -9999, 0)))
+                    .saveToTile()
+                    .syncViaTile()
+                    .finish();
     public boolean frameMoving = false;
     public boolean disabled = false;
     public long updateTime = 0;
@@ -40,16 +42,18 @@ public class TilePortal extends TileBCBase {
             }
 
             IBlockState state = world.getBlockState(pos);
-            for (EnumFacing facing : FacingUtils.getFacingsAroundAxis(state.getValue(Portal.AXIS))) {
+            for (EnumFacing facing :
+                    FacingUtils.getFacingsAroundAxis(state.getValue(Portal.AXIS))) {
                 IBlockState checkPos = world.getBlockState(pos.offset(facing));
-                if (checkPos.getBlock() != DEFeatures.portal && checkPos.getBlock() != DEFeatures.infusedObsidian && checkPos.getBlock() != DEFeatures.dislocatorReceptacle) {
+                if (checkPos.getBlock() != DEFeatures.portal
+                        && checkPos.getBlock() != DEFeatures.infusedObsidian
+                        && checkPos.getBlock() != DEFeatures.dislocatorReceptacle) {
                     ((TileDislocatorReceptacle) tile).deactivate();
                     world.setBlockToAir(pos);
                 }
             }
             dataManager.detectAndSendChanges();
-        }
-        else {
+        } else {
             world.setBlockToAir(pos);
         }
     }
@@ -66,6 +70,4 @@ public class TilePortal extends TileBCBase {
         TileEntity tile = world.getTileEntity(getMasterPos());
         return tile instanceof TileDislocatorReceptacle ? (TileDislocatorReceptacle) tile : null;
     }
-
-
 }

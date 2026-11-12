@@ -1,8 +1,7 @@
 package com.intellij.uiDesigner.core;
 
-import javax.swing.*;
 import java.awt.*;
-
+import javax.swing.*;
 
 public class Spacer extends JComponent {
     public Dimension getMinimumSize() {

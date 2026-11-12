@@ -4,6 +4,8 @@ import com.brandon3055.brandonscore.BrandonsCore;
 import com.brandon3055.brandonscore.network.MessageHandlerWrapper;
 import com.brandon3055.draconicevolution.entity.EntityLootCore;
 import io.netty.buffer.ByteBuf;
+import java.util.HashMap;
+import java.util.Map;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,16 +13,12 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class PacketLootSync implements IMessage {
 
     private int entityID;
     private Map<ItemStack, Integer> map;
 
-    public PacketLootSync() {
-    }
+    public PacketLootSync() {}
 
     public PacketLootSync(int entityID, Map<ItemStack, Integer> map) {
         this.entityID = entityID;
@@ -64,6 +62,5 @@ public class PacketLootSync implements IMessage {
 
             return null;
         }
-
     }
 }

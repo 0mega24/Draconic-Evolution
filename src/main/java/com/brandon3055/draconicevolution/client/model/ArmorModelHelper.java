@@ -6,9 +6,7 @@ import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import net.minecraft.client.renderer.texture.TextureMap;
 
-/**
- * Created by brandon3055 on 8/07/2016.
- */
+/** Created by brandon3055 on 8/07/2016. */
 public class ArmorModelHelper implements TextureUtils.IIconRegister {
 
     @Override

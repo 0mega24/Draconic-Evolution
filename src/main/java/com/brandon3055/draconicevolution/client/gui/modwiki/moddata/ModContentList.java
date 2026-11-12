@@ -1,24 +1,21 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.moddata;
 
 import com.brandon3055.draconicevolution.utils.LogHelper;
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 30/08/2016.
- */
-@Deprecated //TODO Delete. I am just leaving this here incase i find a use for it
+/** Created by brandon3055 on 30/08/2016. */
+@Deprecated // TODO Delete. I am just leaving this here incase i find a use for it
 public class ModContentList {
 
     public String lang;
@@ -32,13 +29,12 @@ public class ModContentList {
         this.modid = modid;
     }
 
+    // region Load / Save
 
-    //region Load / Save
-
-    public void loadFromXML(File xmlFile) throws ParserConfigurationException, IOException, SAXException {
+    public void loadFromXML(File xmlFile)
+            throws ParserConfigurationException, IOException, SAXException {
         contributors.clear();
         modDataEntries.clear();
-
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = docFactory.newDocumentBuilder();
@@ -50,8 +46,7 @@ public class ModContentList {
 
         try {
             docRevision = Integer.parseInt(mod.getAttribute("docRevision"));
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             e.printStackTrace();
             docRevision = 0;
         }
@@ -79,7 +74,9 @@ public class ModContentList {
                 roleS = role.getNodeValue();
             }
 
-            ContributorEntry contributor = new ContributorEntry(name.getNodeValue(), ign.getNodeValue(), roleS, node.getTextContent());
+            ContributorEntry contributor =
+                    new ContributorEntry(
+                            name.getNodeValue(), ign.getNodeValue(), roleS, node.getTextContent());
             this.contributors.add(contributor);
         }
 
@@ -93,9 +90,7 @@ public class ModContentList {
         }
     }
 
-    public void writeToXML(File xml) {
+    public void writeToXML(File xml) {}
 
-    }
-
-    //endregion
+    // endregion
 }

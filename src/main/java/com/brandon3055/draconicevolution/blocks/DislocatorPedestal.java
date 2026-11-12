@@ -23,13 +23,10 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 25/09/2016.
- */
+/** Created by brandon3055 on 25/09/2016. */
 public class DislocatorPedestal extends BlockBCore implements ITileEntityProvider, IRenderOverride {
 
-    public DislocatorPedestal() {
-    }
+    public DislocatorPedestal() {}
 
     @Override
     public boolean uberIsBlockFullCube() {
@@ -37,10 +34,19 @@ public class DislocatorPedestal extends BlockBCore implements ITileEntityProvide
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    public void onBlockPlacedBy(
+            World worldIn,
+            BlockPos pos,
+            IBlockState state,
+            EntityLivingBase placer,
+            ItemStack stack) {
         TileEntity tile = worldIn.getTileEntity(pos);
         if (tile instanceof TileDislocatorPedestal) {
-            float f = (float) MathHelper.floor((MathHelper.wrapDegrees(placer.rotationYaw - 180.0F) + 11.25F) / 22.5F);
+            float f =
+                    (float)
+                            MathHelper.floor(
+                                    (MathHelper.wrapDegrees(placer.rotationYaw - 180.0F) + 11.25F)
+                                            / 22.5F);
             ((TileDislocatorPedestal) tile).rotation.value = (int) f;
             if (!worldIn.isRemote) {
                 ((TileDislocatorPedestal) tile).getDataManager().forceSync();
@@ -55,7 +61,16 @@ public class DislocatorPedestal extends BlockBCore implements ITileEntityProvide
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World worldIn,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer playerIn,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
 
         if (tileEntity instanceof TileDislocatorPedestal) {
@@ -65,7 +80,7 @@ public class DislocatorPedestal extends BlockBCore implements ITileEntityProvide
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
     }
 
-    //region Render
+    // region Render
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
@@ -80,7 +95,8 @@ public class DislocatorPedestal extends BlockBCore implements ITileEntityProvide
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileDislocatorPedestal.class, new RenderTileDislocatorPedestal());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileDislocatorPedestal.class, new RenderTileDislocatorPedestal());
     }
 
     @Override
@@ -88,5 +104,5 @@ public class DislocatorPedestal extends BlockBCore implements ITileEntityProvide
         return true;
     }
 
-    //endregion
+    // endregion
 }

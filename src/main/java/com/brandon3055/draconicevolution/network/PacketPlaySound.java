@@ -21,10 +21,17 @@ public class PacketPlaySound implements IMessage {
     public float pitch;
     public boolean distanceDelay;
 
-    public PacketPlaySound() {
-    }
+    public PacketPlaySound() {}
 
-    public PacketPlaySound(double x, double y, double z, String sound, String category, float volume, float pitch, boolean distanceDelay) {
+    public PacketPlaySound(
+            double x,
+            double y,
+            double z,
+            String sound,
+            String category,
+            float volume,
+            float pitch,
+            boolean distanceDelay) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -34,7 +41,6 @@ public class PacketPlaySound implements IMessage {
         this.pitch = pitch;
         this.distanceDelay = distanceDelay;
     }
-
 
     @Override
     public void toBytes(ByteBuf bytes) {
@@ -68,13 +74,22 @@ public class PacketPlaySound implements IMessage {
             SoundCategory category = SoundCategory.getByName(message.category);
 
             if (event != null) {
-                BrandonsCore.proxy.getClientWorld().playSound(message.x, message.y, message.z, event, category, message.volume, message.pitch, message.distanceDelay);
-            }
-            else {
-                LogHelper.error("Unable to find sound in vanilla or DE's sound events [%s]", message.sound);
+                BrandonsCore.proxy
+                        .getClientWorld()
+                        .playSound(
+                                message.x,
+                                message.y,
+                                message.z,
+                                event,
+                                category,
+                                message.volume,
+                                message.pitch,
+                                message.distanceDelay);
+            } else {
+                LogHelper.error(
+                        "Unable to find sound in vanilla or DE's sound events [%s]", message.sound);
             }
             return null;
         }
-
     }
 }

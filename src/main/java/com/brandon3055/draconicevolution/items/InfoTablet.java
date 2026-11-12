@@ -7,6 +7,9 @@ import com.brandon3055.brandonscore.items.ItemBCore;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.client.gui.modwiki.GuiModWiki;
 import com.brandon3055.projectintelligence.api.PiAPI;
+import java.net.URI;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.util.ITooltipFlag;
@@ -21,19 +24,14 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.net.URI;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 22/09/2016.
- */
+/** Created by brandon3055 on 22/09/2016. */
 public class InfoTablet extends ItemBCore {
 
     public static boolean nagShown = false;
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(
+            World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if (worldIn.isRemote) {
             if (!openPIGui()) {
                 openGui();
@@ -66,28 +64,48 @@ public class InfoTablet extends ItemBCore {
             nagShown = true;
             try {
 
-                ObfMapping mapping = new ObfMapping("net/minecraft/client/gui/GuiScreen", "field_175286_t");
-                ReflectionManager.setField(mapping, guiModWiki, new URI("https://minecraft.curseforge.com/projects/project-intelligence"));
-                GuiConfirmOpenLink guiConfirm = new GuiConfirmOpenLink(guiModWiki, "https://minecraft.curseforge.com/projects/project-intelligence", 31102009, true) {
-                    @Override
-                    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-                        super.drawScreen(mouseX, mouseY, partialTicks);
-                        GuiHelper.drawCenteredSplitString(this.fontRenderer, "The documentation built into DE is now obsolete and will be removed in the next update. To access the new and improved in game documentation for DE please install Project Intelligence. (You will only see this message once per game session)", this.width / 2, 105, this.width - 50, 16764108, false);
-                    }
-                };
+                ObfMapping mapping =
+                        new ObfMapping("net/minecraft/client/gui/GuiScreen", "field_175286_t");
+                ReflectionManager.setField(
+                        mapping,
+                        guiModWiki,
+                        new URI("https://minecraft.curseforge.com/projects/project-intelligence"));
+                GuiConfirmOpenLink guiConfirm =
+                        new GuiConfirmOpenLink(
+                                guiModWiki,
+                                "https://minecraft.curseforge.com/projects/project-intelligence",
+                                31102009,
+                                true) {
+                            @Override
+                            public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+                                super.drawScreen(mouseX, mouseY, partialTicks);
+                                GuiHelper.drawCenteredSplitString(
+                                        this.fontRenderer,
+                                        "The documentation built into DE is now obsolete and will be removed in the next update. To access the new and improved in game documentation for DE please install Project Intelligence. (You will only see this message once per game session)",
+                                        this.width / 2,
+                                        105,
+                                        this.width - 50,
+                                        16764108,
+                                        false);
+                            }
+                        };
                 guiConfirm.disableSecurityWarning();
                 Minecraft.getMinecraft().displayGuiScreen(guiConfirm);
-            }
-            catch (Throwable e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
-                Minecraft.getMinecraft().player.sendMessage(new TextComponentString("Please install Project Intelligence. https://minecraft.curseforge.com/projects/project-intelligence"));
+                Minecraft.getMinecraft()
+                        .player
+                        .sendMessage(
+                                new TextComponentString(
+                                        "Please install Project Intelligence. https://minecraft.curseforge.com/projects/project-intelligence"));
             }
         }
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag advanced) {
+    public void addInformation(
+            ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, world, tooltip, advanced);
     }
 }

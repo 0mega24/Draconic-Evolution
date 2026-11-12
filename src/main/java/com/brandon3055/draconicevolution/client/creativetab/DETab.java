@@ -1,6 +1,5 @@
 package com.brandon3055.draconicevolution.client.creativetab;
 
-
 import com.brandon3055.brandonscore.registry.ModFeatureParser;
 import com.brandon3055.draconicevolution.DEFeatures;
 import net.minecraft.creativetab.CreativeTabs;
@@ -27,15 +26,15 @@ public class DETab extends CreativeTabs {
         if (tab == 0) {
             if (itemStackStaff.isEmpty()) {
                 itemStackStaff = new ItemStack(DEFeatures.draconicStaffOfPower);
-                DEFeatures.draconicStaffOfPower.modifyEnergy(itemStackStaff, DEFeatures.draconicStaffOfPower.getMaxEnergyStored(itemStackStaff));
+                DEFeatures.draconicStaffOfPower.modifyEnergy(
+                        itemStackStaff,
+                        DEFeatures.draconicStaffOfPower.getMaxEnergyStored(itemStackStaff));
             }
 
             return itemStackStaff;
-        }
-        else if (ModFeatureParser.isEnabled(DEFeatures.chaoticCore)) {
+        } else if (ModFeatureParser.isEnabled(DEFeatures.chaoticCore)) {
             return new ItemStack(DEFeatures.chaoticCore);
-        }
-        else return new ItemStack(Items.ENDER_EYE);
+        } else return new ItemStack(Items.ENDER_EYE);
     }
 
     @Override

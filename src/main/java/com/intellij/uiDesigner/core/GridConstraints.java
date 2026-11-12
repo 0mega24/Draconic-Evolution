@@ -52,7 +52,18 @@ public final class GridConstraints implements Cloneable {
         this.myIndent = 0;
     }
 
-    public GridConstraints(int row, int column, int rowSpan, int colSpan, int anchor, int fill, int HSizePolicy, int VSizePolicy, Dimension minimumSize, Dimension preferredSize, Dimension maximumSize) {
+    public GridConstraints(
+            int row,
+            int column,
+            int rowSpan,
+            int colSpan,
+            int anchor,
+            int fill,
+            int HSizePolicy,
+            int VSizePolicy,
+            Dimension minimumSize,
+            Dimension preferredSize,
+            Dimension maximumSize) {
         this.myRow = row;
         this.myColumn = column;
         this.myRowSpan = rowSpan;
@@ -61,24 +72,88 @@ public final class GridConstraints implements Cloneable {
         this.myFill = fill;
         this.myHSizePolicy = HSizePolicy;
         this.myVSizePolicy = VSizePolicy;
-        this.myMinimumSize = (minimumSize != null ? new Dimension(minimumSize) : new Dimension(-1, -1));
-        this.myPreferredSize = (preferredSize != null ? new Dimension(preferredSize) : new Dimension(-1, -1));
-        this.myMaximumSize = (maximumSize != null ? new Dimension(maximumSize) : new Dimension(-1, -1));
+        this.myMinimumSize =
+                (minimumSize != null ? new Dimension(minimumSize) : new Dimension(-1, -1));
+        this.myPreferredSize =
+                (preferredSize != null ? new Dimension(preferredSize) : new Dimension(-1, -1));
+        this.myMaximumSize =
+                (maximumSize != null ? new Dimension(maximumSize) : new Dimension(-1, -1));
         this.myIndent = 0;
     }
 
-    public GridConstraints(int row, int column, int rowSpan, int colSpan, int anchor, int fill, int HSizePolicy, int VSizePolicy, Dimension minimumSize, Dimension preferredSize, Dimension maximumSize, int indent) {
-        this(row, column, rowSpan, colSpan, anchor, fill, HSizePolicy, VSizePolicy, minimumSize, preferredSize, maximumSize);
+    public GridConstraints(
+            int row,
+            int column,
+            int rowSpan,
+            int colSpan,
+            int anchor,
+            int fill,
+            int HSizePolicy,
+            int VSizePolicy,
+            Dimension minimumSize,
+            Dimension preferredSize,
+            Dimension maximumSize,
+            int indent) {
+        this(
+                row,
+                column,
+                rowSpan,
+                colSpan,
+                anchor,
+                fill,
+                HSizePolicy,
+                VSizePolicy,
+                minimumSize,
+                preferredSize,
+                maximumSize);
         this.myIndent = indent;
     }
 
-    public GridConstraints(int row, int column, int rowSpan, int colSpan, int anchor, int fill, int HSizePolicy, int VSizePolicy, Dimension minimumSize, Dimension preferredSize, Dimension maximumSize, int indent, boolean useParentLayout) {
-        this(row, column, rowSpan, colSpan, anchor, fill, HSizePolicy, VSizePolicy, minimumSize, preferredSize, maximumSize, indent);
+    public GridConstraints(
+            int row,
+            int column,
+            int rowSpan,
+            int colSpan,
+            int anchor,
+            int fill,
+            int HSizePolicy,
+            int VSizePolicy,
+            Dimension minimumSize,
+            Dimension preferredSize,
+            Dimension maximumSize,
+            int indent,
+            boolean useParentLayout) {
+        this(
+                row,
+                column,
+                rowSpan,
+                colSpan,
+                anchor,
+                fill,
+                HSizePolicy,
+                VSizePolicy,
+                minimumSize,
+                preferredSize,
+                maximumSize,
+                indent);
         this.myUseParentLayout = useParentLayout;
     }
 
     public Object clone() {
-        return new GridConstraints(this.myRow, this.myColumn, this.myRowSpan, this.myColSpan, this.myAnchor, this.myFill, this.myHSizePolicy, this.myVSizePolicy, new Dimension(this.myMinimumSize), new Dimension(this.myPreferredSize), new Dimension(this.myMaximumSize), this.myIndent, this.myUseParentLayout);
+        return new GridConstraints(
+                this.myRow,
+                this.myColumn,
+                this.myRowSpan,
+                this.myColSpan,
+                this.myAnchor,
+                this.myFill,
+                this.myHSizePolicy,
+                this.myVSizePolicy,
+                new Dimension(this.myMinimumSize),
+                new Dimension(this.myPreferredSize),
+                new Dimension(this.myMaximumSize),
+                this.myIndent,
+                this.myUseParentLayout);
     }
 
     public int getColumn() {
@@ -218,7 +293,6 @@ public final class GridConstraints implements Cloneable {
         this.myIndent = constraints.myIndent;
         this.myUseParentLayout = constraints.myUseParentLayout;
 
-
         this.myMinimumSize.setSize(constraints.myMinimumSize);
         this.myPreferredSize.setSize(constraints.myPreferredSize);
         this.myMaximumSize.setSize(constraints.myMaximumSize);
@@ -256,13 +330,19 @@ public final class GridConstraints implements Cloneable {
         if (this.myVSizePolicy != gridConstraints.myVSizePolicy) {
             return false;
         }
-        if (this.myMaximumSize != null ? !this.myMaximumSize.equals(gridConstraints.myMaximumSize) : gridConstraints.myMaximumSize != null) {
+        if (this.myMaximumSize != null
+                ? !this.myMaximumSize.equals(gridConstraints.myMaximumSize)
+                : gridConstraints.myMaximumSize != null) {
             return false;
         }
-        if (this.myMinimumSize != null ? !this.myMinimumSize.equals(gridConstraints.myMinimumSize) : gridConstraints.myMinimumSize != null) {
+        if (this.myMinimumSize != null
+                ? !this.myMinimumSize.equals(gridConstraints.myMinimumSize)
+                : gridConstraints.myMinimumSize != null) {
             return false;
         }
-        if (this.myPreferredSize != null ? !this.myPreferredSize.equals(gridConstraints.myPreferredSize) : gridConstraints.myPreferredSize != null) {
+        if (this.myPreferredSize != null
+                ? !this.myPreferredSize.equals(gridConstraints.myPreferredSize)
+                : gridConstraints.myPreferredSize != null) {
             return false;
         }
         if (this.myIndent != gridConstraints.myIndent) {
@@ -298,8 +378,7 @@ public final class GridConstraints implements Cloneable {
     public void setCell(boolean isRow, int value) {
         if (isRow) {
             setRow(value);
-        }
-        else {
+        } else {
             setColumn(value);
         }
     }
@@ -311,8 +390,7 @@ public final class GridConstraints implements Cloneable {
     public void setSpan(boolean isRow, int value) {
         if (isRow) {
             setRowSpan(value);
-        }
-        else {
+        } else {
             setColSpan(value);
         }
     }
@@ -325,6 +403,14 @@ public final class GridConstraints implements Cloneable {
     }
 
     public String toString() {
-        return "GridConstraints (row=" + this.myRow + ", col=" + this.myColumn + ", rowspan=" + this.myRowSpan + ", colspan=" + this.myColSpan + ")";
+        return "GridConstraints (row="
+                + this.myRow
+                + ", col="
+                + this.myColumn
+                + ", rowspan="
+                + this.myRowSpan
+                + ", colspan="
+                + this.myColSpan
+                + ")";
     }
 }

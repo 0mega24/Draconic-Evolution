@@ -8,9 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-/**
- * Created by brandon3055 on 30/3/2016.
- */
+/** Created by brandon3055 on 30/3/2016. */
 public class ContainerGrinder extends ContainerBCBase<TileGrinder> {
 
     public ContainerGrinder(InventoryPlayer invPlayer, TileGrinder tile) {
@@ -46,15 +44,14 @@ public class ContainerGrinder extends ContainerBCBase<TileGrinder> {
                 if (!mergeItemStack(stack, 0, 36, false)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (!tile.isItemValidForSlot(0, stack) || !mergeItemStack(stack, 36, 36 + tile.getSizeInventory(), false)) {
+            } else if (!tile.isItemValidForSlot(0, stack)
+                    || !mergeItemStack(stack, 36, 36 + tile.getSizeInventory(), false)) {
                 return ItemStack.EMPTY;
             }
 
             if (stack.getCount() == 0) {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else {
+            } else {
                 slot.onSlotChanged();
             }
 

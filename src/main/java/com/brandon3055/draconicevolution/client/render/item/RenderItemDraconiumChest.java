@@ -11,15 +11,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.model.IModelState;
 
-/**
- * Created by brandon3055 on 18/04/2017.
- */
+/** Created by brandon3055 on 18/04/2017. */
 public class RenderItemDraconiumChest implements IItemRenderer {
 
-    public RenderItemDraconiumChest() {
-    }
+    public RenderItemDraconiumChest() {}
 
-    //region Unused
+    // region Unused
 
     @Override
     public boolean isAmbientOcclusion() {
@@ -36,20 +33,19 @@ public class RenderItemDraconiumChest implements IItemRenderer {
         return TextureUtils.getTexture("draconicevolution:blocks/draconium_block");
     }
 
-    //endregion
+    // endregion
 
     @Override
     public IModelState getTransforms() {
         return TransformUtils.DEFAULT_BLOCK;
     }
 
-    //Remember GuiInventory.drawEntityOnScreen
+    // Remember GuiInventory.drawEntityOnScreen
 
     @Override
     public void renderItem(ItemStack stack, ItemCameraTransforms.TransformType transformType) {
         int colour = ItemNBTHelper.getInteger(stack, "ChestColour", 0x640096);
-//        LogHelperBC.logNBT(stack);
+        //        LogHelperBC.logNBT(stack);
         RenderTileDraconiumChest.render(EnumFacing.NORTH, colour, 0, 0, 0, 0, 0, -1);
     }
-
 }

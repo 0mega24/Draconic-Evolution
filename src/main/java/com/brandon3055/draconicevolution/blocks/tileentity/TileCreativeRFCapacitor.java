@@ -7,10 +7,9 @@ import com.brandon3055.brandonscore.blocks.TileEnergyBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 
-/**
- * Created by brandon3055 on 19/07/2016.
- */
-public class TileCreativeRFCapacitor extends TileBCBase implements IEnergyProvider, ITickable, IEnergyReceiver {
+/** Created by brandon3055 on 19/07/2016. */
+public class TileCreativeRFCapacitor extends TileBCBase
+        implements IEnergyProvider, ITickable, IEnergyReceiver {
     @Override
     public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
         return maxExtract;

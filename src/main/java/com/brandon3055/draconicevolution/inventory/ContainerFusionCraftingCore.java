@@ -2,30 +2,27 @@ package com.brandon3055.draconicevolution.inventory;
 
 import com.brandon3055.brandonscore.inventory.ContainerBCBase;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileFusionCraftingCore;
+import javax.annotation.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nullable;
-
-/**
- * Created by brandon3055 on 30/3/2016.
- */
+/** Created by brandon3055 on 30/3/2016. */
 public class ContainerFusionCraftingCore extends ContainerBCBase<TileFusionCraftingCore> {
 
     public ContainerFusionCraftingCore(EntityPlayer player, TileFusionCraftingCore tile) {
         super(player, tile);
 
-//		for (int x = 0; x < 9; x++) {
-//			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 138));
-//		}
-//
-//		for (int y = 0; y < 3; y++) {
-//			for (int x = 0; x < 9; x++) {
-//				addSlotToContainer(new Slot(invPlayer, x + y * 9 + 9, 8 + 18 * x, 80 + y * 18));
-//			}
-//		}
+        //		for (int x = 0; x < 9; x++) {
+        //			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 138));
+        //		}
+        //
+        //		for (int y = 0; y < 3; y++) {
+        //			for (int x = 0; x < 9; x++) {
+        //				addSlotToContainer(new Slot(invPlayer, x + y * 9 + 9, 8 + 18 * x, 80 + y * 18));
+        //			}
+        //		}
 
         addPlayerSlots(10, 116);
         addSlotToContainer(new Slot(tile, 0, 82, 26));
@@ -49,15 +46,14 @@ public class ContainerFusionCraftingCore extends ContainerBCBase<TileFusionCraft
                 if (!mergeItemStack(stack, 0, 36, false)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (!tile.isItemValidForSlot(0, stack) || !mergeItemStack(stack, 36, 36 + tile.getSizeInventory(), false)) {
+            } else if (!tile.isItemValidForSlot(0, stack)
+                    || !mergeItemStack(stack, 36, 36 + tile.getSizeInventory(), false)) {
                 return ItemStack.EMPTY;
             }
 
             if (stack.getCount() == 0) {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else {
+            } else {
                 slot.onSlotChanged();
             }
 

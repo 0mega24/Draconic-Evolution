@@ -1,5 +1,10 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.displaycontent;
 
+import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.CENTER;
+import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.LEFT;
+import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.Vertical.*;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_TYPE;
+
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.Vertical;
@@ -11,26 +16,18 @@ import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManag
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree.TreeBranchRoot;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.google.common.base.Predicate;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.CENTER;
-import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.LEFT;
-import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.Vertical.*;
-import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_TYPE;
-
-/**
- * Created by brandon3055 on 8/09/2016.
- */
+/** Created by brandon3055 on 8/09/2016. */
 public class DCSplitContainer extends DisplayComponentBase {
     public static final String ATTRIB_VALIGNMENT = "vAlignment";
     public static final String ATTRIB_WIDTH = "width";
@@ -44,21 +41,23 @@ public class DCSplitContainer extends DisplayComponentBase {
     public DCSplitContainer(GuiModWiki modularGui, String componentType, TreeBranchRoot branch) {
         super(modularGui, componentType, branch);
         ySize = 8;
-//        dummyListLeft = new MGuiList(modularGui);
-//        dummyListRight = new MGuiList(modularGui);
+        //        dummyListLeft = new MGuiList(modularGui);
+        //        dummyListRight = new MGuiList(modularGui);
     }
 
-    //region List
+    // region List
 
     @Override
     public void setXSize(int xSize) {
         super.setXSize(xSize);
-        int xSplit = alignment == LEFT ? xPos + splitMinWidth : alignment == CENTER ? xPos + (xSize / 2) : xPos + xSize - splitMinWidth;
+        int xSplit =
+                alignment == LEFT
+                        ? xPos + splitMinWidth
+                        : alignment == CENTER ? xPos + (xSize / 2) : xPos + xSize - splitMinWidth;
 
         if (xSize - xPos < 16) {
             xSplit = xPos + 16;
-        }
-        else if (xPos + xSize - xSplit < 16) {
+        } else if (xPos + xSize - xSplit < 16) {
             xSplit = xPos + xSize - 16;
         }
 
@@ -70,8 +69,8 @@ public class DCSplitContainer extends DisplayComponentBase {
         }
         if (componentRight != null) {
             componentRight.setXPos(xSplit);
-//            componentRight.xPos = x;
-//            componentRight.moveBy(xSplit - componentRight.xPos, 0);
+            //            componentRight.xPos = x;
+            //            componentRight.moveBy(xSplit - componentRight.xPos, 0);
             componentRight.setXSize(xPos + xSize - xSplit);
             if (componentRight.ySize > ySize) {
                 ySize = componentRight.ySize;
@@ -81,8 +80,7 @@ public class DCSplitContainer extends DisplayComponentBase {
         DisplayComponentBase smaller = null;
         if (componentLeft != null && componentLeft.ySize < ySize) {
             smaller = componentLeft;
-        }
-        else if (componentRight != null && componentRight.ySize < ySize) {
+        } else if (componentRight != null && componentRight.ySize < ySize) {
             smaller = componentRight;
         }
 
@@ -114,90 +112,144 @@ public class DCSplitContainer extends DisplayComponentBase {
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Render
+    // region Render
 
     @Override
-    public void renderBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
+    public void renderBackgroundLayer(
+            Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
         super.renderBackgroundLayer(minecraft, mouseX, mouseY, partialTicks);
         if (WikiConfig.editMode && WikiConfig.drawEditInfo) {
             zOffset += 10;
             if (branch.guiWiki.contentWindow.editingComponent == this) {
                 drawBorderedRect(xPos, yPos, xSize, ySize, 0.8, 0, 0xFF0000FF);
             }
-            int x = alignment == LEFT ? xPos + splitMinWidth : alignment == CENTER ? xPos + (xSize / 2) : xPos + xSize - splitMinWidth;
+            int x =
+                    alignment == LEFT
+                            ? xPos + splitMinWidth
+                            : alignment == CENTER
+                                    ? xPos + (xSize / 2)
+                                    : xPos + xSize - splitMinWidth;
             drawColouredRect(x, yPos, 0.8, ySize, 0xFF0000FF);
             zOffset -= 10;
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Interact
+    // region Interact
 
     @Override
     public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    //endregion
+    // endregion
 
-    //region Edit
+    // region Edit
 
     @Override
     public LinkedList<MGuiElementBase> getEditControls() {
         LinkedList<MGuiElementBase> list = super.getEditControls();
 
-        list.add(new MGuiButtonSolid(modularGui, "TOGGLE_ALIGN", 0, 0, fontRenderer.getStringWidth("Horizontal Align") + 4, 12, "Horizontal Align") {
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return hovering ? 0xFF00FF00 : 0xFFFF0000;
-            }
-        }.setListener(this).setToolTip(new String[]{"Toggle Horizontal divider Alignment between Fixed Left Column Size, 50/50 and Fixed Right Column Size", "Current: " + alignment}));
+        list.add(
+                new MGuiButtonSolid(
+                        modularGui,
+                        "TOGGLE_ALIGN",
+                        0,
+                        0,
+                        fontRenderer.getStringWidth("Horizontal Align") + 4,
+                        12,
+                        "Horizontal Align") {
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                    }
+                }.setListener(this)
+                        .setToolTip(
+                                new String[] {
+                                    "Toggle Horizontal divider Alignment between Fixed Left Column Size, 50/50 and Fixed Right Column Size",
+                                    "Current: " + alignment
+                                }));
 
-        list.add(new MGuiButtonSolid(modularGui, "TOGGLE_V_ALIGN", 0, 0, fontRenderer.getStringWidth("Vertical Align") + 4, 12, "Vertical Align") {
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return hovering ? 0xFF00FF00 : 0xFFFF0000;
-            }
-        }.setListener(this).setToolTip(new String[]{"Toggle Vertical alignment of smallest component between Top, Middle and Bottom.", "Current: " + vAlignment}));
-
+        list.add(
+                new MGuiButtonSolid(
+                        modularGui,
+                        "TOGGLE_V_ALIGN",
+                        0,
+                        0,
+                        fontRenderer.getStringWidth("Vertical Align") + 4,
+                        12,
+                        "Vertical Align") {
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                    }
+                }.setListener(this)
+                        .setToolTip(
+                                new String[] {
+                                    "Toggle Vertical alignment of smallest component between Top, Middle and Bottom.",
+                                    "Current: " + vAlignment
+                                }));
 
         if (alignment != CENTER) {
-            list.add(new MGuiLabel(modularGui, 0, 0, 48, 12, "Min Width:").setAlignment(EnumAlignment.CENTER));
-            MGuiTextField colourField = new MGuiTextField(modularGui, 0, 0, 45, 12, fontRenderer).setListener(this).setMaxStringLength(6);
+            list.add(
+                    new MGuiLabel(modularGui, 0, 0, 48, 12, "Min Width:")
+                            .setAlignment(EnumAlignment.CENTER));
+            MGuiTextField colourField =
+                    new MGuiTextField(modularGui, 0, 0, 45, 12, fontRenderer)
+                            .setListener(this)
+                            .setMaxStringLength(6);
             colourField.setId("WIDTH");
             String s = alignment == LEFT ? "Set width of left column" : "Set width of right column";
-            colourField.addChild(new MGuiHoverPopup(modularGui, new String[]{s}, colourField));
+            colourField.addChild(new MGuiHoverPopup(modularGui, new String[] {s}, colourField));
             colourField.setText(String.valueOf(splitMinWidth));
-            colourField.setValidator(new Predicate<String>() {
-                @Override
-                public boolean apply(@Nullable String input) {
-                    try {
-                        Integer.parseInt(input);
-                    }
-                    catch (Exception e) {
-                        return false;
-                    }
-                    return true;
-                }
-            });
+            colourField.setValidator(
+                    new Predicate<String>() {
+                        @Override
+                        public boolean apply(@Nullable String input) {
+                            try {
+                                Integer.parseInt(input);
+                            } catch (Exception e) {
+                                return false;
+                            }
+                            return true;
+                        }
+                    });
             list.add(colourField);
         }
 
-        list.add(new MGuiButtonSolid(modularGui, "SET_LEFT", 0, 0, fontRenderer.getStringWidth("Set Left") + 4, 12, "Set Left") {
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return hovering ? 0xFF00FF00 : 0xFFFF0000;
-            }
-        }.setListener(this).setToolTip(new String[]{"Set the left sub display component."}));
-        list.add(new MGuiButtonSolid(modularGui, "SET_RIGHT", 0, 0, fontRenderer.getStringWidth("Set Right") + 4, 12, "Set Right") {
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return hovering ? 0xFF00FF00 : 0xFFFF0000;
-            }
-        }.setListener(this).setToolTip(new String[]{"Set the right sub display component."}));
+        list.add(
+                new MGuiButtonSolid(
+                        modularGui,
+                        "SET_LEFT",
+                        0,
+                        0,
+                        fontRenderer.getStringWidth("Set Left") + 4,
+                        12,
+                        "Set Left") {
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                    }
+                }.setListener(this)
+                        .setToolTip(new String[] {"Set the left sub display component."}));
+        list.add(
+                new MGuiButtonSolid(
+                        modularGui,
+                        "SET_RIGHT",
+                        0,
+                        0,
+                        fontRenderer.getStringWidth("Set Right") + 4,
+                        12,
+                        "Set Right") {
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                    }
+                }.setListener(this)
+                        .setToolTip(new String[] {"Set the right sub display component."}));
 
         return list;
     }
@@ -205,12 +257,13 @@ public class DCSplitContainer extends DisplayComponentBase {
     @Override
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         super.onMGuiEvent(eventString, eventElement);
-        if (eventElement instanceof MGuiButton && ((MGuiButton) eventElement).buttonName.equals("TOGGLE_V_ALIGN")) {
+        if (eventElement instanceof MGuiButton
+                && ((MGuiButton) eventElement).buttonName.equals("TOGGLE_V_ALIGN")) {
             vAlignment = vAlignment == TOP ? MIDDLE : vAlignment == MIDDLE ? BOTTOM : TOP;
             element.setAttribute(ATTRIB_VALIGNMENT, vAlignment.name());
             save();
-        }
-        else if (eventElement instanceof MGuiButton && ((MGuiButton) eventElement).buttonName.startsWith("SET_")) {
+        } else if (eventElement instanceof MGuiButton
+                && ((MGuiButton) eventElement).buttonName.startsWith("SET_")) {
             WikiContentWindow cw = branch.guiWiki.contentWindow;
             if (cw.addSelector != null) {
                 modularGui.getManager().remove(cw.addSelector);
@@ -234,7 +287,14 @@ public class DCSplitContainer extends DisplayComponentBase {
                 list.add(new MGuiLabel(modularGui, 0, 0, optionWidth, 12, option));
             }
 
-            list.add(new MGuiLabel(modularGui, 0, 0, fontRenderer.getStringWidth("CLEAR") + 4, 12, "CLEAR"));
+            list.add(
+                    new MGuiLabel(
+                            modularGui,
+                            0,
+                            0,
+                            fontRenderer.getStringWidth("CLEAR") + 4,
+                            12,
+                            "CLEAR"));
 
             cw.addSelector.xPos = eventElement.xPos;
             cw.addSelector.yPos = eventElement.yPos + 12;
@@ -244,8 +304,9 @@ public class DCSplitContainer extends DisplayComponentBase {
             cw.addSelector.setOptions(list);
             cw.addSelector.setListener(this);
             modularGui.getManager().add(cw.addSelector, 2);
-        }
-        else if (eventElement.id.equals("WIDTH") && eventString.equals("TEXT_FIELD_CHANGED") && eventElement instanceof MGuiTextField) {
+        } else if (eventElement.id.equals("WIDTH")
+                && eventString.equals("TEXT_FIELD_CHANGED")
+                && eventElement instanceof MGuiTextField) {
             if (StringUtils.isNullOrEmpty(((MGuiTextField) eventElement).getText())) {
                 return;
             }
@@ -253,8 +314,7 @@ public class DCSplitContainer extends DisplayComponentBase {
             int newWidth = 1;
             try {
                 newWidth = Integer.parseInt(((MGuiTextField) eventElement).getText());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
             }
 
             if (newWidth < 10) {
@@ -272,8 +332,7 @@ public class DCSplitContainer extends DisplayComponentBase {
                     break;
                 }
             }
-        }
-        else if (eventString.equals("SELECTOR_PICK") && eventElement instanceof MGuiLabel) {
+        } else if (eventString.equals("SELECTOR_PICK") && eventElement instanceof MGuiLabel) {
             WikiContentWindow cw = branch.guiWiki.contentWindow;
             String side;
 
@@ -282,20 +341,19 @@ public class DCSplitContainer extends DisplayComponentBase {
                 if (componentLeft != null) {
                     element.removeChild(componentLeft.element);
                 }
-            }
-            else if (cw.addSelector.id.endsWith("RIGHT")) {
+            } else if (cw.addSelector.id.endsWith("RIGHT")) {
                 side = "RIGHT";
                 if (componentRight != null) {
                     element.removeChild(componentRight.element);
                 }
-            }
-            else {
+            } else {
                 return;
             }
 
             String type = ((MGuiLabel) eventElement).displayString;
             if (!type.equals("CLEAR")) {
-                Element newElement = element.getOwnerDocument().createElement(WikiDocManager.ELEMENT_CONTENT);
+                Element newElement =
+                        element.getOwnerDocument().createElement(WikiDocManager.ELEMENT_CONTENT);
 
                 newElement.setAttribute("splitSide", side);
                 newElement.setAttribute("index", "0");
@@ -303,10 +361,12 @@ public class DCSplitContainer extends DisplayComponentBase {
 
                 element.appendChild(newElement);
 
-
-                DisplayComponentBase component = DisplayComponentRegistry.createComponent(branch.guiWiki, type, newElement, branch);
+                DisplayComponentBase component =
+                        DisplayComponentRegistry.createComponent(
+                                branch.guiWiki, type, newElement, branch);
                 if (component == null) {
-                    LogHelper.error("Failed to create display component... This should not happen.");
+                    LogHelper.error(
+                            "Failed to create display component... This should not happen.");
                     return;
                 }
                 component.container = this;
@@ -321,8 +381,7 @@ public class DCSplitContainer extends DisplayComponentBase {
                 branch.save();
                 WikiDocManager.reload(false, true, true);
                 branch.guiWiki.wikiDataTree.reOpenLast();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -333,9 +392,9 @@ public class DCSplitContainer extends DisplayComponentBase {
         element.setAttribute(ATTRIB_VALIGNMENT, TOP.name());
     }
 
-    //endregion
+    // endregion
 
-    //region XML & Factory
+    // region XML & Factory
 
     @Override
     public void loadFromXML(Element element) {
@@ -347,8 +406,7 @@ public class DCSplitContainer extends DisplayComponentBase {
         if (element.hasAttribute(ATTRIB_WIDTH)) {
             try {
                 splitMinWidth = Integer.parseInt(element.getAttribute(ATTRIB_WIDTH));
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
             }
         }
 
@@ -371,7 +429,8 @@ public class DCSplitContainer extends DisplayComponentBase {
             Element content = (Element) node;
             String type = content.getAttribute(ATTRIB_TYPE);
 
-            DisplayComponentBase displayComponent = DisplayComponentRegistry.createComponent(branch.guiWiki, type, content, branch);
+            DisplayComponentBase displayComponent =
+                    DisplayComponentRegistry.createComponent(branch.guiWiki, type, content, branch);
 
             if (displayComponent == null) {
                 continue;
@@ -379,16 +438,18 @@ public class DCSplitContainer extends DisplayComponentBase {
             displayComponent.container = this;
             displayComponent.setList(list);
 
-            if (content.hasAttribute("splitSide") && content.getAttribute("splitSide").equals("LEFT")) {
+            if (content.hasAttribute("splitSide")
+                    && content.getAttribute("splitSide").equals("LEFT")) {
                 componentLeft = displayComponent;
                 addChild(componentLeft);
-            }
-            else if (content.hasAttribute("splitSide") && content.getAttribute("splitSide").equals("RIGHT")) {
+            } else if (content.hasAttribute("splitSide")
+                    && content.getAttribute("splitSide").equals("RIGHT")) {
                 componentRight = displayComponent;
                 addChild(componentRight);
-            }
-            else {
-                LogHelper.error("Found un-designated content element for SplitContainer in " + branch.branchID);
+            } else {
+                LogHelper.error(
+                        "Found un-designated content element for SplitContainer in "
+                                + branch.branchID);
             }
         }
     }
@@ -397,7 +458,8 @@ public class DCSplitContainer extends DisplayComponentBase {
         @Override
         public DisplayComponentBase createNewInstance(GuiModWiki guiWiki, TreeBranchRoot branch) {
             DisplayComponentBase component = new DCSplitContainer(guiWiki, getID(), branch);
-            component.setWorldAndResolution(guiWiki.mc, guiWiki.screenWidth(), guiWiki.screenHeight());
+            component.setWorldAndResolution(
+                    guiWiki.mc, guiWiki.screenWidth(), guiWiki.screenHeight());
             return component;
         }
 
@@ -407,5 +469,5 @@ public class DCSplitContainer extends DisplayComponentBase {
         }
     }
 
-    //endregion
+    // endregion
 }

@@ -1,5 +1,7 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree;
 
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_TYPE;
+
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiListEntry;
 import com.brandon3055.draconicevolution.client.gui.modwiki.GuiModWiki;
@@ -10,22 +12,17 @@ import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.displayconte
 import com.brandon3055.draconicevolution.client.gui.modwiki.swing.SwingHelper;
 import com.brandon3055.draconicevolution.client.gui.modwiki.swing.UIAddModBranch;
 import com.brandon3055.draconicevolution.utils.LogHelper;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-
-import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_TYPE;
-
-/**
- * Created by brandon3055 on 7/09/2016.
- */
+/** Created by brandon3055 on 7/09/2016. */
 public class TreeBranchRoot extends MGuiListEntry {
     public static final String ATTRIB_WEIGHT = "sortingWeight";
 
@@ -48,7 +45,7 @@ public class TreeBranchRoot extends MGuiListEntry {
         xSize = guiWiki.wikiList != null ? guiWiki.wikiList.getListEntryWidth() : 50;
     }
 
-    //region Init
+    // region Init
 
     public void initBranches() {
         for (TreeBranchRoot sub : subBranches) {
@@ -60,9 +57,9 @@ public class TreeBranchRoot extends MGuiListEntry {
         subBranches.add(branch);
     }
 
-    //endregion
+    // endregion
 
-    //region List
+    // region List
 
     @Override
     public int getEntryHeight() {
@@ -80,28 +77,29 @@ public class TreeBranchRoot extends MGuiListEntry {
         positionElements(newXPos, newYPos);
     }
 
-    public void positionElements(int newXPos, int newYPos) {
-    }
+    public void positionElements(int newXPos, int newYPos) {}
 
-    //endregion
+    // endregion
 
-    //region Misc
+    // region Misc
 
     @Override
     public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (isMouseOver(mouseX, mouseY)) {
             guiWiki.wikiDataTree.setActiveBranch(this);
-            modularGui.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            modularGui
+                    .getMinecraft()
+                    .getSoundHandler()
+                    .playSound(
+                            PositionedSoundRecord.getMasterRecord(
+                                    SoundEvents.UI_BUTTON_CLICK, 1.0F));
             return true;
         }
-
 
         return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    /**
-     * Called when the user clicks the [add] button to create a new branch.
-     */
+    /** Called when the user clicks the [add] button to create a new branch. */
     public void createNewSubBranch() {
         UIAddModBranch frame = new UIAddModBranch(this);
         frame.pack();
@@ -109,9 +107,7 @@ public class TreeBranchRoot extends MGuiListEntry {
         SwingHelper.centerOnMinecraftWindow(frame);
     }
 
-    /**
-     * Called by the UI. This actually creates the branch.
-     */
+    /** Called by the UI. This actually creates the branch. */
     public void createNewSubBranch(String name, String id, String category, TreeBranchRoot branch) {
         guiWiki.wikiList.toAddList.add(new WikiContentList.ToAdd(name, id, category, branch));
     }
@@ -121,16 +117,14 @@ public class TreeBranchRoot extends MGuiListEntry {
         guiWiki.wikiDataTree.idToBranchMap.put(id, this);
     }
 
-    /**
-     * Saves all changed data to disk
-     */
+    /** Saves all changed data to disk */
     public void save() throws Exception {
         WikiDocManager.saveChanges(branchData.getOwnerDocument());
     }
 
-    //endregion
+    // endregion
 
-    //region Content
+    // region Content
 
     public void loadBranchContent() {
         branchContent.clear();
@@ -141,8 +135,7 @@ public class TreeBranchRoot extends MGuiListEntry {
                 if (sortingWeight < 0) {
                     sortingWeight = 0;
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
             }
         }
 
@@ -161,7 +154,8 @@ public class TreeBranchRoot extends MGuiListEntry {
             Element content = (Element) node;
             String type = content.getAttribute(ATTRIB_TYPE);
 
-            DisplayComponentBase displayComponent = DisplayComponentRegistry.createComponent(guiWiki, type, content, this);
+            DisplayComponentBase displayComponent =
+                    DisplayComponentRegistry.createComponent(guiWiki, type, content, this);
 
             if (displayComponent == null) {
                 continue;
@@ -173,19 +167,23 @@ public class TreeBranchRoot extends MGuiListEntry {
         Collections.sort(branchContent, CONTENT_SORTER);
     }
 
-    public static Comparator<DisplayComponentBase> CONTENT_SORTER = new Comparator<DisplayComponentBase>() {
-        @Override
-        public int compare(DisplayComponentBase o1, DisplayComponentBase o2) {
-            return o1.posIndex < o2.posIndex ? -1 : o1.posIndex > o2.posIndex ? 1 : 0;
-        }
-    };
+    public static Comparator<DisplayComponentBase> CONTENT_SORTER =
+            new Comparator<DisplayComponentBase>() {
+                @Override
+                public int compare(DisplayComponentBase o1, DisplayComponentBase o2) {
+                    return o1.posIndex < o2.posIndex ? -1 : o1.posIndex > o2.posIndex ? 1 : 0;
+                }
+            };
 
-    public static Comparator<TreeBranchRoot> BRANCH_SORTER = new Comparator<TreeBranchRoot>() {
-        @Override
-        public int compare(TreeBranchRoot o1, TreeBranchRoot o2) {
-            return o1.sortingWeight < o2.sortingWeight ? -1 : o1.sortingWeight > o2.sortingWeight ? 1 : 0;
-        }
-    };
+    public static Comparator<TreeBranchRoot> BRANCH_SORTER =
+            new Comparator<TreeBranchRoot>() {
+                @Override
+                public int compare(TreeBranchRoot o1, TreeBranchRoot o2) {
+                    return o1.sortingWeight < o2.sortingWeight
+                            ? -1
+                            : o1.sortingWeight > o2.sortingWeight ? 1 : 0;
+                }
+            };
 
-    //endregion
+    // endregion
 }

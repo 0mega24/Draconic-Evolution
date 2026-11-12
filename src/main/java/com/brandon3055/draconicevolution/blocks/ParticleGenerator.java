@@ -33,11 +33,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 30/3/2016.
- */
-public class ParticleGenerator extends BlockBCore implements ITileEntityProvider, IRegistryOverride, IRenderOverride {
-    public static final PropertyStringTemp TYPE = new PropertyStringTemp("type", "normal", "inverted", "stabilizer", "stabilizer2");
+/** Created by brandon3055 on 30/3/2016. */
+public class ParticleGenerator extends BlockBCore
+        implements ITileEntityProvider, IRegistryOverride, IRenderOverride {
+    public static final PropertyStringTemp TYPE =
+            new PropertyStringTemp("type", "normal", "inverted", "stabilizer", "stabilizer2");
 
     public ParticleGenerator() {
         super(Material.IRON);
@@ -46,7 +46,7 @@ public class ParticleGenerator extends BlockBCore implements ITileEntityProvider
         this.addName(2, "energy_core_stabilizer");
     }
 
-    //region BlockState
+    // region BlockState
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, TYPE);
@@ -67,9 +67,9 @@ public class ParticleGenerator extends BlockBCore implements ITileEntityProvider
         return TYPE.toMeta(state.getValue(TYPE));
     }
 
-    //endregion
+    // endregion
 
-    //region Standard Block Methods
+    // region Standard Block Methods
 
     @Override
     public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
@@ -99,27 +99,34 @@ public class ParticleGenerator extends BlockBCore implements ITileEntityProvider
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return (meta == 0 || meta == 1) ? new TileParticleGenerator() : meta == 2 || meta == 3 ? new TileEnergyCoreStabilizer() : null;
+        return (meta == 0 || meta == 1)
+                ? new TileParticleGenerator()
+                : meta == 2 || meta == 3 ? new TileEnergyCoreStabilizer() : null;
     }
 
     @Override
-    public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+    public boolean canConnectRedstone(
+            IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
         return state.getValue(TYPE).equals("normal") || state.getValue(TYPE).equals("inverted");
     }
 
-    //endregion
+    // endregion
 
-    //region Render
-
+    // region Render
 
     @Override
     public int getLightValue(IBlockState state) {
-        return (state.getValue(TYPE).equals("stabilizer") || state.getValue(TYPE).equals("stabilizer2")) ? 10 : 0;
+        return (state.getValue(TYPE).equals("stabilizer")
+                        || state.getValue(TYPE).equals("stabilizer2"))
+                ? 10
+                : 0;
     }
 
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
-        return state.getValue(TYPE).equals("stabilizer2") ? EnumBlockRenderType.INVISIBLE : super.getRenderType(state);
+        return state.getValue(TYPE).equals("stabilizer2")
+                ? EnumBlockRenderType.INVISIBLE
+                : super.getRenderType(state);
     }
 
     @Override
@@ -130,15 +137,14 @@ public class ParticleGenerator extends BlockBCore implements ITileEntityProvider
             if (((TileEnergyCoreStabilizer) tile).isValidMultiBlock.value) {
                 AxisAlignedBB bb = new AxisAlignedBB(tile.getPos());
 
-                if (((TileEnergyCoreStabilizer) tile).multiBlockAxis.getPlane() == EnumFacing.Plane.HORIZONTAL) {
+                if (((TileEnergyCoreStabilizer) tile).multiBlockAxis.getPlane()
+                        == EnumFacing.Plane.HORIZONTAL) {
                     if (((TileEnergyCoreStabilizer) tile).multiBlockAxis == EnumFacing.Axis.X) {
                         bb = bb.grow(0, 1, 1);
-                    }
-                    else {
+                    } else {
                         bb = bb.grow(1, 1, 0);
                     }
-                }
-                else {
+                } else {
                     bb = bb.grow(1, 0, 1);
                 }
                 return bb;
@@ -148,40 +154,61 @@ public class ParticleGenerator extends BlockBCore implements ITileEntityProvider
         return super.getSelectedBoundingBox(state, world, pos);
     }
 
-    //endregion
+    // endregion
 
-    //region Place/Break stuff
+    // region Place/Break stuff
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer player,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         if (state.getValue(TYPE).equals("normal") || state.getValue(TYPE).equals("inverted")) {
             if (player.isSneaking()) {
-                world.setBlockState(pos, state.withProperty(TYPE, state.getValue(TYPE).equals("normal") ? "inverted" : "normal"));
+                world.setBlockState(
+                        pos,
+                        state.withProperty(
+                                TYPE,
+                                state.getValue(TYPE).equals("normal") ? "inverted" : "normal"));
             } else if (world.isRemote) {
-                player.openGui(DraconicEvolution.instance, GuiHandler.GUIID_PARTICLEGEN, world, pos.getX(), pos.getY(), pos.getZ());
+                player.openGui(
+                        DraconicEvolution.instance,
+                        GuiHandler.GUIID_PARTICLEGEN,
+                        world,
+                        pos.getX(),
+                        pos.getY(),
+                        pos.getZ());
             }
-        }
-        else {
+        } else {
             TileEntity tile = world.getTileEntity(pos);
 
             if (tile instanceof TileEnergyCoreStabilizer) {
                 ((TileEnergyCoreStabilizer) tile).onTileClicked(world, pos, state, player);
             }
-
         }
         return true;
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    public void onBlockPlacedBy(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityLivingBase placer,
+            ItemStack stack) {
         world.setBlockState(pos, state.withProperty(TYPE, TYPE.fromMeta(stack.getItemDamage())));
 
         TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileEnergyCoreStabilizer) {
             ((TileEnergyCoreStabilizer) tile).onPlaced();
-        }
-        else {
+        } else {
             super.onBlockPlacedBy(world, pos, state, placer, stack);
         }
     }
@@ -200,28 +227,30 @@ public class ParticleGenerator extends BlockBCore implements ITileEntityProvider
                 world.removeTileEntity(pos);
                 ((TileEnergyCoreStabilizer) tile).validateStructure();
             }
-
         }
 
         super.breakBlock(world, pos, state);
     }
 
-    //endregion
+    // endregion
 
-    //region Registry
-
+    // region Registry
 
     @Override
     public void handleCustomRegistration(Feature feature) {
-        GameRegistry.registerTileEntity(TileParticleGenerator.class, feature.getRegistryName() + ".particle");
-        GameRegistry.registerTileEntity(TileEnergyCoreStabilizer.class, feature.getRegistryName() + ".stabilize");
+        GameRegistry.registerTileEntity(
+                TileParticleGenerator.class, feature.getRegistryName() + ".particle");
+        GameRegistry.registerTileEntity(
+                TileEnergyCoreStabilizer.class, feature.getRegistryName() + ".stabilize");
     }
 
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEnergyCoreStabilizer.class, new RenderTileECStabilizer());
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 10, new ModelResourceLocation(getRegistryName(), "type=stabilizer2"));
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileEnergyCoreStabilizer.class, new RenderTileECStabilizer());
+        // ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 10, new
+        // ModelResourceLocation(getRegistryName(), "type=stabilizer2"));
     }
 
     @Override
@@ -229,5 +258,5 @@ public class ParticleGenerator extends BlockBCore implements ITileEntityProvider
         return true;
     }
 
-    //endregion
+    // endregion
 }

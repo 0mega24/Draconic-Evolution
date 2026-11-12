@@ -1,5 +1,7 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.guielements;
 
+import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_WINDOW;
+
 import com.brandon3055.brandonscore.client.gui.modulargui_old.IModularGui;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment;
@@ -8,18 +10,13 @@ import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MG
 import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiListEntry;
 import com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig;
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.ModContentList;
+import java.io.IOException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
 
-import java.io.IOException;
-
-import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_WINDOW;
-
-/**
- * Created by brandon3055 on 4/09/2016.
- */
-@Deprecated //TODO Delete. I am just leaving this here incase i find a use for it
+/** Created by brandon3055 on 4/09/2016. */
+@Deprecated // TODO Delete. I am just leaving this here incase i find a use for it
 public class MGuiModDataList extends MGuiListEntry {
     public final ModContentList modEntry;
     private MGuiLabel label;
@@ -37,20 +34,38 @@ public class MGuiModDataList extends MGuiListEntry {
     @Override
     public void initElement() {
         childElements.clear();
-        ySize = (modularGui.getMinecraft().fontRenderer.listFormattedStringToWidth(modEntry.modName, xSize - 10).size() * 8) + 10;
-        addChild(label = new MGuiLabel(modularGui, xPos, yPos, xSize, getEntryHeight(), modEntry.modName) {
-            @Override
-            public int getTextColour() {
-                return WikiConfig.NAV_TEXT;
-            }
-        }.setAlignment(EnumAlignment.LEFT).setWrap(true));
+        ySize =
+                (modularGui
+                                        .getMinecraft()
+                                        .fontRenderer
+                                        .listFormattedStringToWidth(modEntry.modName, xSize - 10)
+                                        .size()
+                                * 8)
+                        + 10;
+        addChild(
+                label =
+                        new MGuiLabel(
+                                modularGui, xPos, yPos, xSize, getEntryHeight(), modEntry.modName) {
+                            @Override
+                            public int getTextColour() {
+                                return WikiConfig.NAV_TEXT;
+                            }
+                        }.setAlignment(EnumAlignment.LEFT).setWrap(true));
         super.initElement();
     }
 
     @Override
     public int getEntryHeight() {
         if (ySize == 0) {
-            ySize = (modularGui.getMinecraft().fontRenderer.listFormattedStringToWidth(modEntry.modName, xSize - 10).size() * 8) + 10;
+            ySize =
+                    (modularGui
+                                            .getMinecraft()
+                                            .fontRenderer
+                                            .listFormattedStringToWidth(
+                                                    modEntry.modName, xSize - 10)
+                                            .size()
+                                    * 8)
+                            + 10;
         }
 
         return ySize;
@@ -67,7 +82,8 @@ public class MGuiModDataList extends MGuiListEntry {
     }
 
     @Override
-    public void renderBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
+    public void renderBackgroundLayer(
+            Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
         int navWindowColour = NAV_WINDOW;
         boolean hovering = isMouseOver(mouseX, mouseY);
 
@@ -87,8 +103,13 @@ public class MGuiModDataList extends MGuiListEntry {
     @Override
     public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (isMouseOver(mouseX, mouseY)) {
-            modularGui.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-//            GuiModWiki.activeMod = modEntry;
+            modularGui
+                    .getMinecraft()
+                    .getSoundHandler()
+                    .playSound(
+                            PositionedSoundRecord.getMasterRecord(
+                                    SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            //            GuiModWiki.activeMod = modEntry;
             return true;
         }
 

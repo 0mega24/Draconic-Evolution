@@ -23,8 +23,11 @@ public final class LayoutState {
                 constraintsList.add(constraints);
             }
         }
-        this.myComponents = ((Component[]) componentsList.toArray(new Component[componentsList.size()]));
-        this.myConstraints = ((GridConstraints[]) constraintsList.toArray(new GridConstraints[constraintsList.size()]));
+        this.myComponents =
+                ((Component[]) componentsList.toArray(new Component[componentsList.size()]));
+        this.myConstraints =
+                ((GridConstraints[])
+                        constraintsList.toArray(new GridConstraints[constraintsList.size()]));
 
         this.myMinimumSizes = new Dimension[this.myComponents.length];
         this.myPreferredSizes = new Dimension[this.myComponents.length];

@@ -2,6 +2,9 @@ package com.brandon3055.draconicevolution.command;
 
 import com.brandon3055.draconicevolution.api.itemupgrade.IUpgradableItem;
 import com.brandon3055.draconicevolution.api.itemupgrade.UpgradeHelper;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -11,13 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 29/06/2016.
- */
+/** Created by brandon3055 on 29/06/2016. */
 public class CommandUpgrade extends CommandBase {
     @Override
     public String getName() {
@@ -30,7 +27,8 @@ public class CommandUpgrade extends CommandBase {
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+            throws CommandException {
         if (args.length == 0) {
             sender.sendMessage(new TextComponentString("/de_upgrade clear"));
             sender.sendMessage(new TextComponentString("/de_upgrade list"));
@@ -71,11 +69,9 @@ public class CommandUpgrade extends CommandBase {
                 int level = Integer.parseInt(args[1]);
                 UpgradeHelper.setUpgradeLevel(stack, args[0], level);
                 return;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 throw new CommandException("Expected Number... Found " + args[1]);
             }
-
         }
 
         sender.sendMessage(new TextComponentString("/de_upgrade clear"));
@@ -84,7 +80,11 @@ public class CommandUpgrade extends CommandBase {
     }
 
     @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+    public List<String> getTabCompletions(
+            MinecraftServer server,
+            ICommandSender sender,
+            String[] args,
+            @Nullable BlockPos targetPos) {
         try {
             ItemStack stack = getCommandSenderAsPlayer(sender).getHeldItemMainhand();
             List<String> list = new ArrayList<>();
@@ -92,8 +92,7 @@ public class CommandUpgrade extends CommandBase {
             list.add("list");
             list.addAll(((IUpgradableItem) stack.getItem()).getValidUpgrades(stack));
             return getListOfStringsMatchingLastWord(args, list);
-        }
-        catch (Exception ignored) {
+        } catch (Exception ignored) {
         }
         return super.getTabCompletions(server, sender, args, targetPos);
     }

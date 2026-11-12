@@ -3,6 +3,8 @@ package com.brandon3055.draconicevolution.integration.jei;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileStabilizedSpawner.SpawnerTier;
 import com.brandon3055.draconicevolution.items.ItemCore;
+import java.util.ArrayList;
+import java.util.List;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.ICraftingGridHelper;
 import mezz.jei.api.gui.IGuiItemStackGroup;
@@ -15,10 +17,8 @@ import mezz.jei.api.recipe.wrapper.ICustomCraftingRecipeWrapper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class EIOSpawnerRecipesWrapper extends BlankRecipeWrapper implements ICustomCraftingRecipeWrapper {
+public class EIOSpawnerRecipesWrapper extends BlankRecipeWrapper
+        implements ICustomCraftingRecipeWrapper {
 
     private static final int craftOutputSlot = 0;
     private static final int craftInputSlot1 = 1;
@@ -63,17 +63,21 @@ public class EIOSpawnerRecipesWrapper extends BlankRecipeWrapper implements ICus
         List<List<ItemStack>> inputs = ingredients.getInputs(ItemStack.class);
         List<List<ItemStack>> outputs = ingredients.getOutputs(ItemStack.class);
 
-//		craftingGridHelper.setInputStacks(guiItemStacks, inputs);
-//
-//		if (focus instanceof ItemStack && ((ItemStack) focus).getItem() == brokenSpawner && ((ItemStack) focus).hasTagCompound() && ((ItemStack) focus).getTagCompound().hasKey("entityId")) {
-//			ItemStack setSpawner = output.copy();
-//			DEFeatures.stabilizedSpawner.setStackDataEntity(setSpawner, ((ItemStack) focus).getTagCompound().getString("entityId"));
-//			craftingGridHelper.setOutput(guiItemStacks, new ArrayList<ItemStack>(){{add(setSpawner);}});
-//		}
-//		else {
-//			craftingGridHelper.setOutput(guiItemStacks, outputs);
+        //		craftingGridHelper.setInputStacks(guiItemStacks, inputs);
+        //
+        //		if (focus instanceof ItemStack && ((ItemStack) focus).getItem() == brokenSpawner &&
+        // ((ItemStack) focus).hasTagCompound() && ((ItemStack)
+        // focus).getTagCompound().hasKey("entityId")) {
+        //			ItemStack setSpawner = output.copy();
+        //			DEFeatures.stabilizedSpawner.setStackDataEntity(setSpawner, ((ItemStack)
+        // focus).getTagCompound().getString("entityId"));
+        //			craftingGridHelper.setOutput(guiItemStacks, new
+        // ArrayList<ItemStack>(){{add(setSpawner);}});
+        //		}
+        //		else {
+        //			craftingGridHelper.setOutput(guiItemStacks, outputs);
         guiItemStacks.set(ingredients);
-//		}
+        //		}
     }
 
     public static class Factory implements IRecipeWrapperFactory<EIOSpawnerRecipesWrapper> {

@@ -10,20 +10,17 @@ import com.brandon3055.draconicevolution.client.gui.modwiki.guielements.StackSel
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree.TreeBranchRoot;
 import com.brandon3055.draconicevolution.integration.jei.IRecipeRenderer;
 import com.brandon3055.draconicevolution.integration.jei.JeiHelper;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import org.w3c.dom.Element;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 8/09/2016.
- */
+/** Created by brandon3055 on 8/09/2016. */
 public class DCRecipe extends DisplayComponentBase {
 
     private boolean canRenderRecipes = false;
@@ -33,13 +30,12 @@ public class DCRecipe extends DisplayComponentBase {
     private StackSelector selector;
     private List<IRecipeRenderer> recipeRenderers = new ArrayList<>();
 
-
     public DCRecipe(GuiModWiki modularGui, String componentType, TreeBranchRoot branch) {
         super(modularGui, componentType, branch);
         ySize = 50;
     }
 
-    //region List
+    // region List
 
     @Override
     public void setXSize(int xSize) {
@@ -47,8 +43,7 @@ public class DCRecipe extends DisplayComponentBase {
 
         if (!canRenderRecipes) {
             ySize = 12;
-        }
-        else {
+        } else {
             ySize = 0;
             for (IRecipeRenderer renderer : recipeRenderers) {
                 ySize += renderer.getHeight() + fontRenderer.FONT_HEIGHT + 5;
@@ -67,27 +62,26 @@ public class DCRecipe extends DisplayComponentBase {
             if (recipeRenderers == null) {
                 canRenderRecipes = false;
                 error = "Something went wrong while loading recipes...";
-            }
-            else if (recipeRenderers.size() == 0) {
+            } else if (recipeRenderers.size() == 0) {
                 canRenderRecipes = false;
                 error = "Recipe Not Found....";
-            }
-            else {
+            } else {
                 canRenderRecipes = true;
             }
-        }
-        else {
+        } else {
             canRenderRecipes = false;
-            error = "Could not find result item stack. This may be because the mod it belongs to is not installed or maby this page is just broken.";
+            error =
+                    "Could not find result item stack. This may be because the mod it belongs to is not installed or maby this page is just broken.";
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Render & Interact
+    // region Render & Interact
 
     @Override
-    public void renderBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
+    public void renderBackgroundLayer(
+            Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
         super.renderBackgroundLayer(minecraft, mouseX, mouseY, partialTicks);
 
         if (!canRenderRecipes) {
@@ -110,17 +104,40 @@ public class DCRecipe extends DisplayComponentBase {
                     break;
                 case CENTER:
                     x = xPos + (xSize / 2) - ((renderer.getWidth() + 2) / 2);
-                    drawCenteredString(fontRenderer, renderer.getTitle(), xPos + (xSize / 2), yPos + yOffset, getColour(), false);
+                    drawCenteredString(
+                            fontRenderer,
+                            renderer.getTitle(),
+                            xPos + (xSize / 2),
+                            yPos + yOffset,
+                            getColour(),
+                            false);
                     break;
                 case RIGHT:
                     x = xPos + xSize - renderer.getWidth() - 6;
-                    drawString(fontRenderer, renderer.getTitle(), xPos + xSize - fontRenderer.getStringWidth(renderer.getTitle()) - 4, yPos + yOffset, getColour());
+                    drawString(
+                            fontRenderer,
+                            renderer.getTitle(),
+                            xPos + xSize - fontRenderer.getStringWidth(renderer.getTitle()) - 4,
+                            yPos + yOffset,
+                            getColour());
                     break;
             }
 
-            drawBorderedRect(x, yPos + yOffset + fontRenderer.FONT_HEIGHT, renderer.getWidth() + 2, renderer.getHeight() + 2, 1, 0, 0xFF000000);
+            drawBorderedRect(
+                    x,
+                    yPos + yOffset + fontRenderer.FONT_HEIGHT,
+                    renderer.getWidth() + 2,
+                    renderer.getHeight() + 2,
+                    1,
+                    0,
+                    0xFF000000);
             GlStateTracker.pushState();
-            renderer.render(minecraft, x + 1, yPos + yOffset + fontRenderer.FONT_HEIGHT + 1, mouseX, mouseY);
+            renderer.render(
+                    minecraft,
+                    x + 1,
+                    yPos + yOffset + fontRenderer.FONT_HEIGHT + 1,
+                    mouseX,
+                    mouseY);
             GlStateTracker.popState();
             yOffset += renderer.getHeight() + fontRenderer.FONT_HEIGHT + 4;
         }
@@ -144,27 +161,30 @@ public class DCRecipe extends DisplayComponentBase {
         return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    //endregion
+    // endregion
 
-    //region Edit
+    // region Edit
 
     @Override
     public LinkedList<MGuiElementBase> getEditControls() {
         LinkedList<MGuiElementBase> list = super.getEditControls();
 
-        list.add(new MGuiButtonSolid(modularGui, "TOGGLE_ALIGN", 0, 0, 26, 12, "Align") {
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return hovering ? 0xFF00FF00 : 0xFFFF0000;
-            }
-        }.setListener(this).setToolTip(new String[]{"Toggle Horizontal Alignment"}));
+        list.add(
+                new MGuiButtonSolid(modularGui, "TOGGLE_ALIGN", 0, 0, 26, 12, "Align") {
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                    }
+                }.setListener(this).setToolTip(new String[] {"Toggle Horizontal Alignment"}));
 
-        list.add(new MGuiButtonSolid(modularGui, "SELECT_STACK", 0, 0, 56, 12, "Pick Stack") {
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return hovering ? 0xFF00FF00 : 0xFFFF0000;
-            }
-        }.setListener(this).setToolTip(new String[]{"Select a stack from your inventory"}));
+        list.add(
+                new MGuiButtonSolid(modularGui, "SELECT_STACK", 0, 0, 56, 12, "Pick Stack") {
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                    }
+                }.setListener(this)
+                        .setToolTip(new String[] {"Select a stack from your inventory"}));
 
         return list;
     }
@@ -173,9 +193,16 @@ public class DCRecipe extends DisplayComponentBase {
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         super.onMGuiEvent(eventString, eventElement);
 
-        if (eventElement instanceof MGuiButtonSolid && ((MGuiButtonSolid) eventElement).buttonName.equals("SELECT_STACK")) {
+        if (eventElement instanceof MGuiButtonSolid
+                && ((MGuiButtonSolid) eventElement).buttonName.equals("SELECT_STACK")) {
             EntityPlayer player = Minecraft.getMinecraft().player;
-            selector = new StackSelector(modularGui, list.xPos + list.leftPadding, list.yPos + list.topPadding, list.xSize - list.leftPadding - list.rightPadding, list.ySize - list.topPadding - list.bottomPadding);
+            selector =
+                    new StackSelector(
+                            modularGui,
+                            list.xPos + list.leftPadding,
+                            list.yPos + list.topPadding,
+                            list.xSize - list.leftPadding - list.rightPadding,
+                            list.ySize - list.topPadding - list.bottomPadding);
             selector.setListener(this);
 
             List<ItemStack> stacks = new LinkedList<ItemStack>();
@@ -186,18 +213,27 @@ public class DCRecipe extends DisplayComponentBase {
                 }
             }
             selector.setStacks(stacks);
-            selector.addChild(new MGuiButtonSolid(modularGui, "CANCEL_PICK", selector.xPos + selector.xSize - 42, selector.yPos + selector.ySize - 22, 40, 20, "Cancel").setListener(this).setId("CANCEL_PICK"));
+            selector.addChild(
+                    new MGuiButtonSolid(
+                                    modularGui,
+                                    "CANCEL_PICK",
+                                    selector.xPos + selector.xSize - 42,
+                                    selector.yPos + selector.ySize - 22,
+                                    40,
+                                    20,
+                                    "Cancel")
+                            .setListener(this)
+                            .setId("CANCEL_PICK"));
             selector.initElement();
             modularGui.getManager().add(selector, 2);
-        }
-        else if (eventElement.id.equals("CANCEL_PICK") && selector != null) {
+        } else if (eventElement.id.equals("CANCEL_PICK") && selector != null) {
             modularGui.getManager().remove(selector);
-        }
-        else if (eventString.equals("SELECTOR_PICK")) {
+        } else if (eventString.equals("SELECTOR_PICK")) {
             boolean shouldSave = false;
             if (eventElement instanceof MGuiStackIcon) {
-                StackReference reference = new StackReference(((MGuiStackIcon) eventElement).getStack());
-//                stackIcon.setStack(reference);
+                StackReference reference =
+                        new StackReference(((MGuiStackIcon) eventElement).getStack());
+                //                stackIcon.setStack(reference);
                 element.setTextContent(reference.toString());
                 shouldSave = true;
             }
@@ -207,16 +243,14 @@ public class DCRecipe extends DisplayComponentBase {
                 save();
             }
         }
-
     }
 
     @Override
-    public void onCreated() {
-    }
+    public void onCreated() {}
 
-    //endregion
+    // endregion
 
-    //region XML & Factory
+    // region XML & Factory
 
     @Override
     public void loadFromXML(Element element) {
@@ -238,18 +272,16 @@ public class DCRecipe extends DisplayComponentBase {
             if (recipeRenderers == null) {
                 canRenderRecipes = false;
                 error = "Something went wrong while loading recipes...";
-            }
-            else if (recipeRenderers.size() == 0) {
+            } else if (recipeRenderers.size() == 0) {
                 canRenderRecipes = false;
                 error = "Recipe Not Found....";
-            }
-            else {
+            } else {
                 canRenderRecipes = true;
             }
-        }
-        else {
+        } else {
             canRenderRecipes = false;
-            error = "Could not find result item stack. This may be because the mod it belongs to is not installed or maby this page is just broken.";
+            error =
+                    "Could not find result item stack. This may be because the mod it belongs to is not installed or maby this page is just broken.";
         }
     }
 
@@ -257,7 +289,8 @@ public class DCRecipe extends DisplayComponentBase {
         @Override
         public DisplayComponentBase createNewInstance(GuiModWiki guiWiki, TreeBranchRoot branch) {
             DisplayComponentBase component = new DCRecipe(guiWiki, getID(), branch);
-            component.setWorldAndResolution(guiWiki.mc, guiWiki.screenWidth(), guiWiki.screenHeight());
+            component.setWorldAndResolution(
+                    guiWiki.mc, guiWiki.screenWidth(), guiWiki.screenHeight());
             return component;
         }
 
@@ -267,5 +300,5 @@ public class DCRecipe extends DisplayComponentBase {
         }
     }
 
-    //endregion
+    // endregion
 }

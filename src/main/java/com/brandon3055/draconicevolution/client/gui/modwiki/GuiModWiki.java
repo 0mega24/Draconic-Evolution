@@ -9,9 +9,7 @@ import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDownload
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree.GuiDocTree;
 import net.minecraft.client.Minecraft;
 
-/**
- * Created by brandon3055 on 30/08/2016.
- */
+/** Created by brandon3055 on 30/08/2016. */
 public class GuiModWiki extends ModularGuiScreen implements IMGuiListener {
     public static GuiModWiki activeInstance = null;
     public WikiMenu wikiMenu;
@@ -20,19 +18,17 @@ public class GuiModWiki extends ModularGuiScreen implements IMGuiListener {
     public GuiDocTree wikiDataTree = null;
     public static String activeID = null;
 
-//    public static ModDataList activeMod = null;
-//    public static ModDataEntry activeModData = null;
+    //    public static ModDataList activeMod = null;
+    //    public static ModDataEntry activeModData = null;
 
-    /**
-     * 0 = Info, 1 = Mod List, 2 = Content List;
-     */
+    /** 0 = Info, 1 = Mod List, 2 = Content List; */
     public int guiState = 0;
 
     public GuiModWiki() {
         GuiModWiki.activeInstance = this;
     }
 
-    //region Initialization
+    // region Initialization
 
     @Override
     public void initGui() {
@@ -49,22 +45,23 @@ public class GuiModWiki extends ModularGuiScreen implements IMGuiListener {
         updateWindowPositions();
         manager.initElements();
 
-        //Something to remember: Branch elements dont get initialized by the normal init call... i think...
+        // Something to remember: Branch elements dont get initialized by the normal init call... i
+        // think...
         WikiDocManager.reload(true, true, true);
 
-        //wikiDataTree.reOpenLast();
+        // wikiDataTree.reOpenLast();
     }
 
     public void updateWindowPositions() {
-        //region Nav Window
+        // region Nav Window
 
         wikiList.xPos = 0;
         wikiList.yPos = wikiMenu.ySize;
         wikiList.ySize = screenHeight() - wikiList.yPos;
 
-        //endregion
+        // endregion
 
-        //region Content Window
+        // region Content Window
 
         contentWindow.xPos = wikiList.xSize;
         contentWindow.xSize = screenWidth() - wikiList.xSize;
@@ -72,7 +69,7 @@ public class GuiModWiki extends ModularGuiScreen implements IMGuiListener {
         contentWindow.yPos = wikiMenu.ySize;
         contentWindow.ySize = screenHeight() - wikiList.yPos;
 
-        //endregion
+        // endregion
 
         contentWindow.updatePositions();
     }
@@ -89,19 +86,18 @@ public class GuiModWiki extends ModularGuiScreen implements IMGuiListener {
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Render
+    // region Render
 
     @Override
     public void renderBackgroundLayer(int mouseX, int mouseY, float partialTicks) {
         super.renderBackgroundLayer(mouseX, mouseY, partialTicks);
     }
 
+    // endregion
 
-    //endregion
-
-    //region User Input
+    // region User Input
 
     @Override
     public void onMGuiEvent(String event, MGuiElementBase element) {
@@ -116,9 +112,9 @@ public class GuiModWiki extends ModularGuiScreen implements IMGuiListener {
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Misc
+    // region Misc
 
     @Override
     public int xSize() {
@@ -135,5 +131,5 @@ public class GuiModWiki extends ModularGuiScreen implements IMGuiListener {
         return true;
     }
 
-    //endregion
+    // endregion
 }

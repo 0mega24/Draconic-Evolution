@@ -2,6 +2,8 @@ package com.brandon3055.draconicevolution.world;
 
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import gnu.trove.map.hash.TIntObjectHashMap;
+import java.util.ArrayDeque;
+import java.util.Random;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
@@ -9,15 +11,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.ArrayDeque;
-import java.util.Random;
-
-/**
- * Created by brandon3055 on 27/3/2016.
- * Handles World Ticks!
- */
+/** Created by brandon3055 on 27/3/2016. Handles World Ticks! */
 public class WorldTickHandler {
-    public static TIntObjectHashMap<ArrayDeque<ChunkPos>> chunksToGen = new TIntObjectHashMap<ArrayDeque<ChunkPos>>();
+    public static TIntObjectHashMap<ArrayDeque<ChunkPos>> chunksToGen =
+            new TIntObjectHashMap<ArrayDeque<ChunkPos>>();
 
     private int tick = 0;
 
@@ -37,7 +34,14 @@ public class WorldTickHandler {
                 ChunkPos chunkPos = chunks.pollFirst();
 
                 if (tick++ % 20 == 0) {
-                    LogHelper.dev("Retroactively adding ore to {dim: " + dimension + ", chunkPos: " + chunkPos.toString() + ", chunksToGo: " + chunks.size() + "}");
+                    LogHelper.dev(
+                            "Retroactively adding ore to {dim: "
+                                    + dimension
+                                    + ", chunkPos: "
+                                    + chunkPos.toString()
+                                    + ", chunksToGo: "
+                                    + chunks.size()
+                                    + "}");
                 }
 
                 long worldSeed = world.getSeed();
@@ -48,8 +52,7 @@ public class WorldTickHandler {
                 DEWorldGenHandler.instance.addOreGen(rand, chunkPos.x, chunkPos.z, world);
                 DEWorldGenHandler.instance.retroGenComplete(dimension, chunkPos.x, chunkPos.z);
                 chunksToGen.put(dimension, chunks);
-            }
-            else if (chunks != null) {
+            } else if (chunks != null) {
                 chunksToGen.remove(dimension);
             }
         }

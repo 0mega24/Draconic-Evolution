@@ -1,6 +1,9 @@
 package com.brandon3055.draconicevolution.lib;
 
 import com.brandon3055.draconicevolution.DEConfig;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -8,13 +11,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-/**
- * Created by brandon3055 on 9/06/2017.
- */
+/** Created by brandon3055 on 9/06/2017. */
 public class OreDoublingRegistry {
 
     public static Map<String, ItemStack> oreRecipes = new HashMap<>();
@@ -28,9 +25,13 @@ public class OreDoublingRegistry {
 
             String ingot = oreName.replace("ore", "ingot");
 
-            if (!OreDictionary.doesOreNameExist(ingot) || OreDictionary.getOres(ingot).isEmpty() || OreDictionary.getOres(oreName).isEmpty()) {
+            if (!OreDictionary.doesOreNameExist(ingot)
+                    || OreDictionary.getOres(ingot).isEmpty()
+                    || OreDictionary.getOres(oreName).isEmpty()) {
                 ingot = oreName.replace("ore", "gem");
-                if (!OreDictionary.doesOreNameExist(ingot) || OreDictionary.getOres(ingot).isEmpty() || OreDictionary.getOres(oreName).isEmpty()) {
+                if (!OreDictionary.doesOreNameExist(ingot)
+                        || OreDictionary.getOres(ingot).isEmpty()
+                        || OreDictionary.getOres(oreName).isEmpty()) {
                     continue;
                 }
             }
@@ -52,7 +53,10 @@ public class OreDoublingRegistry {
                 }
                 stack = candidate;
                 ResourceLocation registryName = candidate.getItem().getRegistryName();
-                if (registryName != null && registryName.getResourceDomain().equals(DEConfig.oreDoublingOutputPriority)) {
+                if (registryName != null
+                        && registryName
+                                .getResourceDomain()
+                                .equals(DEConfig.oreDoublingOutputPriority)) {
                     break;
                 }
             }
@@ -108,5 +112,4 @@ public class OreDoublingRegistry {
         registerResult(new ItemStack(Items.CLAY_BALL), new ItemStack(Items.BRICK, 2));
         registerResult(new ItemStack(Blocks.CACTUS), new ItemStack(Items.DYE, 2, 2));
     }
-
 }

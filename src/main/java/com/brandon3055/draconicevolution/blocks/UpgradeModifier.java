@@ -1,9 +1,9 @@
 package com.brandon3055.draconicevolution.blocks;
 
-///**
+/// **
 // * Created by brandon3055 on 9/06/2016.
 // */
-//public class UpgradeModifier extends BlockBCore implements ITileEntityProvider, ICustomRender {
+// public class UpgradeModifier extends BlockBCore implements ITileEntityProvider, ICustomRender {
 //
 //    public UpgradeModifier(){
 //        super(Material.IRON);
@@ -18,9 +18,11 @@ package com.brandon3055.draconicevolution.blocks;
 //    }
 //
 //    @Override
-//    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+//    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer
+// player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 //        if (!world.isRemote) {
-//            FMLNetworkHandler.openGui(player, DraconicEvolution.instance, GuiHandler.GUIID_UPGRADE_MODIFIER, world, pos.getX(), pos.getY(), pos.getZ());
+//            FMLNetworkHandler.openGui(player, DraconicEvolution.instance,
+// GuiHandler.GUIID_UPGRADE_MODIFIER, world, pos.getX(), pos.getY(), pos.getZ());
 //        }
 //        return true;
 //    }
@@ -37,7 +39,8 @@ package com.brandon3055.draconicevolution.blocks;
 //    @SideOnly(Side.CLIENT)
 //    @Override
 //    public void registerRenderer(Feature feature) {
-//        ClientRegistry.bindTileEntitySpecialRenderer(TileUpgradeModifier.class, new RenderTileUpgradeModifier());
+//        ClientRegistry.bindTileEntitySpecialRenderer(TileUpgradeModifier.class, new
+// RenderTileUpgradeModifier());
 //    }
 //
 //    @Override
@@ -46,4 +49,4 @@ package com.brandon3055.draconicevolution.blocks;
 //    }
 //
 //    //endregion
-//}
+// }

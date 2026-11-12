@@ -22,9 +22,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 25/09/2016.
- */
+/** Created by brandon3055 on 25/09/2016. */
 public class EntityDetector extends BlockBCore implements ITileEntityProvider, IRenderOverride {
     public static final PropertyBool ADVANCED = PropertyBool.create("advanced");
     public static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
@@ -41,7 +39,7 @@ public class EntityDetector extends BlockBCore implements ITileEntityProvider, I
         return false;
     }
 
-    //region BlockState
+    // region BlockState
 
     @Override
     public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
@@ -70,7 +68,12 @@ public class EntityDetector extends BlockBCore implements ITileEntityProvider, I
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    public void onBlockPlacedBy(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityLivingBase placer,
+            ItemStack stack) {
         world.setBlockState(pos, state.withProperty(ADVANCED, stack.getItemDamage() == 1));
         super.onBlockPlacedBy(world, pos, state, placer, stack);
     }
@@ -80,7 +83,7 @@ public class EntityDetector extends BlockBCore implements ITileEntityProvider, I
         return new AxisAlignedBB(0.0626, 0, 0.0626, 0.9375, 0.125, 0.9375);
     }
 
-    //endregion
+    // endregion
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
@@ -90,7 +93,8 @@ public class EntityDetector extends BlockBCore implements ITileEntityProvider, I
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDetector.class, new RenderTileEntityDetector());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileEntityDetector.class, new RenderTileEntityDetector());
     }
 
     @Override

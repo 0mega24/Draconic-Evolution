@@ -8,10 +8,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 /**
- * Created by covers1624 on 3/21/2016.
- * Covers gave me permission to use this. In fact he FORCED me to use it!!!
+ * Created by covers1624 on 3/21/2016. Covers gave me permission to use this. In fact he FORCED me
+ * to use it!!!
  */
 public class LogHelper {
 
@@ -21,9 +20,7 @@ public class LogHelper {
 
     private static Logger logger = LogManager.getLogger(DraconicEvolution.MODID);
 
-    /**
-     * Log with a supplied level.
-     */
+    /** Log with a supplied level. */
     public static void log(Level logLevel, Object object) {
         logger.log(logLevel, String.valueOf(object));
     }
@@ -32,7 +29,7 @@ public class LogHelper {
         logger.log(logLevel, String.valueOf(object), throwable);
     }
 
-    //Standard log entries.
+    // Standard log entries.
 
     public static void dev(Object object) {
         if (!ObfMapping.obfuscated || DEConfig.devLog) {
@@ -72,7 +69,7 @@ public class LogHelper {
         log(Level.WARN, object);
     }
 
-    //log with format.
+    // log with format.
 
     public static void dev(String object, Object... format) {
         if (!ObfMapping.obfuscated || DEConfig.devLog) {
@@ -112,7 +109,7 @@ public class LogHelper {
         log(Level.WARN, String.format(object, format));
     }
 
-    //Log Throwable with format.
+    // Log Throwable with format.
 
     public static void allError(String object, Throwable throwable, Object... format) {
         log(Level.ALL, String.format(object, format), throwable);
@@ -146,7 +143,7 @@ public class LogHelper {
         log(Level.WARN, String.format(object, format), throwable);
     }
 
-    //Log throwable.
+    // Log throwable.
     public static void allError(String object, Throwable throwable) {
         log(Level.ALL, object, throwable);
     }
@@ -179,7 +176,7 @@ public class LogHelper {
         log(Level.WARN, object, throwable);
     }
 
-    //Log with trace element.
+    // Log with trace element.
 
     public static void bigDev(String format, Object... data) {
         if (!ObfMapping.obfuscated || DEConfig.devLog) {
@@ -298,11 +295,9 @@ public class LogHelper {
 
         if (ns > s) {
             value = Utils.round(ns / (double) s, 1000) + "s";
-        }
-        else if (ns > 1000) {
+        } else if (ns > 1000) {
             value = Utils.round(ns / (double) ms, 10000) + "ms";
-        }
-        else {
+        } else {
             value = ns + "ns";
         }
 

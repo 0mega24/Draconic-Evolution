@@ -5,6 +5,7 @@ import com.brandon3055.brandonscore.registry.Feature;
 import com.brandon3055.brandonscore.registry.IRenderOverride;
 import com.brandon3055.draconicevolution.blocks.tileentity.TilePotentiometer;
 import com.brandon3055.draconicevolution.client.render.tile.RenderTilePotentiometer;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.properties.PropertyDirection;
@@ -23,20 +24,22 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-
-/**
- * Created by brandon3055 on 25/09/2016.
- */
+/** Created by brandon3055 on 25/09/2016. */
 public class Potentiometer extends BlockBCore implements ITileEntityProvider, IRenderOverride {
 
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
-    protected static final AxisAlignedBB AABB_DOWN = new AxisAlignedBB(0.0625D, 0.9375D, 0.0625D, 0.9375D, 1.0D, 0.9375D);
-    protected static final AxisAlignedBB AABB_UP = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.0625D, 0.9375D);
-    protected static final AxisAlignedBB AABB_NORTH = new AxisAlignedBB(0.0625D, 0.0625D, 0.9375D, 0.9375D, 0.9375D, 1.0D);
-    protected static final AxisAlignedBB AABB_SOUTH = new AxisAlignedBB(0.0625D, 0.0625D, 0.0D, 0.9375D, 0.9375D, 0.0625D);
-    protected static final AxisAlignedBB AABB_WEST = new AxisAlignedBB(0.9375D, 0.0625D, 0.0625D, 1.0D, 0.9375D, 0.9375D);
-    protected static final AxisAlignedBB AABB_EAST = new AxisAlignedBB(0.0D, 0.0625D, 0.0625D, 0.0625D, 0.9375D, 0.9375D);
+    protected static final AxisAlignedBB AABB_DOWN =
+            new AxisAlignedBB(0.0625D, 0.9375D, 0.0625D, 0.9375D, 1.0D, 0.9375D);
+    protected static final AxisAlignedBB AABB_UP =
+            new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.0625D, 0.9375D);
+    protected static final AxisAlignedBB AABB_NORTH =
+            new AxisAlignedBB(0.0625D, 0.0625D, 0.9375D, 0.9375D, 0.9375D, 1.0D);
+    protected static final AxisAlignedBB AABB_SOUTH =
+            new AxisAlignedBB(0.0625D, 0.0625D, 0.0D, 0.9375D, 0.9375D, 0.0625D);
+    protected static final AxisAlignedBB AABB_WEST =
+            new AxisAlignedBB(0.9375D, 0.0625D, 0.0625D, 1.0D, 0.9375D, 0.9375D);
+    protected static final AxisAlignedBB AABB_EAST =
+            new AxisAlignedBB(0.0D, 0.0625D, 0.0625D, 0.0625D, 0.9375D, 0.9375D);
 
     public Potentiometer() {
         setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
@@ -49,7 +52,7 @@ public class Potentiometer extends BlockBCore implements ITileEntityProvider, IR
         return false;
     }
 
-    //region Blockstate
+    // region Blockstate
 
     public IBlockState getStateFromMeta(int meta) {
         EnumFacing enumfacing;
@@ -115,33 +118,53 @@ public class Potentiometer extends BlockBCore implements ITileEntityProvider, IR
         return super.getActualState(state, worldIn, pos);
     }
 
-    //endregion
+    // endregion
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TilePotentiometer();
     }
 
-    //region place
+    // region place
 
     protected static boolean canPlaceBlock(World worldIn, BlockPos pos, EnumFacing direction) {
         BlockPos blockpos = pos.offset(direction);
-        return worldIn.getBlockState(blockpos).isSideSolid(worldIn, blockpos, direction.getOpposite());
+        return worldIn.getBlockState(blockpos)
+                .isSideSolid(worldIn, blockpos, direction.getOpposite());
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    public void onBlockPlacedBy(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityLivingBase placer,
+            ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-        return canPlaceBlock(world, pos, facing.getOpposite()) ? this.getDefaultState().withProperty(FACING, facing) : this.getDefaultState().withProperty(FACING, EnumFacing.DOWN);
+    public IBlockState getStateForPlacement(
+            World world,
+            BlockPos pos,
+            EnumFacing facing,
+            float hitX,
+            float hitY,
+            float hitZ,
+            int meta,
+            EntityLivingBase placer,
+            EnumHand hand) {
+        return canPlaceBlock(world, pos, facing.getOpposite())
+                ? this.getDefaultState().withProperty(FACING, facing)
+                : this.getDefaultState().withProperty(FACING, EnumFacing.DOWN);
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        if (this.checkForDrop(world, pos, state) && !canPlaceBlock(world, pos, ((EnumFacing) state.getValue(FACING)).getOpposite())) {
+    public void neighborChanged(
+            IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+        if (this.checkForDrop(world, pos, state)
+                && !canPlaceBlock(
+                        world, pos, ((EnumFacing) state.getValue(FACING)).getOpposite())) {
             this.dropBlockAsItem(world, pos, state, 0);
             world.setBlockToAir(pos);
         }
@@ -150,8 +173,7 @@ public class Potentiometer extends BlockBCore implements ITileEntityProvider, IR
     private boolean checkForDrop(World worldIn, BlockPos pos, IBlockState state) {
         if (this.canPlaceBlockAt(worldIn, pos)) {
             return true;
-        }
-        else {
+        } else {
             this.dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockToAir(pos);
             return false;
@@ -174,14 +196,15 @@ public class Potentiometer extends BlockBCore implements ITileEntityProvider, IR
         return false;
     }
 
-    //endregion
+    // endregion
 
-    //region render
+    // region render
 
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TilePotentiometer.class, new RenderTilePotentiometer());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TilePotentiometer.class, new RenderTilePotentiometer());
     }
 
     @Override
@@ -190,7 +213,8 @@ public class Potentiometer extends BlockBCore implements ITileEntityProvider, IR
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(
+            IBlockState blockState, World worldIn, BlockPos pos) {
         return NULL_AABB;
     }
 
@@ -214,5 +238,5 @@ public class Potentiometer extends BlockBCore implements ITileEntityProvider, IR
         }
     }
 
-    //endregion
+    // endregion
 }

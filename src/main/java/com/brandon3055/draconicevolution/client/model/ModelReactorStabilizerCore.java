@@ -6,10 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.Entity;
 
-/**
- * ReactorStabilizerCore - brandon3055
- * Created using Tabula 5.0.0
- */
+/** ReactorStabilizerCore - brandon3055 Created using Tabula 5.0.0 */
 public class ModelReactorStabilizerCore extends ModelBase {
     public ModelRenderer hub1;
     public ModelRenderer hub2;
@@ -252,7 +249,14 @@ public class ModelReactorStabilizerCore extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float rotation, float brightness, float invRender, float f3, float f4, float f5) {
+    public void render(
+            Entity entity,
+            float rotation,
+            float brightness,
+            float invRender,
+            float f3,
+            float f4,
+            float f5) {
         GlStateManager.pushMatrix();
 
         this.basePlate.render(f5);
@@ -266,7 +270,10 @@ public class ModelReactorStabilizerCore extends ModelBase {
 
         float b = brightness * 200F;
         float colour = Math.min(2F, (brightness * 2F) + 0.1F);
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, Math.min(200F, lastBrightnessX + b), Math.min(200F, lastBrightnessY + b));
+        OpenGlHelper.setLightmapTextureCoords(
+                OpenGlHelper.lightmapTexUnit,
+                Math.min(200F, lastBrightnessX + b),
+                Math.min(200F, lastBrightnessY + b));
         if (brightness > 0F && invRender == 0) {
             GlStateManager.disableLighting();
         }
@@ -277,7 +284,8 @@ public class ModelReactorStabilizerCore extends ModelBase {
         this.rotor1R.render(f5);
         GlStateManager.rotate(1F, 1F, 1F, 1F);
 
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
+        OpenGlHelper.setLightmapTextureCoords(
+                OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
         if (brightness > 0F && invRender == 0) {
             GlStateManager.enableLighting();
         }
@@ -285,9 +293,7 @@ public class ModelReactorStabilizerCore extends ModelBase {
         GlStateManager.popMatrix();
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
+    /** This is a helper function from Tabula to set the rotation of model parts */
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

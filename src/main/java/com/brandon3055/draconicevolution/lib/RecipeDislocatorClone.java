@@ -4,6 +4,7 @@ import com.brandon3055.brandonscore.utils.ItemNBTHelper;
 import com.brandon3055.brandonscore.utils.Teleporter.TeleportLocation;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.items.tools.Dislocator;
+import javax.annotation.Nullable;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -13,11 +14,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
-/**
- * Created by brandon3055 on 27/07/2016.
- */
+/** Created by brandon3055 on 27/07/2016. */
 public class RecipeDislocatorClone implements IRecipe {
     private ResourceLocation name;
 
@@ -25,7 +22,10 @@ public class RecipeDislocatorClone implements IRecipe {
     public boolean matches(InventoryCrafting inv, World worldIn) {
         ItemStack slot1 = inv.getStackInSlot(0);
         ItemStack slot2 = inv.getStackInSlot(1);
-        return slot1 != null && slot1.getItem() instanceof Dislocator && slot2 != null && slot2.getItem() instanceof Dislocator;
+        return slot1 != null
+                && slot1.getItem() instanceof Dislocator
+                && slot2 != null
+                && slot2.getItem() instanceof Dislocator;
     }
 
     @Nullable
@@ -34,7 +34,11 @@ public class RecipeDislocatorClone implements IRecipe {
         ItemStack source = inv.getStackInSlot(0);
         ItemStack target = inv.getStackInSlot(1);
 
-        if (source.isEmpty() || target.isEmpty() || !source.hasTagCompound() || !(source.getItem() instanceof Dislocator) || !(target.getItem() instanceof Dislocator)) {
+        if (source.isEmpty()
+                || target.isEmpty()
+                || !source.hasTagCompound()
+                || !(source.getItem() instanceof Dislocator)
+                || !(target.getItem() instanceof Dislocator)) {
             return ItemStack.EMPTY;
         }
 
@@ -47,8 +51,7 @@ public class RecipeDislocatorClone implements IRecipe {
             NBTTagCompound compound = new NBTTagCompound();
             location.writeToNBT(compound);
             sourceList.appendTag(compound);
-        }
-        else if (source.getItem() == DEFeatures.dislocatorAdvanced) {
+        } else if (source.getItem() == DEFeatures.dislocatorAdvanced) {
             sourceList = ItemNBTHelper.getCompound(source).getTagList("Locations", 10);
         }
 
@@ -61,8 +64,7 @@ public class RecipeDislocatorClone implements IRecipe {
             location.writeToNBT(compound);
             compound.setBoolean("IsSet", true);
             output.setTagCompound(compound);
-        }
-        else if (output.getItem() == DEFeatures.dislocatorAdvanced) {
+        } else if (output.getItem() == DEFeatures.dislocatorAdvanced) {
             NBTTagCompound compound = ItemNBTHelper.getCompound(output);
             NBTTagList targetList = compound.getTagList("Locations", 10);
 
@@ -109,23 +111,24 @@ public class RecipeDislocatorClone implements IRecipe {
         return list;
     }
 
-
     @Override
     public boolean canFit(int width, int height) {
         return width >= 2;
     }
 
     /**
-     * Sets a unique name for this Item. This should be used for uniquely identify the instance of the Item.
-     * This is the valid replacement for the atrocious 'getUnlocalizedName().substring(6)' stuff that everyone does.
-     * Unlocalized names have NOTHING to do with unique identifiers. As demonstrated by vanilla blocks and items.
-     * <p>
-     * The supplied name will be prefixed with the currently active mod's modId.
-     * If the supplied name already has a prefix that is different, it will be used and a warning will be logged.
-     * <p>
-     * If a name already exists, or this Item is already registered in a registry, then an IllegalStateException is thrown.
-     * <p>
-     * Returns 'this' to allow for chaining.
+     * Sets a unique name for this Item. This should be used for uniquely identify the instance of
+     * the Item. This is the valid replacement for the atrocious 'getUnlocalizedName().substring(6)'
+     * stuff that everyone does. Unlocalized names have NOTHING to do with unique identifiers. As
+     * demonstrated by vanilla blocks and items.
+     *
+     * <p>The supplied name will be prefixed with the currently active mod's modId. If the supplied
+     * name already has a prefix that is different, it will be used and a warning will be logged.
+     *
+     * <p>If a name already exists, or this Item is already registered in a registry, then an
+     * IllegalStateException is thrown.
+     *
+     * <p>Returns 'this' to allow for chaining.
      *
      * @param name Unique registry name
      * @return This instance
@@ -137,9 +140,9 @@ public class RecipeDislocatorClone implements IRecipe {
     }
 
     /**
-     * A unique identifier for this entry, if this entry is registered already it will return it's official registry name.
-     * Otherwise it will return the name set in setRegistryName().
-     * If neither are valid null is returned.
+     * A unique identifier for this entry, if this entry is registered already it will return it's
+     * official registry name. Otherwise it will return the name set in setRegistryName(). If
+     * neither are valid null is returned.
      *
      * @return Unique identifier or null.
      */

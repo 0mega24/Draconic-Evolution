@@ -1,5 +1,6 @@
 package com.brandon3055.draconicevolution.blocks.tileentity.flowgate;
 
+import javax.annotation.Nullable;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -8,23 +9,19 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
-import javax.annotation.Nullable;
-
-/**
- * Created by brandon3055 on 15/11/2016.
- */
+/** Created by brandon3055 on 15/11/2016. */
 public class TileFluidGate extends TileFlowGate implements IFluidHandler {
 
-    //region Gate
+    // region Gate
 
     @Override
     public String getUnits() {
         return "MB/t";
     }
 
-    //endregion
+    // endregion
 
-    //region IFluidHandler
+    // region IFluidHandler
 
     @Override
     public IFluidTankProperties[] getTankProperties() {
@@ -34,8 +31,14 @@ public class TileFluidGate extends TileFlowGate implements IFluidHandler {
     @Override
     public int fill(FluidStack resource, boolean doFill) {
         TileEntity tile = getTarget();
-        if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, getDirection().getOpposite())) {
-            IFluidHandler handler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, getDirection().getOpposite());
+        if (tile != null
+                && tile.hasCapability(
+                        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
+                        getDirection().getOpposite())) {
+            IFluidHandler handler =
+                    tile.getCapability(
+                            CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
+                            getDirection().getOpposite());
 
             int transfer = Math.min(getFlow(), handler.fill(resource, false));
             if (transfer < resource.amount) {
@@ -61,22 +64,24 @@ public class TileFluidGate extends TileFlowGate implements IFluidHandler {
         return null;
     }
 
-    //endregion
+    // endregion
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        return (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == getDirection().getOpposite()) || super.hasCapability(capability, facing);
+        return (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY
+                        && facing == getDirection().getOpposite())
+                || super.hasCapability(capability, facing);
     }
 
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == getDirection().getOpposite()) {
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY
+                && facing == getDirection().getOpposite()) {
             return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
         }
 
         return super.getCapability(capability, facing);
     }
-
 
     @Override
     public String getPeripheralName() {

@@ -28,16 +28,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-/**
- * Created by brandon3055 on 14/11/2016.
- */
+/** Created by brandon3055 on 14/11/2016. */
 public class FlowGate extends BlockBCore implements IRegistryOverride {
 
     public static final PropertyStringTemp TYPE = new PropertyStringTemp("type", "flux", "fluid");
     public static final PropertyDirection FACING = BlockDirectional.FACING;
 
     public FlowGate() {
-        this.setDefaultState(blockState.getBaseState().withProperty(TYPE, "flux").withProperty(FACING, EnumFacing.NORTH));
+        this.setDefaultState(
+                blockState
+                        .getBaseState()
+                        .withProperty(TYPE, "flux")
+                        .withProperty(FACING, EnumFacing.NORTH));
         this.addName(0, "flux_gate");
         this.addName(8, "fluid_gate");
     }
@@ -47,7 +49,7 @@ public class FlowGate extends BlockBCore implements IRegistryOverride {
         return false;
     }
 
-    //region BlockState
+    // region BlockState
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, TYPE, FACING);
@@ -78,7 +80,9 @@ public class FlowGate extends BlockBCore implements IRegistryOverride {
                 enumfacing = EnumFacing.UP;
         }
 
-        return this.getDefaultState().withProperty(FACING, enumfacing).withProperty(TYPE, (meta & 8) > 0 ? "fluid" : "flux");
+        return this.getDefaultState()
+                .withProperty(FACING, enumfacing)
+                .withProperty(TYPE, (meta & 8) > 0 ? "fluid" : "flux");
     }
 
     @Override
@@ -120,17 +124,25 @@ public class FlowGate extends BlockBCore implements IRegistryOverride {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    public void onBlockPlacedBy(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityLivingBase placer,
+            ItemStack stack) {
         EnumFacing facing = RotationUtils.getPlacedRotation(pos, placer);
         if (placer.isSneaking()) {
             facing = facing.getOpposite();
         }
-        world.setBlockState(pos, state.withProperty(FACING, facing).withProperty(TYPE, (stack.getItemDamage() & 8) > 0 ? "fluid" : "flux"), 2);
+        world.setBlockState(
+                pos,
+                state.withProperty(FACING, facing)
+                        .withProperty(TYPE, (stack.getItemDamage() & 8) > 0 ? "fluid" : "flux"),
+                2);
         super.onBlockPlacedBy(world, pos, state, placer, stack);
     }
 
-
-    //endregion
+    // endregion
 
     @Override
     public boolean hasTileEntity(IBlockState state) {
@@ -148,24 +160,45 @@ public class FlowGate extends BlockBCore implements IRegistryOverride {
         GameRegistry.registerTileEntity(TileFluidGate.class, feature.getModid() + ":fluid_gate");
     }
 
-
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World worldIn,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer playerIn,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         if (!worldIn.isRemote) {
-            FMLNetworkHandler.openGui(playerIn, DraconicEvolution.instance, GuiHandler.GUIID_FLOW_GATE, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            FMLNetworkHandler.openGui(
+                    playerIn,
+                    DraconicEvolution.instance,
+                    GuiHandler.GUIID_FLOW_GATE,
+                    worldIn,
+                    pos.getX(),
+                    pos.getY(),
+                    pos.getZ());
         }
         return true;
     }
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+    public ItemStack getPickBlock(
+            IBlockState state,
+            RayTraceResult target,
+            World world,
+            BlockPos pos,
+            EntityPlayer player) {
         ItemStack stack = super.getPickBlock(state, target, world, pos, player);
         stack.setItemDamage(state.getValue(TYPE).equals("flux") ? 0 : 8);
         return stack;
     }
 
     @Override
-    public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+    public boolean isSideSolid(
+            IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
         return true;
     }
 

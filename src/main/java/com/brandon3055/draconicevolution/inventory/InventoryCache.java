@@ -1,21 +1,20 @@
 package com.brandon3055.draconicevolution.inventory;
 
 import codechicken.lib.util.ArrayUtils;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 /**
- * Created by brandon3055 on 21/07/2016.
- * A simple item cache in the form of an IInventory. Currently only used by the Debugger
+ * Created by brandon3055 on 21/07/2016. A simple item cache in the form of an IInventory. Currently
+ * only used by the Debugger
  */
 public class InventoryCache implements IInventory {
 
-    //public ItemStackHandler Maby useful for something? But not this
+    // public ItemStackHandler Maby useful for something? But not this
     private ItemStack[] inventoryStacks;
 
     public InventoryCache(int inventorySize) {
@@ -46,8 +45,7 @@ public class InventoryCache implements IInventory {
         if (!itemstack.isEmpty()) {
             if (itemstack.getCount() <= count) {
                 setInventorySlotContents(index, ItemStack.EMPTY);
-            }
-            else {
+            } else {
                 itemstack = itemstack.splitStack(count);
                 if (itemstack.getCount() == 0) {
                     setInventorySlotContents(index, ItemStack.EMPTY);
@@ -88,9 +86,7 @@ public class InventoryCache implements IInventory {
     }
 
     @Override
-    public void markDirty() {
-
-    }
+    public void markDirty() {}
 
     @Override
     public boolean isUsableByPlayer(EntityPlayer player) {
@@ -98,14 +94,10 @@ public class InventoryCache implements IInventory {
     }
 
     @Override
-    public void openInventory(EntityPlayer player) {
-
-    }
+    public void openInventory(EntityPlayer player) {}
 
     @Override
-    public void closeInventory(EntityPlayer player) {
-
-    }
+    public void closeInventory(EntityPlayer player) {}
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
@@ -118,9 +110,7 @@ public class InventoryCache implements IInventory {
     }
 
     @Override
-    public void setField(int id, int value) {
-
-    }
+    public void setField(int id, int value) {}
 
     @Override
     public int getFieldCount() {

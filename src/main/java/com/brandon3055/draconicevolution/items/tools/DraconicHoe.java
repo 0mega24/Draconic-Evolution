@@ -6,14 +6,12 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-/**
- * Created by brandon3055 on 5/06/2016.
- */
+/** Created by brandon3055 on 5/06/2016. */
 public class DraconicHoe extends WyvernHoe {
 
     public DraconicHoe() {
-//        super(ToolStats.DRA_HOE_ATTACK_DAMAGE, ToolStats.DRA_HOE_ATTACK_SPEED);
-//        setEnergyStats(ToolStats.DRACONIC_BASE_CAPACITY, 8000000, 0);
+        //        super(ToolStats.DRA_HOE_ATTACK_DAMAGE, ToolStats.DRA_HOE_ATTACK_SPEED);
+        //        setEnergyStats(ToolStats.DRACONIC_BASE_CAPACITY, 8000000, 0);
     }
 
     @Override
@@ -41,12 +39,14 @@ public class DraconicHoe extends WyvernHoe {
         return 3;
     }
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public PairKV<TextureAtlasSprite, ResourceLocation> getModels(ItemStack stack) {
-        return new PairKV<>(DETextures.DRACONIC_HOE, new ResourceLocation("draconicevolution", "models/item/tools/draconic_hoe.obj"));
+        return new PairKV<>(
+                DETextures.DRACONIC_HOE,
+                new ResourceLocation("draconicevolution", "models/item/tools/draconic_hoe.obj"));
     }
 
-    //endregion
+    // endregion
 }

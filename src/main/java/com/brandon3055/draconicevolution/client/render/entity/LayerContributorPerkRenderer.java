@@ -7,9 +7,9 @@ import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -25,13 +25,22 @@ import org.lwjgl.opengl.GL11;
 public class LayerContributorPerkRenderer implements LayerRenderer<AbstractClientPlayer> {
     private final RenderPlayer renderPlayer;
     private ModelContributorWings modelWings = new ModelContributorWings();
-    protected static final ResourceLocation ENCHANTED_ITEM_GLINT_RES = new ResourceLocation("textures/misc/enchanted_item_glint.png");
+    protected static final ResourceLocation ENCHANTED_ITEM_GLINT_RES =
+            new ResourceLocation("textures/misc/enchanted_item_glint.png");
 
     public LayerContributorPerkRenderer(RenderPlayer renderPlayerIn) {
         this.renderPlayer = renderPlayerIn;
     }
 
-    public void doRenderLayer(AbstractClientPlayer player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void doRenderLayer(
+            AbstractClientPlayer player,
+            float limbSwing,
+            float limbSwingAmount,
+            float partialTicks,
+            float ageInTicks,
+            float netHeadYaw,
+            float headPitch,
+            float scale) {
         if (!ContributorHandler.isPlayerContributor(player)) {
             return;
         }
@@ -46,9 +55,21 @@ public class LayerContributorPerkRenderer implements LayerRenderer<AbstractClien
 
             GlStateManager.pushMatrix();
             GlStateManager.translate(0.0F, 0.0F, 0.125F);
-            this.modelWings.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, player);
-            this.modelWings.render(player, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-            renderEnchantedGlint(this.renderPlayer, player, this.modelWings, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
+            this.modelWings.setRotationAngles(
+                    limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, player);
+            this.modelWings.render(
+                    player, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+            renderEnchantedGlint(
+                    this.renderPlayer,
+                    player,
+                    this.modelWings,
+                    limbSwing,
+                    limbSwingAmount,
+                    partialTicks,
+                    ageInTicks,
+                    netHeadYaw,
+                    headPitch,
+                    scale);
             GlStateManager.popMatrix();
         }
 
@@ -57,13 +78,24 @@ public class LayerContributorPerkRenderer implements LayerRenderer<AbstractClien
         }
 
         if (contributor.isLolnetContributor && contributor.lolnetBadgeEnabled) {
-            renderLolnetBadge(player, contributor.isPatreonSupporter && contributor.patreonBadgeEnabled);
+            renderLolnetBadge(
+                    player, contributor.isPatreonSupporter && contributor.patreonBadgeEnabled);
         }
 
         GlStateManager.color(1F, 1F, 1F, 1.0F);
     }
 
-    public static void renderEnchantedGlint(RenderLivingBase<?> livingBase, EntityLivingBase entity, ModelBase model, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public static void renderEnchantedGlint(
+            RenderLivingBase<?> livingBase,
+            EntityLivingBase entity,
+            ModelBase model,
+            float limbSwing,
+            float limbSwingAmount,
+            float partialTicks,
+            float ageInTicks,
+            float netHeadYaw,
+            float headPitch,
+            float scale) {
         float f = (float) entity.ticksExisted + partialTicks;
         livingBase.bindTexture(ENCHANTED_ITEM_GLINT_RES);
         GlStateManager.enableBlend();
@@ -73,7 +105,8 @@ public class LayerContributorPerkRenderer implements LayerRenderer<AbstractClien
 
         for (int i = 0; i < 2; ++i) {
             GlStateManager.disableLighting();
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ONE);
+            GlStateManager.blendFunc(
+                    GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ONE);
             float f11 = 0.76F;
             GlStateManager.color(0.9F * f11, 0.8F * f11, 0.1F * f11, 1.0F);
             GlStateManager.matrixMode(5890);
@@ -98,7 +131,6 @@ public class LayerContributorPerkRenderer implements LayerRenderer<AbstractClien
         return false;
     }
 
-
     public void renderBadge(AbstractClientPlayer player) {
         ResourceHelperDE.bindTexture("textures/special/patreon_badge.png");
         Tessellator tess = Tessellator.getInstance();
@@ -117,7 +149,9 @@ public class LayerContributorPerkRenderer implements LayerRenderer<AbstractClien
 
         GlStateManager.color(1F, 1F, 1F, 1F);
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.alphaFunc(516, 0.003921569F);
 
         BufferBuilder buffer = tess.getBuffer();
@@ -194,7 +228,9 @@ public class LayerContributorPerkRenderer implements LayerRenderer<AbstractClien
 
         GlStateManager.color(1F, 1F, 1F, 1F);
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.alphaFunc(516, 0.003921569F);
 
         BufferBuilder buffer = tess.getBuffer();

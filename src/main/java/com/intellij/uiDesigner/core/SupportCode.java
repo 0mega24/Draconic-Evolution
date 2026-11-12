@@ -1,7 +1,7 @@
 package com.intellij.uiDesigner.core;
 
-import javax.swing.*;
 import java.lang.reflect.Method;
+import javax.swing.*;
 
 public final class SupportCode {
     public static TextWithMnemonic parseText(String textWithMnemonic) {
@@ -36,7 +36,8 @@ public final class SupportCode {
                 throw new IllegalArgumentException("text cannot be null");
             }
             if ((index != -1) && ((index < 0) || (index >= text.length()))) {
-                throw new IllegalArgumentException("wrong index: " + index + "; text = '" + text + "'");
+                throw new IllegalArgumentException(
+                        "wrong index: " + index + "; text = '" + text + "'");
             }
             this.myText = text;
             this.myMnemonicIndex = index;
@@ -52,13 +53,13 @@ public final class SupportCode {
 
     public static void setDisplayedMnemonicIndex(JComponent component, int index) {
         try {
-            Method method = component.getClass().getMethod("setDisplayedMnemonicIndex", new Class[]{Integer.TYPE});
+            Method method =
+                    component
+                            .getClass()
+                            .getMethod("setDisplayedMnemonicIndex", new Class[] {Integer.TYPE});
             method.setAccessible(true);
-            method.invoke(component, new Object[]{new Integer(index)});
-        }
-        catch (Exception localException) {
+            method.invoke(component, new Object[] {new Integer(index)});
+        } catch (Exception localException) {
         }
     }
 }
-
-

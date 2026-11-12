@@ -15,13 +15,11 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 5/06/2016.
- */
+/** Created by brandon3055 on 5/06/2016. */
 public class DraconicSword extends WyvernSword {
     public DraconicSword() {
-//        super(ToolStats.DRA_SWORD_ATTACK_DAMAGE, ToolStats.DRA_SWORD_ATTACK_SPEED);
-//        setEnergyStats(ToolStats.DRACONIC_BASE_CAPACITY, 8000000, 0);
+        //        super(ToolStats.DRA_SWORD_ATTACK_DAMAGE, ToolStats.DRA_SWORD_ATTACK_SPEED);
+        //        setEnergyStats(ToolStats.DRACONIC_BASE_CAPACITY, 8000000, 0);
     }
 
     @Override
@@ -49,7 +47,7 @@ public class DraconicSword extends WyvernSword {
         return 1;
     }
 
-    //region Attack Stats
+    // region Attack Stats
 
     @Override
     public double getMaxWeaponAOE(ItemStack stack) {
@@ -62,14 +60,14 @@ public class DraconicSword extends WyvernSword {
         else return 0;
     }
 
-    //endregion
+    // endregion
 
     @Override
     public int getReaperLevel(ItemStack stack) {
         return 2;
     }
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public void registerRenderer(Feature feature) {
@@ -77,15 +75,20 @@ public class DraconicSword extends WyvernSword {
         ToolOverrideList.putOverride(this, DraconicSword::handleTransforms);
     }
 
-    @SideOnly (Side.CLIENT)//Avoids synthetic lambda creation booping the classloader on the server.
+    @SideOnly(
+            Side.CLIENT) // Avoids synthetic lambda creation booping the classloader on the server.
     private static IModelState handleTransforms(TransformType transformType, IModelState state) {
-        return transformType == TransformType.FIXED || transformType == TransformType.GROUND ? ToolTransforms.DR_SWORD_STATE : state;
+        return transformType == TransformType.FIXED || transformType == TransformType.GROUND
+                ? ToolTransforms.DR_SWORD_STATE
+                : state;
     }
 
     @Override
     public PairKV<TextureAtlasSprite, ResourceLocation> getModels(ItemStack stack) {
-        return new PairKV<>(DETextures.DRACONIC_SWORD, new ResourceLocation("draconicevolution", "models/item/tools/draconic_sword.obj"));
+        return new PairKV<>(
+                DETextures.DRACONIC_SWORD,
+                new ResourceLocation("draconicevolution", "models/item/tools/draconic_sword.obj"));
     }
 
-    //endregion
+    // endregion
 }

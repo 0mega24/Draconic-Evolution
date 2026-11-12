@@ -4,6 +4,7 @@ import com.brandon3055.brandonscore.blocks.BlockBCore;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.GuiHandler;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileGenerator;
+import java.util.Random;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -24,22 +25,21 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Random;
-
-/**
- * Created by Brandon on 23/07/2014.
- * Block for DE Generator
- */
+/** Created by Brandon on 23/07/2014. Block for DE Generator */
 public class Generator extends BlockBCore implements ITileEntityProvider {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
     public Generator() {
         super(Material.IRON);
-        this.setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false));
+        this.setDefaultState(
+                blockState
+                        .getBaseState()
+                        .withProperty(FACING, EnumFacing.NORTH)
+                        .withProperty(ACTIVE, false));
     }
 
-    //region BlockState
+    // region BlockState
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, FACING, ACTIVE);
@@ -47,7 +47,10 @@ public class Generator extends BlockBCore implements ITileEntityProvider {
 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileGenerator tileGenerator = worldIn.getTileEntity(pos) instanceof TileGenerator ? (TileGenerator) worldIn.getTileEntity(pos) : null;
+        TileGenerator tileGenerator =
+                worldIn.getTileEntity(pos) instanceof TileGenerator
+                        ? (TileGenerator) worldIn.getTileEntity(pos)
+                        : null;
         return state.withProperty(ACTIVE, tileGenerator != null && tileGenerator.active.value);
     }
 
@@ -78,16 +81,32 @@ public class Generator extends BlockBCore implements ITileEntityProvider {
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+    public IBlockState getStateForPlacement(
+            World world,
+            BlockPos pos,
+            EnumFacing facing,
+            float hitX,
+            float hitY,
+            float hitZ,
+            int meta,
+            EntityLivingBase placer,
+            EnumHand hand) {
+        return this.getDefaultState()
+                .withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-        worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
+    public void onBlockPlacedBy(
+            World worldIn,
+            BlockPos pos,
+            IBlockState state,
+            EntityLivingBase placer,
+            ItemStack stack) {
+        worldIn.setBlockState(
+                pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
     }
-    //endregion
+    // endregion
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
@@ -96,7 +115,8 @@ public class Generator extends BlockBCore implements ITileEntityProvider {
 
     @Override
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return 0;//state.getActualState(world, pos).getValue(ACTIVE) ? 13 : 0;todo WTF DO I HAVE TO DO TO MAKE THIS UPDATE PROPERLY!?!?!?!?!?!
+        return 0; // state.getActualState(world, pos).getValue(ACTIVE) ? 13 : 0;todo WTF DO I HAVE
+        // TO DO TO MAKE THIS UPDATE PROPERLY!?!?!?!?!?!
     }
 
     @Override
@@ -105,9 +125,25 @@ public class Generator extends BlockBCore implements ITileEntityProvider {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer player,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         if (!world.isRemote) {
-            FMLNetworkHandler.openGui(player, DraconicEvolution.instance, GuiHandler.GUIID_GENERATOR, world, pos.getX(), pos.getY(), pos.getZ());
+            FMLNetworkHandler.openGui(
+                    player,
+                    DraconicEvolution.instance,
+                    GuiHandler.GUIID_GENERATOR,
+                    world,
+                    pos.getX(),
+                    pos.getY(),
+                    pos.getZ());
         }
         return true;
     }
@@ -124,28 +160,98 @@ public class Generator extends BlockBCore implements ITileEntityProvider {
             double d4 = rand.nextDouble() * 0.4D - 0.2D;
 
             if (rand.nextDouble() < 0.1D) {
-                worldIn.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+                worldIn.playSound(
+                        (double) pos.getX() + 0.5D,
+                        (double) pos.getY(),
+                        (double) pos.getZ() + 0.5D,
+                        SoundEvents.BLOCK_FIRE_AMBIENT,
+                        SoundCategory.BLOCKS,
+                        1.0F,
+                        1.0F,
+                        false);
             }
 
             switch (enumfacing) {
                 case WEST:
-                    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
-                    worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
+                    worldIn.spawnParticle(
+                            EnumParticleTypes.SMOKE_NORMAL,
+                            d0 - d3,
+                            d1,
+                            d2 + d4,
+                            0.0D,
+                            0.0D,
+                            0.0D,
+                            new int[0]);
+                    worldIn.spawnParticle(
+                            EnumParticleTypes.FLAME,
+                            d0 - d3,
+                            d1,
+                            d2 + d4,
+                            0.0D,
+                            0.0D,
+                            0.0D,
+                            new int[0]);
                     break;
                 case EAST:
-                    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
-                    worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
+                    worldIn.spawnParticle(
+                            EnumParticleTypes.SMOKE_NORMAL,
+                            d0 + d3,
+                            d1,
+                            d2 + d4,
+                            0.0D,
+                            0.0D,
+                            0.0D,
+                            new int[0]);
+                    worldIn.spawnParticle(
+                            EnumParticleTypes.FLAME,
+                            d0 + d3,
+                            d1,
+                            d2 + d4,
+                            0.0D,
+                            0.0D,
+                            0.0D,
+                            new int[0]);
                     break;
                 case NORTH:
-                    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D, new int[0]);
-                    worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D, new int[0]);
+                    worldIn.spawnParticle(
+                            EnumParticleTypes.SMOKE_NORMAL,
+                            d0 + d4,
+                            d1,
+                            d2 - d3,
+                            0.0D,
+                            0.0D,
+                            0.0D,
+                            new int[0]);
+                    worldIn.spawnParticle(
+                            EnumParticleTypes.FLAME,
+                            d0 + d4,
+                            d1,
+                            d2 - d3,
+                            0.0D,
+                            0.0D,
+                            0.0D,
+                            new int[0]);
                     break;
                 case SOUTH:
-                    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D, new int[0]);
-                    worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D, new int[0]);
+                    worldIn.spawnParticle(
+                            EnumParticleTypes.SMOKE_NORMAL,
+                            d0 + d4,
+                            d1,
+                            d2 + d3,
+                            0.0D,
+                            0.0D,
+                            0.0D,
+                            new int[0]);
+                    worldIn.spawnParticle(
+                            EnumParticleTypes.FLAME,
+                            d0 + d4,
+                            d1,
+                            d2 + d3,
+                            0.0D,
+                            0.0D,
+                            0.0D,
+                            new int[0]);
             }
         }
     }
 }
-
-

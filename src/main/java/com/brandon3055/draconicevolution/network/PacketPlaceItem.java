@@ -10,7 +10,6 @@ import com.brandon3055.draconicevolution.blocks.tileentity.TilePlacedItem;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -24,21 +23,16 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-/**
- * Created by brandon3055 on 25/07/2016.
- */
+/** Created by brandon3055 on 25/07/2016. */
 public class PacketPlaceItem implements IMessage {
 
-    public PacketPlaceItem() {
-    }
+    public PacketPlaceItem() {}
 
     @Override
-    public void fromBytes(ByteBuf buf) {
-    }
+    public void fromBytes(ByteBuf buf) {}
 
     @Override
-    public void toBytes(ByteBuf buf) {
-    }
+    public void toBytes(ByteBuf buf) {}
 
     public static class Handler extends MessageHandlerWrapper<PacketPlaceItem, IMessage> {
 
@@ -62,8 +56,17 @@ public class PacketPlaceItem implements IMessage {
                     return null;
                 }
 
-                if (tileHit instanceof TilePlacedItem && InventoryUtils.insertItem(((TilePlacedItem) tileHit).inventory, stack, true) == 0) {
-                    PlayerInteractEvent event = new PlayerInteractEvent.RightClickBlock(player, EnumHand.MAIN_HAND, posHit, traceResult.sideHit, traceResult.hitVec);
+                if (tileHit instanceof TilePlacedItem
+                        && InventoryUtils.insertItem(
+                                        ((TilePlacedItem) tileHit).inventory, stack, true)
+                                == 0) {
+                    PlayerInteractEvent event =
+                            new PlayerInteractEvent.RightClickBlock(
+                                    player,
+                                    EnumHand.MAIN_HAND,
+                                    posHit,
+                                    traceResult.sideHit,
+                                    traceResult.hitVec);
                     MinecraftForge.EVENT_BUS.post(event);
 
                     if (event.isCanceled()) {
@@ -72,28 +75,53 @@ public class PacketPlaceItem implements IMessage {
 
                     InventoryUtils.insertItem(((TilePlacedItem) tileHit).inventory, stack, false);
                     player.inventory.deleteStack(stack);
-                }
-                else if (tileOnSide instanceof TilePlacedItem && InventoryUtils.insertItem(((TilePlacedItem) tileOnSide).inventory, stack, true) == 0) {
-                    PlayerInteractEvent event = new PlayerInteractEvent.RightClickBlock(player, EnumHand.MAIN_HAND, posHit, traceResult.sideHit, traceResult.hitVec);
+                } else if (tileOnSide instanceof TilePlacedItem
+                        && InventoryUtils.insertItem(
+                                        ((TilePlacedItem) tileOnSide).inventory, stack, true)
+                                == 0) {
+                    PlayerInteractEvent event =
+                            new PlayerInteractEvent.RightClickBlock(
+                                    player,
+                                    EnumHand.MAIN_HAND,
+                                    posHit,
+                                    traceResult.sideHit,
+                                    traceResult.hitVec);
                     MinecraftForge.EVENT_BUS.post(event);
 
                     if (event.isCanceled()) {
                         return null;
                     }
 
-                    InventoryUtils.insertItem(((TilePlacedItem) tileOnSide).inventory, stack, false);
+                    InventoryUtils.insertItem(
+                            ((TilePlacedItem) tileOnSide).inventory, stack, false);
                     player.inventory.deleteStack(stack);
-                }
-                else if (world.isAirBlock(posHit.offset(traceResult.sideHit))) {
+                } else if (world.isAirBlock(posHit.offset(traceResult.sideHit))) {
                     BlockPos pos = posHit.offset(traceResult.sideHit);
-                    BlockEvent.PlaceEvent event = ForgeEventFactory.onPlayerBlockPlace(player, new BlockSnapshot(world, pos, DEFeatures.placedItem.getDefaultState()), traceResult.sideHit, player.getActiveHand());
+                    BlockEvent.PlaceEvent event =
+                            ForgeEventFactory.onPlayerBlockPlace(
+                                    player,
+                                    new BlockSnapshot(
+                                            world, pos, DEFeatures.placedItem.getDefaultState()),
+                                    traceResult.sideHit,
+                                    player.getActiveHand());
 
-                    if (event.isCanceled() || ctx.getServerHandler().player.getServer().isBlockProtected(world, pos, player)) {
+                    if (event.isCanceled()
+                            || ctx.getServerHandler()
+                                    .player
+                                    .getServer()
+                                    .isBlockProtected(world, pos, player)) {
                         return null;
                     }
 
-                    world.setBlockState(traceResult.getBlockPos().offset(traceResult.sideHit), DEFeatures.placedItem.getDefaultState().withProperty(PlacedItem.FACING, traceResult.sideHit.getOpposite()));
-                    TileEntity tile = world.getTileEntity(traceResult.getBlockPos().offset(traceResult.sideHit));
+                    world.setBlockState(
+                            traceResult.getBlockPos().offset(traceResult.sideHit),
+                            DEFeatures.placedItem
+                                    .getDefaultState()
+                                    .withProperty(
+                                            PlacedItem.FACING, traceResult.sideHit.getOpposite()));
+                    TileEntity tile =
+                            world.getTileEntity(
+                                    traceResult.getBlockPos().offset(traceResult.sideHit));
                     if (tile instanceof TilePlacedItem) {
                         ((TilePlacedItem) tile).facing = traceResult.sideHit.getOpposite();
                         ((TilePlacedItem) tile).inventory.setInventorySlotContents(0, stack);
