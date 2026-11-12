@@ -5,9 +5,9 @@ import com.brandon3055.brandonscore.client.utils.GuiHelper;
 import com.brandon3055.brandonscore.handlers.HandHelper;
 import com.brandon3055.brandonscore.utils.ItemNBTHelper;
 import com.brandon3055.brandonscore.utils.Teleporter.TeleportLocation;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.DraconicEvolution;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.network.PacketDislocator;
 import com.brandon3055.draconicevolution.utils.DETextures;
@@ -537,11 +537,11 @@ public class GuiDislocator extends GuiScreen {
                 if (!isShiftKeyDown()) {
                     DraconicEvolution.network.sendToServer(
                             new PacketDislocator(PacketDislocator.ADDFUEL, 1, false));
-                    this.fuel += DEConfig.dislocatorUsesPerPearl;
+                    this.fuel += TweaksConfig.dislocatorUsesPerPearl;
                 } else {
                     DraconicEvolution.network.sendToServer(
                             new PacketDislocator(PacketDislocator.ADDFUEL, 64, false));
-                    this.fuel += DEConfig.dislocatorUsesPerPearl * Math.min(64, numPearls());
+                    this.fuel += TweaksConfig.dislocatorUsesPerPearl * Math.min(64, numPearls());
                 }
             } else {
                 player.sendMessage(new TextComponentTranslation("msg.teleporterOutOfPearls.txt"));

@@ -5,10 +5,10 @@ import com.brandon3055.brandonscore.lib.PairXZ;
 import com.brandon3055.brandonscore.registry.ModFeatureParser;
 import com.brandon3055.brandonscore.utils.SimplexNoise;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.DraconiumOre;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileChaosCrystal;
+import com.brandon3055.draconicevolution.config.WorldConfig;
 import com.brandon3055.draconicevolution.entity.EntityChaosGuardian;
 import com.brandon3055.draconicevolution.entity.EntityGuardianCrystal;
 import java.util.Random;
@@ -57,7 +57,7 @@ public class ChaosWorldGenHandler {
 
         // long l = System.nanoTime();
 
-        if (!DEConfig.chaosIslandVoidMode) {
+        if (!WorldConfig.chaosIslandVoidMode) {
             for (int trueX = posX; trueX < posX + 16; trueX++) {
                 for (int y = 0; y < 255; y++) {
                     for (int trueZ = posZ; trueZ < posZ + 16; trueZ++) {
@@ -117,7 +117,7 @@ public class ChaosWorldGenHandler {
                         BlockPos pos =
                                 new BlockPos(
                                         x + closestSpawn.x,
-                                        y + 64 + DEConfig.chaosIslandYOffset,
+                                        y + 64 + WorldConfig.chaosIslandYOffset,
                                         z + closestSpawn.z);
                         if (density > 0.1
                                 && (world.isAirBlock(pos)
@@ -140,7 +140,7 @@ public class ChaosWorldGenHandler {
         int outerRadius = 330;
 
         // Gen Chaos Cavern
-        int shardY = 80 + DEConfig.chaosIslandYOffset;
+        int shardY = 80 + WorldConfig.chaosIslandYOffset;
 
         int coreHeight = 10;
         int coreWidth = 20;
@@ -203,11 +203,11 @@ public class ChaosWorldGenHandler {
                                 90
                                         + (int) ((double) (islandCenter.x - x) * 0.1D)
                                         + (random.nextInt(10) - 5);
-                        BlockPos pos = new BlockPos(x, y + DEConfig.chaosIslandYOffset, z);
+                        BlockPos pos = new BlockPos(x, y + WorldConfig.chaosIslandYOffset, z);
                         if (0.1F > random.nextFloat()) {
                             world.setBlockState(pos, Blocks.END_STONE.getDefaultState());
                         }
-                        if (0.001F > random.nextFloat() && !DEConfig.disableOreSpawnEnd) {
+                        if (0.001F > random.nextFloat() && !WorldConfig.disableOreSpawnEnd) {
                             world.setBlockState(pos, DraconiumOre.getEnd());
                         }
                     }
@@ -227,7 +227,7 @@ public class ChaosWorldGenHandler {
             int coreRadious,
             boolean fillIn,
             Random rand) {
-        if (DEConfig.chaosIslandVoidMode) return;
+        if (WorldConfig.chaosIslandVoidMode) return;
         for (int x = xi - coreRadious; x <= xi + coreRadious; x++) {
             for (int z = zi - coreRadious; z <= zi + coreRadious; z++) {
                 double dist = Utils.getDistanceAtoB(x, yi, z, xi, yc, zi);
@@ -258,8 +258,8 @@ public class ChaosWorldGenHandler {
 
     public static PairXZ<Integer, Integer> getClosestChaosSpawn(int chunkX, int chunkZ) {
         return new PairXZ<>(
-                Utils.getNearestMultiple(chunkX * 16, DEConfig.chaosIslandSeparation),
-                Utils.getNearestMultiple(chunkZ * 16, DEConfig.chaosIslandSeparation));
+                Utils.getNearestMultiple(chunkX * 16, WorldConfig.chaosIslandSeparation),
+                Utils.getNearestMultiple(chunkZ * 16, WorldConfig.chaosIslandSeparation));
     }
 
     private static void generateObelisks(
@@ -269,14 +269,14 @@ public class ChaosWorldGenHandler {
             double rotation = i * 0.9D;
             int sX = islandCenter.x + (int) (Math.sin(rotation) * 45D);
             int sZ = islandCenter.z + (int) (Math.cos(rotation) * 45D);
-            generateObelisk(world, sX, 90 + DEConfig.chaosIslandYOffset, sZ, false, rand);
+            generateObelisk(world, sX, 90 + WorldConfig.chaosIslandYOffset, sZ, false, rand);
         }
 
         for (int i = 0; i < 14; i++) {
             double rotation = i * 0.45D;
             int sX = islandCenter.x + (int) (Math.sin(rotation) * 90D);
             int sZ = islandCenter.z + (int) (Math.cos(rotation) * 90D);
-            generateObelisk(world, sX, 90 + DEConfig.chaosIslandYOffset, sZ, true, rand);
+            generateObelisk(world, sX, 90 + WorldConfig.chaosIslandYOffset, sZ, true, rand);
         }
     }
 
@@ -290,7 +290,7 @@ public class ChaosWorldGenHandler {
                 crystal.setPosition(x1 + 0.5, y1 + 21, z1 + 0.5);
                 world.spawnEntity(crystal);
             }
-            if (DEConfig.chaosIslandVoidMode) return;
+            if (WorldConfig.chaosIslandVoidMode) return;
             for (int y = y1; y < y1 + 20; y++) {
                 world.setBlockState(new BlockPos(x1, y, z1), Blocks.OBSIDIAN.getDefaultState());
                 world.setBlockState(new BlockPos(x1 + 1, y, z1), Blocks.OBSIDIAN.getDefaultState());
@@ -314,7 +314,7 @@ public class ChaosWorldGenHandler {
                 crystal.setPosition(x1 + 0.5, y1 + 41, z1 + 0.5);
                 world.spawnEntity(crystal);
             }
-            if (DEConfig.chaosIslandVoidMode) return;
+            if (WorldConfig.chaosIslandVoidMode) return;
             int diff = 0;
             for (int y = y1 + 20; y < y1 + 40; y++) {
                 diff++;

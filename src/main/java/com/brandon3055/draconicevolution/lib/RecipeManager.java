@@ -5,11 +5,11 @@ import static com.brandon3055.draconicevolution.lib.RecipeManager.RecipeDifficul
 import com.brandon3055.brandonscore.handlers.FileHandler;
 import com.brandon3055.brandonscore.lib.StackReference;
 import com.brandon3055.brandonscore.registry.ModFeatureParser;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.api.OreDictHelper;
 import com.brandon3055.draconicevolution.api.fusioncrafting.FusionRecipeAPI;
 import com.brandon3055.draconicevolution.api.fusioncrafting.IFusionRecipe;
 import com.brandon3055.draconicevolution.api.fusioncrafting.SimpleFusionRecipe;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.google.gson.JsonArray;
@@ -58,7 +58,7 @@ public class RecipeManager {
 
         ModContainer container = Loader.instance().activeModContainer();
         Loader.instance().setActiveModContainer(Loader.instance().getMinecraftModContainer());
-        if (DEConfig.expensiveDragonRitual) {
+        if (TweaksConfig.expensiveDragonRitual) {
             List<IRecipe> replacements = new LinkedList<>();
             event.getRegistry()
                     .getEntries()
@@ -103,7 +103,7 @@ public class RecipeManager {
      * remove all currently loaded recipes before reloading.
      */
     private static void loadRecipes() {
-        if (DEConfig.hardMode) {
+        if (TweaksConfig.hardMode) {
             LogHelper.info("Loading Hard Mode Recipes...");
         } else {
             LogHelper.info("Loading Default Recipes...");
@@ -825,7 +825,7 @@ public class RecipeManager {
         HARD;
 
         public static RecipeDifficulty getDifficulty() {
-            return DEConfig.hardMode ? HARD : NORMAL;
+            return TweaksConfig.hardMode ? HARD : NORMAL;
         }
     }
 

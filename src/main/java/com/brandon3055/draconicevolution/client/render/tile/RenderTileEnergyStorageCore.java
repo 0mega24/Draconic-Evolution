@@ -4,13 +4,13 @@ import com.brandon3055.brandonscore.client.render.TESRBase;
 import com.brandon3055.brandonscore.lib.Vec3I;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedVec3I;
 import com.brandon3055.brandonscore.utils.ModelUtils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.machines.EnergyStorageCore;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
+import com.brandon3055.draconicevolution.config.ConfigColours;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCoreVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
-import com.brandon3055.draconicevolution.utils.ConfigColours;
 import com.brandon3055.draconicevolution.utils.DETextures;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -65,10 +65,10 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
         int coreRGB =
                 t8
                         ? ConfigColours.blend(
-                                DEConfig.energyCoreRGBT8, DEConfig.energyCoreRatioT8, fill)
+                                EnergyCoreVisuals.coreRGBT8, EnergyCoreVisuals.coreRatioT8, fill)
                         : ConfigColours.blend(
-                                DEConfig.energyCoreRGB, DEConfig.energyCoreRatio, fill);
-        int shellRGB = t8 ? DEConfig.energyCoreShellRGBT8 : DEConfig.energyCoreShellRGB;
+                                EnergyCoreVisuals.coreRGB, EnergyCoreVisuals.coreRatio, fill);
+        int shellRGB = t8 ? EnergyCoreVisuals.shellRGBT8 : EnergyCoreVisuals.shellRGB;
         // endregion
 
         // region Render Core
@@ -160,7 +160,7 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             }
 
             GlStateManager.rotate(90, 1, 0, 0);
-            if (DEConfig.energyCoreTintBeams) {
+            if (EnergyCoreVisuals.tintBeams) {
                 // Two greyscale layers, tinted separately: beam centre and beam edges.
                 renderStabilizerBeam(
                         te,
@@ -194,7 +194,7 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             renderStabilizer(
                     renderStage,
                     partialTick,
-                    DEConfig.energyCoreTintStabilizers ? shellRGB : 0x00FFFF);
+                    EnergyCoreVisuals.tintStabilizers ? shellRGB : 0x00FFFF);
             GlStateManager.popMatrix();
         }
     }

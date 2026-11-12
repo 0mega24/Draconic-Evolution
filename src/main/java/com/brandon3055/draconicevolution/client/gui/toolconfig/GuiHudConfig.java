@@ -3,9 +3,9 @@ package com.brandon3055.draconicevolution.client.gui.toolconfig;
 import com.brandon3055.brandonscore.client.gui.ButtonColourRect;
 import com.brandon3055.brandonscore.client.utils.GuiHelper;
 import com.brandon3055.brandonscore.registry.ModConfigParser;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.client.handler.HudHandler;
+import com.brandon3055.draconicevolution.config.ClientConfig;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -165,13 +165,13 @@ public class GuiHudConfig extends GuiScreen {
     @Override
     public void updateScreen() {
         buttonHudFade.displayString =
-                I18n.format("button.de.fadeMode" + DEConfig.hudSettings[6] + ".txt");
+                I18n.format("button.de.fadeMode" + ClientConfig.hudSettings[6] + ".txt");
         buttonArmorFade.displayString =
-                I18n.format("button.de.fadeMode" + DEConfig.hudSettings[7] + ".txt");
+                I18n.format("button.de.fadeMode" + ClientConfig.hudSettings[7] + ".txt");
         buttonArmorNumeric.displayString =
                 I18n.format("button.de.numeric.txt")
                         + " "
-                        + (DEConfig.hudSettings[9] == 0
+                        + (ClientConfig.hudSettings[9] == 0
                                 ? I18n.format("gui.de.off.txt")
                                 : I18n.format("gui.de.on.txt"));
     }
@@ -181,39 +181,39 @@ public class GuiHudConfig extends GuiScreen {
         if (button.id == 0) {
             Minecraft.getMinecraft().displayGuiScreen(parent);
             return;
-        } else if (button.id == 1 && DEConfig.hudSettings[4] < 300) {
-            DEConfig.hudSettings[4] += 10;
-        } else if (button.id == 2 && DEConfig.hudSettings[4] > 30) {
-            DEConfig.hudSettings[4] -= 10;
+        } else if (button.id == 1 && ClientConfig.hudSettings[4] < 300) {
+            ClientConfig.hudSettings[4] += 10;
+        } else if (button.id == 2 && ClientConfig.hudSettings[4] > 30) {
+            ClientConfig.hudSettings[4] -= 10;
         } else if (button.id == 3) {
-            if (DEConfig.hudSettings[6] < 4) DEConfig.hudSettings[6]++;
-            else DEConfig.hudSettings[6] = 0;
-        } else if (button.id == 4 && DEConfig.hudSettings[5] < 300) {
-            DEConfig.hudSettings[5] += 10;
-        } else if (button.id == 5 && DEConfig.hudSettings[5] > 30) {
-            DEConfig.hudSettings[5] -= 10;
+            if (ClientConfig.hudSettings[6] < 4) ClientConfig.hudSettings[6]++;
+            else ClientConfig.hudSettings[6] = 0;
+        } else if (button.id == 4 && ClientConfig.hudSettings[5] < 300) {
+            ClientConfig.hudSettings[5] += 10;
+        } else if (button.id == 5 && ClientConfig.hudSettings[5] > 30) {
+            ClientConfig.hudSettings[5] -= 10;
         } else if (button.id == 6) {
-            if (DEConfig.hudSettings[7] < 4) DEConfig.hudSettings[7]++;
-            else DEConfig.hudSettings[7] = 0;
+            if (ClientConfig.hudSettings[7] < 4) ClientConfig.hudSettings[7]++;
+            else ClientConfig.hudSettings[7] = 0;
         } else if (button.id == 7) {
-            if (DEConfig.hudSettings[9] == 0) DEConfig.hudSettings[9] = 1;
-            else DEConfig.hudSettings[9] = 0;
+            if (ClientConfig.hudSettings[9] == 0) ClientConfig.hudSettings[9] = 1;
+            else ClientConfig.hudSettings[9] = 0;
         } else if (button.id == 8) {
-            if (DEConfig.hudSettings[8] == 0) DEConfig.hudSettings[8] = 1;
-            else DEConfig.hudSettings[8] = 0;
+            if (ClientConfig.hudSettings[8] == 0) ClientConfig.hudSettings[8] = 1;
+            else ClientConfig.hudSettings[8] = 0;
         } else if (button.id == 9) {
-            if (DEConfig.hudSettings[10] == 0) DEConfig.hudSettings[10] = 1;
-            else DEConfig.hudSettings[10] = 0;
+            if (ClientConfig.hudSettings[10] == 0) ClientConfig.hudSettings[10] = 1;
+            else ClientConfig.hudSettings[10] = 0;
         } else if (button.id == 10) {
-            if (DEConfig.hudSettings[11] == 0) DEConfig.hudSettings[11] = 1;
-            else DEConfig.hudSettings[11] = 0;
+            if (ClientConfig.hudSettings[11] == 0) ClientConfig.hudSettings[11] = 1;
+            else ClientConfig.hudSettings[11] = 0;
         }
 
         Property property =
                 ModConfigParser.findUnwrappedProperty(
                         DraconicEvolution.MODID, "hudSettings", "Client Settings");
         if (property != null) {
-            property.set(DEConfig.hudSettings);
+            property.set(ClientConfig.hudSettings);
             ModConfigParser.saveModConfig(DraconicEvolution.MODID);
         } else {
             LogHelper.error(
@@ -235,7 +235,7 @@ public class GuiHudConfig extends GuiScreen {
                         new RenderGameOverlayEvent(partial, new ScaledResolution(mc)),
                         RenderGameOverlayEvent.ElementType.ALL));
 
-        int[] pos = DEConfig.hudSettings;
+        int[] pos = ClientConfig.hudSettings;
         int hudX = (int) ((pos[0] / 1000D) * width);
         int hudY = (int) ((pos[1] / 1000D) * height);
         int armorX = (int) ((pos[2] / 1000D) * width);
@@ -268,13 +268,13 @@ public class GuiHudConfig extends GuiScreen {
 
         drawCenteredString(
                 fontRenderer,
-                DEConfig.hudSettings[4] + "%",
+                ClientConfig.hudSettings[4] + "%",
                 width / 2 + 97,
                 height / 2 - 63,
                 0xFFFFFF);
         drawCenteredString(
                 fontRenderer,
-                DEConfig.hudSettings[5] + "%",
+                ClientConfig.hudSettings[5] + "%",
                 width / 2 + 97,
                 height / 2 - 1,
                 0xFFFFFF);
@@ -336,7 +336,7 @@ public class GuiHudConfig extends GuiScreen {
 
     @Override
     protected void mouseClicked(int x, int y, int button) throws IOException {
-        int[] pos = DEConfig.hudSettings;
+        int[] pos = ClientConfig.hudSettings;
         int hudX = (int) ((pos[0] / 1000D) * width);
         int hudY = (int) ((pos[1] / 1000D) * height);
         int armorX = (int) ((pos[2] / 1000D) * width);
@@ -366,7 +366,7 @@ public class GuiHudConfig extends GuiScreen {
                 ModConfigParser.findUnwrappedProperty(
                         DraconicEvolution.MODID, "hudSettings", "Client Settings");
         if (property != null) {
-            property.set(DEConfig.hudSettings);
+            property.set(ClientConfig.hudSettings);
             ModConfigParser.saveModConfig(DraconicEvolution.MODID);
         } else {
             LogHelper.error(
@@ -387,11 +387,11 @@ public class GuiHudConfig extends GuiScreen {
         int y1 = (int) (((float) (y + dragOffsetY) / (float) height) * 1000f);
 
         if (draggingHud) {
-            DEConfig.hudSettings[0] = x1;
-            DEConfig.hudSettings[1] = y1;
+            ClientConfig.hudSettings[0] = x1;
+            ClientConfig.hudSettings[1] = y1;
         } else if (draggingArmor) {
-            DEConfig.hudSettings[2] = x1;
-            DEConfig.hudSettings[3] = y1;
+            ClientConfig.hudSettings[2] = x1;
+            ClientConfig.hudSettings[3] = y1;
         }
     }
 

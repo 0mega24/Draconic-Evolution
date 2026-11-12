@@ -4,9 +4,9 @@ import baubles.api.BaublesApi;
 import baubles.api.cap.IBaublesItemHandler;
 import com.brandon3055.brandonscore.BrandonsCore;
 import com.brandon3055.brandonscore.utils.ItemNBTHelper;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.capabilities.ShieldStateProvider;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.integration.ModHelper;
 import com.brandon3055.draconicevolution.items.armor.DraconicArmor;
 import com.brandon3055.draconicevolution.items.armor.ICustomArmor;
@@ -272,7 +272,7 @@ public class CustomArmorHandler {
     public static void tickArmorEffects(ArmorSummery summery, EntityPlayer player) {
 
         // region/*----------------- Flight ------------------*/
-        if (DEConfig.enableFlight) {
+        if (TweaksConfig.enableFlight) {
             if (summery != null && summery.flight[0]) {
                 playersWithFlight.put(player, true);
                 player.capabilities.allowFlying = true;

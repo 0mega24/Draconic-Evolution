@@ -8,11 +8,11 @@ import com.brandon3055.brandonscore.api.IFOVModifierItem;
 import com.brandon3055.brandonscore.lib.EnergyContainerWrapper;
 import com.brandon3055.brandonscore.utils.InfoHelper;
 import com.brandon3055.brandonscore.utils.ItemNBTHelper;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.api.itemconfig.*;
 import com.brandon3055.draconicevolution.api.itemupgrade.IUpgradableItem;
 import com.brandon3055.draconicevolution.api.itemupgrade.UpgradeHelper;
 import com.brandon3055.draconicevolution.client.model.ModelWyvernArmor;
+import com.brandon3055.draconicevolution.config.ClientConfig;
 import com.brandon3055.draconicevolution.entity.EntityPersistentItem;
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
 import com.brandon3055.draconicevolution.items.tools.ToolBase;
@@ -220,7 +220,7 @@ public class WyvernArmor extends ItemArmor
             ItemStack itemStack,
             EntityEquipmentSlot armorSlot,
             ModelBiped _default) {
-        if (DEConfig.disable3DModels) {
+        if (ClientConfig.disable3DModels) {
             return super.getArmorModel(entityLiving, itemStack, armorSlot, _default);
         }
 
@@ -444,7 +444,7 @@ public class WyvernArmor extends ItemArmor
             float currentFOV,
             float originalFOV,
             EntityEquipmentSlot slot) {
-        if (DEConfig.disableArmorFOVCorrection) {
+        if (ClientConfig.disableArmorFOVCorrection) {
             return currentFOV;
         }
         AttributeModifier modifier =

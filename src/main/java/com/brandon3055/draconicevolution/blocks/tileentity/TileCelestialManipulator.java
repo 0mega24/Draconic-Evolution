@@ -8,11 +8,11 @@ import com.brandon3055.brandonscore.lib.IChangeListener;
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedByte;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.client.DEParticles;
 import com.brandon3055.draconicevolution.client.render.effect.EffectTrackerCelestialManipulator;
 import com.brandon3055.draconicevolution.client.render.effect.EffectTrackerCelestialManipulator.SubParticle;
 import com.brandon3055.draconicevolution.client.sound.CelestialModifierSound;
+import com.brandon3055.draconicevolution.config.ClientConfig;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
 import com.brandon3055.draconicevolution.utils.DETextures;
@@ -424,7 +424,7 @@ public class TileCelestialManipulator extends TileEnergyBase
                     effectFocus.z,
                     DESoundHandler.boom,
                     SoundCategory.BLOCKS,
-                    DEConfig.disableLoudCelestialManipulator ? 1 : 100,
+                    ClientConfig.disableLoudCelestialManipulator ? 1 : 100,
                     1F,
                     false);
             timer = 0;
@@ -629,6 +629,6 @@ public class TileCelestialManipulator extends TileEnergyBase
     }
 
     private float getSoundVolume() {
-        return DEConfig.disableLoudCelestialManipulator ? 1 : 10;
+        return ClientConfig.disableLoudCelestialManipulator ? 1 : 10;
     }
 }

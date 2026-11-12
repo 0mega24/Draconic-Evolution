@@ -15,11 +15,11 @@ import com.brandon3055.brandonscore.lib.DelayedExecutor;
 import com.brandon3055.brandonscore.lib.PairKV;
 import com.brandon3055.brandonscore.utils.ModelUtils;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.api.ICrystalBinder;
 import com.brandon3055.draconicevolution.api.itemconfig.ToolConfigHelper;
 import com.brandon3055.draconicevolution.client.render.shaders.DEShaders;
+import com.brandon3055.draconicevolution.config.ClientConfig;
 import com.brandon3055.draconicevolution.handlers.BinderHandler;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.items.tools.CreativeExchanger;
@@ -120,7 +120,7 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public void renderPlayerEvent(RenderPlayerEvent.Post event) {
-        if (!DEConfig.disableShieldHitEffect
+        if (!ClientConfig.disableShieldHitEffect
                 && playerShieldStatus.containsKey(event.getEntityPlayer())) {
             if (shieldModel == null) {
                 try {

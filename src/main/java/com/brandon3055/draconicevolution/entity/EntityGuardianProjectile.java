@@ -5,8 +5,8 @@ import com.brandon3055.brandonscore.client.particle.BCEffectHandler;
 import com.brandon3055.brandonscore.utils.FilterUtils;
 import com.brandon3055.brandonscore.utils.Teleporter;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.client.DEParticles;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
 import java.util.Arrays;
 import java.util.List;
@@ -136,7 +136,7 @@ public class EntityGuardianProjectile extends Entity {
             this.motionZ *= speed;
         }
 
-        if (DEConfig.guardianCanKillCreative) {
+        if (TweaksConfig.guardianCanKillCreative) {
             damageFireball.setDamageAllowedInCreativeMode();
             damageEnergy.setDamageAllowedInCreativeMode();
             damageChaos.setDamageAllowedInCreativeMode();

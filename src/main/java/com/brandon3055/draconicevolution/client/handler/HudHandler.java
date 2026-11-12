@@ -3,9 +3,9 @@ package com.brandon3055.draconicevolution.client.handler;
 import codechicken.lib.render.state.GlStateTracker;
 import com.brandon3055.brandonscore.client.utils.GuiHelper;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.api.IHudDisplay;
 import com.brandon3055.draconicevolution.client.gui.toolconfig.GuiHudConfig;
+import com.brandon3055.draconicevolution.config.ClientConfig;
 import com.brandon3055.draconicevolution.handlers.CustomArmorHandler;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
@@ -57,9 +57,9 @@ public class HudHandler {
         height = resolution.getScaledHeight();
         FontRenderer fontRenderer = mc.fontRenderer;
 
-        if (DEConfig.hudSettings[10] == 1 && hudList != null && toolTipFadeOut > 0) {
-            int x = (int) (((float) DEConfig.hudSettings[0] / 1000F) * (float) width);
-            int y = (int) (((float) DEConfig.hudSettings[1] / 1000F) * (float) height);
+        if (ClientConfig.hudSettings[10] == 1 && hudList != null && toolTipFadeOut > 0) {
+            int x = (int) (((float) ClientConfig.hudSettings[0] / 1000F) * (float) width);
+            int y = (int) (((float) ClientConfig.hudSettings[1] / 1000F) * (float) height);
 
             GuiHelper.drawHoveringTextScaled(
                     hudList,
@@ -67,17 +67,18 @@ public class HudHandler {
                     y,
                     fontRenderer,
                     toolTipFadeOut > 1 ? 1 : toolTipFadeOut,
-                    DEConfig.hudSettings[4] / 100D,
+                    ClientConfig.hudSettings[4] / 100D,
                     width,
                     height);
             GlStateManager.disableLighting();
         }
 
-        if (DEConfig.hudSettings[11] == 1 && showShieldHud) {
-            int x = (int) (((float) DEConfig.hudSettings[2] / 1000F) * (float) width);
-            int y = (int) (((float) DEConfig.hudSettings[3] / 1000F) * (float) height);
+        if (ClientConfig.hudSettings[11] == 1 && showShieldHud) {
+            int x = (int) (((float) ClientConfig.hudSettings[2] / 1000F) * (float) width);
+            int y = (int) (((float) ClientConfig.hudSettings[3] / 1000F) * (float) height);
 
-            drawArmorHUD(x, y, DEConfig.hudSettings[8] == 1, DEConfig.hudSettings[5] / 100D);
+            drawArmorHUD(
+                    x, y, ClientConfig.hudSettings[8] == 1, ClientConfig.hudSettings[5] / 100D);
         }
 
         GlStateManager.popMatrix();
@@ -88,15 +89,15 @@ public class HudHandler {
     // flexible!
     // x, y, x, y, scale, scale, fademode, fademode, rotateArmor, armorText
     public static void clientTick() {
-        if (DEConfig.hudSettings[6] > 0
-                && toolTipFadeOut > 1F - ((float) DEConfig.hudSettings[6] * 0.25F)) {
+        if (ClientConfig.hudSettings[6] > 0
+                && toolTipFadeOut > 1F - ((float) ClientConfig.hudSettings[6] * 0.25F)) {
             toolTipFadeOut -= 0.1F;
         }
         if (hudList != null && (ltHudList == null || !hudList.equals(ltHudList))) {
             toolTipFadeOut = 5F;
         }
-        if (DEConfig.hudSettings[7] > 0
-                && armorStatsFadeOut > 1F - ((float) DEConfig.hudSettings[7] * 0.25F)) {
+        if (ClientConfig.hudSettings[7] > 0
+                && armorStatsFadeOut > 1F - ((float) ClientConfig.hudSettings[7] * 0.25F)) {
             armorStatsFadeOut -= 0.1F;
             if (armorStatsFadeOut < 0) armorStatsFadeOut = 0;
         }
@@ -228,7 +229,7 @@ public class HudHandler {
                 0,
                 GuiHelper.PXL128);
 
-        if (DEConfig.hudSettings[9] == 1) {
+        if (ClientConfig.hudSettings[9] == 1) {
             FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
             GlStateManager.translate(x, y, 0);
             if (rotated) GlStateManager.rotate(90, 0, 0, -1);

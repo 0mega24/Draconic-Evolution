@@ -1,8 +1,8 @@
 package com.brandon3055.draconicevolution.entity;
 
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileChaosCrystal;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.lib.DEDamageSources;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -128,7 +128,7 @@ public class EntityChaosGuardian extends EntityDragonOld {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
-                .setBaseValue(DEConfig.chaosGuardianHealth);
+                .setBaseValue(TweaksConfig.chaosGuardianHealth);
     }
 
     @Override
@@ -732,7 +732,7 @@ public class EntityChaosGuardian extends EntityDragonOld {
 
         if (ignitionChargeTimer > 1
                 || (ignitionChargeTimer == 1 && ticksExisted % 20 == 0)
-                        && !DEConfig.disableGuardianCrystalRespawn) {
+                        && !TweaksConfig.disableGuardianCrystalRespawn) {
             ignitionChargeTimer--;
         }
         if (ignitionChargeTimer <= 0 && !world.isRemote) {

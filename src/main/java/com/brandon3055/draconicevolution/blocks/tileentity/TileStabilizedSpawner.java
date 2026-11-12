@@ -5,8 +5,8 @@ import com.brandon3055.brandonscore.lib.IActivatableTile;
 import com.brandon3055.brandonscore.lib.IChangeListener;
 import com.brandon3055.brandonscore.lib.datamanager.*;
 import com.brandon3055.brandonscore.utils.InventoryUtils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.items.ItemCore;
 import com.brandon3055.draconicevolution.items.MobSoul;
 import java.util.Random;
@@ -324,11 +324,11 @@ public class TileStabilizedSpawner extends TileBCBase
         }
 
         public int getMinDelay() {
-            return DEConfig.spawnerDelays[ordinal() * 2];
+            return TweaksConfig.spawnerDelays[ordinal() * 2];
         }
 
         public int getMaxDelay() {
-            return DEConfig.spawnerDelays[(ordinal() * 2) + 1];
+            return TweaksConfig.spawnerDelays[(ordinal() * 2) + 1];
         }
 
         public int getSpawnCount() {
