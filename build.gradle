@@ -244,3 +244,13 @@ tasks.withType(Pmd) {
         html.enabled = false
     }
 }
+
+// Vendored third-party code is not linted.
+tasks.withType(Checkstyle) {
+    exclude 'com/intellij/**', 'invtweaks/**'
+}
+tasks.withType(Pmd) {
+    exclude 'com/intellij/**', 'invtweaks/**'
+}
+checkstyleApi.enabled = false
+pmdApi.enabled = false
