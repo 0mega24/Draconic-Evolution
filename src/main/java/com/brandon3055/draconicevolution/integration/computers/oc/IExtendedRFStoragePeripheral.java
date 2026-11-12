@@ -31,9 +31,9 @@ public class IExtendedRFStoragePeripheral extends AbstractManagedEnvironment
 
     @Override
     public Object[] invoke(String method, Context context, Arguments args) throws Exception {
-        if (method.equals("getEnergyStored")) {
+        if ("getEnergyStored".equals(method)) {
             return new Object[] {peripheral.getExtendedStorage()};
-        } else if (method.equals("getMaxEnergyStored")) {
+        } else if ("getMaxEnergyStored".equals(method)) {
             return new Object[] {peripheral.getExtendedCapacity()};
         }
 

@@ -232,8 +232,8 @@ public class DCImage extends DisplayComponentBase {
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         super.onMGuiEvent(eventString, eventElement);
 
-        if (eventElement.id.equals("SCALE")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        if ("SCALE".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             if (StringUtils.isNullOrEmpty(((MGuiTextField) eventElement).getText())) {
                 return;
@@ -254,14 +254,14 @@ public class DCImage extends DisplayComponentBase {
             save();
 
             for (MGuiElementBase element : branch.guiWiki.contentWindow.editControls) {
-                if (element instanceof MGuiTextField && element.id.equals("SCALE")) {
+                if (element instanceof MGuiTextField && "SCALE".equals(element.id)) {
                     ((MGuiTextField) element).setFocused(true);
                     ((MGuiTextField) element).setCursorPosition(pos);
                     break;
                 }
             }
-        } else if (eventElement.id.equals("URL")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        } else if ("URL".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             element.setAttribute(ATTRIB_URL, ((MGuiTextField) eventElement).getText());
             url = ((MGuiTextField) eventElement).getText();

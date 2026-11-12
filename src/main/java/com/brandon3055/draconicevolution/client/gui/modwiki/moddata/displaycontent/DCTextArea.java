@@ -491,7 +491,7 @@ public class DCTextArea extends DisplayComponentBase {
         super.onMGuiEvent(eventString, eventElement);
 
         if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("OPEN_EDITOR")) {
+                && "OPEN_EDITOR".equals(((MGuiButton) eventElement).buttonName)) {
             if (editTextArea == null) {
                 editTextArea = new UIEditTextArea(rawText);
                 editTextArea.pack();
@@ -499,8 +499,8 @@ public class DCTextArea extends DisplayComponentBase {
 
             SwingHelper.centerOnMinecraftWindow(editTextArea);
             editTextArea.setVisible(true);
-        } else if (eventElement.id.equals("COLOUR")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        } else if ("COLOUR".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             try {
                 setColour(Integer.parseInt(((MGuiTextField) eventElement).getText(), 16));

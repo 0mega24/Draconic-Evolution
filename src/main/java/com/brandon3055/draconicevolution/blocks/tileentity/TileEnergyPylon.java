@@ -256,7 +256,7 @@ public class TileEnergyPylon extends TileBCBase
     private boolean isGlass(BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
         return tile instanceof TileInvisECoreBlock
-                && ((TileInvisECoreBlock) tile).blockName.equals("minecraft:glass");
+                && "minecraft:glass".equals(((TileInvisECoreBlock) tile).blockName);
     }
 
     // endregion
@@ -487,11 +487,11 @@ public class TileEnergyPylon extends TileBCBase
 
     @Override
     public Object[] callMethod(String method, ArgHelper args) {
-        if (method.equals("getEnergyStored")) {
+        if ("getEnergyStored".equals(method)) {
             return new Object[] {getExtendedStorage()};
-        } else if (method.equals("getMaxEnergyStored")) {
+        } else if ("getMaxEnergyStored".equals(method)) {
             return new Object[] {getExtendedCapacity()};
-        } else if (method.equals("getTransferPerTick")) {
+        } else if ("getTransferPerTick".equals(method)) {
             if (!hasCoreLock.value || getCore() == null) {
                 return new Object[0];
             }

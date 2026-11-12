@@ -135,7 +135,7 @@ public class GuiFusionCraftingCore extends ModularGuiContainer<ContainerFusionCr
         GuiHelper.drawColouredRect(guiLeft + 3, guiTop + 3, xSize - 6, 110, 0xFF00FFFF);
         GuiHelper.drawColouredRect(guiLeft + 4, guiTop + 4, xSize - 8, 108, 0xFF000000);
 
-        if (currentRecipe != null && canCraft != null && canCraft.equals("true")) {
+        if (currentRecipe != null && canCraft != null && "true".equals(canCraft)) {
             // Items
             GuiHelper.drawColouredRect(guiLeft + (xSize / 2) - 10, guiTop + 24, 20, 64, 0xFF00FFFF);
             GuiHelper.drawColouredRect(guiLeft + (xSize / 2) - 9, guiTop + 25, 18, 62, 0xFF000000);
@@ -154,7 +154,7 @@ public class GuiFusionCraftingCore extends ModularGuiContainer<ContainerFusionCr
         ResourceHelperDE.bindTexture(DETextures.GUI_FUSION_CRAFTING);
         // drawTexturedModalRect(guiLeft + (xSize / 2) - 8, guiTop + 45, 0, 0, 15, 21);
         GuiHelper.drawPlayerSlots(this, guiLeft + (xSize / 2), guiTop + 115, true);
-        if (currentRecipe == null || canCraft == null || !canCraft.equals("true")) {
+        if (currentRecipe == null || canCraft == null || !"true".equals(canCraft)) {
             drawTexturedModalRect(guiLeft + (xSize / 2) - 9, guiTop + 25, 138, 0, 18, 18);
             if (tile.getStackInSlot(1) != null) {
                 drawTexturedModalRect(guiLeft + (xSize / 2) - 9, guiTop + 69, 138, 0, 18, 18);
@@ -273,12 +273,12 @@ public class GuiFusionCraftingCore extends ModularGuiContainer<ContainerFusionCr
                 startCrafting.visible =
                         currentRecipe != null
                                 && canCraft != null
-                                && canCraft.equals("true")
+                                && "true".equals(canCraft)
                                 && !tile.craftingInProgress();
 
         // region Spawn Particles
 
-        if (currentRecipe != null && canCraft != null && canCraft.equals("true")) {
+        if (currentRecipe != null && canCraft != null && "true".equals(canCraft)) {
             int centerX = guiLeft + xSize / 2;
             int centerY = guiTop + ySize / 2 - 45;
 
@@ -326,8 +326,8 @@ public class GuiFusionCraftingCore extends ModularGuiContainer<ContainerFusionCr
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
         if (currentRecipe != null) {
-            if (canCraft != null && !canCraft.equals("true")) {
-                if (canCraft.equals("tierLow")) {
+            if (canCraft != null && !"true".equals(canCraft)) {
+                if ("tierLow".equals(canCraft)) {
                     GuiHelper.drawCenteredString(
                             fontRenderer,
                             I18n.format("gui.fusionCrafting.tierLow.info"),
@@ -335,7 +335,7 @@ public class GuiFusionCraftingCore extends ModularGuiContainer<ContainerFusionCr
                             95,
                             0xAA00FF,
                             false);
-                } else if (canCraft.equals("outputObstructed")) {
+                } else if ("outputObstructed".equals(canCraft)) {
                     GuiHelper.drawCenteredString(
                             fontRenderer,
                             I18n.format("gui.fusionCrafting.outputObstructed.info"),

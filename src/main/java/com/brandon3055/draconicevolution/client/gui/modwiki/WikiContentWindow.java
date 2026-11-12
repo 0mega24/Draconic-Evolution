@@ -61,7 +61,7 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
                                 yPos + 1,
                                 xSize,
                                 12,
-                                activeBranch.branchID.equals("ROOT")
+                                "ROOT".equals(activeBranch.branchID)
                                         ? "Project Intelligence"
                                         : activeBranch.branchName) {
                             @Override
@@ -331,7 +331,7 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
             addSelector.setListener(this);
             modularGui.getManager().add(addSelector, 2);
 
-        } else if (eventString.equals("SELECTOR_PICK") && eventElement instanceof MGuiLabel) {
+        } else if ("SELECTOR_PICK".equals(eventString) && eventElement instanceof MGuiLabel) {
             String type = ((MGuiLabel) eventElement).displayString;
             Element element =
                     activeBranch
@@ -389,7 +389,7 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
         setEditingComponent(null);
         if (label != null) {
             label.setDisplayString(
-                    activeBranch.branchID.equals("ROOT")
+                    "ROOT".equals(activeBranch.branchID)
                             ? "Project Intelligence"
                             : activeBranch.branchName);
         }

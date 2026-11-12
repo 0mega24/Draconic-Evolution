@@ -352,9 +352,9 @@ public class PopupEditContent extends MGuiPopUpDialog implements IMGuiListener {
             branch.initBranches();
             stackIcon.setToolTip(false);
             stackString.setText("");
-        } else if (element.id.equals("CANCEL_PICK") && selector != null) {
+        } else if ("CANCEL_PICK".equals(element.id) && selector != null) {
             modularGui.getManager().remove(selector);
-        } else if (event.equals("SELECTOR_PICK")) {
+        } else if ("SELECTOR_PICK".equals(event)) {
             if (element instanceof MGuiStackIcon) {
                 StackReference reference = new StackReference(((MGuiStackIcon) element).getStack());
                 stackIcon.setStack(reference);
@@ -364,7 +364,7 @@ public class PopupEditContent extends MGuiPopUpDialog implements IMGuiListener {
 
             modularGui.getManager().remove(selector);
         } else if (element instanceof MGuiButton
-                && ((MGuiButton) element).buttonName.equals("COPY_ID")) {
+                && "COPY_ID".equals(((MGuiButton) element).buttonName)) {
             GuiScreen.setClipboardString(branch.branchID);
         }
         // endregion

@@ -30,7 +30,7 @@ public class GuiFlowGate extends ModularGuiContainer implements IMGuiListener {
                 @Override
                 public boolean apply(@Nullable String input) {
                     try {
-                        if (input.equals("")) {
+                        if ("".equals(input)) {
                             return true;
                         }
                         Long.parseLong(input);
@@ -151,10 +151,10 @@ public class GuiFlowGate extends ModularGuiContainer implements IMGuiListener {
     @Override
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("SAVE_HIGH")) {
+                && "SAVE_HIGH".equals(((MGuiButton) eventElement).buttonName)) {
             tile.setMax(maxField.getText());
         } else if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("SAVE_LOW")) {
+                && "SAVE_LOW".equals(((MGuiButton) eventElement).buttonName)) {
             tile.setMin(minField.getText());
         }
     }
@@ -173,10 +173,10 @@ public class GuiFlowGate extends ModularGuiContainer implements IMGuiListener {
             maxField.setText(String.valueOf(ltMax));
         }
 
-        if (maxField != null && !maxField.isFocused() && maxField.getText().equals("")) {
+        if (maxField != null && !maxField.isFocused() && "".equals(maxField.getText())) {
             maxField.setText("0");
         }
-        if (minField != null && !minField.isFocused() && minField.getText().equals("")) {
+        if (minField != null && !minField.isFocused() && "".equals(minField.getText())) {
             minField.setText("0");
         }
     }
