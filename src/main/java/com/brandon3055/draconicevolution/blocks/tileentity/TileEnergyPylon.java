@@ -16,6 +16,7 @@ import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.api.IExtendedRFStorage;
 import com.brandon3055.draconicevolution.blocks.machines.EnergyPylon;
 import com.brandon3055.draconicevolution.client.DEParticles;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCoreVisuals;
 import com.brandon3055.draconicevolution.integration.computers.ArgHelper;
 import com.brandon3055.draconicevolution.integration.computers.IDEPeripheral;
 import com.brandon3055.draconicevolution.integration.funkylocomotion.IMovableStructure;
@@ -293,9 +294,9 @@ public class TileEnergyPylon extends TileBCBase
                     world,
                     particlePos.add(randX * offset, randY * offset, randZ * offset),
                     new Vec3D(randX * speed, randY * speed, randZ * speed),
-                    150,
-                    0,
-                    255);
+                    EnergyCoreVisuals.pylonIndicatorRGB >> 16 & 0xFF,
+                    EnergyCoreVisuals.pylonIndicatorRGB >> 8 & 0xFF,
+                    EnergyCoreVisuals.pylonIndicatorRGB & 0xFF);
         }
     }
 
@@ -314,14 +315,28 @@ public class TileEnergyPylon extends TileBCBase
                 dest = getParticleDest(rand);
 
                 BCEffectHandler.spawnFX(
-                        DEParticles.ENERGY_PARTICLE, world, spawn, dest, 0, 200, 255, 200);
+                        DEParticles.ENERGY_PARTICLE,
+                        world,
+                        spawn,
+                        dest,
+                        EnergyCoreVisuals.pylonParticleRGB >> 16 & 0xFF,
+                        EnergyCoreVisuals.pylonParticleRGB >> 8 & 0xFF,
+                        EnergyCoreVisuals.pylonParticleRGB & 0xFF,
+                        200);
             }
         } else if (rand.nextInt(Math.max(1, 10 - particleRate.value)) == 0) {
             spawn = getParticleSpawn(rand);
             dest = getParticleDest(rand);
 
             BCEffectHandler.spawnFX(
-                    DEParticles.ENERGY_PARTICLE, world, spawn, dest, 0, 200, 255, 200);
+                    DEParticles.ENERGY_PARTICLE,
+                    world,
+                    spawn,
+                    dest,
+                    EnergyCoreVisuals.pylonParticleRGB >> 16 & 0xFF,
+                    EnergyCoreVisuals.pylonParticleRGB >> 8 & 0xFF,
+                    EnergyCoreVisuals.pylonParticleRGB & 0xFF,
+                    200);
         }
     }
 
