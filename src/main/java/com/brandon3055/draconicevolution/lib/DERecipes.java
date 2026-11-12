@@ -121,6 +121,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 /** Created by brandon3055 on 23/07/2016. */
 public class DERecipes {
 
+    private DERecipes() {}
+
     public static void addRecipes() {
 
         /* ------------------ Blocks ------------------ */

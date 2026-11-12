@@ -15,6 +15,8 @@ import net.minecraftforge.oredict.OreDictionary;
  */
 public class OreHandler {
 
+    private OreHandler() {}
+
     public static void initialize() {
         registerOres();
     }

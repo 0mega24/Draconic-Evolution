@@ -21,6 +21,8 @@ import net.minecraft.world.World;
 /** Created by brandon3055 on 9/9/2015. */
 public class ChaosWorldGenHandler {
 
+    private ChaosWorldGenHandler() {}
+
     /**
      * Used to generate the chaos island chunk by chunk
      *

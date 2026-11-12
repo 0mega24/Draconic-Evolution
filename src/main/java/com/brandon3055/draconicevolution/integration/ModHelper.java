@@ -19,6 +19,8 @@ import net.minecraftforge.fml.common.ModContainer;
 /** Created by brandon3055 on 29/9/2015. */
 public class ModHelper {
 
+    private ModHelper() {}
+
     private static Map<String, String> loadedMods = null;
 
     public static boolean isTConInstalled;

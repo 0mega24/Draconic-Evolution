@@ -18,6 +18,9 @@ import net.minecraft.util.ResourceLocation;
 
 /** Created by brandon3055 on 23/4/2016. A list of all of DE's particles */
 public class DEParticles {
+
+    private DEParticles() {}
+
     public static final ResourceLocation DE_SHEET =
             ResourceHelperDE.getResource("textures/particle/particles.png");
     public static final ResourceLocation CUSTOM_SHEET =

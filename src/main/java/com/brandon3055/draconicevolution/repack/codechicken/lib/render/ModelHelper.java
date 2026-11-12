@@ -16,6 +16,8 @@ import java.util.List;
 // TODO Remove this when CCL3 drops.
 public class ModelHelper {
 
+    private ModelHelper() {}
+
     /**
      * Quadulates a CCModel. Only Position and UV data is copied.
      *

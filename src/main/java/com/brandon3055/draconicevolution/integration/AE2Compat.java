@@ -7,6 +7,8 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 /** Created by brandon3055 on 6/10/18. */
 public class AE2Compat {
 
+    private AE2Compat() {}
+
     public static void init() {
         if (Loader.isModLoaded("appliedenergistics2")) {
             LogHelper.dev("Registering AE Compat");

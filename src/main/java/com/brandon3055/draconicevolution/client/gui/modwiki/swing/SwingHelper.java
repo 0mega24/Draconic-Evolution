@@ -6,6 +6,8 @@ import org.lwjgl.opengl.Display;
 /** Created by brandon3055 on 8/09/2016. */
 public class SwingHelper {
 
+    private SwingHelper() {}
+
     public static void centerOnMinecraftWindow(Window window) {
         int centerX = Display.getX() + (Display.getWidth() / 2);
         int centerY = Display.getY() + (Display.getHeight() / 2);
