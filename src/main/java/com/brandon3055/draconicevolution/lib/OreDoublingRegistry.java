@@ -1,6 +1,6 @@
 package com.brandon3055.draconicevolution.lib;
 
-import com.brandon3055.draconicevolution.DEConfig;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class OreDoublingRegistry {
 
     public static void init() {
         for (String oreName : OreDictionary.getOreNames()) {
-            if (!oreName.startsWith("ore") || DEConfig.oreBlacklist.contains(oreName)) {
+            if (!oreName.startsWith("ore") || TweaksConfig.oreBlacklist.contains(oreName)) {
                 continue;
             }
 
@@ -56,7 +56,7 @@ public class OreDoublingRegistry {
                 if (registryName != null
                         && registryName
                                 .getResourceDomain()
-                                .equals(DEConfig.oreDoublingOutputPriority)) {
+                                .equals(TweaksConfig.oreDoublingOutputPriority)) {
                     break;
                 }
             }

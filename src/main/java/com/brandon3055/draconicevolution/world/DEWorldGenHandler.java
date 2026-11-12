@@ -1,8 +1,8 @@
 package com.brandon3055.draconicevolution.world;
 
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.DraconiumOre;
+import com.brandon3055.draconicevolution.config.WorldConfig;
 import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Random;
@@ -36,11 +36,11 @@ public class DEWorldGenHandler implements IWorldGenerator {
     // Save/load are not directly linked load is not called when generating
 
     public static void initialize() {
-        if (DEConfig.worldGenEnabled) {
+        if (WorldConfig.worldGenEnabled) {
             GameRegistry.registerWorldGenerator(instance, 0);
             MinecraftForge.EVENT_BUS.register(instance);
 
-            if (DEConfig.enableRetroGen) {
+            if (WorldConfig.enableRetroGen) {
                 MinecraftForge.EVENT_BUS.register(new WorldTickHandler());
             }
         }
@@ -60,7 +60,7 @@ public class DEWorldGenHandler implements IWorldGenerator {
     public void addOreGen(Random random, int chunkX, int chunkZ, World world) {
         switch (world.provider.getDimension()) {
             case 0:
-                if (!DEConfig.disableOreSpawnOverworld) {
+                if (!WorldConfig.disableOreSpawnOverworld) {
                     addOreSpawn(
                             DEFeatures.draconiumOre
                                     .getDefaultState()
@@ -84,16 +84,16 @@ public class DEWorldGenHandler implements IWorldGenerator {
                 int x1 = actualX + random.nextInt(16);
                 int y = 20 + random.nextInt(170);
                 int z1 = actualZ + random.nextInt(16);
-                if (DEConfig.generateEnderComets
+                if (WorldConfig.generateEnderComets
                         && Math.sqrt(actualX * actualX + actualZ * actualZ) > 200
-                        && random.nextInt(Math.max(1, DEConfig.cometRarity)) == 0) {
+                        && random.nextInt(Math.max(1, WorldConfig.cometRarity)) == 0) {
                     new WorldGenEnderComet()
                             .generate(world, random, new BlockPos(actualX + 8, y, actualZ + 8));
                 }
-                if (DEConfig.generateChaosIslands) {
+                if (WorldConfig.generateChaosIslands) {
                     ChaosWorldGenHandler.generateChunk(world, chunkX, chunkZ, null, random);
                 }
-                if (!DEConfig.disableOreSpawnEnd) {
+                if (!WorldConfig.disableOreSpawnEnd) {
                     addOreSpawn(
                             DEFeatures.draconiumOre
                                     .getDefaultState()
@@ -112,7 +112,7 @@ public class DEWorldGenHandler implements IWorldGenerator {
 
                 break;
             case -1:
-                if (!DEConfig.disableOreSpawnNether) {
+                if (!WorldConfig.disableOreSpawnNether) {
                     addOreSpawn(
                             DEFeatures.draconiumOre
                                     .getDefaultState()
@@ -131,7 +131,7 @@ public class DEWorldGenHandler implements IWorldGenerator {
                 }
                 break;
             default:
-                for (Integer i : DEConfig.oreGenDimentionBlacklist) {
+                for (Integer i : WorldConfig.oreGenDimentionBlacklist) {
                     if (i == world.provider.getDimension()) return;
                 }
                 addOreSpawn(
@@ -198,7 +198,7 @@ public class DEWorldGenHandler implements IWorldGenerator {
             return;
         }
 
-        if (DEConfig.enableRetroGen) {
+        if (WorldConfig.enableRetroGen) {
             ArrayDeque<ChunkPos> chunks = WorldTickHandler.chunksToGen.get(dim);
 
             if (chunks == null) {

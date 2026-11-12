@@ -1,7 +1,7 @@
 package com.brandon3055.draconicevolution.entity;
 
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DraconicEvolution;
+import com.brandon3055.draconicevolution.config.MiscConfig;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class DragonChunkLoader implements LoadingCallback {
     public static boolean hasReportedIssue = false;
 
     public static void init() {
-        if (!DEConfig.chaosGuardianLoading) {
+        if (!MiscConfig.chaosGuardianLoading) {
             return;
         }
         instance = new DragonChunkLoader();
@@ -31,7 +31,7 @@ public class DragonChunkLoader implements LoadingCallback {
     }
 
     public static void updateLoaded(EntityChaosGuardian guardian) {
-        if (!DEConfig.chaosGuardianLoading) {
+        if (!MiscConfig.chaosGuardianLoading) {
             return;
         }
         Ticket ticket;
@@ -91,7 +91,7 @@ public class DragonChunkLoader implements LoadingCallback {
     }
 
     public static void stopLoading(EntityChaosGuardian guardian) {
-        if (!DEConfig.chaosGuardianLoading) {
+        if (!MiscConfig.chaosGuardianLoading) {
             return;
         }
         if (!ticketList.containsKey(guardian)) {
@@ -112,7 +112,7 @@ public class DragonChunkLoader implements LoadingCallback {
 
     @Override
     public void ticketsLoaded(List<Ticket> tickets, World world) {
-        if (!DEConfig.chaosGuardianLoading) {
+        if (!MiscConfig.chaosGuardianLoading) {
             return;
         }
         if (!tickets.isEmpty()) {

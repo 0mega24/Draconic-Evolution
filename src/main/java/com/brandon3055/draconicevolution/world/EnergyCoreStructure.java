@@ -5,12 +5,12 @@ import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.utils.ModelUtils;
 import com.brandon3055.brandonscore.utils.MultiBlockHelper;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileInvisECoreBlock;
 import com.brandon3055.draconicevolution.client.gui.GuiEnergyCore;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import java.util.List;
 import net.minecraft.block.Block;
@@ -707,7 +707,7 @@ public class EnergyCoreStructure extends MultiBlockHelper {
         //        String d = "draconicevolution:draconium_block";
 
         // region Hard
-        if (DEConfig.hardMode) {
+        if (TweaksConfig.hardMode) {
             storage.addRow(e, e, e, e, e, e, e, e, e, e, e, e, e);
             storage.addRow(e, e, e, e, e, e, e, e, e, e, e, e, e);
             storage.addRow(e, e, e, e, e, e, e, e, e, e, e, e, e);

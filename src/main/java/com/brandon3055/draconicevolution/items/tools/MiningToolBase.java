@@ -9,11 +9,11 @@ import codechicken.lib.raytracer.RayTracer;
 import com.brandon3055.brandonscore.inventory.BlockToStackHelper;
 import com.brandon3055.brandonscore.inventory.InventoryDynamic;
 import com.brandon3055.brandonscore.lib.PairKV;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.GuiHandler;
 import com.brandon3055.draconicevolution.api.itemconfig.*;
 import com.brandon3055.draconicevolution.api.itemupgrade.UpgradeHelper;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.entity.EntityLootCore;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -374,7 +374,7 @@ public abstract class MiningToolBase extends ToolBase {
         }
 
         if (!player.world.isRemote) {
-            if (DEConfig.disableLootCores) {
+            if (TweaksConfig.disableLootCores) {
                 for (int i = 0; i < inventoryDynamic.getSizeInventory(); i++) {
                     ItemStack sis = inventoryDynamic.getStackInSlot(i);
                     if (sis != null) {

@@ -2,13 +2,13 @@ package com.brandon3055.draconicevolution.handlers;
 
 import codechicken.lib.raytracer.RayTracer;
 import com.brandon3055.brandonscore.registry.ModFeatureParser;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.achievements.Achievements;
 import com.brandon3055.draconicevolution.api.ICrystalBinder;
 import com.brandon3055.draconicevolution.api.IReaperItem;
 import com.brandon3055.draconicevolution.capabilities.IShieldState;
 import com.brandon3055.draconicevolution.capabilities.ShieldStateProvider;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.entity.EntityChaosGuardian;
 import com.brandon3055.draconicevolution.entity.EntityDragonHeart;
 import com.brandon3055.draconicevolution.entity.EntityGuardianCrystal;
@@ -138,7 +138,7 @@ public class DEEventHandler {
 
             if (event.getEntity() instanceof EntityDragon) {
                 DragonFightManager manager = ((EntityDragon) event.getEntity()).getFightManager();
-                if (DEConfig.dragonEggSpawnOverride
+                if (TweaksConfig.dragonEggSpawnOverride
                         && manager != null
                         && manager.hasPreviouslyKilledDragon()) {
                     event.getEntity()
@@ -153,11 +153,11 @@ public class DEEventHandler {
             }
 
             if (ModFeatureParser.isEnabled(DEFeatures.draconiumDust)
-                    && DEConfig.dragonDustLootModifier > 0) {
+                    && TweaksConfig.dragonDustLootModifier > 0) {
                 double count =
-                        (DEConfig.dragonDustLootModifier * 0.9D)
+                        (TweaksConfig.dragonDustLootModifier * 0.9D)
                                 + (event.getEntity().world.rand.nextDouble()
-                                        * (DEConfig.dragonDustLootModifier * 0.2));
+                                        * (TweaksConfig.dragonDustLootModifier * 0.2));
                 for (int i = 0; i < (int) count; i++) {
                     float mm = 0.3F;
                     EntityItem item =
@@ -214,9 +214,10 @@ public class DEEventHandler {
         }
 
         World world = entity.world;
-        int rand = random.nextInt(Math.max(DEConfig.soulDropChance / dropChanceModifier, 1));
+        int rand = random.nextInt(Math.max(TweaksConfig.soulDropChance / dropChanceModifier, 1));
         int rand2 =
-                random.nextInt(Math.max(DEConfig.passiveSoulDropChance / dropChanceModifier, 1));
+                random.nextInt(
+                        Math.max(TweaksConfig.passiveSoulDropChance / dropChanceModifier, 1));
         boolean isAnimal = entity instanceof EntityAnimal;
 
         if ((rand == 0 && !isAnimal) || (rand2 == 0 && isAnimal)) {
@@ -241,18 +242,19 @@ public class DEEventHandler {
     }
 
     private boolean isValidEntity(EntityLivingBase entity) {
-        if (!entity.isNonBoss() && !DEConfig.allowBossSouls) {
+        if (!entity.isNonBoss() && !TweaksConfig.allowBossSouls) {
             return false;
         }
-        for (int i = 0; i < DEConfig.spawnerList.length; i++) {
-            if (DEConfig.spawnerList[i].equals(entity.getName()) && DEConfig.spawnerListWhiteList) {
+        for (int i = 0; i < TweaksConfig.spawnerList.length; i++) {
+            if (TweaksConfig.spawnerList[i].equals(entity.getName())
+                    && TweaksConfig.spawnerListWhiteList) {
                 return true;
-            } else if (DEConfig.spawnerList[i].equals(entity.getName())
-                    && !DEConfig.spawnerListWhiteList) {
+            } else if (TweaksConfig.spawnerList[i].equals(entity.getName())
+                    && !TweaksConfig.spawnerListWhiteList) {
                 return false;
             }
         }
-        return !DEConfig.spawnerListWhiteList;
+        return !TweaksConfig.spawnerListWhiteList;
     }
 
     // endregion
@@ -261,7 +263,7 @@ public class DEEventHandler {
     public void itemToss(ItemTossEvent event) {
         EntityItem item = event.getEntityItem();
         EntityPlayer player = event.getPlayer();
-        if (DEConfig.forceDroppedItemOwner
+        if (TweaksConfig.forceDroppedItemOwner
                 && player != null
                 && (item.getThrower() == null || item.getThrower().isEmpty())) {
             item.setThrower(player.getName());
@@ -351,7 +353,7 @@ public class DEEventHandler {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void itemTooltipEvent(ItemTooltipEvent event) {
-        if (DEConfig.expensiveDragonRitual
+        if (TweaksConfig.expensiveDragonRitual
                 && !event.getItemStack().isEmpty()
                 && event.getItemStack().getItem() == Items.END_CRYSTAL) {
             event.getToolTip()

@@ -4,8 +4,9 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import com.brandon3055.brandonscore.items.ItemBCore;
 import com.brandon3055.brandonscore.utils.ItemNBTHelper;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
+import com.brandon3055.draconicevolution.config.ClientConfig;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.entity.EntityLootCore;
 import java.util.List;
 import net.minecraft.client.util.ITooltipFlag;
@@ -95,9 +96,9 @@ public class Magnet extends ItemBCore implements IBauble {
 
                 String name = item.getItem().getRegistryName().toString();
                 if (itemEntity.isDead
-                        || (DEConfig.itemDislocatorBlacklistMap.containsKey(name)
-                                && (DEConfig.itemDislocatorBlacklistMap.get(name) == -1
-                                        || DEConfig.itemDislocatorBlacklistMap.get(name)
+                        || (TweaksConfig.itemDislocatorBlacklistMap.containsKey(name)
+                                && (TweaksConfig.itemDislocatorBlacklistMap.get(name) == -1
+                                        || TweaksConfig.itemDislocatorBlacklistMap.get(name)
                                                 == item.getItemDamage()))) {
                     continue;
                 }
@@ -174,7 +175,7 @@ public class Magnet extends ItemBCore implements IBauble {
                 }
             }
 
-            if (flag && !DEConfig.disableDislocatorSound) {
+            if (flag && !ClientConfig.disableDislocatorSound) {
                 world.playSound(
                         null,
                         entity.posX,
@@ -206,7 +207,7 @@ public class Magnet extends ItemBCore implements IBauble {
                         if (MinecraftForge.EVENT_BUS.post(new PlayerPickupXpEvent(player, orb))) {
                             continue;
                         }
-                        if (!DEConfig.disableDislocatorSound) {
+                        if (!ClientConfig.disableDislocatorSound) {
                             world.playSound(
                                     (EntityPlayer) null,
                                     entity.posX,

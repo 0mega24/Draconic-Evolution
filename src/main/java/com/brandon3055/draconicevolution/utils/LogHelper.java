@@ -2,8 +2,8 @@ package com.brandon3055.draconicevolution.utils;
 
 import codechicken.lib.reflect.ObfMapping;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DraconicEvolution;
+import com.brandon3055.draconicevolution.config.MiscConfig;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,7 +32,7 @@ public class LogHelper {
     // Standard log entries.
 
     public static void dev(Object object) {
-        if (!ObfMapping.obfuscated || DEConfig.devLog) {
+        if (!ObfMapping.obfuscated || MiscConfig.devLog) {
             log(Level.INFO, "[DEV]: " + object);
         }
     }
@@ -72,7 +72,7 @@ public class LogHelper {
     // log with format.
 
     public static void dev(String object, Object... format) {
-        if (!ObfMapping.obfuscated || DEConfig.devLog) {
+        if (!ObfMapping.obfuscated || MiscConfig.devLog) {
             log(Level.INFO, "[DEV]: " + String.format(object, format));
         }
     }
@@ -179,7 +179,7 @@ public class LogHelper {
     // Log with trace element.
 
     public static void bigDev(String format, Object... data) {
-        if (!ObfMapping.obfuscated || DEConfig.devLog) {
+        if (!ObfMapping.obfuscated || MiscConfig.devLog) {
             StackTraceElement[] trace = Thread.currentThread().getStackTrace();
             dev("****************************************");
             dev("* " + format, data);

@@ -1,35 +1,56 @@
-package com.brandon3055.draconicevolution.utils;
+package com.brandon3055.draconicevolution.config;
 
 /**
  * Parses the colour config options once, at config load, so that renderers only read ints and
  * floats each frame.
  *
  * <p>Colours are "#RRGGBB". Ratios are "R:G:B" multipliers, for example "1.0:0.5:1.0". A blank or
- * bad value gives the fallback.
+ * bad value gives the default.
  */
 public final class ConfigColours {
 
     private ConfigColours() {}
 
-    public static int parseRGB(String value, int fallback) {
+    /** Parses value; if it is blank or bad, parses fallback (the option's default). */
+    public static int parseRGB(String value, String fallback) {
+        int rgb = parseRGB(value);
+        return rgb >= 0 ? rgb : parseRGB(fallback);
+    }
+
+    /** Parses value; if it is blank or bad, parses fallback (the option's default). */
+    public static float[] parseRatio(String value, String fallback) {
+        float[] ratio = parseRatio(value);
+        return ratio != null ? ratio : parseRatio(fallback);
+    }
+
+    /** Returns the RGB value of "#RRGGBB" or "RRGGBB", or -1 if it is not valid. */
+    private static int parseRGB(String value) {
         String hex = value.trim();
-        if (hex.startsWith("#")) hex = hex.substring(1);
+        if (hex.startsWith("#")) {
+            hex = hex.substring(1);
+        }
+        if (hex.length() != 6) {
+            return -1;
+        }
         try {
-            return hex.length() == 6 ? Integer.parseInt(hex, 16) : fallback;
+            return Integer.parseInt(hex, 16);
         } catch (NumberFormatException e) {
-            return fallback;
+            return -1;
         }
     }
 
-    public static float[] parseRatio(String value, float[] fallback) {
+    /** Returns the three multipliers of "R:G:B", or null if it is not valid. */
+    private static float[] parseRatio(String value) {
         String[] parts = value.trim().split(":");
-        if (parts.length != 3) return fallback;
+        if (parts.length != 3) {
+            return null;
+        }
         try {
             return new float[] {
                 Float.parseFloat(parts[0]), Float.parseFloat(parts[1]), Float.parseFloat(parts[2])
             };
         } catch (NumberFormatException e) {
-            return fallback;
+            return null;
         }
     }
 

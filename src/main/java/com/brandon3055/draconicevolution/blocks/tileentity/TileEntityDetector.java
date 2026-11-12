@@ -13,12 +13,12 @@ import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedByte;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedShort;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.GuiHandler;
 import com.brandon3055.draconicevolution.blocks.machines.EntityDetector;
 import com.brandon3055.draconicevolution.client.DEParticles;
 import com.brandon3055.draconicevolution.client.render.particle.ParticleStarSpark;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.state.IBlockState;
@@ -434,7 +434,7 @@ public class TileEntityDetector extends TileEnergyBase
     }
 
     public int getPulseCost() {
-        return (int) (125 * Math.pow(RANGE.value, 1.5) * DEConfig.entityDetectorPowerModifier);
+        return (int) (125 * Math.pow(RANGE.value, 1.5) * TweaksConfig.entityDetectorPowerModifier);
     }
 
     @Override

@@ -5,9 +5,9 @@ import com.brandon3055.brandonscore.client.render.TESRBase;
 import com.brandon3055.brandonscore.utils.ModelUtils;
 import com.brandon3055.brandonscore.utils.Teleporter;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileDislocatorPedestal;
+import com.brandon3055.draconicevolution.config.ClientConfig;
 import com.brandon3055.draconicevolution.items.tools.Dislocator;
 import com.brandon3055.draconicevolution.items.tools.DislocatorAdvanced;
 import java.util.List;
@@ -83,7 +83,7 @@ public class RenderTileDislocatorPedestal extends TESRBase<TileDislocatorPedesta
                         && mop.getBlockPos().equals(te.getPos());
         boolean isSneaking = player.isSneaking();
 
-        if (!isCursorOver && (isSneaking != DEConfig.invertDPDSB)) {
+        if (!isCursorOver && (isSneaking != ClientConfig.invertDPDSB)) {
             return;
         }
 

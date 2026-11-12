@@ -8,11 +8,11 @@ import com.brandon3055.brandonscore.lib.EnergyHelper;
 import com.brandon3055.brandonscore.utils.InfoHelper;
 import com.brandon3055.brandonscore.utils.ItemNBTHelper;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.api.IInvCharge;
 import com.brandon3055.draconicevolution.api.itemupgrade.IUpgradableItem;
 import com.brandon3055.draconicevolution.api.itemupgrade.UpgradeHelper;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.entity.EntityPersistentItem;
 import com.brandon3055.draconicevolution.integration.BaublesHelper;
 import com.brandon3055.draconicevolution.integration.ModHelper;
@@ -107,11 +107,11 @@ public class DraconiumCapacitor extends ItemEnergyBase
 
         switch (tier) {
             case 0:
-                return DEConfig.wyvernFluxCapBaseCap
-                        + (upgrade * (DEConfig.wyvernFluxCapBaseCap / 2));
+                return TweaksConfig.wyvernFluxCapBaseCap
+                        + (upgrade * (TweaksConfig.wyvernFluxCapBaseCap / 2));
             case 1:
-                return DEConfig.draconicFluxCapBaseCap
-                        + (upgrade * (DEConfig.draconicFluxCapBaseCap / 2));
+                return TweaksConfig.draconicFluxCapBaseCap
+                        + (upgrade * (TweaksConfig.draconicFluxCapBaseCap / 2));
             case 2:
                 return Integer.MAX_VALUE;
         }

@@ -7,7 +7,6 @@ import codechicken.lib.math.MathHelper;
 import com.brandon3055.brandonscore.BrandonsCore;
 import com.brandon3055.brandonscore.lib.DelayedTask;
 import com.brandon3055.brandonscore.utils.InventoryUtils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.api.itemconfig.BooleanConfigField;
 import com.brandon3055.draconicevolution.api.itemconfig.IntegerConfigField;
@@ -15,6 +14,8 @@ import com.brandon3055.draconicevolution.api.itemconfig.ItemConfigFieldRegistry;
 import com.brandon3055.draconicevolution.api.itemconfig.ToolConfigHelper;
 import com.brandon3055.draconicevolution.api.itemupgrade.UpgradeHelper;
 import com.brandon3055.draconicevolution.client.model.ModelDraconicArmor;
+import com.brandon3055.draconicevolution.config.ClientConfig;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.integration.ModHelper;
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
 import com.brandon3055.draconicevolution.items.tools.ToolStats;
@@ -97,8 +98,8 @@ public class DraconicArmor extends WyvernArmor {
                                     0,
                                     0,
                                     MathHelper.clip(
-                                            DEConfig.flightSpeedLimit != -1
-                                                    ? DEConfig.flightSpeedLimit
+                                            TweaksConfig.flightSpeedLimit != -1
+                                                    ? TweaksConfig.flightSpeedLimit
                                                     : 600,
                                             0,
                                             1200),
@@ -210,7 +211,7 @@ public class DraconicArmor extends WyvernArmor {
             return model_invisible;
         }
 
-        if (DEConfig.disable3DModels) {
+        if (ClientConfig.disable3DModels) {
             return super.getArmorModel(entityLiving, itemStack, armorSlot, _default);
         }
 
@@ -436,8 +437,8 @@ public class DraconicArmor extends WyvernArmor {
     @Override
     public float getFlightSpeedModifier(ItemStack stack, EntityPlayer player) {
         int value = ToolConfigHelper.getIntegerField("armorFSpeedModifier", stack);
-        if (DEConfig.flightSpeedLimit > -1 && value > DEConfig.flightSpeedLimit) {
-            value = DEConfig.flightSpeedLimit;
+        if (TweaksConfig.flightSpeedLimit > -1 && value > TweaksConfig.flightSpeedLimit) {
+            value = TweaksConfig.flightSpeedLimit;
         }
 
         float modifier = value / 100F;

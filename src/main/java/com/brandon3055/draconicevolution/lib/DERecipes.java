@@ -7,8 +7,8 @@ import static net.minecraft.init.Blocks.*;
 import static net.minecraft.init.Items.*;
 import static net.minecraft.init.Items.SKULL;
 
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -2203,7 +2203,7 @@ public class DERecipes {
                                     new ResourceLocation("draconicevolution:eio_spawner")));
         }
 
-        if (DEConfig.clearDataRecipes) {
+        if (TweaksConfig.clearDataRecipes) {
             for (int i = 0; i < 9; i++) {
                 addShapeless(
                         ALL,

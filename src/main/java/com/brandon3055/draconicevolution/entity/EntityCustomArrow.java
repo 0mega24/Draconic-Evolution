@@ -2,8 +2,8 @@ package com.brandon3055.draconicevolution.entity;
 
 import com.brandon3055.brandonscore.client.particle.BCEffectHandler;
 import com.brandon3055.brandonscore.lib.Vec3D;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.client.DEParticles;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.handlers.BowHandler.BowProperties;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -207,7 +207,7 @@ public class EntityCustomArrow extends EntityArrow {
                             prevPosZ,
                             bowProperties.explosionPower,
                             false,
-                            DEConfig.bowBlockDamage) {
+                            TweaksConfig.bowBlockDamage) {
                         @Override
                         public EntityLivingBase getExplosivePlacedBy() {
                             return shootingEntity instanceof EntityLivingBase

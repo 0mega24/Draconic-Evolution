@@ -2,7 +2,7 @@ package com.brandon3055.draconicevolution.blocks.tileentity;
 
 import codechicken.lib.data.MCDataInput;
 import com.brandon3055.brandonscore.blocks.TileInventoryBase;
-import com.brandon3055.draconicevolution.DEConfig;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.integration.ModHelper;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
@@ -66,7 +66,7 @@ public class TileDissEnchanter extends TileInventoryBase {
             int cost =
                     (int)
                             ((((double) lvl / (double) e.getMaxLevel()) * 20)
-                                    * DEConfig.disenchnaterCostMultiplyer);
+                                    * TweaksConfig.disenchnaterCostMultiplyer);
 
             if (!client.capabilities.isCreativeMode && cost > client.experienceLevel) {
                 client.sendMessage(

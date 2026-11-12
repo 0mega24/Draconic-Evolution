@@ -6,7 +6,6 @@ import com.brandon3055.brandonscore.lib.EnergyHelper;
 import com.brandon3055.brandonscore.lib.Vec3B;
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.api.ICrystalLink;
 import com.brandon3055.draconicevolution.blocks.energynet.EnergyCrystal;
 import com.brandon3055.draconicevolution.blocks.energynet.rendering.ENetFXHandler;
@@ -14,6 +13,7 @@ import com.brandon3055.draconicevolution.blocks.energynet.rendering.ENetFXHandle
 import com.brandon3055.draconicevolution.blocks.energynet.rendering.ENetFXHandlerServerWireless;
 import com.brandon3055.draconicevolution.client.render.effect.CrystalFXRing;
 import com.brandon3055.draconicevolution.client.render.effect.CrystalGLFXBase;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.handlers.DEEventHandler;
 import java.util.*;
 import net.minecraft.block.state.IBlockState;
@@ -198,10 +198,10 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
 
     public int getMaxWirelessTransfer() {
         return getTier() == 0
-                ? DEConfig.basicWirelessMaxTransfer
+                ? TweaksConfig.basicWirelessMaxTransfer
                 : getTier() == 1
-                        ? DEConfig.wyvernWirelessMaxTransfer
-                        : DEConfig.draconicWirelessMaxTransfer;
+                        ? TweaksConfig.wyvernWirelessMaxTransfer
+                        : TweaksConfig.draconicWirelessMaxTransfer;
     }
 
     public int receiverTransfer(int index) {

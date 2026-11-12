@@ -5,8 +5,8 @@ import com.brandon3055.brandonscore.client.gui.modulargui_old.ModularGuiContaine
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.IMGuiListener;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileDissEnchanter;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.inventory.ContainerDissEnchanter;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +130,7 @@ public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter
                 int cost =
                         (int)
                                 ((((double) lvl / (double) e.getMaxLevel()) * 20)
-                                        * DEConfig.disenchnaterCostMultiplyer);
+                                        * TweaksConfig.disenchnaterCostMultiplyer);
                 String xp =
                         (player.experienceLevel >= cost ? TextFormatting.GREEN : TextFormatting.RED)
                                 + ""

@@ -8,9 +8,9 @@ import com.brandon3055.brandonscore.blocks.TileEnergyInventoryBase;
 import com.brandon3055.brandonscore.lib.EnergyHelper;
 import com.brandon3055.brandonscore.lib.datamanager.*;
 import com.brandon3055.brandonscore.utils.DataUtils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.DraconiumChest;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.inventory.ContainerDraconiumChest;
 import com.brandon3055.draconicevolution.items.ItemCore;
 import com.brandon3055.draconicevolution.lib.OreDoublingRegistry;
@@ -481,7 +481,8 @@ public class TileDraconiumChest extends TileEnergyInventoryBase
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
         if (!stack.isEmpty()
-                && DEConfig.chestBlacklist.contains(stack.getItem().getRegistryName().toString())) {
+                && TweaksConfig.chestBlacklist.contains(
+                        stack.getItem().getRegistryName().toString())) {
             return false;
         }
         if (index >= FIRST_FURNACE_SLOT && index <= LAST_FURNACE_SLOT) {
