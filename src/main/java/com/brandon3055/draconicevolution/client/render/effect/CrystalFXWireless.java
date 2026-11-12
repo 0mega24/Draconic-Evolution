@@ -7,6 +7,7 @@ import com.brandon3055.brandonscore.client.particle.IGLFXHandler;
 import com.brandon3055.draconicevolution.blocks.energynet.tileentity.TileCrystalWirelessIO;
 import com.brandon3055.draconicevolution.client.DEParticles;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCrystalVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
 import java.util.ArrayList;
@@ -213,7 +214,9 @@ public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
                 float rotationYZ,
                 float rotationXY,
                 float rotationXZ) {
-            GlStateManager.color(0.0F, 1.0F, 1.0F, 1.0F);
+            int rgb = EnergyCrystalVisuals.wirelessTransferRGB;
+            GlStateManager.color(
+                    (rgb >> 16 & 0xFF) / 255F, (rgb >> 8 & 0xFF) / 255F, (rgb & 0xFF) / 255F, 1F);
             GlStateTracker.pushState();
             GlStateManager.depthMask(false);
             GlStateManager.glTexParameterf(3553, 10242, 10497.0F);

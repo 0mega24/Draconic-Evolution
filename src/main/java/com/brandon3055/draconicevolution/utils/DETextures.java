@@ -140,6 +140,12 @@ public class DETextures implements IIconRegister, IResourceManagerReloadListener
     public static final String ENERGY_BEAM_BASIC = "textures/particle/energy_beam_basic.png";
     public static final String ENERGY_BEAM_WYVERN = "textures/particle/energy_beam_wyvern.png";
     public static final String ENERGY_BEAM_DRACONIC = "textures/particle/energy_beam_draconic.png";
+    public static final String ENERGY_BEAM_BASIC_TINT =
+            "textures/particle/energy_beam_basic_tint.png";
+    public static final String ENERGY_BEAM_WYVERN_TINT =
+            "textures/particle/energy_beam_wyvern_tint.png";
+    public static final String ENERGY_BEAM_DRACONIC_TINT =
+            "textures/particle/energy_beam_draconic_tint.png";
     public static final String REACTOR_STABILIZER = "textures/models/reactor_stabilizer_core.png";
     public static final String REACTOR_STABILIZER_RING =
             "textures/models/reactor_stabilizer_ring.png";

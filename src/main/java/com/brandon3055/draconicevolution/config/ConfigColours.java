@@ -54,6 +54,23 @@ public final class ConfigColours {
         }
     }
 
+    /**
+     * Parses a list of colours, one per tier. A missing, blank or bad entry uses the default at the
+     * same index. If allowBlank is true, a blank entry gives -1 instead (meaning "stock").
+     */
+    public static int[] parseRGBList(String[] values, String[] defaults, boolean allowBlank) {
+        int[] out = new int[defaults.length];
+        for (int i = 0; i < defaults.length; i++) {
+            String value = i < values.length ? values[i] : "";
+            if (allowBlank && value.trim().isEmpty()) {
+                out[i] = -1;
+            } else {
+                out[i] = parseRGB(value, defaults[i]);
+            }
+        }
+        return out;
+    }
+
     /** Splits 0xRRGGBB into {r, g, b} floats in the range 0-1, for shader uniforms. */
     public static float[] toFloats(int rgb) {
         return new float[] {

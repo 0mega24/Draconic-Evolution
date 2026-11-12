@@ -3,6 +3,7 @@ package com.brandon3055.draconicevolution.client.render.effect;
 import codechicken.lib.render.state.GlStateTracker;
 import com.brandon3055.brandonscore.client.particle.IGLFXHandler;
 import com.brandon3055.draconicevolution.blocks.energynet.tileentity.TileCrystalBase;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCrystalVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -36,13 +37,10 @@ public class CrystalFXIO extends CrystalGLFXBase<TileCrystalBase> {
             setExpired();
         }
 
-        float[] r = {0.0F, 0.8F, 1.0F};
-        float[] g = {0.8F, 0.1F, 0.7F};
-        float[] b = {1F, 1F, 0.2F};
-
-        particleRed = r[tile.getTier()];
-        particleGreen = g[tile.getTier()];
-        particleBlue = b[tile.getTier()];
+        int rgb = EnergyCrystalVisuals.particleRGB[tile.getTier()];
+        particleRed = (rgb >> 16 & 0xFF) / 255F;
+        particleGreen = (rgb >> 8 & 0xFF) / 255F;
+        particleBlue = (rgb & 0xFF) / 255F;
     }
 
     @Override
