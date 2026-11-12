@@ -7,7 +7,11 @@ import codechicken.lib.packet.PacketCustom;
 import cofh.redstoneflux.api.IEnergyHandler;
 import cofh.redstoneflux.impl.EnergyStorage;
 import com.brandon3055.brandonscore.blocks.TileBCBase;
-import com.brandon3055.brandonscore.lib.*;
+import com.brandon3055.brandonscore.lib.ChatHelper;
+import com.brandon3055.brandonscore.lib.EnergyHandlerWrapper;
+import com.brandon3055.brandonscore.lib.IActivatableTile;
+import com.brandon3055.brandonscore.lib.ITilePlaceListener;
+import com.brandon3055.brandonscore.lib.Vec3B;
 import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.DraconicEvolution;
@@ -24,7 +28,11 @@ import com.brandon3055.draconicevolution.client.render.shaders.DEShaders;
 import com.brandon3055.draconicevolution.handlers.DEEventHandler;
 import com.brandon3055.draconicevolution.network.CrystalUpdateBatcher.BatchedCrystalUpdate;
 import io.netty.buffer.ByteBuf;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.state.IBlockState;
@@ -186,8 +194,9 @@ public abstract class TileCrystalBase extends TileBCBase
         if (transfer < minFlow) {
             transfer = (int) Math.min(minFlow, energyToEqual);
         }
+        transfer = energyStorage.extractEnergy(transfer, false);
 
-        sendTo.modifyEnergyStored((transfer = energyStorage.extractEnergy(transfer, false)));
+        sendTo.modifyEnergyStored((transfer));
 
         return transfer;
     }
@@ -355,6 +364,8 @@ public abstract class TileCrystalBase extends TileBCBase
                 return 64;
             case 2:
                 return 127;
+            default:
+                break;
         }
         return 0;
     }
@@ -402,6 +413,8 @@ public abstract class TileCrystalBase extends TileBCBase
                 return 16000000;
             case 2:
                 return 64000000;
+            default:
+                break;
         }
         return 0;
     }
@@ -825,11 +838,6 @@ public abstract class TileCrystalBase extends TileBCBase
             data.linkTarget = BlockPos.fromLong(buf.readLong());
             data.data = ByteBufUtils.readUTF8String(buf);
             return data;
-        }
-
-        @Override
-        public int hashCode() {
-            return super.hashCode();
         }
     }
 }

@@ -55,8 +55,9 @@ public class DislocatorAdvanced extends Dislocator implements IHudDisplay {
         World world = player.world;
 
         if (!player.capabilities.isCreativeMode && fuel <= 0) {
-            if (world.isRemote)
+            if (world.isRemote) {
                 player.sendMessage(new TextComponentTranslation("msg.teleporterOutOfFuel.txt"));
+            }
             return true;
         }
 

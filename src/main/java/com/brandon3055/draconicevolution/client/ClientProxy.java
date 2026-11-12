@@ -16,9 +16,24 @@ import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.client.keybinding.KeyBindings;
 import com.brandon3055.draconicevolution.client.keybinding.KeyInputHandler;
 import com.brandon3055.draconicevolution.client.model.ArmorModelHelper;
-import com.brandon3055.draconicevolution.client.render.entity.*;
+import com.brandon3055.draconicevolution.client.render.entity.LayerContributorPerkRenderer;
+import com.brandon3055.draconicevolution.client.render.entity.RenderChaosGuardian;
+import com.brandon3055.draconicevolution.client.render.entity.RenderCustomArrow;
+import com.brandon3055.draconicevolution.client.render.entity.RenderDragonHeart;
+import com.brandon3055.draconicevolution.client.render.entity.RenderEntityChaosVortex;
+import com.brandon3055.draconicevolution.client.render.entity.RenderEntityEnderEnergyManipulator;
+import com.brandon3055.draconicevolution.client.render.entity.RenderGuardianCrystal;
+import com.brandon3055.draconicevolution.client.render.entity.RenderGuardianProjectile;
+import com.brandon3055.draconicevolution.client.render.entity.RenderLootCore;
 import com.brandon3055.draconicevolution.config.ClientConfig;
-import com.brandon3055.draconicevolution.entity.*;
+import com.brandon3055.draconicevolution.entity.EntityChaosGuardian;
+import com.brandon3055.draconicevolution.entity.EntityChaosImplosion;
+import com.brandon3055.draconicevolution.entity.EntityCustomArrow;
+import com.brandon3055.draconicevolution.entity.EntityDragonHeart;
+import com.brandon3055.draconicevolution.entity.EntityEnderEnergyManipulator;
+import com.brandon3055.draconicevolution.entity.EntityGuardianCrystal;
+import com.brandon3055.draconicevolution.entity.EntityGuardianProjectile;
+import com.brandon3055.draconicevolution.entity.EntityLootCore;
 import com.brandon3055.draconicevolution.lib.DEImageHandler;
 import com.brandon3055.draconicevolution.network.ccnetwork.ClientPacketHandler;
 import com.brandon3055.draconicevolution.utils.DETextures;
@@ -77,7 +92,8 @@ public class ClientProxy extends CommonProxy {
 
         for (RenderPlayer renderPlayer :
                 Minecraft.getMinecraft().getRenderManager().getSkinMap().values()) {
-            renderPlayer.addLayer(layerWings = new LayerContributorPerkRenderer(renderPlayer));
+            layerWings = new LayerContributorPerkRenderer(renderPlayer);
+            renderPlayer.addLayer(layerWings);
         }
     }
 

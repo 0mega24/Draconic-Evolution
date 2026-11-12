@@ -29,7 +29,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 /** Created by brandon3055 on 26/11/2016. */
-public class BinderHandler {
+public final class BinderHandler {
+
+    private BinderHandler() {}
 
     /**
      * Handles binding and un-binding an ICrystalLink to the tool. Also passes the click through to

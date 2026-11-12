@@ -30,7 +30,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
@@ -276,10 +280,14 @@ public class DislocatorBound extends Dislocator implements IRenderOverride {
         LinkData data = DislocatorLinkHandler.getLink(stack, world);
         if (isPlayer(stack)) {
             MinecraftServer server = world.getMinecraftServer();
-            if (server == null) return null;
+            if (server == null) {
+                return null;
+            }
             EntityPlayer player =
                     server.getPlayerList().getPlayerByUUID(UUID.fromString(getPlayerID(stack)));
-            if (player == null) return null;
+            if (player == null) {
+                return null;
+            }
             return new TeleportLocation(
                     player.posX, player.posY + 0.2, player.posZ, player.dimension);
         }

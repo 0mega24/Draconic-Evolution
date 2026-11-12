@@ -203,7 +203,7 @@ public class ExplosionFX extends BCParticle {
         public double scale;
         public int randOffset;
 
-        public EffectPart(double scale) {
+        EffectPart(double scale) {
             this.scale = scale;
             randOffset = rand.nextInt(3265324);
         }
@@ -223,7 +223,7 @@ public class ExplosionFX extends BCParticle {
 
     private class LeadingWave extends EffectPart {
 
-        public LeadingWave(double scale) {
+        LeadingWave(double scale) {
             super(scale);
             maxAge = 40 + (int) scale;
         }
@@ -270,7 +270,7 @@ public class ExplosionFX extends BCParticle {
 
     private class BlastWave extends EffectPart {
 
-        public BlastWave(double scale) {
+        BlastWave(double scale) {
             super(scale);
             maxAge = 150 + (int) (scale * 5);
         }
@@ -321,7 +321,7 @@ public class ExplosionFX extends BCParticle {
 
     private class CoreEffect extends EffectPart {
 
-        public CoreEffect(double scale) {
+        CoreEffect(double scale) {
             super(scale);
             maxAge = 60;
         }

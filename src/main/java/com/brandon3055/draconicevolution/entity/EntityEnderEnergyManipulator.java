@@ -16,7 +16,13 @@ import net.minecraft.entity.EntityAreaEffectCloud;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.dragon.phase.*;
+import net.minecraft.entity.boss.dragon.phase.IPhase;
+import net.minecraft.entity.boss.dragon.phase.PhaseHover;
+import net.minecraft.entity.boss.dragon.phase.PhaseLanding;
+import net.minecraft.entity.boss.dragon.phase.PhaseLandingApproach;
+import net.minecraft.entity.boss.dragon.phase.PhaseList;
+import net.minecraft.entity.boss.dragon.phase.PhaseSittingBase;
+import net.minecraft.entity.boss.dragon.phase.PhaseTakeoff;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -31,7 +37,11 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketExplosion;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.EnumHandSide;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -84,7 +94,7 @@ public class EntityEnderEnergyManipulator extends EntityLivingBase {
             for (exitPortalLocation = new BlockPos(0, 100, 0);
                     world.getBlockState(this.exitPortalLocation).getBlock() != Blocks.BEDROCK
                             && exitPortalLocation.getY() > 30;
-                    this.exitPortalLocation = this.exitPortalLocation.down()) ;
+                    this.exitPortalLocation = this.exitPortalLocation.down()) {}
             if (exitPortalLocation.getY() <= 30) {
                 cancel();
                 return;
@@ -101,7 +111,9 @@ public class EntityEnderEnergyManipulator extends EntityLivingBase {
             this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
         } else {
             setPosition(0.5, exitPortalLocation.getY() + 0.5, 0.5);
-            motionX = motionY = motionZ = 0;
+            motionZ = 0;
+            motionY = motionZ;
+            motionX = motionY;
         }
 
         if (!world.isRemote) {
@@ -190,7 +202,9 @@ public class EntityEnderEnergyManipulator extends EntityLivingBase {
                         motionZ = dirVec.z * speed;
                         stageTime++;
                     } else {
-                        motionX = motionY = motionZ = 0;
+                        motionZ = 0;
+                        motionY = motionZ;
+                        motionX = motionY;
                         setPosition(0.5, exitPortalLocation.getY() + 0.5, 0.5);
                         setStage(Stage.ACQUIRE_DRAGON);
                         stageTime = 0;
@@ -410,7 +424,9 @@ public class EntityEnderEnergyManipulator extends EntityLivingBase {
                                 new EntityPersistentItem(
                                         world, posX, posY, posZ, new ItemStack(Blocks.DRAGON_EGG));
                         world.spawnEntity(entityItem);
-                        entityItem.motionX = entityItem.motionY = entityItem.motionZ = 0;
+                        entityItem.motionZ = 0;
+                        entityItem.motionY = entityItem.motionZ;
+                        entityItem.motionX = entityItem.motionY;
                         cleanup();
                         if (dragon != null) {
                             dragon.getPhaseManager().setPhase(PhaseList.CHARGING_PLAYER);
@@ -453,6 +469,8 @@ public class EntityEnderEnergyManipulator extends EntityLivingBase {
                     }
                     break;
                 }
+            default:
+                break;
         }
     }
 

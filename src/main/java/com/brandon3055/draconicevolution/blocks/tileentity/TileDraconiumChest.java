@@ -6,7 +6,12 @@ import codechicken.lib.inventory.InventoryUtils;
 import cofh.redstoneflux.api.IEnergyReceiver;
 import com.brandon3055.brandonscore.blocks.TileEnergyInventoryBase;
 import com.brandon3055.brandonscore.lib.EnergyHelper;
-import com.brandon3055.brandonscore.lib.datamanager.*;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedByte;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedDouble;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedEnum;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedInt;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedShort;
 import com.brandon3055.brandonscore.utils.DataUtils;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.DraconiumChest;
@@ -14,7 +19,7 @@ import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.inventory.ContainerDraconiumChest;
 import com.brandon3055.draconicevolution.items.ItemCore;
 import com.brandon3055.draconicevolution.lib.OreDoublingRegistry;
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -359,6 +364,8 @@ public class TileDraconiumChest extends TileEnergyInventoryBase
                                 stack.shrink(count);
                                 stacksInserted = true;
                             }
+                            break;
+                        default:
                             break;
                     }
 
@@ -930,10 +937,18 @@ public class TileDraconiumChest extends TileEnergyInventoryBase
             nsweIO = compound.getByte("SR_" + regionID + "_nsweIO");
             dufIO = compound.getByte("SR_" + regionID + "_dufIO");
 
-            if (xPos < 0 || xPos > 25) xPos = 0;
-            if (yPos < 0 || yPos > 9) yPos = 0;
-            if (xSize < 1 || xSize > 26 - xPos) xSize = 0;
-            if (ySize < 1 || ySize > 10 - yPos) ySize = 0;
+            if (xPos < 0 || xPos > 25) {
+                xPos = 0;
+            }
+            if (yPos < 0 || yPos > 9) {
+                yPos = 0;
+            }
+            if (xSize < 1 || xSize > 26 - xPos) {
+                xSize = 0;
+            }
+            if (ySize < 1 || ySize > 10 - yPos) {
+                ySize = 0;
+            }
 
             validate();
         }
@@ -1000,6 +1015,8 @@ public class TileDraconiumChest extends TileEnergyInventoryBase
                     return (nsweIO >> 2) & 3;
                 case EAST:
                     return nsweIO & 3;
+                default:
+                    break;
             }
             return 0;
         }
@@ -1031,6 +1048,9 @@ public class TileDraconiumChest extends TileEnergyInventoryBase
                     return;
                 case EAST:
                     nsweIO = (byte) ((nsweIO & 0xFC) | io);
+                    return;
+                default:
+                    break;
             }
         }
 

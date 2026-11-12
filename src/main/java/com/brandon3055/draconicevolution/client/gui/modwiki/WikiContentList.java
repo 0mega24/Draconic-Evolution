@@ -1,12 +1,20 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki;
 
 import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_WINDOW;
-import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.*;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_BRANCH_CATEGORY;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_BRANCH_ID;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_BRANCH_NAME;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_ICON_TYPE;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ICON_TYPE_OFF;
 
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.IMGuiListener;
-import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonSolid;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiLabel;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiList;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiListEntry;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiScrollBar;
 import com.brandon3055.brandonscore.client.utils.GuiHelper;
 import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.client.gui.modwiki.guielements.WikiTreeButton;
@@ -49,73 +57,71 @@ public class WikiContentList extends MGuiList implements IMGuiListener {
     @Override
     public void initElement() {
         toRemove.addAll(childElements);
-
-        addChild(
-                buttonToggleNav =
-                        ((MGuiButtonSolid)
-                                        new MGuiButtonSolid(
-                                                modularGui,
-                                                "TOGGLE_PANEL",
-                                                xSize - 11,
-                                                yPos + 1,
-                                                10,
-                                                10,
-                                                "<") {
-                                            @Override
-                                            public int getTextColour(
-                                                    boolean hovered, boolean disabled) {
-                                                return mixColours(
-                                                        WikiConfig.NAV_WINDOW,
-                                                        (hovered ? 0x606060 : 0x404040));
-                                            }
-                                        }.setListener(this)
-                                                .setToolTip(
-                                                        new String[] {"Toggle Navigation Window"}))
-                                .setColours(0, 0, 0));
-        addChild(
-                navLabel =
-                        new MGuiLabel(
-                                modularGui,
-                                xPos,
-                                yPos,
-                                xSize,
-                                12,
-                                I18n.format("guiwiki.label.navigation")) {
-                            @Override
-                            public int getTextColour() {
-                                return WikiConfig.TEXT_COLOUR;
-                            }
-                        }.setAlignment(EnumAlignment.LEFT).setShadow(false));
-        addChild(
-                branchLabel =
-                        new MGuiLabel(
-                                modularGui,
-                                xPos + 12,
-                                yPos + 12,
-                                maxXSize - 12,
-                                12,
-                                I18n.format("guiwiki.label.mods")) {
-                            @Override
-                            public int getTextColour() {
-                                return WikiConfig.TEXT_COLOUR;
-                            }
-                        }.setShadow(false));
-        addChild(
-                buttonAddBranch =
-                        (MGuiButtonSolid)
+        buttonToggleNav =
+                ((MGuiButtonSolid)
                                 new MGuiButtonSolid(
                                         modularGui,
-                                        "ADD_BRANCH",
-                                        xPos + maxXSize - 40,
-                                        yPos,
-                                        28,
-                                        12,
-                                        "[" + Utils.SELECT + "4add" + Utils.SELECT + "r]") {
+                                        "TOGGLE_PANEL",
+                                        xSize - 11,
+                                        yPos + 1,
+                                        10,
+                                        10,
+                                        "<") {
                                     @Override
                                     public int getTextColour(boolean hovered, boolean disabled) {
-                                        return hovered ? 0xFFFFFF : 0xFF000000;
+                                        return mixColours(
+                                                WikiConfig.NAV_WINDOW,
+                                                (hovered ? 0x606060 : 0x404040));
                                     }
-                                }.setColours(0, 0, 0).setShadow(false));
+                                }.setListener(this)
+                                        .setToolTip(new String[] {"Toggle Navigation Window"}))
+                        .setColours(0, 0, 0);
+
+        addChild(buttonToggleNav);
+        navLabel =
+                new MGuiLabel(
+                        modularGui,
+                        xPos,
+                        yPos,
+                        xSize,
+                        12,
+                        I18n.format("guiwiki.label.navigation")) {
+                    @Override
+                    public int getTextColour() {
+                        return WikiConfig.TEXT_COLOUR;
+                    }
+                }.setAlignment(EnumAlignment.LEFT).setShadow(false);
+        addChild(navLabel);
+        branchLabel =
+                new MGuiLabel(
+                        modularGui,
+                        xPos + 12,
+                        yPos + 12,
+                        maxXSize - 12,
+                        12,
+                        I18n.format("guiwiki.label.mods")) {
+                    @Override
+                    public int getTextColour() {
+                        return WikiConfig.TEXT_COLOUR;
+                    }
+                }.setShadow(false);
+        addChild(branchLabel);
+        buttonAddBranch =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                modularGui,
+                                "ADD_BRANCH",
+                                xPos + maxXSize - 40,
+                                yPos,
+                                28,
+                                12,
+                                "[" + Utils.SELECT + "4add" + Utils.SELECT + "r]") {
+                            @Override
+                            public int getTextColour(boolean hovered, boolean disabled) {
+                                return hovered ? 0xFFFFFF : 0xFF000000;
+                            }
+                        }.setColours(0, 0, 0).setShadow(false);
+        addChild(buttonAddBranch);
         buttonAddBranch
                 .setListener(this)
                 .setToolTip(

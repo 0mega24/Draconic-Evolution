@@ -4,7 +4,11 @@ import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.ModularGuiContainer;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.IMGuiListener;
-import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiBackground;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButton;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonSolid;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiLabel;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiSelectDialog;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileDissEnchanter;
 import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.inventory.ContainerDissEnchanter;
@@ -40,28 +44,28 @@ public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter
     public void initGui() {
         super.initGui();
         manager.clear();
+        background =
+                new MGuiBackground(
+                        this,
+                        guiLeft,
+                        guiTop,
+                        0,
+                        0,
+                        xSize,
+                        ySize,
+                        "draconicevolution:textures/gui/diss_enchanter.png");
 
-        manager.add(
-                background =
-                        new MGuiBackground(
-                                this,
-                                guiLeft,
-                                guiTop,
-                                0,
-                                0,
-                                xSize,
-                                ySize,
-                                "draconicevolution:textures/gui/diss_enchanter.png"));
-        manager.add(
-                extractButton =
-                        new MGuiButton(
-                                this,
-                                0,
-                                guiLeft + (xSize / 2) - 30,
-                                guiTop + 42,
-                                60,
-                                15,
-                                I18n.format("gui.de.button.extract")));
+        manager.add(background);
+        extractButton =
+                new MGuiButton(
+                        this,
+                        0,
+                        guiLeft + (xSize / 2) - 30,
+                        guiTop + 42,
+                        60,
+                        15,
+                        I18n.format("gui.de.button.extract"));
+        manager.add(extractButton);
         manager.add(
                 new MGuiLabel(
                                 this,
@@ -182,7 +186,7 @@ public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter
             manager.add(selector, 0);
 
             return;
-        } else if (eventString.equals("SELECTOR_PICK")) {
+        } else if ("SELECTOR_PICK".equals(eventString)) {
             if (!(eventElement.linkedObject instanceof Integer)) {
                 player.sendMessage(
                         new TextComponentString("[ERROR]")

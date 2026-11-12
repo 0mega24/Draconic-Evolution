@@ -55,7 +55,8 @@ public class TileEnergyInfuser extends TileEnergyInventoryBase
                                 false);
                 charging.value = transferred > 0;
             } else {
-                running.value = charging.value = false;
+                charging.value = false;
+                running.value = charging.value;
             }
         }
 

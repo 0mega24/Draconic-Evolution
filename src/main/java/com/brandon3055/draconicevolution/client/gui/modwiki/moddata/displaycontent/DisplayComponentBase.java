@@ -107,7 +107,7 @@ public abstract class DisplayComponentBase extends MGuiListEntry implements IMGu
     @Override
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("MOVE_UP")) {
+                && "MOVE_UP".equals(((MGuiButton) eventElement).buttonName)) {
             int listIndex = branch.branchContent.indexOf(this);
 
             if (listIndex <= 0) {
@@ -128,7 +128,7 @@ public abstract class DisplayComponentBase extends MGuiListEntry implements IMGu
                 e.printStackTrace();
             }
         } else if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("MOVE_DOWN")) {
+                && "MOVE_DOWN".equals(((MGuiButton) eventElement).buttonName)) {
             int listIndex = branch.branchContent.indexOf(this);
 
             if (listIndex + 1 >= branch.branchContent.size()) {
@@ -149,7 +149,7 @@ public abstract class DisplayComponentBase extends MGuiListEntry implements IMGu
                 e.printStackTrace();
             }
         } else if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("TOGGLE_ALIGN")) {
+                && "TOGGLE_ALIGN".equals(((MGuiButton) eventElement).buttonName)) {
             alignment =
                     alignment == EnumAlignment.LEFT
                             ? EnumAlignment.CENTER
@@ -179,9 +179,9 @@ public abstract class DisplayComponentBase extends MGuiListEntry implements IMGu
             if (comp instanceof DCSplitContainer && container != null) {
                 String side = element.getAttribute("splitSide");
                 modWiki.contentWindow.setEditingComponent(
-                        side.equals("LEFT")
+                        "LEFT".equals(side)
                                 ? ((DCSplitContainer) comp).componentLeft
-                                : side.equals("RIGHT")
+                                : "RIGHT".equals(side)
                                         ? ((DCSplitContainer) comp).componentRight
                                         : null);
             } else {

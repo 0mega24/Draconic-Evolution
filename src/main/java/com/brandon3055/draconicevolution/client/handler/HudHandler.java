@@ -24,7 +24,9 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 /** Created by brandon3055 on 4/07/2016. */
-public class HudHandler {
+public final class HudHandler {
+
+    private HudHandler() {}
 
     private static List<String> hudList = null;
     private static List<String> ltHudList = null;
@@ -99,7 +101,9 @@ public class HudHandler {
         if (ClientConfig.hudSettings[7] > 0
                 && armorStatsFadeOut > 1F - ((float) ClientConfig.hudSettings[7] * 0.25F)) {
             armorStatsFadeOut -= 0.1F;
-            if (armorStatsFadeOut < 0) armorStatsFadeOut = 0;
+            if (armorStatsFadeOut < 0) {
+                armorStatsFadeOut = 0;
+            }
         }
 
         ltHudList = hudList;
@@ -159,7 +163,9 @@ public class HudHandler {
         if (maxShieldPoints != summery.maxProtectionPoints
                 || shieldPoints != summery.protectionPoints
                 || shieldEntropy != summery.entropy
-                || rfTotal != summery.totalEnergyStored) armorStatsFadeOut = 5F;
+                || rfTotal != summery.totalEnergyStored) {
+            armorStatsFadeOut = 5F;
+        }
 
         maxShieldPoints = summery.maxProtectionPoints;
         shieldPoints = summery.protectionPoints;
@@ -191,8 +197,9 @@ public class HudHandler {
             GlStateManager.translate(x, y, 0);
             GlStateManager.rotate(-90, 0, 0, -1);
             GlStateManager.translate(-x, -y, 0);
-        } else
+        } else {
             GuiHelper.drawTexturedRect(x + 1, y + 105, 15, 17, 2, 0, 13, 15, 0, GuiHelper.PXL128);
+        }
 
         GuiHelper.drawTexturedRect(x, y, 17, 104, 0, 15, 17, 104, 0, GuiHelper.PXL128);
         GuiHelper.drawTexturedRect(
@@ -232,7 +239,9 @@ public class HudHandler {
         if (ClientConfig.hudSettings[9] == 1) {
             FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
             GlStateManager.translate(x, y, 0);
-            if (rotated) GlStateManager.rotate(90, 0, 0, -1);
+            if (rotated) {
+                GlStateManager.rotate(90, 0, 0, -1);
+            }
             GlStateManager.translate(-x, -y, 0);
             String shield = (int) shieldPoints + "/" + (int) maxShieldPoints;
             String entropy = "EN: " + (int) shieldEntropy + "%";

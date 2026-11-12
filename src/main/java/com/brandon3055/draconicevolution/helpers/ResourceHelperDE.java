@@ -8,7 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 /** Created by brandon3055 on 29/3/2016. Helper function to bind and cache resource locations. */
-public class ResourceHelperDE {
+public final class ResourceHelperDE {
+
+    private ResourceHelperDE() {}
 
     private static ResourceLocation vanillaParticles;
     private static Map<String, ResourceLocation> cachedResources =

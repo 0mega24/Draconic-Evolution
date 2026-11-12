@@ -22,7 +22,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -845,6 +849,8 @@ public class Debugger extends ItemBCore {
                     //                    lightingTest(world, new BlockPos(player));
                 }
                 break;
+            default:
+                break;
         }
 
         return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
@@ -946,6 +952,8 @@ public class Debugger extends ItemBCore {
                     }
                     return EnumActionResult.PASS;
                 }
+                break;
+            default:
                 break;
         }
 

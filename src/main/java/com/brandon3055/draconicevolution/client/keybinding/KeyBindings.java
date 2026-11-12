@@ -12,7 +12,10 @@ import org.lwjgl.input.Keyboard;
 
 /** Created by Brandon on 14/08/2014. */
 @SideOnly(Side.CLIENT)
-public class KeyBindings {
+public final class KeyBindings {
+
+    private KeyBindings() {}
+
     public static KeyBinding placeItem =
             new KeyBinding("key.placeItem", IN_GAME, Keyboard.KEY_P, DraconicEvolution.MODNAME);
     public static KeyBinding toolConfig =

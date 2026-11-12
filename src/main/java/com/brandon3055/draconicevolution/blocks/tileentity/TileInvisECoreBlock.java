@@ -55,7 +55,9 @@ public class TileInvisECoreBlock extends TileBCBase implements IMultiBlockPart, 
         if (master == null) {
             revert();
             return false;
-        } else return master.validateStructure();
+        } else {
+            return master.validateStructure();
+        }
     }
 
     // endregion
@@ -76,7 +78,7 @@ public class TileInvisECoreBlock extends TileBCBase implements IMultiBlockPart, 
     }
 
     public void revert() {
-        if (blockName.equals("draconicevolution:particle_generator")) {
+        if ("draconicevolution:particle_generator".equals(blockName)) {
             world.setBlockState(
                     pos,
                     DEFeatures.particleGenerator
@@ -139,7 +141,7 @@ public class TileInvisECoreBlock extends TileBCBase implements IMultiBlockPart, 
         IMultiBlockPart controller = getController();
         if (controller instanceof TileEnergyCoreStabilizer) {
             return ((TileEnergyCoreStabilizer) controller).canMove();
-        } else if (blockName.equals("draconicevolution:particle_generator")) {
+        } else if ("draconicevolution:particle_generator".equals(blockName)) {
             return EnumActionResult.FAIL;
         }
         return EnumActionResult.SUCCESS;

@@ -5,11 +5,11 @@
     <property name="charset" value="UTF-8"/>
     <property name="fileExtensions" value="java"/>
 
-    <module name="SuppressionFilter">
-        <property name="file" value="${config_loc}/suppressions.xml"/>
-    </module>
+    <!-- Allows @SuppressWarnings("checkstyle:<check>") on code that has a reason to break a rule. -->
+    <module name="SuppressWarningsFilter"/>
 
     <module name="TreeWalker">
+        <module name="SuppressWarningsHolder"/>
         <!-- Equality and hashing bugs -->
         <module name="EqualsHashCode"/>
         <module name="CovariantEquals"/>
@@ -19,7 +19,9 @@
         <!-- Control flow -->
         <module name="FallThrough"/>
         <module name="MissingSwitchDefault"/>
-        <module name="DefaultComesLast"/>
+        <module name="DefaultComesLast">
+            <property name="skipIfLastAndSharedWithCase" value="true"/>
+        </module>
         <module name="EmptyCatchBlock"/>
         <module name="EmptyStatement"/>
         <module name="InnerAssignment"/>

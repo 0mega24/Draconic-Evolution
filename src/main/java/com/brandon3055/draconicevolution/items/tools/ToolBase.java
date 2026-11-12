@@ -10,7 +10,12 @@ import com.brandon3055.brandonscore.registry.IRenderOverride;
 import com.brandon3055.brandonscore.utils.InfoHelper;
 import com.brandon3055.brandonscore.utils.ItemNBTHelper;
 import com.brandon3055.draconicevolution.api.IHudDisplay;
-import com.brandon3055.draconicevolution.api.itemconfig.*;
+import com.brandon3055.draconicevolution.api.itemconfig.BooleanConfigField;
+import com.brandon3055.draconicevolution.api.itemconfig.ExternalConfigField;
+import com.brandon3055.draconicevolution.api.itemconfig.IConfigurableItem;
+import com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField;
+import com.brandon3055.draconicevolution.api.itemconfig.ItemConfigFieldRegistry;
+import com.brandon3055.draconicevolution.api.itemconfig.ToolConfigHelper;
 import com.brandon3055.draconicevolution.api.itemupgrade.IUpgradableItem;
 import com.brandon3055.draconicevolution.api.itemupgrade.UpgradeHelper;
 import com.brandon3055.draconicevolution.client.model.tool.IToolModelProvider;
@@ -323,14 +328,16 @@ public abstract class ToolBase extends ItemEnergyBase
     }
 
     public static void holdCTRLForUpgrades(List<String> list, ItemStack stack) {
-        if (!(stack.getItem() instanceof IUpgradableItem)) return;
-        if (!InfoHelper.isCtrlKeyDown())
+        if (!(stack.getItem() instanceof IUpgradableItem)) {
+            return;
+        }
+        if (!InfoHelper.isCtrlKeyDown()) {
             list.add(
                     I18n.format(
                             "upgrade.de.holdCtrlForUpgrades.info",
                             TextFormatting.AQUA + "" + TextFormatting.ITALIC,
                             TextFormatting.RESET + "" + TextFormatting.GRAY));
-        else {
+        } else {
             list.add(TextFormatting.GOLD + I18n.format("upgrade.de.upgrades.info"));
             list.addAll(UpgradeHelper.getUpgradeStats(stack));
         }
@@ -482,7 +489,9 @@ public abstract class ToolBase extends ItemEnergyBase
                                 stack, ToolConfigHelper.getProfile(stack)));
 
         for (IItemConfigField field : registry.getFields()) {
-            if (field instanceof ExternalConfigField) continue;
+            if (field instanceof ExternalConfigField) {
+                continue;
+            }
             displayList.add(
                     InfoHelper.ITC()
                             + I18n.format(field.getUnlocalizedName())

@@ -3,7 +3,11 @@ package com.brandon3055.draconicevolution.blocks.tileentity;
 import com.brandon3055.brandonscore.blocks.TileBCBase;
 import com.brandon3055.brandonscore.lib.IActivatableTile;
 import com.brandon3055.brandonscore.lib.IChangeListener;
-import com.brandon3055.brandonscore.lib.datamanager.*;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedEnum;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedInt;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedShort;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedStack;
 import com.brandon3055.brandonscore.utils.InventoryUtils;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.config.TweaksConfig;
@@ -17,7 +21,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 
 /** Created by brandon3055 on 28/09/2016. */
@@ -205,7 +211,8 @@ public class TileStabilizedSpawner extends TileBCBase
         ItemStack stack = player.getHeldItem(hand);
         if (stack.getItem() == DEFeatures.mobSoul) {
             if (!world.isRemote) {
-                (mobSoul.value = stack.copy()).setCount(1);
+                mobSoul.value = stack.copy();
+                (mobSoul.value).setCount(1);
                 if (!player.isCreative()) {
                     InventoryUtils.consumeHeldItem(player, stack, hand);
                 }
@@ -228,16 +235,24 @@ public class TileStabilizedSpawner extends TileBCBase
         } else if (!stack.isEmpty()) {
             SpawnerTier prevTier = spawnerTier.value;
             if (stack.getItem() == DEFeatures.draconicCore) {
-                if (spawnerTier.value == SpawnerTier.BASIC) return false;
+                if (spawnerTier.value == SpawnerTier.BASIC) {
+                    return false;
+                }
                 spawnerTier.value = SpawnerTier.BASIC;
             } else if (stack.getItem() == DEFeatures.wyvernCore) {
-                if (spawnerTier.value == SpawnerTier.WYVERN) return false;
+                if (spawnerTier.value == SpawnerTier.WYVERN) {
+                    return false;
+                }
                 spawnerTier.value = SpawnerTier.WYVERN;
             } else if (stack.getItem() == DEFeatures.awakenedCore) {
-                if (spawnerTier.value == SpawnerTier.DRACONIC) return false;
+                if (spawnerTier.value == SpawnerTier.DRACONIC) {
+                    return false;
+                }
                 spawnerTier.value = SpawnerTier.DRACONIC;
             } else if (stack.getItem() == DEFeatures.chaoticCore) {
-                if (spawnerTier.value == SpawnerTier.CHAOTIC) return false;
+                if (spawnerTier.value == SpawnerTier.CHAOTIC) {
+                    return false;
+                }
                 spawnerTier.value = SpawnerTier.CHAOTIC;
             } else {
                 return false;
@@ -256,6 +271,8 @@ public class TileStabilizedSpawner extends TileBCBase
                     break;
                 case CHAOTIC:
                     dropStack = new ItemStack(DEFeatures.chaoticCore);
+                    break;
+                default:
                     break;
             }
             if (!world.isRemote) {

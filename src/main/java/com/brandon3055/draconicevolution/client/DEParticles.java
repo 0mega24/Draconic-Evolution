@@ -1,12 +1,26 @@
 package com.brandon3055.draconicevolution.client;
 
 import com.brandon3055.brandonscore.client.particle.BCEffectHandler;
-import com.brandon3055.draconicevolution.client.render.particle.*;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleArrowShockwave;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleAxeSelection;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleChaosImplosion;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleCustom;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleDragonHeart;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleEnergy;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleEnergyCoreFX;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleGuardianProjectile;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleInfuser;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleLineIndicator;
+import com.brandon3055.draconicevolution.client.render.particle.ParticlePortal;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleSoulExtraction;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import net.minecraft.util.ResourceLocation;
 
 /** Created by brandon3055 on 23/4/2016. A list of all of DE's particles */
-public class DEParticles {
+public final class DEParticles {
+
+    private DEParticles() {}
+
     public static final ResourceLocation DE_SHEET =
             ResourceHelperDE.getResource("textures/particle/particles.png");
     public static final ResourceLocation CUSTOM_SHEET =

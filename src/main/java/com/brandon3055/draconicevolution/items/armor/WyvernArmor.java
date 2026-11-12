@@ -8,7 +8,11 @@ import com.brandon3055.brandonscore.api.IFOVModifierItem;
 import com.brandon3055.brandonscore.lib.EnergyContainerWrapper;
 import com.brandon3055.brandonscore.utils.InfoHelper;
 import com.brandon3055.brandonscore.utils.ItemNBTHelper;
-import com.brandon3055.draconicevolution.api.itemconfig.*;
+import com.brandon3055.draconicevolution.api.itemconfig.BooleanConfigField;
+import com.brandon3055.draconicevolution.api.itemconfig.IConfigurableItem;
+import com.brandon3055.draconicevolution.api.itemconfig.IntegerConfigField;
+import com.brandon3055.draconicevolution.api.itemconfig.ItemConfigFieldRegistry;
+import com.brandon3055.draconicevolution.api.itemconfig.ToolConfigHelper;
 import com.brandon3055.draconicevolution.api.itemupgrade.IUpgradableItem;
 import com.brandon3055.draconicevolution.api.itemupgrade.UpgradeHelper;
 import com.brandon3055.draconicevolution.client.model.ModelWyvernArmor;
@@ -103,6 +107,8 @@ public class WyvernArmor extends ItemArmor
                 return 0.30F;
             case FEET:
                 return 0.15F;
+            default:
+                break;
         }
         return 0;
     }
@@ -225,13 +231,15 @@ public class WyvernArmor extends ItemArmor
         }
 
         if (model == null) {
-            if (armorType == EntityEquipmentSlot.HEAD)
+            if (armorType == EntityEquipmentSlot.HEAD) {
                 model = new ModelWyvernArmor(0.5F, true, false, false, false);
-            else if (armorType == EntityEquipmentSlot.CHEST)
+            } else if (armorType == EntityEquipmentSlot.CHEST) {
                 model = new ModelWyvernArmor(1.5F, false, true, false, false);
-            else if (armorType == EntityEquipmentSlot.LEGS)
+            } else if (armorType == EntityEquipmentSlot.LEGS) {
                 model = new ModelWyvernArmor(1.5F, false, false, true, false);
-            else model = new ModelWyvernArmor(1F, false, false, false, true);
+            } else {
+                model = new ModelWyvernArmor(1F, false, false, false, true);
+            }
             this.model.bipedHead.showModel = (armorType == EntityEquipmentSlot.HEAD);
             this.model.bipedHeadwear.showModel = (armorType == EntityEquipmentSlot.HEAD);
             this.model.bipedBody.showModel =
@@ -333,6 +341,8 @@ public class WyvernArmor extends ItemArmor
                 return 0.30F;
             case FEET:
                 return 0.15F;
+            default:
+                break;
         }
         return 0;
     }

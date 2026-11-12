@@ -15,7 +15,10 @@ import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.common.Optional;
 
 /** Created by brandon3055 on 21/09/2016. */
-public class JeiHelper { // TODO This Is Now Borked
+public final class JeiHelper {
+
+    private JeiHelper() {}
+    // TODO This Is Now Borked
 
     // region JEI Checks
 
@@ -85,7 +88,7 @@ public class JeiHelper { // TODO This Is Now Borked
         private int yPos = 0;
         private String title;
 
-        public RecipeRenderer(IRecipeCategory category, IRecipeWrapper wrapper, ItemStack result) {
+        RecipeRenderer(IRecipeCategory category, IRecipeWrapper wrapper, ItemStack result) {
             IFocus<?> f =
                     DEJEIPlugin.jeiRuntime
                             .getRecipeRegistry()

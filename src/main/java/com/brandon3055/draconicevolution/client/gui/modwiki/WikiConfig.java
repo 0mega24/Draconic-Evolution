@@ -9,7 +9,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /** Created by brandon3055 on 3/09/2016. */
-public class WikiConfig {
+public final class WikiConfig {
+
+    private WikiConfig() {}
 
     public static File configJSON;
 

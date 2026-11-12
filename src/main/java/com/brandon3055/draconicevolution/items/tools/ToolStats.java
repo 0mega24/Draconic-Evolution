@@ -6,7 +6,10 @@ import com.brandon3055.draconicevolution.DraconicEvolution;
 
 /** Created by brandon3055 on 30/06/2016. This class holds all of the base stats for the tools */
 @ModConfigContainer(modid = DraconicEvolution.MODID)
-public class ToolStats {
+public final class ToolStats {
+
+    private ToolStats() {}
+
     // Common
     @ModConfigProperty(category = "Stat Tweaks", name = "wyvernBaseRFCapacity", requiresSync = true)
     public static int WYVERN_BASE_CAPACITY = 4000000;

@@ -50,7 +50,9 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             te.coreStructure.renderTier(te.tier.value);
             GlStateManager.popMatrix();
         }
-        if (!te.active.value) return;
+        if (!te.active.value) {
+            return;
+        }
 
         // endregion
 
@@ -240,7 +242,9 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
             String texture,
             int rgb) {
         ResourceHelperDE.bindTexture(texture);
-        int r = rgb >> 16 & 0xFF, g = rgb >> 8 & 0xFF, b = rgb & 0xFF;
+        int r = rgb >> 16 & 0xFF;
+        int g = rgb >> 8 & 0xFF;
+        int b = rgb & 0xFF;
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder vertexBuffer = tessellator.getBuffer();
         GL11.glPushMatrix();

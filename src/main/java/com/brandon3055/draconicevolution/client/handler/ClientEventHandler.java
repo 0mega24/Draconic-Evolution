@@ -36,7 +36,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
@@ -224,6 +228,7 @@ public class ClientEventHandler {
                                 : Utils.addCommas(Long.MAX_VALUE) + " RF!!!!";
                 ReflectionManager.setField(splashTextMapping, event.getGui(), s);
             } catch (Exception e) {
+                // Splash text field not found: keep the vanilla splash.
             }
         }
     }

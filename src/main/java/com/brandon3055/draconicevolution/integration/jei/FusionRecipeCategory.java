@@ -1,6 +1,10 @@
 package com.brandon3055.draconicevolution.integration.jei;
 
-import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiBorderedRect;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiList;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiListEntry;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiListEntryWrapper;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiStackIcon;
 import com.brandon3055.brandonscore.lib.StackReference;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.api.OreDictHelper;
@@ -92,7 +96,8 @@ public class FusionRecipeCategory extends BlankRecipeCategory { // TODO Fix anim
                         new MGuiBorderedRect(
                                         null, list.xPos, list.yPos - 1, list.xSize, list.ySize + 2)
                                 .setBorderColour(0xFFAA00FF));
-                list.topPadding = list.bottomPadding = 0;
+                list.bottomPadding = 0;
+                list.topPadding = list.bottomPadding;
                 iColumns.add(list);
             }
 

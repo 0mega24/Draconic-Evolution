@@ -17,7 +17,9 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 
 /** Created by brandon3055 on 29/9/2015. */
-public class ModHelper {
+public final class ModHelper {
+
+    private ModHelper() {}
 
     private static Map<String, String> loadedMods = null;
 
@@ -87,7 +89,9 @@ public class ModHelper {
     }
 
     public static float applyModDamageAdjustments(ArmorSummery summery, LivingAttackEvent event) {
-        if (summery == null) return event.getAmount();
+        if (summery == null) {
+            return event.getAmount();
+        }
         EntityPlayer attacker =
                 event.getSource().getTrueSource() instanceof EntityPlayer
                         ? (EntityPlayer) event.getSource().getTrueSource()

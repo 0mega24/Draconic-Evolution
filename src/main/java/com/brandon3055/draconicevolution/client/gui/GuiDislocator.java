@@ -66,9 +66,12 @@ public class GuiDislocator extends GuiScreen {
         int posY = (this.height - ySize) / 2;
         drawTexturedModalRect(posX, posY, 0, 0, xSize, ySize);
 
-        if (fuel <= 5) drawTexturedModalRect(posX + 169, posY + 86, 40, 150, 7, 7);
-        if (fuel <= 5 && showFuelLight || (fuel > 5 && fuel < 10))
+        if (fuel <= 5) {
+            drawTexturedModalRect(posX + 169, posY + 86, 40, 150, 7, 7);
+        }
+        if (fuel <= 5 && showFuelLight || (fuel > 5 && fuel < 10)) {
             drawTexturedModalRect(posX + 169, posY + 86, 40, 143, 7, 7);
+        }
 
         drawArrows(x - posX, y - posY);
 
@@ -79,8 +82,12 @@ public class GuiDislocator extends GuiScreen {
         textBeingEdited.drawTextBox();
 
         String colour = TextFormatting.GREEN + "";
-        if (fuel < 10) colour = TextFormatting.YELLOW + "";
-        if (fuel == 0) colour = TextFormatting.DARK_RED + "";
+        if (fuel < 10) {
+            colour = TextFormatting.YELLOW + "";
+        }
+        if (fuel == 0) {
+            colour = TextFormatting.DARK_RED + "";
+        }
         fontRenderer.drawString(
                 colour + I18n.format("info.teleporterInfFuel.txt") + " " + fuel,
                 posX + 115,
@@ -108,13 +115,17 @@ public class GuiDislocator extends GuiScreen {
             }
 
             if (getLocationSafely(i + selectionOffset).getWriteProtected()) {
-                if (GuiHelper.isInRect(102, 7 + i * 11, 6, 6, x, y))
+                if (GuiHelper.isInRect(102, 7 + i * 11, 6, 6, x, y)) {
                     drawTexturedModalRect(posX + 102, posY + 7 + i * 11, 26, 149, 6, 6);
-                else drawTexturedModalRect(posX + 102, posY + 7 + i * 11, 26, 143, 6, 6);
+                } else {
+                    drawTexturedModalRect(posX + 102, posY + 7 + i * 11, 26, 143, 6, 6);
+                }
             } else {
-                if (GuiHelper.isInRect(101, 7 + i * 11, 8, 7, x, y))
+                if (GuiHelper.isInRect(101, 7 + i * 11, 8, 7, x, y)) {
                     drawTexturedModalRect(posX + 101, posY + 7 + i * 11, 32, 150, 8, 7);
-                else drawTexturedModalRect(posX + 101, posY + 7 + i * 11, 32, 143, 8, 7);
+                } else {
+                    drawTexturedModalRect(posX + 101, posY + 7 + i * 11, 32, 143, 8, 7);
+                }
             }
         }
 
@@ -128,7 +139,9 @@ public class GuiDislocator extends GuiScreen {
                 while (fontRenderer.getStringWidth(s) > 70) {
                     s = s.substring(0, s.length() - 1);
                     safety++;
-                    if (safety > 200) break;
+                    if (safety > 200) {
+                        break;
+                    }
                 }
                 s = s + "...";
             }
@@ -143,14 +156,24 @@ public class GuiDislocator extends GuiScreen {
 
         if (selectionOffset > 0) {
             boolean highLighted = GuiHelper.isInRect(4, 4, 13, 15, x, y);
-            if (highLighted) drawTexturedModalRect(posX + 4, posY + 4, 0, 158, 13, 15);
-            else drawTexturedModalRect(posX + 4, posY + 4, 0, 143, 13, 15);
-        } else drawTexturedModalRect(posX + 4, posY + 4, 0, 173, 13, 15);
+            if (highLighted) {
+                drawTexturedModalRect(posX + 4, posY + 4, 0, 158, 13, 15);
+            } else {
+                drawTexturedModalRect(posX + 4, posY + 4, 0, 143, 13, 15);
+            }
+        } else {
+            drawTexturedModalRect(posX + 4, posY + 4, 0, 173, 13, 15);
+        }
         if (selectionOffset < maxOffset) {
             boolean highLighted = GuiHelper.isInRect(4, 122, 13, 15, x, y);
-            if (highLighted) drawTexturedModalRect(posX + 4, posY + 122, 13, 158, 13, 15);
-            else drawTexturedModalRect(posX + 4, posY + 122, 13, 143, 13, 15);
-        } else drawTexturedModalRect(posX + 4, posY + 122, 13, 173, 13, 15);
+            if (highLighted) {
+                drawTexturedModalRect(posX + 4, posY + 122, 13, 158, 13, 15);
+            } else {
+                drawTexturedModalRect(posX + 4, posY + 122, 13, 143, 13, 15);
+            }
+        } else {
+            drawTexturedModalRect(posX + 4, posY + 122, 13, 173, 13, 15);
+        }
 
         float percent = locations.size() <= 12 ? 1f : 12F / (float) locations.size();
         int drawSize = (int) (percent * 99F);
@@ -164,7 +187,9 @@ public class GuiDislocator extends GuiScreen {
     private void drawSelectionInfo() {
         int posX = (this.width - xSize) / 2;
         int posY = (this.height - ySize) / 2;
-        if (locations.size() <= 0) return;
+        if (locations.size() <= 0) {
+            return;
+        }
         fontRenderer.drawString(
                 TextFormatting.GOLD
                         + "X: "
@@ -203,7 +228,9 @@ public class GuiDislocator extends GuiScreen {
         boolean offsetChanged = false;
         boolean selectionChanged = false;
 
-        if (textBeingEdited.getVisible()) textBeingEdited.mouseClicked(x, y, button);
+        if (textBeingEdited.getVisible()) {
+            textBeingEdited.mouseClicked(x, y, button);
+        }
 
         // Check for arrow click
         if (selectionOffset > 0 && GuiHelper.isInRect(3, 5, 13, 15, x - posX, y - posY)) {
@@ -233,7 +260,9 @@ public class GuiDislocator extends GuiScreen {
                 }
                 if (!(getLocationSafely(i + selectionOffset).getWriteProtected() && editingExisting)
                         && button == 1) {
-                    if (locations.isEmpty()) return;
+                    if (locations.isEmpty()) {
+                        return;
+                    }
 
                     if (!player.capabilities.isCreativeMode && fuel <= 0) {
                         player.sendMessage(
@@ -241,7 +270,9 @@ public class GuiDislocator extends GuiScreen {
                     }
 
                     if (player.capabilities.isCreativeMode || fuel > 0) {
-                        if (!player.capabilities.isCreativeMode) fuel--;
+                        if (!player.capabilities.isCreativeMode) {
+                            fuel--;
+                        }
                         DraconicEvolution.network.sendToServer(
                                 new PacketDislocator(
                                         PacketDislocator.TELEPORT, i + selectionOffset, false));
@@ -261,12 +292,14 @@ public class GuiDislocator extends GuiScreen {
             }
         }
 
-        if (selectionChanged)
+        if (selectionChanged) {
             DraconicEvolution.network.sendToServer(
                     new PacketDislocator(PacketDislocator.CHANGESELECTION, selected, false));
-        if (offsetChanged)
+        }
+        if (offsetChanged) {
             DraconicEvolution.network.sendToServer(
                     new PacketDislocator(PacketDislocator.UPDATEOFFSET, selectionOffset, false));
+        }
 
         updateButtons();
         super.mouseClicked(x, y, button);
@@ -296,12 +329,14 @@ public class GuiDislocator extends GuiScreen {
             updateButtons();
         }
 
-        if (selectionChanged)
+        if (selectionChanged) {
             DraconicEvolution.network.sendToServer(
                     new PacketDislocator(PacketDislocator.CHANGESELECTION, selected, false));
-        if (offsetChanged)
+        }
+        if (offsetChanged) {
             DraconicEvolution.network.sendToServer(
                     new PacketDislocator(PacketDislocator.UPDATEOFFSET, selectionOffset, false));
+        }
 
         super.handleMouseInput();
     }
@@ -472,8 +507,12 @@ public class GuiDislocator extends GuiScreen {
                     new PacketDislocator(
                             PacketDislocator.REMOVEDESTINATION, selected + selectionOffset, false));
             locations.remove(selected + selectionOffset);
-            if (selectionOffset > 0) selectionOffset--;
-            if (selected >= locations.size()) selected--;
+            if (selectionOffset > 0) {
+                selectionOffset--;
+            }
+            if (selected >= locations.size()) {
+                selected--;
+            }
         }
 
         if (button.id == 3 || button.id == 7) {
@@ -579,7 +618,9 @@ public class GuiDislocator extends GuiScreen {
         if (keyN == 28 && editingNew) {
             actionPerformed(buttonList.get(4));
         }
-        if (keyN == 28 && editingExisting) actionPerformed(buttonList.get(0));
+        if (keyN == 28 && editingExisting) {
+            actionPerformed(buttonList.get(0));
+        }
 
         if ((key == 'e' && (!editingExisting || !editingNew)) || key == '') {
             this.mc.displayGuiScreen(null);

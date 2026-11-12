@@ -44,6 +44,8 @@ public class ServerPacketHandler implements ICustomPacketHandler.IServerPacketHa
             case 5:
                 toggleShields(sender);
                 break;
+            default:
+                break;
         }
     }
 

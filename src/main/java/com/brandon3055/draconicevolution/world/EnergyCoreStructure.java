@@ -69,6 +69,8 @@ public class EnergyCoreStructure extends MultiBlockHelper {
                 return structureTiers[6].checkStructure(core.getWorld(), core.getPos().add(offset));
             case 8:
                 return structureTiers[7].checkStructure(core.getWorld(), core.getPos().add(offset));
+            default:
+                break;
         }
         if (tier <= 0) {
             LogHelper.error(
@@ -109,6 +111,8 @@ public class EnergyCoreStructure extends MultiBlockHelper {
             case 8:
                 structureTiers[7].placeStructure(core.getWorld(), core.getPos().add(offset));
                 return;
+            default:
+                break;
         }
         if (tier <= 0) {
             LogHelper.error(
@@ -153,7 +157,7 @@ public class EnergyCoreStructure extends MultiBlockHelper {
 
     @Override
     public void forBlock(String name, World world, BlockPos pos, BlockPos startPos, int flag) {
-        if (name.isEmpty() || name.equals("draconicevolution:energy_storage_core")) {
+        if (name.isEmpty() || "draconicevolution:energy_storage_core".equals(name)) {
             return;
         }
 
@@ -215,7 +219,7 @@ public class EnergyCoreStructure extends MultiBlockHelper {
             return;
         }
 
-        if (name.equals("") || name.equals("air")) {
+        if ("".equals(name) || "air".equals(name)) {
             return;
         }
 
@@ -1127,7 +1131,7 @@ public class EnergyCoreStructure extends MultiBlockHelper {
 
     @Override
     public void setBlock(String name, World world, BlockPos pos) {
-        if (!name.equals("draconicevolution:energy_storage_core") && name.length() > 0) {
+        if (!"draconicevolution:energy_storage_core".equals(name) && name.length() > 0) {
             super.setBlock(name, world, pos);
         }
     }

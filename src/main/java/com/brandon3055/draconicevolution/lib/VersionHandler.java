@@ -1,7 +1,10 @@
 package com.brandon3055.draconicevolution.lib;
 
 /** Created by Brandon on 24/02/2015. */
-public class VersionHandler {
+public final class VersionHandler {
+
+    private VersionHandler() {}
+
     public static final String VERSION = "1.0.2";
     public static final int SNAPSHOT = 12;
     public static final String MCVERSION = "1.7.10";

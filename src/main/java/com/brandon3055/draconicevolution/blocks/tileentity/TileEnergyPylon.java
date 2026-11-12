@@ -256,7 +256,7 @@ public class TileEnergyPylon extends TileBCBase
     private boolean isGlass(BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
         return tile instanceof TileInvisECoreBlock
-                && ((TileInvisECoreBlock) tile).blockName.equals("minecraft:glass");
+                && "minecraft:glass".equals(((TileInvisECoreBlock) tile).blockName);
     }
 
     // endregion
@@ -264,7 +264,9 @@ public class TileEnergyPylon extends TileBCBase
     // region Rendering
 
     private void drawParticleBeam() {
-        if (getCore() == null) return;
+        if (getCore() == null) {
+            return;
+        }
 
         BlockPos thisPos = pos.add(0, sphereOnTop.value ? 1 : -1, 0);
         Vec3D coreVec =
@@ -303,8 +305,12 @@ public class TileEnergyPylon extends TileBCBase
     @SideOnly(Side.CLIENT)
     private void spawnParticles() {
         Random rand = world.rand;
-        if (getCore() == null || particleRate.value <= 0) return;
-        if (particleRate.value > 20) particleRate.value = 20;
+        if (getCore() == null || particleRate.value <= 0) {
+            return;
+        }
+        if (particleRate.value > 20) {
+            particleRate.value = 20;
+        }
 
         Vec3D spawn;
         Vec3D dest;
@@ -481,11 +487,11 @@ public class TileEnergyPylon extends TileBCBase
 
     @Override
     public Object[] callMethod(String method, ArgHelper args) {
-        if (method.equals("getEnergyStored")) {
+        if ("getEnergyStored".equals(method)) {
             return new Object[] {getExtendedStorage()};
-        } else if (method.equals("getMaxEnergyStored")) {
+        } else if ("getMaxEnergyStored".equals(method)) {
             return new Object[] {getExtendedCapacity()};
-        } else if (method.equals("getTransferPerTick")) {
+        } else if ("getTransferPerTick".equals(method)) {
             if (!hasCoreLock.value || getCore() == null) {
                 return new Object[0];
             }

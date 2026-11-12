@@ -50,7 +50,9 @@ public class ChaosCrystal extends BlockBCore implements ITileEntityProvider, IRe
                 world.getTileEntity(pos) instanceof TileChaosCrystal
                         ? (TileChaosCrystal) world.getTileEntity(pos)
                         : null;
-        if (tile != null) return tile.guardianDefeated.value ? 100F : -1F;
+        if (tile != null) {
+            return tile.guardianDefeated.value ? 100F : -1F;
+        }
         return super.getBlockHardness(blockState, world, pos);
     }
 

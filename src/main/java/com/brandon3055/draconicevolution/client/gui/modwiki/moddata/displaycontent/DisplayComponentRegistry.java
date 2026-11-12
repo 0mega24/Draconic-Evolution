@@ -8,7 +8,9 @@ import java.util.Map;
 import org.w3c.dom.Element;
 
 /** Created by brandon3055 on 8/09/2016. */
-public class DisplayComponentRegistry {
+public final class DisplayComponentRegistry {
+
+    private DisplayComponentRegistry() {}
 
     public static final Map<String, IDisplayComponentFactory> REGISTRY =
             new LinkedHashMap<String, IDisplayComponentFactory>();

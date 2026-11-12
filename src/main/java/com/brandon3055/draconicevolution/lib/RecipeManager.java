@@ -29,7 +29,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.*;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -185,8 +189,11 @@ public class RecipeManager {
 
                 if (!validateRecipe(add, result, catalyst, energy, tier)) {
                     LogHelper.error("Failed to load recipe entry!\n" + entry);
-                    if (add) failedToAdd++;
-                    else failedToRemove++;
+                    if (add) {
+                        failedToAdd++;
+                    } else {
+                        failedToRemove++;
+                    }
                     continue;
                 }
 
@@ -309,9 +316,9 @@ public class RecipeManager {
         }
 
         StackReference stackReference = StackReference.fromString(entry);
-        ItemStack stack;
+        ItemStack stack = stackReference == null ? null : stackReference.createStack();
 
-        if (stackReference == null || (stack = stackReference.createStack()) == null) {
+        if (stack == null) {
             LogHelper.dev("Could not find item stack! - " + entry);
             return null;
         }
@@ -819,7 +826,7 @@ public class RecipeManager {
         return list;
     }
 
-    public static enum RecipeDifficulty {
+    public enum RecipeDifficulty {
         ALL,
         NORMAL,
         HARD;

@@ -15,7 +15,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Created by brandon3055 on 31/05/2016. This class contains useful helper methods for use with the
  * upgrade system.
  */
-public class UpgradeHelper {
+public final class UpgradeHelper {
+
+    private UpgradeHelper() {}
+
     public static final String UPGRADE_TAG = "DEUpgrades";
 
     /**

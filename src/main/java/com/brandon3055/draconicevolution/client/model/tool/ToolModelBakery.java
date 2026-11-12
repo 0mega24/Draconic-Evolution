@@ -23,7 +23,9 @@ import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 /** Created by brandon3055 on 21/06/2017. */
-public class ToolModelBakery {
+public final class ToolModelBakery {
+
+    private ToolModelBakery() {}
 
     // Invalidating such a small cache after 30 min is pointless.
     private static Map<String, IBakedModel> modelCache = new HashMap<>();

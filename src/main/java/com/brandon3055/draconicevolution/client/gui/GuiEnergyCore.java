@@ -57,51 +57,49 @@ public class GuiEnergyCore extends GuiContainer {
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(
-                activate =
-                        new GuiButtonAHeight(
-                                0, guiLeft + 9, guiTop + 99 + 10, 162, 12, "Activate-L"));
-        buttonList.add(
-                tierUp =
-                        new GuiButtonAHeight(
-                                1,
-                                guiLeft + 91,
-                                guiTop + 86 + 10,
-                                80,
-                                12,
-                                I18n.format("button.de.tierUp.txt")));
-        buttonList.add(
-                tierDown =
-                        new GuiButtonAHeight(
-                                2,
-                                guiLeft + 9,
-                                guiTop + 86 + 10,
-                                80,
-                                12,
-                                I18n.format("button.de.tierDown.txt")));
-        buttonList.add(
-                toggleGuide =
-                        new GuiButtonAHeight(
-                                3,
-                                guiLeft + 9,
-                                guiTop + 73 + 10,
-                                162,
-                                12,
-                                I18n.format("button.de.buildGuide.txt")));
-        buttonList.add(
-                assembleCore =
-                        new GuiButtonAHeight(
-                                4,
-                                guiLeft + 9,
-                                guiTop + 99 + 10,
-                                162,
-                                12,
-                                I18n.format("button.de.assembleCore.txt")));
+        activate = new GuiButtonAHeight(0, guiLeft + 9, guiTop + 99 + 10, 162, 12, "Activate-L");
+        buttonList.add(activate);
+        tierUp =
+                new GuiButtonAHeight(
+                        1,
+                        guiLeft + 91,
+                        guiTop + 86 + 10,
+                        80,
+                        12,
+                        I18n.format("button.de.tierUp.txt"));
+        buttonList.add(tierUp);
+        tierDown =
+                new GuiButtonAHeight(
+                        2,
+                        guiLeft + 9,
+                        guiTop + 86 + 10,
+                        80,
+                        12,
+                        I18n.format("button.de.tierDown.txt"));
+        buttonList.add(tierDown);
+        toggleGuide =
+                new GuiButtonAHeight(
+                        3,
+                        guiLeft + 9,
+                        guiTop + 73 + 10,
+                        162,
+                        12,
+                        I18n.format("button.de.buildGuide.txt"));
+        buttonList.add(toggleGuide);
+        assembleCore =
+                new GuiButtonAHeight(
+                        4,
+                        guiLeft + 9,
+                        guiTop + 99 + 10,
+                        162,
+                        12,
+                        I18n.format("button.de.assembleCore.txt"));
+        buttonList.add(assembleCore);
+        layerMinus = new GuiButtonAHeight(5, guiLeft + 5, guiTop - 13, 70, 12, "Layer-");
 
-        buttonList.add(
-                layerMinus = new GuiButtonAHeight(5, guiLeft + 5, guiTop - 13, 70, 12, "Layer-"));
-        buttonList.add(
-                layerPlus = new GuiButtonAHeight(6, guiLeft + 105, guiTop - 13, 70, 12, "Layer+"));
+        buttonList.add(layerMinus);
+        layerPlus = new GuiButtonAHeight(6, guiLeft + 105, guiTop - 13, 70, 12, "Layer+");
+        buttonList.add(layerPlus);
         layerPlus.visible = tile.buildGuide.value;
         layerMinus.visible = tile.buildGuide.value;
 
@@ -380,8 +378,10 @@ public class GuiEnergyCore extends GuiContainer {
             tierUp.enabled = tile.tier.value < 8;
             tierDown.enabled = tile.tier.value > 1;
         }
+        toggleGuide.visible = !tile.active.value;
+        tierDown.visible = toggleGuide.visible;
+        tierUp.visible = tierDown.visible;
 
-        tierUp.visible = tierDown.visible = toggleGuide.visible = !tile.active.value;
         assembleCore.visible = !tile.coreValid.value;
         activate.visible = tile.coreValid.value;
 
@@ -460,17 +460,22 @@ public class GuiEnergyCore extends GuiContainer {
     }
 
     public static String formatYear(long value) {
-        if (value < 1000L) return value + " Years";
-        else if (value < 1000000L) return Math.round(value / 10D) / 100D + " Thousand Years";
-        else if (value < 1000000000L) return Math.round(value / 10000D) / 100D + " Million Years";
-        else if (value < 1000000000000L)
+        if (value < 1000L) {
+            return value + " Years";
+        } else if (value < 1000000L) {
+            return Math.round(value / 10D) / 100D + " Thousand Years";
+        } else if (value < 1000000000L) {
+            return Math.round(value / 10000D) / 100D + " Million Years";
+        } else if (value < 1000000000000L) {
             return Math.round(value / 10000000D) / 100D + " Billion Years";
-        else if (value < 1000000000000000L)
+        } else if (value < 1000000000000000L) {
             return Math.round(value / 10000000000D) / 100D + " Trillion Years";
-        else if (value < 1000000000000000000L)
+        } else if (value < 1000000000000000000L) {
             return Math.round(value / 10000000000000D) / 100D + " Quadrillion Years";
-        else if (value <= Long.MAX_VALUE)
+        } else if (value <= Long.MAX_VALUE) {
             return Math.round(value / 10000000000000000D) / 100D + " Quintillion Years";
-        else return "Something is very broken!!!!";
+        } else {
+            return "Something is very broken!!!!";
+        }
     }
 }

@@ -5,8 +5,18 @@ import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.client.gui.modwiki.GuiModWiki;
 import com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig;
 import com.brandon3055.draconicevolution.utils.LogHelper;
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -23,7 +33,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /** Created by brandon3055 on 29/08/2016. */
-public class WikiDocManager {
+public final class WikiDocManager {
+
+    private WikiDocManager() {}
+
     public static final ResourceLocation piDoc =
             new ResourceLocation(DraconicEvolution.MOD_PREFIX + "projectintelligence.xml");
 

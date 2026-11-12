@@ -2,7 +2,12 @@ package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree;
 
 import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_TEXT;
 import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_WINDOW;
-import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.*;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_BRANCH_CATEGORY;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_BRANCH_ID;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_BRANCH_NAME;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_ICON;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_ICON_TYPE;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ICON_TYPE_STACK;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourARGB;
@@ -49,31 +54,31 @@ public class TreeBranchContent extends TreeBranchRoot {
     public void initBranches() {
         removeChild(label);
         removeChild(icon);
-        addChild(
-                label =
-                        new MGuiLabel(guiWiki, xPos, yPos, xSize, ySize, branchName) {
-                            @Override
-                            public int getTextColour() {
-                                return NAV_TEXT;
-                            }
+        label =
+                new MGuiLabel(guiWiki, xPos, yPos, xSize, ySize, branchName) {
+                    @Override
+                    public int getTextColour() {
+                        return NAV_TEXT;
+                    }
 
-                            @Override
-                            public boolean getDropShadow() {
-                                Colour colour = new ColourARGB(NAV_TEXT);
-                                long l =
-                                        ((colour.r & 0xff) + (colour.g & 0xff) + (colour.b & 0xff))
-                                                / 3;
-                                return l > 80;
-                            }
-                        }.setAlignment(EnumAlignment.LEFT).setWrap(true));
+                    @Override
+                    public boolean getDropShadow() {
+                        Colour colour = new ColourARGB(NAV_TEXT);
+                        long l = ((colour.r & 0xff) + (colour.g & 0xff) + (colour.b & 0xff)) / 3;
+                        return l > 80;
+                    }
+                }.setAlignment(EnumAlignment.LEFT).setWrap(true);
+        addChild(label);
 
         StackReference stackReference = getDisplayStack();
         if (stackReference != null) {
             MGuiStackIcon stackIcon =
                     new MGuiStackIcon(modularGui, xPos, yPos, 18, 18, stackReference);
             MGuiSlotRender back = new MGuiSlotRender(modularGui, xPos, yPos, 18, 18);
-            addChild(icon = stackIcon);
-            addChild(iconBackground = back);
+            icon = stackIcon;
+            addChild(icon);
+            iconBackground = back;
+            addChild(iconBackground);
 
             int line =
                     modularGui

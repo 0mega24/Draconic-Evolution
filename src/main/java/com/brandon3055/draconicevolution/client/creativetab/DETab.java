@@ -34,7 +34,9 @@ public class DETab extends CreativeTabs {
             return itemStackStaff;
         } else if (ModFeatureParser.isEnabled(DEFeatures.chaoticCore)) {
             return new ItemStack(DEFeatures.chaoticCore);
-        } else return new ItemStack(Items.ENDER_EYE);
+        } else {
+            return new ItemStack(Items.ENDER_EYE);
+        }
     }
 
     @Override

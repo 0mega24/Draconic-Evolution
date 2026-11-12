@@ -97,8 +97,8 @@ public class GuiHudConfig extends GuiScreen {
                         c1,
                         c2,
                         c3));
-        buttonList.add(
-                buttonHudFade = new ButtonColourRect(3, "", x - 81, y - 20, 163, 15, c1, c2, c3));
+        buttonHudFade = new ButtonColourRect(3, "", x - 81, y - 20, 163, 15, c1, c2, c3);
+        buttonList.add(buttonHudFade);
         buttonList.add(
                 new ButtonColourRect(
                         9,
@@ -133,11 +133,10 @@ public class GuiHudConfig extends GuiScreen {
                         c1,
                         c2,
                         c3));
-        buttonList.add(
-                buttonArmorFade = new ButtonColourRect(6, "", x - 81, y + 42, 163, 15, c1, c2, c3));
-        buttonList.add(
-                buttonArmorNumeric =
-                        new ButtonColourRect(7, "", x + 2, y + 59, 80, 15, c1, c2, c3));
+        buttonArmorFade = new ButtonColourRect(6, "", x - 81, y + 42, 163, 15, c1, c2, c3);
+        buttonList.add(buttonArmorFade);
+        buttonArmorNumeric = new ButtonColourRect(7, "", x + 2, y + 59, 80, 15, c1, c2, c3);
+        buttonList.add(buttonArmorNumeric);
         buttonList.add(
                 new ButtonColourRect(
                         8,
@@ -186,27 +185,45 @@ public class GuiHudConfig extends GuiScreen {
         } else if (button.id == 2 && ClientConfig.hudSettings[4] > 30) {
             ClientConfig.hudSettings[4] -= 10;
         } else if (button.id == 3) {
-            if (ClientConfig.hudSettings[6] < 4) ClientConfig.hudSettings[6]++;
-            else ClientConfig.hudSettings[6] = 0;
+            if (ClientConfig.hudSettings[6] < 4) {
+                ClientConfig.hudSettings[6]++;
+            } else {
+                ClientConfig.hudSettings[6] = 0;
+            }
         } else if (button.id == 4 && ClientConfig.hudSettings[5] < 300) {
             ClientConfig.hudSettings[5] += 10;
         } else if (button.id == 5 && ClientConfig.hudSettings[5] > 30) {
             ClientConfig.hudSettings[5] -= 10;
         } else if (button.id == 6) {
-            if (ClientConfig.hudSettings[7] < 4) ClientConfig.hudSettings[7]++;
-            else ClientConfig.hudSettings[7] = 0;
+            if (ClientConfig.hudSettings[7] < 4) {
+                ClientConfig.hudSettings[7]++;
+            } else {
+                ClientConfig.hudSettings[7] = 0;
+            }
         } else if (button.id == 7) {
-            if (ClientConfig.hudSettings[9] == 0) ClientConfig.hudSettings[9] = 1;
-            else ClientConfig.hudSettings[9] = 0;
+            if (ClientConfig.hudSettings[9] == 0) {
+                ClientConfig.hudSettings[9] = 1;
+            } else {
+                ClientConfig.hudSettings[9] = 0;
+            }
         } else if (button.id == 8) {
-            if (ClientConfig.hudSettings[8] == 0) ClientConfig.hudSettings[8] = 1;
-            else ClientConfig.hudSettings[8] = 0;
+            if (ClientConfig.hudSettings[8] == 0) {
+                ClientConfig.hudSettings[8] = 1;
+            } else {
+                ClientConfig.hudSettings[8] = 0;
+            }
         } else if (button.id == 9) {
-            if (ClientConfig.hudSettings[10] == 0) ClientConfig.hudSettings[10] = 1;
-            else ClientConfig.hudSettings[10] = 0;
+            if (ClientConfig.hudSettings[10] == 0) {
+                ClientConfig.hudSettings[10] = 1;
+            } else {
+                ClientConfig.hudSettings[10] = 0;
+            }
         } else if (button.id == 10) {
-            if (ClientConfig.hudSettings[11] == 0) ClientConfig.hudSettings[11] = 1;
-            else ClientConfig.hudSettings[11] = 0;
+            if (ClientConfig.hudSettings[11] == 0) {
+                ClientConfig.hudSettings[11] = 1;
+            } else {
+                ClientConfig.hudSettings[11] = 0;
+            }
         }
 
         Property property =
@@ -360,7 +377,8 @@ public class GuiHudConfig extends GuiScreen {
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
-        draggingHud = draggingArmor = false;
+        draggingArmor = false;
+        draggingHud = draggingArmor;
 
         Property property =
                 ModConfigParser.findUnwrappedProperty(

@@ -1,6 +1,6 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree;
 
-import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.*;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_MOD_NAME;
 
 import com.brandon3055.draconicevolution.client.gui.modwiki.GuiModWiki;
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.ModDocContainer;
@@ -75,7 +75,9 @@ public class GuiDocTree {
             return activeBranch.subBranches;
         } else if (activeBranch.subBranches.size() == 0 && activeBranch.parent != null) {
             return activeBranch.parent.subBranches;
-        } else return new ArrayList<TreeBranchRoot>();
+        } else {
+            return new ArrayList<TreeBranchRoot>();
+        }
     }
 
     public void setActiveBranch(TreeBranchRoot activeBranch) {

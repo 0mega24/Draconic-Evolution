@@ -1,6 +1,17 @@
 package com.brandon3055.draconicevolution.client.gui.toolconfig;
 
-import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.*;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.MAX;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.MIN;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.MINUS1;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.MINUS2;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.MINUS3;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.PLUS1;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.PLUS2;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.PLUS3;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.SELECTION;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.SLIDER;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.TOGGLE;
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumButton.values;
 
 import com.brandon3055.brandonscore.client.utils.GuiHelper;
 import com.brandon3055.brandonscore.inventory.PlayerSlot;
@@ -82,8 +93,8 @@ public class GuiConfigureTool extends GuiScreen
             int x = -159 + centerX + i % 2 * 180;
             int y = -103 + centerY + i / 2 * bHeight;
 
-            buttonList.add(
-                    fieldButtons[i] = new FieldButton(i, x, y, 138, bHeight - 1, field, this));
+            fieldButtons[i] = new FieldButton(i, x, y, 138, bHeight - 1, field, this);
+            buttonList.add(fieldButtons[i]);
 
             i++;
         }
@@ -351,9 +362,11 @@ public class GuiConfigureTool extends GuiScreen
                     case PLUS3_MINUS3:
                         buttonList.add(new Button(0, x + 31, y + 1, 18, 16, "<<<", MINUS3));
                         buttonList.add(new Button(1, x + width - 49, y + 1, 18, 16, ">>>", PLUS3));
+                        // fall through: each size also gets the smaller buttons
                     case PLUS2_MINUS2:
                         buttonList.add(new Button(2, x + 50, y + 1, 14, 16, "<<", MINUS2));
                         buttonList.add(new Button(3, x + width - 64, y + 1, 14, 16, ">>", PLUS2));
+                        // fall through
                     case PLUS1_MINUS1:
                         buttonList.add(new Button(4, x + 65, y + 1, 10, 16, "<", MINUS1));
                         buttonList.add(new Button(5, x + width - 75, y + 1, 10, 16, ">", PLUS1));
@@ -397,6 +410,8 @@ public class GuiConfigureTool extends GuiScreen
                     case TOGGLE:
                         buttonList.add(
                                 new Button(8, x + width / 2 - 159, y + 1, 318, 16, "", TOGGLE));
+                        break;
+                    default:
                         break;
                 }
             }
@@ -451,7 +466,8 @@ public class GuiConfigureTool extends GuiScreen
                         } else if (sliderPos < 0) {
                             sliderPos = 0;
                         }
-                        dragPos = releasePos = sliderPos;
+                        releasePos = sliderPos;
+                        dragPos = releasePos;
                         dragTick = 20;
                     }
 
@@ -511,6 +527,8 @@ public class GuiConfigureTool extends GuiScreen
                     break;
                 case TOGGLE:
                     break;
+                default:
+                    break;
             }
 
             if (dropDownPos > 0) {
@@ -544,6 +562,8 @@ public class GuiConfigureTool extends GuiScreen
                             y + 5,
                             0xFFFFFF,
                             false);
+                    break;
+                default:
                     break;
             }
         }
@@ -623,6 +643,8 @@ public class GuiConfigureTool extends GuiScreen
                         super.playPressSound(mc.getSoundHandler());
                     }
                     break;
+                default:
+                    break;
             }
 
             return super.mousePressed(mc, mouseX, mouseY);
@@ -642,6 +664,8 @@ public class GuiConfigureTool extends GuiScreen
                 case SLIDER:
                     break;
                 case SELECTIONS:
+                    break;
+                default:
                     break;
             }
         }
@@ -670,6 +694,8 @@ public class GuiConfigureTool extends GuiScreen
                         }
                         break;
                     case SELECTIONS:
+                        break;
+                    default:
                         break;
                 }
             }

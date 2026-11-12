@@ -15,7 +15,11 @@ import com.brandon3055.draconicevolution.client.render.effect.CrystalFXRing;
 import com.brandon3055.draconicevolution.client.render.effect.CrystalGLFXBase;
 import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.handlers.DEEventHandler;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -515,7 +519,7 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         private TileEntity tileCache = null;
         private int invalidTime = 0;
 
-        public LinkedDevice(int index, BlockPos pos, EnumFacing side) {
+        LinkedDevice(int index, BlockPos pos, EnumFacing side) {
             this.index = index;
             this.pos = pos;
             this.side = side;

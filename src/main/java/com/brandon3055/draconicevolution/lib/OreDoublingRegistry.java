@@ -12,7 +12,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
 /** Created by brandon3055 on 9/06/2017. */
-public class OreDoublingRegistry {
+public final class OreDoublingRegistry {
+
+    private OreDoublingRegistry() {}
 
     public static Map<String, ItemStack> oreRecipes = new HashMap<>();
     public static Map<ItemStack, ItemStack> stackToStackRecipes = new HashMap<>();
@@ -92,7 +94,7 @@ public class OreDoublingRegistry {
             return stackToStackRecipes.get(stack);
         }
 
-        int ids[] = OreDictionary.getOreIDs(stack);
+        int[] ids = OreDictionary.getOreIDs(stack);
         for (int id : ids) {
             String sid = OreDictionary.getOreName(id);
             if (oreRecipes.containsKey(sid)) {

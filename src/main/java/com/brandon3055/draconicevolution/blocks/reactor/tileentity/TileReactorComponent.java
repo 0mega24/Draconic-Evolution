@@ -325,7 +325,7 @@ public abstract class TileReactorComponent extends TileEnergyBase
             return null;
         }
 
-        if (method.equals("getReactorInfo")) {
+        if ("getReactorInfo".equals(method)) {
             Map<Object, Object> map = new HashMap<Object, Object>();
             map.put("temperature", Utils.round(reactor.temperature.value, 100));
             map.put("fieldStrength", Utils.round(reactor.shieldCharge.value, 100));
@@ -351,22 +351,28 @@ public abstract class TileReactorComponent extends TileEnergyBase
             // reactor.reactorState == 3 ? "stopping" : "invalid");
             map.put("failSafe", reactor.failSafeMode.value);
             return new Object[] {map};
-        } else if (method.equals("chargeReactor")) {
+        } else if ("chargeReactor".equals(method)) {
             if (reactor.canCharge()) {
                 reactor.chargeReactor();
                 return new Object[] {true};
-            } else return new Object[] {false};
-        } else if (method.equals("activateReactor")) {
+            } else {
+                return new Object[] {false};
+            }
+        } else if ("activateReactor".equals(method)) {
             if (reactor.canActivate()) {
                 reactor.activateReactor();
                 return new Object[] {true};
-            } else return new Object[] {false};
-        } else if (method.equals("stopReactor")) {
+            } else {
+                return new Object[] {false};
+            }
+        } else if ("stopReactor".equals(method)) {
             if (reactor.canStop()) {
                 reactor.shutdownReactor();
                 return new Object[] {true};
-            } else return new Object[] {false};
-        } else if (method.equals("setFailSafe")) {
+            } else {
+                return new Object[] {false};
+            }
+        } else if ("setFailSafe".equals(method)) {
             reactor.failSafeMode.value = args.checkBoolean(0);
             return new Object[] {true};
         }

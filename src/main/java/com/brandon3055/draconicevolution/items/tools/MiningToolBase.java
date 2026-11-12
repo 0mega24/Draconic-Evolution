@@ -11,7 +11,12 @@ import com.brandon3055.brandonscore.inventory.InventoryDynamic;
 import com.brandon3055.brandonscore.lib.PairKV;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.GuiHandler;
-import com.brandon3055.draconicevolution.api.itemconfig.*;
+import com.brandon3055.draconicevolution.api.itemconfig.AOEConfigField;
+import com.brandon3055.draconicevolution.api.itemconfig.BooleanConfigField;
+import com.brandon3055.draconicevolution.api.itemconfig.ExternalConfigField;
+import com.brandon3055.draconicevolution.api.itemconfig.IntegerConfigField;
+import com.brandon3055.draconicevolution.api.itemconfig.ItemConfigFieldRegistry;
+import com.brandon3055.draconicevolution.api.itemconfig.ToolConfigHelper;
 import com.brandon3055.draconicevolution.api.itemupgrade.UpgradeHelper;
 import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.entity.EntityLootCore;
@@ -530,6 +535,8 @@ public abstract class MiningToolBase extends ToolBase {
                 zMax = breakRadius;
                 yOffset = breakRadius - 1;
                 break;
+            default:
+                break;
         }
 
         if (breakRadius == 0) {
@@ -545,13 +552,13 @@ public abstract class MiningToolBase extends ToolBase {
     // region Setters, Getters & Helpers
 
     public void setHarvestLevel(String toolClass, int level) {
-        if (toolClass.equals("pickaxe") && level >= 0) {
+        if ("pickaxe".equals(toolClass) && level >= 0) {
             effectiveBlocks.addAll(PICKAXE_OVERRIDES);
         }
-        if (toolClass.equals("shovel") && level >= 0) {
+        if ("shovel".equals(toolClass) && level >= 0) {
             effectiveBlocks.addAll(SHOVEL_OVERRIDES);
         }
-        if (toolClass.equals("axe") && level >= 0) {
+        if ("axe".equals(toolClass) && level >= 0) {
             effectiveBlocks.addAll(AXE_OVERRIDES);
         }
         super.setHarvestLevel(toolClass, level);
@@ -631,7 +638,7 @@ public abstract class MiningToolBase extends ToolBase {
         private ICapabilityProvider parentProvider;
         private ItemStackHandler itemHandler;
 
-        public ItemCapProvider(ICapabilityProvider parentProvider, ItemStackHandler iItemHandler) {
+        ItemCapProvider(ICapabilityProvider parentProvider, ItemStackHandler iItemHandler) {
             this.parentProvider = parentProvider;
             this.itemHandler = iItemHandler;
         }

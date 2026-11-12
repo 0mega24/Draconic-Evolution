@@ -14,7 +14,9 @@ import java.util.List;
  * <p>Created by covers1624 on 21/06/2017.
  */
 // TODO Remove this when CCL3 drops.
-public class ModelHelper {
+public final class ModelHelper {
+
+    private ModelHelper() {}
 
     /**
      * Quadulates a CCModel. Only Position and UV data is copied.
@@ -109,7 +111,7 @@ public class ModelHelper {
             verts[s & 3] = newVec;
         }
 
-        public Face(Vertex5... v) {
+        Face(Vertex5... v) {
 
             assert v.length == 4;
             this.verts = v;

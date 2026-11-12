@@ -7,7 +7,12 @@ import com.brandon3055.brandonscore.blocks.TileBCBase;
 import com.brandon3055.brandonscore.handlers.ProcessHandler;
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.lib.Vec3I;
-import com.brandon3055.brandonscore.lib.datamanager.*;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedDouble;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedEnum;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedInt;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedString;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedVec3I;
 import com.brandon3055.brandonscore.utils.FacingUtils;
 import com.brandon3055.brandonscore.utils.HolidayHelper;
 import com.brandon3055.brandonscore.utils.Utils;
@@ -245,7 +250,8 @@ public class TileReactorCore extends TileBCBase implements ITickable {
             checkPlayerCollision();
             coreAnimation += shaderAnimationState.value;
             if (maxShieldCharge.value == 0) {
-                shaderAnimationState.value = shieldAnimation = 0;
+                shieldAnimation = 0;
+                shaderAnimationState.value = shieldAnimation;
             } else {
                 shieldAnimationState =
                         MathHelper.clip(
@@ -311,6 +317,8 @@ public class TileReactorCore extends TileBCBase implements ITickable {
             case BEYOND_HOPE:
                 checkBlockIntrusions();
                 updateCriticalState();
+                break;
+            default:
                 break;
         }
 
@@ -1202,7 +1210,9 @@ public class TileReactorCore extends TileBCBase implements ITickable {
                     p = p.down();
                 }
             } else {
-                while (!world.isAirBlock(p)) p = p.up();
+                while (!world.isAirBlock(p)) {
+                    p = p.up();
+                }
             }
 
             int y = p.getY();

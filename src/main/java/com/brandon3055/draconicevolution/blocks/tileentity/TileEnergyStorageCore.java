@@ -5,7 +5,11 @@ import static net.minecraft.util.text.TextFormatting.RED;
 import codechicken.lib.data.MCDataInput;
 import com.brandon3055.brandonscore.blocks.TileBCBase;
 import com.brandon3055.brandonscore.lib.Vec3I;
-import com.brandon3055.brandonscore.lib.datamanager.*;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedByte;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedLong;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedString;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedVec3I;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.GuiHandler;
 import com.brandon3055.draconicevolution.api.IExtendedRFStorage;
@@ -302,7 +306,8 @@ public class TileEnergyStorageCore extends TileBCBase
     public boolean validateStructure() {
         boolean valid = checkStabilizers();
 
-        if (!(coreValid.value = coreStructure.checkTier(tier.value))) {
+        coreValid.value = coreStructure.checkTier(tier.value);
+        if (!coreValid.value) {
             BlockPos pos = coreStructure.invalidBlock;
             invalidMessage.value =
                     "Error At: "

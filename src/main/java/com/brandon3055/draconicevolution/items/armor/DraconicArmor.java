@@ -1,7 +1,10 @@
 package com.brandon3055.draconicevolution.items.armor;
 
 import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumControlType.SLIDER;
-import static net.minecraft.inventory.EntityEquipmentSlot.*;
+import static net.minecraft.inventory.EntityEquipmentSlot.CHEST;
+import static net.minecraft.inventory.EntityEquipmentSlot.FEET;
+import static net.minecraft.inventory.EntityEquipmentSlot.HEAD;
+import static net.minecraft.inventory.EntityEquipmentSlot.LEGS;
 
 import codechicken.lib.math.MathHelper;
 import com.brandon3055.brandonscore.BrandonsCore;
@@ -217,12 +220,15 @@ public class DraconicArmor extends WyvernArmor {
 
         //        model = null;
         if (model == null) {
-            if (armorType == HEAD) model = new ModelDraconicArmor(1F, true, false, false, false);
-            else if (armorType == CHEST)
+            if (armorType == HEAD) {
+                model = new ModelDraconicArmor(1F, true, false, false, false);
+            } else if (armorType == CHEST) {
                 model = new ModelDraconicArmor(1F, false, true, false, false);
-            else if (armorType == LEGS)
+            } else if (armorType == LEGS) {
                 model = new ModelDraconicArmor(1F, false, false, true, false);
-            else model = new ModelDraconicArmor(1F, false, false, false, true);
+            } else {
+                model = new ModelDraconicArmor(1F, false, false, false, true);
+            }
             this.model.bipedHead.showModel = (armorType == HEAD);
             this.model.bipedHeadwear.showModel = (armorType == HEAD);
             this.model.bipedBody.showModel = ((armorType == CHEST) || (armorType == LEGS));

@@ -194,7 +194,9 @@ public class EntityGuardianProjectile extends Entity {
         if (isChaser && !world.isRemote) {
             double tDist =
                     Utils.getDistanceAtoB(target.posX, target.posY, target.posZ, posX, posY, posZ);
-            if (tDist <= 0) tDist = 0.1;
+            if (tDist <= 0) {
+                tDist = 0.1;
+            }
 
             double x = (target.posX - posX) / tDist;
             double y = (target.posY - posY - -1) / tDist;
@@ -426,6 +428,8 @@ public class EntityGuardianProjectile extends Entity {
                     setDead();
                 }
                 break;
+            default:
+                break;
         }
 
         lastTickTargetDistance = targetDistance;
@@ -475,7 +479,9 @@ public class EntityGuardianProjectile extends Entity {
     }
 
     private void damageEntitiesInRadius(DamageSource source, double radius, float damage) {
-        if (world.isRemote) return;
+        if (world.isRemote) {
+            return;
+        }
         @SuppressWarnings("unchecked")
         List<EntityLivingBase> entities =
                 world.getEntitiesWithinAABB(
@@ -581,6 +587,8 @@ public class EntityGuardianProjectile extends Entity {
                 return new int[] {0x44, 0, 0};
             case IGNITION_CHARGE:
                 return new int[] {0xFF, 0xFF, 0xFF};
+            default:
+                break;
         }
         return new int[] {0, 0, 0};
     }

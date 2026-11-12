@@ -7,10 +7,20 @@ import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import net.minecraft.util.StringUtils;
 
@@ -318,12 +328,12 @@ public class UIAddModBranch extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
-        if (command.equals("comboBoxChanged")) {
+        if ("comboBoxChanged".equals(command)) {
             String selected = selectorBox.getSelectedItem().toString();
             idField.setText(selected.toLowerCase());
             nameField.setText(ModHelper.getLoadedMods().get(selected));
         }
-        if (command.equals("Create")) {
+        if ("Create".equals(command)) {
             if (WikiDocManager.modDocMap.containsKey(idField.getText())) {
                 JOptionPane.showMessageDialog(
                         this,
@@ -375,7 +385,7 @@ public class UIAddModBranch extends JFrame implements ActionListener {
                 }
             }
         }
-        if (command.equals("Cancel")) {
+        if ("Cancel".equals(command)) {
             dispose();
         }
     }

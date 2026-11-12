@@ -5,7 +5,13 @@ import com.brandon3055.brandonscore.client.gui.modulargui_old.ModularGuiContaine
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.IMGuiListener;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.MGuiEntityFilter;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.ModuleBuilder;
-import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiBackground;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButton;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonSolid;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonToggle;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiEnergyBar;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiHoverPopup;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiLabel;
 import com.brandon3055.brandonscore.client.utils.GuiHelper;
 import com.brandon3055.brandonscore.utils.InfoHelper;
 import com.brandon3055.brandonscore.utils.Utils;
@@ -109,134 +115,139 @@ public class GuiEntityDetector extends ModularGuiContainer<ContainerDummy>
 
         ModuleBuilder.RawColumns builder =
                 new ModuleBuilder.RawColumns(guiLeft + 9, guiTop() + 14, 3, 12, 1);
+        decrementRange = new MGuiButton(this, 0, 0, 12, 12, "-");
 
-        builder.add(decrementRange = new MGuiButton(this, 0, 0, 12, 12, "-"));
+        builder.add(decrementRange);
         MGuiElementBase element;
-        builder.add(
-                element =
-                        new MGuiLabel(this, 0, 0, xSize - 45, 12, "") {
-                            @Override
-                            public String getDisplayString() {
-                                return I18n.format("gui.entityDetector.range")
-                                        + ": "
-                                        + tile.RANGE.value
-                                        + " blocks.";
-                            }
-                        });
+        element =
+                new MGuiLabel(this, 0, 0, xSize - 45, 12, "") {
+                    @Override
+                    public String getDisplayString() {
+                        return I18n.format("gui.entityDetector.range")
+                                + ": "
+                                + tile.RANGE.value
+                                + " blocks.";
+                    }
+                };
+        builder.add(element);
         element.addChild(
                 new MGuiHoverPopup(
                                 this,
                                 new String[] {I18n.format("gui.entityDetector.range.info")},
                                 element)
                         .setHoverDelay(10));
-        builder.add(incrementRange = new MGuiButton(this, 0, 0, 12, 12, "+"));
+        incrementRange = new MGuiButton(this, 0, 0, 12, 12, "+");
+        builder.add(incrementRange);
+        decrementPulse = new MGuiButton(this, 0, 0, 12, 12, "-");
 
-        builder.add(decrementPulse = new MGuiButton(this, 0, 0, 12, 12, "-"));
-        builder.add(
-                element =
-                        new MGuiLabel(this, 0, 0, xSize - 45, 12, "") {
-                            @Override
-                            public String getDisplayString() {
-                                return I18n.format("gui.entityDetector.pulseDelay")
-                                        + ": "
-                                        + tile.PULSE_RATE.value / 20D
-                                        + " sec.";
-                            }
-                        });
+        builder.add(decrementPulse);
+        element =
+                new MGuiLabel(this, 0, 0, xSize - 45, 12, "") {
+                    @Override
+                    public String getDisplayString() {
+                        return I18n.format("gui.entityDetector.pulseDelay")
+                                + ": "
+                                + tile.PULSE_RATE.value / 20D
+                                + " sec.";
+                    }
+                };
+        builder.add(element);
         element.addChild(
                 new MGuiHoverPopup(
                                 this,
                                 new String[] {I18n.format("gui.entityDetector.pulseDelay.info")},
                                 element)
                         .setHoverDelay(10));
-        builder.add(incrementPulse = new MGuiButton(this, 0, 0, 12, 12, "+"));
+        incrementPulse = new MGuiButton(this, 0, 0, 12, 12, "+");
+        builder.add(incrementPulse);
+        decrementRSMin = new MGuiButton(this, 0, 0, 12, 12, "-");
 
-        builder.add(decrementRSMin = new MGuiButton(this, 0, 0, 12, 12, "-"));
-        builder.add(
-                element =
-                        new MGuiLabel(this, 0, 0, xSize - 45, 12, "") {
-                            @Override
-                            public String getDisplayString() {
-                                return I18n.format("gui.entityDetector.rsMin")
-                                        + ": "
-                                        + tile.RS_MIN_DETECTION.value;
-                            }
-                        });
+        builder.add(decrementRSMin);
+        element =
+                new MGuiLabel(this, 0, 0, xSize - 45, 12, "") {
+                    @Override
+                    public String getDisplayString() {
+                        return I18n.format("gui.entityDetector.rsMin")
+                                + ": "
+                                + tile.RS_MIN_DETECTION.value;
+                    }
+                };
+        builder.add(element);
         element.addChild(
                 new MGuiHoverPopup(
                                 this,
                                 new String[] {I18n.format("gui.entityDetector.rsMin.info")},
                                 element)
                         .setHoverDelay(10));
-        builder.add(incrementRSMin = new MGuiButton(this, 0, 0, 12, 12, "+"));
+        incrementRSMin = new MGuiButton(this, 0, 0, 12, 12, "+");
+        builder.add(incrementRSMin);
+        decrementRSMax = new MGuiButton(this, 0, 0, 12, 12, "-");
 
-        builder.add(decrementRSMax = new MGuiButton(this, 0, 0, 12, 12, "-"));
-        builder.add(
-                element =
-                        new MGuiLabel(this, 0, 0, xSize - 45, 12, "") {
-                            @Override
-                            public String getDisplayString() {
-                                return I18n.format("gui.entityDetector.rsMax")
-                                        + ": "
-                                        + tile.RS_MAX_DETECTION.value;
-                            }
-                        });
+        builder.add(decrementRSMax);
+        element =
+                new MGuiLabel(this, 0, 0, xSize - 45, 12, "") {
+                    @Override
+                    public String getDisplayString() {
+                        return I18n.format("gui.entityDetector.rsMax")
+                                + ": "
+                                + tile.RS_MAX_DETECTION.value;
+                    }
+                };
+        builder.add(element);
         element.addChild(
                 new MGuiHoverPopup(
                                 this,
                                 new String[] {I18n.format("gui.entityDetector.rsMax.info")},
                                 element)
                         .setHoverDelay(10));
-        builder.add(incrementRSMax = new MGuiButton(this, 0, 0, 12, 12, "+"));
+        incrementRSMax = new MGuiButton(this, 0, 0, 12, 12, "+");
+        builder.add(incrementRSMax);
 
         builder.finish(manager, 1);
+        outputMode =
+                new MGuiButtonToggle(
+                        this, guiLeft + 9, builder.builderEndY + 1, xSize - 18, 12, "") {
+                    @Override
+                    public String getDisplayString() {
+                        return tile.PULSE_RS_MODE.value
+                                ? I18n.format("gui.entityDetector.outputPulse")
+                                : I18n.format("gui.entityDetector.outputContin");
+                    }
 
-        manager.add(
-                outputMode =
-                        new MGuiButtonToggle(
-                                this, guiLeft + 9, builder.builderEndY + 1, xSize - 18, 12, "") {
-                            @Override
-                            public String getDisplayString() {
-                                return tile.PULSE_RS_MODE.value
-                                        ? I18n.format("gui.entityDetector.outputPulse")
-                                        : I18n.format("gui.entityDetector.outputContin");
-                            }
+                    @Override
+                    public boolean isPressed() {
+                        return tile.PULSE_RS_MODE.value;
+                    }
+                };
 
-                            @Override
-                            public boolean isPressed() {
-                                return tile.PULSE_RS_MODE.value;
-                            }
-                        },
-                1);
+        manager.add(outputMode, 1);
         outputMode
                 .setToolTip(new String[] {I18n.format("gui.entityDetector.output.info")})
                 .setToolTipDelay(10);
+        element =
+                new MGuiButton(
+                                this,
+                                guiLeft + 9,
+                                outputMode.yPos + 13,
+                                xSize - 18,
+                                12,
+                                I18n.format("gui.entityDetector.filter"))
+                        .setButtonName("OPEN_FILTER");
 
-        manager.add(
-                element =
-                        new MGuiButton(
-                                        this,
-                                        guiLeft + 9,
-                                        outputMode.yPos + 13,
-                                        xSize - 18,
-                                        12,
-                                        I18n.format("gui.entityDetector.filter"))
-                                .setButtonName("OPEN_FILTER"));
+        manager.add(element);
 
         if (TweaksConfig.entityDetectorPowerModifier > 0) {
-            manager.add(
-                    element =
-                            new MGuiLabel(
-                                    this, guiLeft + 9, element.yPos + 13, xSize - 18, 12, "") {
-                                @Override
-                                public String getDisplayString() {
-                                    return I18n.format("gui.entityDetector.energyCost")
-                                            + ": "
-                                            + Utils.formatNumber(tile.getPulseCost())
-                                            + " RF";
-                                }
-                            },
-                    1);
+            element =
+                    new MGuiLabel(this, guiLeft + 9, element.yPos + 13, xSize - 18, 12, "") {
+                        @Override
+                        public String getDisplayString() {
+                            return I18n.format("gui.entityDetector.energyCost")
+                                    + ": "
+                                    + Utils.formatNumber(tile.getPulseCost())
+                                    + " RF";
+                        }
+                    };
+            manager.add(element, 1);
             element.addChild(
                     new MGuiHoverPopup(
                                     this,
@@ -245,13 +256,12 @@ public class GuiEntityDetector extends ModularGuiContainer<ContainerDummy>
                                     },
                                     element)
                             .setHoverDelay(10));
+            energyBar =
+                    new MGuiEnergyBar(this, guiLeft + 9, guiTop() + 106, xSize - 18, 14)
+                            .setEnergyHandler(tile)
+                            .setHorizontal(true);
 
-            manager.add(
-                    energyBar =
-                            new MGuiEnergyBar(this, guiLeft + 9, guiTop() + 106, xSize - 18, 14)
-                                    .setEnergyHandler(tile)
-                                    .setHorizontal(true),
-                    1);
+            manager.add(energyBar, 1);
         }
 
         manager.add(

@@ -2,7 +2,11 @@ package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.displaycont
 
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment;
-import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButton;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonSolid;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiHoverPopup;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiLabel;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiTextField;
 import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.client.gui.modwiki.GuiModWiki;
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree.TreeBranchRoot;
@@ -79,6 +83,8 @@ public class DCHeading extends DisplayComponentBase {
                     break;
                 case RIGHT:
                     x = xPos + (xSize - scaledWidth) - (2 * scaleFactor);
+                    break;
+                default:
                     break;
             }
 
@@ -241,8 +247,8 @@ public class DCHeading extends DisplayComponentBase {
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         super.onMGuiEvent(eventString, eventElement);
 
-        if (eventElement.id.equals("TEXT")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        if ("TEXT".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             if (StringUtils.isNullOrEmpty(((MGuiTextField) eventElement).getText())) {
                 return;
@@ -263,9 +269,9 @@ public class DCHeading extends DisplayComponentBase {
             //                    break;
             //                }
             //            }
-        } else if (eventString.equals("BUTTON_PRESS")
+        } else if ("BUTTON_PRESS".equals(eventString)
                 && eventElement instanceof MGuiButtonSolid
-                && ((MGuiButtonSolid) eventElement).buttonName.equals("CYCLE_SIZE")) {
+                && "CYCLE_SIZE".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             headingSize += GuiScreen.isShiftKeyDown() ? -1 : 1;
 
             if (headingSize > 10) {
@@ -276,15 +282,15 @@ public class DCHeading extends DisplayComponentBase {
 
             element.setAttribute(SIZE_ATTRIB, String.valueOf(headingSize));
             save();
-        } else if (eventString.equals("BUTTON_PRESS")
+        } else if ("BUTTON_PRESS".equals(eventString)
                 && eventElement instanceof MGuiButtonSolid
-                && ((MGuiButtonSolid) eventElement).buttonName.equals("SHADOW")) {
+                && "SHADOW".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             shadow = !shadow;
 
             element.setAttribute(ATTRIB_SHADOW, String.valueOf(shadow));
             save();
-        } else if (eventElement.id.equals("COLOUR")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        } else if ("COLOUR".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             try {
                 setColour(Utils.parseHex(((MGuiTextField) eventElement).getText()));

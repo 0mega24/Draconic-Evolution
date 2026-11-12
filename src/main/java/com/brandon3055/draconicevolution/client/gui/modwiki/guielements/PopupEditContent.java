@@ -1,12 +1,25 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.guielements;
 
-import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.*;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_BRANCH_NAME;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_ICON;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_ICON_TYPE;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ICON_TYPE_OFF;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ICON_TYPE_STACK;
 
 import com.brandon3055.brandonscore.client.gui.modulargui_old.IModularGui;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.IMGuiListener;
-import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiBorderedRect;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButton;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonSolid;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiColourPicker;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiHoverPopup;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiLabel;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiList;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiPopUpDialog;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiStackIcon;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiTextField;
 import com.brandon3055.brandonscore.lib.StackReference;
 import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager;
@@ -71,15 +84,15 @@ public class PopupEditContent extends MGuiPopUpDialog implements IMGuiListener {
                 new MGuiLabel(modularGui, xPos, yPos + 2, xSize, 12, "Edit Name")
                         .setAlignment(EnumAlignment.LEFT);
         addChild(nameLabel);
-        addChild(
-                nameField =
-                        new MGuiTextField(
-                                modularGui,
-                                xPos + 2,
-                                nameLabel.yPos + 12,
-                                xSize - 4,
-                                16,
-                                modularGui.getMinecraft().fontRenderer));
+        nameField =
+                new MGuiTextField(
+                        modularGui,
+                        xPos + 2,
+                        nameLabel.yPos + 12,
+                        xSize - 4,
+                        16,
+                        modularGui.getMinecraft().fontRenderer);
+        addChild(nameField);
         nameField.setMaxStringLength(512);
         nameField.setText(branch.branchName);
 
@@ -97,47 +110,47 @@ public class PopupEditContent extends MGuiPopUpDialog implements IMGuiListener {
             toolTip.add("Display stack not set");
             stackRef = new StackReference(new ItemStack(Blocks.BARRIER));
         }
-        addChild(
-                stackString =
-                        new MGuiTextField(
-                                modularGui,
-                                xPos + 2,
-                                iconLabel.yPos + 12,
-                                xSize - 4,
-                                16,
-                                modularGui.getMinecraft().fontRenderer));
+        stackString =
+                new MGuiTextField(
+                        modularGui,
+                        xPos + 2,
+                        iconLabel.yPos + 12,
+                        xSize - 4,
+                        16,
+                        modularGui.getMinecraft().fontRenderer);
+        addChild(stackString);
         stackString.setMaxStringLength(512);
         stackString.setText(toolTip.size() > 0 ? "" : stackRef.toString());
-        addChild(
-                stackIcon =
-                        new MGuiStackIcon(
-                                modularGui, xPos + 3, stackString.yPos + 18, 18, 18, stackRef));
+        stackIcon =
+                new MGuiStackIcon(modularGui, xPos + 3, stackString.yPos + 18, 18, 18, stackRef);
+        addChild(stackIcon);
 
         if (toolTip.size() > 0) {
             stackIcon.setToolTip(false);
         }
-        stackIcon.addChild(stackBack = new MGuiBorderedRect(modularGui));
+        stackBack = new MGuiBorderedRect(modularGui);
+        stackIcon.addChild(stackBack);
         stackBack.setBorderColour(0).setFillColour(0);
-        addChild(
-                pickStack =
-                        new MGuiButtonSolid(
-                                modularGui,
-                                "PICK_STACK",
-                                stackIcon.xPos + 20,
-                                stackString.yPos + 18,
-                                24,
-                                18,
-                                "Set"));
-        addChild(
-                clearStack =
-                        new MGuiButtonSolid(
-                                modularGui,
-                                "CLEAR_STACK",
-                                stackIcon.xPos + 45,
-                                stackString.yPos + 18,
-                                32,
-                                18,
-                                "Clear"));
+        pickStack =
+                new MGuiButtonSolid(
+                        modularGui,
+                        "PICK_STACK",
+                        stackIcon.xPos + 20,
+                        stackString.yPos + 18,
+                        24,
+                        18,
+                        "Set");
+        addChild(pickStack);
+        clearStack =
+                new MGuiButtonSolid(
+                        modularGui,
+                        "CLEAR_STACK",
+                        stackIcon.xPos + 45,
+                        stackString.yPos + 18,
+                        32,
+                        18,
+                        "Clear");
+        addChild(clearStack);
         pickStack
                 .setToolTip(Arrays.asList(new String[] {"Select an item from your inventory."}))
                 .setListener(this);
@@ -152,37 +165,37 @@ public class PopupEditContent extends MGuiPopUpDialog implements IMGuiListener {
                                 "Cancel")
                         .setListener(this));
         clearStack.setListener(this);
+        okButton =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                        modularGui,
+                                        "OK",
+                                        xPos + 2,
+                                        stackIcon.yPos + 32,
+                                        xSize - 4,
+                                        14,
+                                        "Save & Exit")
+                                .setColours(0xFF00a000, 0xFF000000, 0xFFFFFFFF)
+                                .setListener(this);
 
         // endregion
 
         // region misc
 
-        addChild(
-                okButton =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                                modularGui,
-                                                "OK",
-                                                xPos + 2,
-                                                stackIcon.yPos + 32,
-                                                xSize - 4,
-                                                14,
-                                                "Save & Exit")
-                                        .setColours(0xFF00a000, 0xFF000000, 0xFFFFFFFF)
-                                        .setListener(this));
-        addChild(
-                cancelButton =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                                modularGui,
-                                                "CANCEL",
-                                                xPos + 2,
-                                                stackIcon.yPos + 48,
-                                                xSize - 4,
-                                                14,
-                                                "Cancel")
-                                        .setColours(0xFF400000, 0xFF000000, 0xFFFFFFFF)
-                                        .setListener(this));
+        addChild(okButton);
+        cancelButton =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                        modularGui,
+                                        "CANCEL",
+                                        xPos + 2,
+                                        stackIcon.yPos + 48,
+                                        xSize - 4,
+                                        14,
+                                        "Cancel")
+                                .setColours(0xFF400000, 0xFF000000, 0xFFFFFFFF)
+                                .setListener(this);
+        addChild(cancelButton);
         addChild(
                 new MGuiButtonSolid(
                                 modularGui,
@@ -202,15 +215,15 @@ public class PopupEditContent extends MGuiPopUpDialog implements IMGuiListener {
         addChild(
                 new MGuiLabel(modularGui, xPos, yPos + 140, xSize, 12, "Sorting Weight")
                         .setAlignment(EnumAlignment.LEFT));
-        addChild(
-                weightField =
-                        new MGuiTextField(
-                                modularGui,
-                                xPos + 2,
-                                yPos + 152,
-                                xSize - 4,
-                                16,
-                                modularGui.getMinecraft().fontRenderer));
+        weightField =
+                new MGuiTextField(
+                        modularGui,
+                        xPos + 2,
+                        yPos + 152,
+                        xSize - 4,
+                        16,
+                        modularGui.getMinecraft().fontRenderer);
+        addChild(weightField);
         weightField.setMaxStringLength(10);
         weightField.setText(String.valueOf(branch.sortingWeight));
         weightField.setId("SET_WEIGHT");
@@ -236,53 +249,53 @@ public class PopupEditContent extends MGuiPopUpDialog implements IMGuiListener {
                             "Is multiple branches have the same weight they should show in the order they were created."
                         },
                         weightField));
+        deleteButton =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                        modularGui,
+                                        "DELETE",
+                                        xPos + 1 + (xSize / 2),
+                                        yPos + ySize - 16,
+                                        (xSize / 2) - 2,
+                                        14,
+                                        "Delete")
+                                .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
+                                .setListener(this);
 
         // endregion
 
-        addChild(
-                deleteButton =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                                modularGui,
-                                                "DELETE",
-                                                xPos + 1 + (xSize / 2),
-                                                yPos + ySize - 16,
-                                                (xSize / 2) - 2,
-                                                14,
-                                                "Delete")
-                                        .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
-                                        .setListener(this));
+        addChild(deleteButton);
         MGuiLabel confirm =
                 new MGuiLabel(modularGui, xPos, yPos + ySize - 30, xSize, 12, "Are You Sure?");
         confirm.id = "CONFIRM_LABEL";
         addChild(confirm);
         setChildIDEnabled("CONFIRM_LABEL", false);
-        addChild(
-                confirmYes =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                                modularGui,
-                                                "DELETE_YES",
-                                                xPos + 2,
-                                                yPos + ySize - 16,
-                                                (xSize / 2) - 2,
-                                                14,
-                                                "Yes")
-                                        .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
-                                        .setListener(this));
-        addChild(
-                confirmNo =
-                        (MGuiButtonSolid)
-                                new MGuiButtonSolid(
-                                                modularGui,
-                                                "DELETE_NO",
-                                                xPos + 1 + (xSize / 2),
-                                                yPos + ySize - 16,
-                                                (xSize / 2) - 2,
-                                                14,
-                                                "No")
-                                        .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
-                                        .setListener(this));
+        confirmYes =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                        modularGui,
+                                        "DELETE_YES",
+                                        xPos + 2,
+                                        yPos + ySize - 16,
+                                        (xSize / 2) - 2,
+                                        14,
+                                        "Yes")
+                                .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
+                                .setListener(this);
+        addChild(confirmYes);
+        confirmNo =
+                (MGuiButtonSolid)
+                        new MGuiButtonSolid(
+                                        modularGui,
+                                        "DELETE_NO",
+                                        xPos + 1 + (xSize / 2),
+                                        yPos + ySize - 16,
+                                        (xSize / 2) - 2,
+                                        14,
+                                        "No")
+                                .setColours(0xFFFF0000, 0xFF000000, 0xFFFFFFFF)
+                                .setListener(this);
+        addChild(confirmNo);
         confirmYes.setEnabled(false);
         confirmNo.setEnabled(false);
 
@@ -339,9 +352,9 @@ public class PopupEditContent extends MGuiPopUpDialog implements IMGuiListener {
             branch.initBranches();
             stackIcon.setToolTip(false);
             stackString.setText("");
-        } else if (element.id.equals("CANCEL_PICK") && selector != null) {
+        } else if ("CANCEL_PICK".equals(element.id) && selector != null) {
             modularGui.getManager().remove(selector);
-        } else if (event.equals("SELECTOR_PICK")) {
+        } else if ("SELECTOR_PICK".equals(event)) {
             if (element instanceof MGuiStackIcon) {
                 StackReference reference = new StackReference(((MGuiStackIcon) element).getStack());
                 stackIcon.setStack(reference);
@@ -351,7 +364,7 @@ public class PopupEditContent extends MGuiPopUpDialog implements IMGuiListener {
 
             modularGui.getManager().remove(selector);
         } else if (element instanceof MGuiButton
-                && ((MGuiButton) element).buttonName.equals("COPY_ID")) {
+                && "COPY_ID".equals(((MGuiButton) element).buttonName)) {
             GuiScreen.setClipboardString(branch.branchID);
         }
         // endregion

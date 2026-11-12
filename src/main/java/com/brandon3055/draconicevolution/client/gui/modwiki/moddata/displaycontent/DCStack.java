@@ -2,7 +2,12 @@ package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.displaycont
 
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment;
-import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonSolid;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiHoverPopup;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiLabel;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiSlotRender;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiStackIcon;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiTextField;
 import com.brandon3055.brandonscore.lib.StackReference;
 import com.brandon3055.draconicevolution.client.gui.modwiki.GuiModWiki;
 import com.brandon3055.draconicevolution.client.gui.modwiki.guielements.StackSelector;
@@ -48,8 +53,10 @@ public class DCStack extends DisplayComponentBase {
     public void setXSize(int xSize) {
         super.setXSize(xSize);
         int size = Math.min(xSize - 4, (int) ((scale / 100D) * 18D));
-        stackIcon.ySize = stackIcon.xSize = size;
-        iconBackground.ySize = iconBackground.xSize = size;
+        stackIcon.xSize = size;
+        stackIcon.ySize = stackIcon.xSize;
+        iconBackground.xSize = size;
+        iconBackground.ySize = iconBackground.xSize;
         iconBackground.setEnabled(renderSlot);
         iconBackground.yPos = stackIcon.yPos;
 
@@ -63,6 +70,8 @@ public class DCStack extends DisplayComponentBase {
                 break;
             case RIGHT:
                 xOffset = xSize - size - 2;
+                break;
+            default:
                 break;
         }
 
@@ -154,10 +163,7 @@ public class DCStack extends DisplayComponentBase {
                 new Predicate<String>() {
                     @Override
                     public boolean apply(@Nullable String input) {
-                        try {
-                            Integer.parseInt(input);
-                        } catch (Exception e) {
-                        }
+                        // Any text is allowed; the scale is parsed with a fallback when applied.
                         return true;
                     }
                 });
@@ -170,8 +176,8 @@ public class DCStack extends DisplayComponentBase {
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         super.onMGuiEvent(eventString, eventElement);
 
-        if (eventElement.id.equals("SCALE")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        if ("SCALE".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             if (StringUtils.isNullOrEmpty(((MGuiTextField) eventElement).getText())) {
                 return;
@@ -181,6 +187,7 @@ public class DCStack extends DisplayComponentBase {
             try {
                 newScale = Integer.parseInt(((MGuiTextField) eventElement).getText());
             } catch (Exception e) {
+                // Not a number: keep the default scale.
             }
 
             if (newScale < 30) {
@@ -192,22 +199,22 @@ public class DCStack extends DisplayComponentBase {
             save();
 
             for (MGuiElementBase element : branch.guiWiki.contentWindow.editControls) {
-                if (element instanceof MGuiTextField && element.id.equals("SCALE")) {
+                if (element instanceof MGuiTextField && "SCALE".equals(element.id)) {
                     ((MGuiTextField) element).setFocused(true);
                     ((MGuiTextField) element).setCursorPosition(pos);
                     break;
                 }
             }
         } else if (eventElement instanceof MGuiButtonSolid
-                && ((MGuiButtonSolid) eventElement).buttonName.equals("TOGGLE_TOOLTIP")) {
+                && "TOGGLE_TOOLTIP".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             element.setAttribute(ATTRIB_TIP, String.valueOf(!toolTip));
             save();
         } else if (eventElement instanceof MGuiButtonSolid
-                && ((MGuiButtonSolid) eventElement).buttonName.equals("TOGGLE_SLOT")) {
+                && "TOGGLE_SLOT".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             element.setAttribute(ATTRIB_SLOT, String.valueOf(!renderSlot));
             save();
         } else if (eventElement instanceof MGuiButtonSolid
-                && ((MGuiButtonSolid) eventElement).buttonName.equals("SELECT_STACK")) {
+                && "SELECT_STACK".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             EntityPlayer player = Minecraft.getMinecraft().player;
             selector =
                     new StackSelector(
@@ -239,9 +246,9 @@ public class DCStack extends DisplayComponentBase {
                             .setId("CANCEL_PICK"));
             selector.initElement();
             modularGui.getManager().add(selector, 2);
-        } else if (eventElement.id.equals("CANCEL_PICK") && selector != null) {
+        } else if ("CANCEL_PICK".equals(eventElement.id) && selector != null) {
             modularGui.getManager().remove(selector);
-        } else if (eventString.equals("SELECTOR_PICK")) {
+        } else if ("SELECTOR_PICK".equals(eventString)) {
             boolean shouldSave = false;
             if (eventElement instanceof MGuiStackIcon) {
                 StackReference reference =
@@ -290,6 +297,7 @@ public class DCStack extends DisplayComponentBase {
         try {
             scale = Integer.parseInt(element.getAttribute(ATTRIB_SCALE));
         } catch (Exception e) {
+            // Not a number: keep the default scale.
         }
 
         if (scale < 30) {

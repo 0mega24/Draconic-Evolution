@@ -11,7 +11,13 @@ import com.brandon3055.draconicevolution.api.fusioncrafting.FusionRecipeAPI;
 import com.brandon3055.draconicevolution.api.fusioncrafting.IFusionRecipe;
 import com.brandon3055.draconicevolution.api.itemupgrade.FusionUpgradeRecipe;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import javax.annotation.Nullable;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
@@ -148,6 +154,8 @@ public class ToolUpgrade extends ItemBCore implements IRenderOverride {
                                 Blocks.DRAGON_EGG,
                                 Blocks.DRAGON_EGG,
                                 DEFeatures.chaoticCore);
+                break;
+            default:
                 break;
         }
 

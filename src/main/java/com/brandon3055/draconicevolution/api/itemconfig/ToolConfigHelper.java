@@ -4,7 +4,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 /** Created by brandon3055 on 1/06/2016. */
-public class ToolConfigHelper {
+public final class ToolConfigHelper {
+
+    private ToolConfigHelper() {}
 
     /** Returns the current selected config profile. */
     public static int getProfile(ItemStack stack) {

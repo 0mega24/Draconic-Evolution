@@ -33,7 +33,14 @@ import com.brandon3055.draconicevolution.handlers.DislocatorLinkHandler;
 import com.brandon3055.draconicevolution.integration.funkylocomotion.IMovableStructure;
 import com.brandon3055.draconicevolution.items.tools.Dislocator;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import net.minecraft.block.state.IBlockState;
@@ -521,12 +528,24 @@ public class TileDislocatorReceptacle extends TileInventoryBase
         int minZ = Integer.MAX_VALUE;
 
         for (BlockPos pos : foundValid) {
-            if (pos.getX() > maxX) maxX = pos.getX();
-            if (pos.getY() > maxY) maxY = pos.getY();
-            if (pos.getZ() > maxZ) maxZ = pos.getZ();
-            if (pos.getX() < minX) minX = pos.getX();
-            if (pos.getY() < minY) minY = pos.getY();
-            if (pos.getZ() < minZ) minZ = pos.getZ();
+            if (pos.getX() > maxX) {
+                maxX = pos.getX();
+            }
+            if (pos.getY() > maxY) {
+                maxY = pos.getY();
+            }
+            if (pos.getZ() > maxZ) {
+                maxZ = pos.getZ();
+            }
+            if (pos.getX() < minX) {
+                minX = pos.getX();
+            }
+            if (pos.getY() < minY) {
+                minY = pos.getY();
+            }
+            if (pos.getZ() < minZ) {
+                minZ = pos.getZ();
+            }
         }
 
         Vec3D center =
@@ -571,12 +590,24 @@ public class TileDislocatorReceptacle extends TileInventoryBase
         int minZ = Integer.MAX_VALUE;
 
         for (BlockPos pos : rawBlocks) {
-            if (pos.getX() > maxX) maxX = pos.getX();
-            if (pos.getY() > maxY) maxY = pos.getY();
-            if (pos.getZ() > maxZ) maxZ = pos.getZ();
-            if (pos.getX() < minX) minX = pos.getX();
-            if (pos.getY() < minY) minY = pos.getY();
-            if (pos.getZ() < minZ) minZ = pos.getZ();
+            if (pos.getX() > maxX) {
+                maxX = pos.getX();
+            }
+            if (pos.getY() > maxY) {
+                maxY = pos.getY();
+            }
+            if (pos.getZ() > maxZ) {
+                maxZ = pos.getZ();
+            }
+            if (pos.getX() < minX) {
+                minX = pos.getX();
+            }
+            if (pos.getY() < minY) {
+                minY = pos.getY();
+            }
+            if (pos.getZ() < minZ) {
+                minZ = pos.getZ();
+            }
         }
 
         Vec3D center =
@@ -739,7 +770,7 @@ public class TileDislocatorReceptacle extends TileInventoryBase
         public Entity entity;
         public LinkedList<PassengerHelper> passengers = new LinkedList<>();
 
-        public PassengerHelper(Entity entity) {
+        PassengerHelper(Entity entity) {
             this.entity = entity;
             for (Entity passenger : entity.getPassengers()) {
                 passengers.add(new PassengerHelper(passenger));
@@ -774,7 +805,9 @@ public class TileDislocatorReceptacle extends TileInventoryBase
                 for (BlockPos ppos : config.getValue()) {
                     for (BlockPos offset : FacingUtils.getAroundAxis(config.getKey())) {
                         BlockPos next = ppos.add(offset);
-                        if (blocks.contains(next)) continue;
+                        if (blocks.contains(next)) {
+                            continue;
+                        }
                         if (world.getBlockState(next).getBlock() == DEFeatures.infusedObsidian) {
                             blocks.add(next);
                         }
@@ -790,7 +823,9 @@ public class TileDislocatorReceptacle extends TileInventoryBase
         blocks.add(pos);
         for (BlockPos offset : FacingUtils.getAroundAxis(axis)) {
             BlockPos next = pos.add(offset);
-            if (blocks.contains(next)) continue;
+            if (blocks.contains(next)) {
+                continue;
+            }
 
             IBlockState state = world.getBlockState(next);
             if (state.getBlock() == DEFeatures.portal) {
@@ -804,7 +839,9 @@ public class TileDislocatorReceptacle extends TileInventoryBase
     public void finishMove(BlockPos pos, HashSet<BlockPos> blocks) {
         for (EnumFacing facing : FacingUtils.getFacingsAroundAxis(ACTIVE_AXIS.value)) {
             BlockPos np = pos.offset(facing);
-            if (blocks.contains(np)) continue;
+            if (blocks.contains(np)) {
+                continue;
+            }
             IBlockState state = world.getBlockState(np);
 
             if (state.getBlock() == DEFeatures.portal) {
@@ -840,7 +877,9 @@ public class TileDislocatorReceptacle extends TileInventoryBase
     }
 
     private TileDislocatorReceptacle getRemoteReceptacle(boolean skipRemoteCheck) {
-        if (!IS_BOUND.value || !ACTIVE.value) return null;
+        if (!IS_BOUND.value || !ACTIVE.value) {
+            return null;
+        }
 
         if (invalidLinkTime > 0) {
             invalidLinkTime--;

@@ -91,6 +91,8 @@ public class RenderItemReactorPart implements IItemRenderer {
                 GlStateManager.rotate(90F, 0F, 0F, 1F);
                 modelRing.render(null, -30, 1, 1, 0, 0, 1F / 16F);
                 break;
+            default:
+                break;
         }
         GlStateTracker.popState();
         GlStateManager.popMatrix();

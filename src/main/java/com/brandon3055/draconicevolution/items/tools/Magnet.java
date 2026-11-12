@@ -140,7 +140,9 @@ public class Magnet extends ItemBCore implements IBauble {
                     if (itemEntity.pickupDelay > 0) {
                         itemEntity.pickupDelay = 0;
                     }
-                    itemEntity.motionX = itemEntity.motionY = itemEntity.motionZ = 0;
+                    itemEntity.motionZ = 0;
+                    itemEntity.motionY = itemEntity.motionZ;
+                    itemEntity.motionX = itemEntity.motionY;
                     itemEntity.setPosition(
                             entity.posX - 0.2 + (world.rand.nextDouble() * 0.4),
                             entity.posY - 0.6,
@@ -268,7 +270,9 @@ public class Magnet extends ItemBCore implements IBauble {
     @Override
     @Optional.Method(modid = "baubles")
     public void onWornTick(ItemStack itemstack, EntityLivingBase player) {
-        if (!(player instanceof EntityPlayer)) return;
+        if (!(player instanceof EntityPlayer)) {
+            return;
+        }
         updateMagnet(itemstack, player);
     }
 }

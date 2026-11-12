@@ -4,7 +4,12 @@ import codechicken.lib.reflect.ObfMapping;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.IModularGui;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.IMGuiListener;
-import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButton;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonSolid;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiColourPicker;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiLabel;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiSelectDialog;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiTextField;
 import com.brandon3055.draconicevolution.client.gui.modwiki.GuiModWiki;
 import com.brandon3055.draconicevolution.client.gui.modwiki.StylePreset;
 import com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig;
@@ -234,7 +239,7 @@ public class WikiConfigWindow extends MGuiElementBase implements IMGuiListener {
     @Override
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("COLOUR_NAV")) {
+                && "COLOUR_NAV".equals(((MGuiButton) eventElement).buttonName)) {
             MGuiColourPicker picker = new MGuiColourPicker(modularGui, xPos, yPos, this);
             picker.xPos = xPos + (xSize / 2) - (picker.xSize / 2);
             picker.yPos = yPos + (ySize / 2) - (picker.ySize / 2);
@@ -244,7 +249,7 @@ public class WikiConfigWindow extends MGuiElementBase implements IMGuiListener {
             picker.initElement();
             picker.show();
         } else if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("COLOUR_MAIN")) {
+                && "COLOUR_MAIN".equals(((MGuiButton) eventElement).buttonName)) {
             MGuiColourPicker picker = new MGuiColourPicker(modularGui, xPos, yPos, this);
             picker.xPos = xPos + (xSize / 2) - (picker.xSize / 2);
             picker.yPos = yPos + (ySize / 2) - (picker.ySize / 2);
@@ -254,7 +259,7 @@ public class WikiConfigWindow extends MGuiElementBase implements IMGuiListener {
             picker.initElement();
             picker.show();
         } else if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("COLOUR_MENU")) {
+                && "COLOUR_MENU".equals(((MGuiButton) eventElement).buttonName)) {
             MGuiColourPicker picker = new MGuiColourPicker(modularGui, xPos, yPos, this);
             picker.xPos = xPos + (xSize / 2) - (picker.xSize / 2);
             picker.yPos = yPos + (ySize / 2) - (picker.ySize / 2);
@@ -264,7 +269,7 @@ public class WikiConfigWindow extends MGuiElementBase implements IMGuiListener {
             picker.initElement();
             picker.show();
         } else if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("COLOUR_NAV_TEXT")) {
+                && "COLOUR_NAV_TEXT".equals(((MGuiButton) eventElement).buttonName)) {
             MGuiColourPicker picker = new MGuiColourPicker(modularGui, xPos, yPos, this);
             picker.setIncludeAlpha(false);
             picker.xPos = xPos + (xSize / 2) - (picker.xSize / 2);
@@ -275,7 +280,7 @@ public class WikiConfigWindow extends MGuiElementBase implements IMGuiListener {
             picker.initElement();
             picker.show();
         } else if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("COLOUR_MISC_TEXT")) {
+                && "COLOUR_MISC_TEXT".equals(((MGuiButton) eventElement).buttonName)) {
             MGuiColourPicker picker = new MGuiColourPicker(modularGui, xPos, yPos, this);
             picker.setIncludeAlpha(false);
             picker.xPos = xPos + (xSize / 2) - (picker.xSize / 2);
@@ -286,26 +291,26 @@ public class WikiConfigWindow extends MGuiElementBase implements IMGuiListener {
             picker.initElement();
             picker.show();
         } else if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("TOGGLE_EDIT")) {
+                && "TOGGLE_EDIT".equals(((MGuiButton) eventElement).buttonName)) {
             WikiConfig.editMode = !WikiConfig.editMode;
             WikiConfig.save();
             Minecraft.getMinecraft().displayGuiScreen(new GuiModWiki());
         } else if (eventElement instanceof MGuiColourPicker
-                && eventString.equals("COLOUR_PICKED")) {
-            if (eventElement.id.equals("SELECT_COLOUR_NAV")) {
+                && "COLOUR_PICKED".equals(eventString)) {
+            if ("SELECT_COLOUR_NAV".equals(eventElement.id)) {
                 WikiConfig.NAV_WINDOW = ((MGuiColourPicker) eventElement).getColourARGB();
-            } else if (eventElement.id.equals("SELECT_COLOUR_MAIN")) {
+            } else if ("SELECT_COLOUR_MAIN".equals(eventElement.id)) {
                 WikiConfig.CONTENT_WINDOW = ((MGuiColourPicker) eventElement).getColourARGB();
-            } else if (eventElement.id.equals("SELECT_COLOUR_MENU")) {
+            } else if ("SELECT_COLOUR_MENU".equals(eventElement.id)) {
                 WikiConfig.MENU_BAR = ((MGuiColourPicker) eventElement).getColourARGB();
-            } else if (eventElement.id.equals("SELECT_COLOUR_NAV_TEXT")) {
+            } else if ("SELECT_COLOUR_NAV_TEXT".equals(eventElement.id)) {
                 WikiConfig.NAV_TEXT = ((MGuiColourPicker) eventElement).getColourARGB();
-            } else if (eventElement.id.equals("SELECT_COLOUR_MISC_TEXT")) {
+            } else if ("SELECT_COLOUR_MISC_TEXT".equals(eventElement.id)) {
                 WikiConfig.TEXT_COLOUR = ((MGuiColourPicker) eventElement).getColourARGB();
             }
             WikiConfig.save();
         } else if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("PRESETS")) {
+                && "PRESETS".equals(((MGuiButton) eventElement).buttonName)) {
             if (selector != null) {
                 modularGui.getManager().remove(selector);
                 selector = null;
@@ -337,14 +342,14 @@ public class WikiConfigWindow extends MGuiElementBase implements IMGuiListener {
             selector.setOptions(list);
             selector.setListener(this);
             modularGui.getManager().add(selector, displayLevel + 1);
-        } else if (eventString.equals("SELECTOR_PICK")
+        } else if ("SELECTOR_PICK".equals(eventString)
                 && eventElement.linkedObject instanceof StylePreset) {
             ((StylePreset) eventElement.linkedObject).apply();
             if (selector != null) {
                 modularGui.getManager().remove(selector);
                 selector = null;
             }
-        } else if (eventString.equals("TEXT_FIELD_CHANGED")
+        } else if ("TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             WikiConfig.docLocation = ((MGuiTextField) eventElement).getText();
             WikiConfig.save();

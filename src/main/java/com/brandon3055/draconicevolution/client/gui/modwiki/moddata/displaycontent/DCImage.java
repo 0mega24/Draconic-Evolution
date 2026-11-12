@@ -216,10 +216,7 @@ public class DCImage extends DisplayComponentBase {
                 new Predicate<String>() {
                     @Override
                     public boolean apply(@Nullable String input) {
-                        try {
-                            Integer.parseInt(input);
-                        } catch (Exception e) {
-                        }
+                        // Any text is allowed; the scale is parsed with a fallback when applied.
                         return true;
                     }
                 });
@@ -232,8 +229,8 @@ public class DCImage extends DisplayComponentBase {
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         super.onMGuiEvent(eventString, eventElement);
 
-        if (eventElement.id.equals("SCALE")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        if ("SCALE".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             if (StringUtils.isNullOrEmpty(((MGuiTextField) eventElement).getText())) {
                 return;
@@ -243,6 +240,7 @@ public class DCImage extends DisplayComponentBase {
             try {
                 newScale = Integer.parseInt(((MGuiTextField) eventElement).getText());
             } catch (Exception e) {
+                // Not a number: keep the default scale.
             }
 
             if (newScale < 1) {
@@ -254,14 +252,14 @@ public class DCImage extends DisplayComponentBase {
             save();
 
             for (MGuiElementBase element : branch.guiWiki.contentWindow.editControls) {
-                if (element instanceof MGuiTextField && element.id.equals("SCALE")) {
+                if (element instanceof MGuiTextField && "SCALE".equals(element.id)) {
                     ((MGuiTextField) element).setFocused(true);
                     ((MGuiTextField) element).setCursorPosition(pos);
                     break;
                 }
             }
-        } else if (eventElement.id.equals("URL")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        } else if ("URL".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             element.setAttribute(ATTRIB_URL, ((MGuiTextField) eventElement).getText());
             url = ((MGuiTextField) eventElement).getText();
@@ -336,6 +334,7 @@ public class DCImage extends DisplayComponentBase {
         try {
             scale = Integer.parseInt(element.getAttribute(ATTRIB_SCALE));
         } catch (Exception e) {
+            // Not a number: keep the default scale.
         }
         if (scale < 1) {
             scale = 1;

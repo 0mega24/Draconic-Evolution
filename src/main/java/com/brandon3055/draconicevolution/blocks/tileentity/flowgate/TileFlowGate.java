@@ -101,6 +101,7 @@ public abstract class TileFlowGate extends TileBCBase
                 maxFlow.value = (int) l;
             }
         } catch (NumberFormatException ignored) {
+            // Not a number: keep the current value.
         }
     }
 
@@ -157,6 +158,8 @@ public abstract class TileFlowGate extends TileBCBase
                 break;
             case "getSignalLowFlow":
                 return new Object[] {minFlow.value};
+            default:
+                break;
         }
 
         return new Object[0];

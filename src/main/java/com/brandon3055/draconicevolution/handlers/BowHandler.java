@@ -24,7 +24,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
-public class BowHandler {
+public final class BowHandler {
+
+    private BowHandler() {}
 
     public static ActionResult<ItemStack> onBowRightClick(
             ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
@@ -45,7 +47,9 @@ public class BowHandler {
     public static void onBowUsingTick(ItemStack stack, EntityPlayer player, int count) {
         BowHandler.BowProperties properties = new BowHandler.BowProperties(stack, player);
         int j = 72000 - count;
-        if (properties.autoFire && j >= properties.getDrawTicks()) player.stopActiveHand();
+        if (properties.autoFire && j >= properties.getDrawTicks()) {
+            player.stopActiveHand();
+        }
     }
 
     public static void onPlayerStoppedUsingBow(

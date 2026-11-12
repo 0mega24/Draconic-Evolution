@@ -1,6 +1,8 @@
 package com.brandon3055.draconicevolution.blocks.tileentity;
 
-import static net.minecraft.util.EnumFacing.Axis.*;
+import static net.minecraft.util.EnumFacing.Axis.X;
+import static net.minecraft.util.EnumFacing.Axis.Y;
+import static net.minecraft.util.EnumFacing.Axis.Z;
 
 import com.brandon3055.brandonscore.client.particle.BCEffectHandler;
 import com.brandon3055.brandonscore.lib.DelayedTask;
@@ -25,7 +27,9 @@ public class TilePortalClient extends TilePortal implements ITickable {
 
     @Override
     public void update() {
-        if (disabled) return;
+        if (disabled) {
+            return;
+        }
         EntityPlayer player = Minecraft.getMinecraft().player;
 
         double distanceMod =

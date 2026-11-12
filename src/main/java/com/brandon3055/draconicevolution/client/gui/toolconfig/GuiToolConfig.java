@@ -1,6 +1,8 @@
 package com.brandon3055.draconicevolution.client.gui.toolconfig;
 
-import static com.brandon3055.brandonscore.inventory.PlayerSlot.EnumInvCategory.*;
+import static com.brandon3055.brandonscore.inventory.PlayerSlot.EnumInvCategory.ARMOR;
+import static com.brandon3055.brandonscore.inventory.PlayerSlot.EnumInvCategory.MAIN;
+import static com.brandon3055.brandonscore.inventory.PlayerSlot.EnumInvCategory.OFF_HAND;
 
 import com.brandon3055.brandonscore.client.gui.ButtonColourRect;
 import com.brandon3055.brandonscore.client.utils.GuiHelper;
@@ -52,8 +54,8 @@ public class GuiToolConfig extends GuiScreen {
             ItemStack stack = player.inventory.armorInventory.get(i);
             int x = -81 + centerX; // + i % 2 * 80;
             int y = -52 + centerY - i * 18;
-            buttonList.add(
-                    armor[i] = new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, ARMOR)));
+            armor[i] = new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, ARMOR));
+            buttonList.add(armor[i]);
             id++;
         }
 
@@ -66,9 +68,8 @@ public class GuiToolConfig extends GuiScreen {
             } else {
                 y = (centerY - 24) + ((i / 9) - 1) * 18;
             }
-            buttonList.add(
-                    inventory[i] =
-                            new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, MAIN)));
+            inventory[i] = new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, MAIN));
+            buttonList.add(inventory[i]);
             id++;
         }
 
@@ -76,24 +77,23 @@ public class GuiToolConfig extends GuiScreen {
             ItemStack stack = player.inventory.offHandInventory.get(i);
             int x = +24 + centerX;
             int y = -52 + centerY + i * 18;
-            buttonList.add(
-                    offHand[i] =
-                            new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, OFF_HAND)));
+            offHand[i] = new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, OFF_HAND));
+            buttonList.add(offHand[i]);
             id++;
         }
+        configButton =
+                new ButtonColourRect(
+                        id,
+                        I18n.format("gui.de.toolConfig.hud.txt"),
+                        centerX + 23,
+                        centerY - 107,
+                        59,
+                        16,
+                        0x88000000,
+                        0xFF440066,
+                        0xFF009900);
 
-        buttonList.add(
-                configButton =
-                        new ButtonColourRect(
-                                id,
-                                I18n.format("gui.de.toolConfig.hud.txt"),
-                                centerX + 23,
-                                centerY - 107,
-                                59,
-                                16,
-                                0x88000000,
-                                0xFF440066,
-                                0xFF009900));
+        buttonList.add(configButton);
 
         if (ContributorHandler.contributors.containsKey(player.getName())) {
             ContributorHandler.Contributor contributor =
@@ -240,7 +240,9 @@ public class GuiToolConfig extends GuiScreen {
         if (ContributorHandler.contributors.containsKey(player.getName())) {
             ContributorHandler.Contributor contributor =
                     ContributorHandler.contributors.get(player.getName());
-            if (!contributor.isUserValid(player)) return;
+            if (!contributor.isUserValid(player)) {
+                return;
+            }
 
             if (button.id == 44) {
                 contributor.contributorWingsEnabled = !contributor.contributorWingsEnabled;

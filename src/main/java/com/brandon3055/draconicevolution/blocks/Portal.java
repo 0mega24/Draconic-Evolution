@@ -1,6 +1,8 @@
 package com.brandon3055.draconicevolution.blocks;
 
-import static net.minecraft.util.EnumFacing.Axis.*;
+import static net.minecraft.util.EnumFacing.Axis.X;
+import static net.minecraft.util.EnumFacing.Axis.Y;
+import static net.minecraft.util.EnumFacing.Axis.Z;
 
 import com.brandon3055.brandonscore.blocks.BlockBCore;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileDislocatorReceptacle;
@@ -106,6 +108,8 @@ public class Portal extends BlockBCore implements ITileEntityProvider {
                         .withProperty(DRAW_DOWN, down.getBlock() != this)
                         .withProperty(DRAW_EAST, east.getBlock() != this)
                         .withProperty(DRAW_WEST, west.getBlock() != this);
+            default:
+                break;
         }
 
         return state;

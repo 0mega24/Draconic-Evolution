@@ -2,13 +2,21 @@ package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.displaycont
 
 import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.CENTER;
 import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.LEFT;
-import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.Vertical.*;
+import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.Vertical.BOTTOM;
+import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.Vertical.MIDDLE;
+import static com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.Vertical.TOP;
 import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_TYPE;
 
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment.Vertical;
-import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButton;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonSolid;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiHoverPopup;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiLabel;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiList;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiSelectDialog;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiTextField;
 import com.brandon3055.draconicevolution.client.gui.modwiki.GuiModWiki;
 import com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig;
 import com.brandon3055.draconicevolution.client.gui.modwiki.WikiContentWindow;
@@ -95,6 +103,8 @@ public class DCSplitContainer extends DisplayComponentBase {
                     break;
                 case BOTTOM:
                     newY = yPos + ySize - smaller.ySize;
+                    break;
+                default:
                     break;
             }
             smaller.moveBy(0, newY - smaller.yPos);
@@ -258,7 +268,7 @@ public class DCSplitContainer extends DisplayComponentBase {
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         super.onMGuiEvent(eventString, eventElement);
         if (eventElement instanceof MGuiButton
-                && ((MGuiButton) eventElement).buttonName.equals("TOGGLE_V_ALIGN")) {
+                && "TOGGLE_V_ALIGN".equals(((MGuiButton) eventElement).buttonName)) {
             vAlignment = vAlignment == TOP ? MIDDLE : vAlignment == MIDDLE ? BOTTOM : TOP;
             element.setAttribute(ATTRIB_VALIGNMENT, vAlignment.name());
             save();
@@ -277,7 +287,7 @@ public class DCSplitContainer extends DisplayComponentBase {
             int width = 10;
 
             for (String option : DisplayComponentRegistry.REGISTRY.keySet()) {
-                if (option.equals("splitContainer")) {
+                if ("splitContainer".equals(option)) {
                     continue;
                 }
                 int optionWidth = fontRenderer.getStringWidth(option) + 4;
@@ -304,8 +314,8 @@ public class DCSplitContainer extends DisplayComponentBase {
             cw.addSelector.setOptions(list);
             cw.addSelector.setListener(this);
             modularGui.getManager().add(cw.addSelector, 2);
-        } else if (eventElement.id.equals("WIDTH")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        } else if ("WIDTH".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             if (StringUtils.isNullOrEmpty(((MGuiTextField) eventElement).getText())) {
                 return;
@@ -315,6 +325,7 @@ public class DCSplitContainer extends DisplayComponentBase {
             try {
                 newWidth = Integer.parseInt(((MGuiTextField) eventElement).getText());
             } catch (Exception e) {
+                // Not a number: keep the default width.
             }
 
             if (newWidth < 10) {
@@ -326,13 +337,13 @@ public class DCSplitContainer extends DisplayComponentBase {
             save();
 
             for (MGuiElementBase element : branch.guiWiki.contentWindow.editControls) {
-                if (element instanceof MGuiTextField && element.id.equals("WIDTH")) {
+                if (element instanceof MGuiTextField && "WIDTH".equals(element.id)) {
                     ((MGuiTextField) element).setFocused(true);
                     ((MGuiTextField) element).setCursorPosition(pos);
                     break;
                 }
             }
-        } else if (eventString.equals("SELECTOR_PICK") && eventElement instanceof MGuiLabel) {
+        } else if ("SELECTOR_PICK".equals(eventString) && eventElement instanceof MGuiLabel) {
             WikiContentWindow cw = branch.guiWiki.contentWindow;
             String side;
 
@@ -351,7 +362,7 @@ public class DCSplitContainer extends DisplayComponentBase {
             }
 
             String type = ((MGuiLabel) eventElement).displayString;
-            if (!type.equals("CLEAR")) {
+            if (!"CLEAR".equals(type)) {
                 Element newElement =
                         element.getOwnerDocument().createElement(WikiDocManager.ELEMENT_CONTENT);
 
@@ -407,6 +418,7 @@ public class DCSplitContainer extends DisplayComponentBase {
             try {
                 splitMinWidth = Integer.parseInt(element.getAttribute(ATTRIB_WIDTH));
             } catch (Exception e) {
+                // Not a number: keep the default width.
             }
         }
 
@@ -439,11 +451,11 @@ public class DCSplitContainer extends DisplayComponentBase {
             displayComponent.setList(list);
 
             if (content.hasAttribute("splitSide")
-                    && content.getAttribute("splitSide").equals("LEFT")) {
+                    && "LEFT".equals(content.getAttribute("splitSide"))) {
                 componentLeft = displayComponent;
                 addChild(componentLeft);
             } else if (content.hasAttribute("splitSide")
-                    && content.getAttribute("splitSide").equals("RIGHT")) {
+                    && "RIGHT".equals(content.getAttribute("splitSide"))) {
                 componentRight = displayComponent;
                 addChild(componentRight);
             } else {

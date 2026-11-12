@@ -7,7 +7,20 @@ import com.brandon3055.brandonscore.client.gui.modulargui_old.IModularGui;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.ModularGuiContainer;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.IMGuiListener;
-import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiBackground;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiBorderedRect;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButton;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonSolid;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonToggle;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiColourPicker;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiHoverPopup;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiLabel;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiPopUpDialog;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiSelectDialog;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiSlider;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiSlotRender;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiStackIcon;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiTextField;
 import com.brandon3055.brandonscore.client.utils.GuiHelper;
 import com.brandon3055.brandonscore.lib.StackReference;
 import com.brandon3055.brandonscore.utils.InfoHelper;
@@ -222,27 +235,27 @@ public class GuiDraconiumChest extends ModularGuiContainer<ContainerDraconiumChe
                                         new String[] {I18n.format("gui.draconiumChest.fMode.info")})
                                 .setHoverDelay(10)),
                 1);
+        regionEditButton =
+                (MGuiButtonToggle)
+                        new MGuiButtonToggle(
+                                        this,
+                                        "EDIT_REGIONS",
+                                        guiLeft() + 390,
+                                        guiTop() + 188,
+                                        84,
+                                        12,
+                                        I18n.format("gui.draconiumChest.ioRegions.btn"))
+                                .setToolTip(
+                                        new String[] {
+                                            I18n.format("gui.draconiumChest.ioRegions.info")
+                                        });
         //        manager.add(new MGuiSelectDialog(this, guiLeft() + 44, guiTop() + 190, 90, 12));
 
         // endregion
 
         // region Region Editor
 
-        manager.add(
-                regionEditButton =
-                        (MGuiButtonToggle)
-                                new MGuiButtonToggle(
-                                                this,
-                                                "EDIT_REGIONS",
-                                                guiLeft() + 390,
-                                                guiTop() + 188,
-                                                84,
-                                                12,
-                                                I18n.format("gui.draconiumChest.ioRegions.btn"))
-                                        .setToolTip(
-                                                new String[] {
-                                                    I18n.format("gui.draconiumChest.ioRegions.info")
-                                                }));
+        manager.add(regionEditButton);
         //        manager.add(regionEditor = (RegionEditor) new RegionEditor(this, guiLeft() + 6,
         // guiTop() + 6, tile).setEnabled(false));
 
@@ -273,7 +286,7 @@ public class GuiDraconiumChest extends ModularGuiContainer<ContainerDraconiumChe
     @Override
     public void onMGuiEvent(String eventString, MGuiElementBase element) {
         if (element instanceof MGuiButton
-                && ((MGuiButton) element).buttonName.equals("SELECT_MODE")) {
+                && "SELECT_MODE".equals(((MGuiButton) element).buttonName)) {
             MGuiPopUpDialog dialog =
                     new MGuiPopUpDialog(
                             this,
@@ -315,14 +328,14 @@ public class GuiDraconiumChest extends ModularGuiContainer<ContainerDraconiumChe
 
             dialog.addChild(selector);
             dialog.show();
-        } else if (eventString.equals("SELECTOR_PICK") && element instanceof MGuiButton) {
+        } else if ("SELECTOR_PICK".equals(eventString) && element instanceof MGuiButton) {
             AutoSmeltMode newMode = AutoSmeltMode.valueOf(((MGuiButton) element).buttonName);
             tile.setAutoSmeltMode(newMode);
             mc.getSoundHandler()
                     .playSound(
                             PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1F));
         } else if (element instanceof MGuiButtonToggle
-                && ((MGuiButtonToggle) element).buttonName.equals("EDIT_REGIONS")) {
+                && "EDIT_REGIONS".equals(((MGuiButtonToggle) element).buttonName)) {
             if (((MGuiButtonToggle) element).isPressed()) {
                 regionEditor = new RegionEditor(this, guiLeft() + 160, guiTop() + 188, tile);
                 manager.add(regionEditor, 2);
@@ -334,7 +347,7 @@ public class GuiDraconiumChest extends ModularGuiContainer<ContainerDraconiumChe
                 }
             }
         } else if (element instanceof MGuiButton
-                && ((MGuiButton) element).buttonName.equals("PICK_COLOUR")) {
+                && "PICK_COLOUR".equals(((MGuiButton) element).buttonName)) {
             MGuiColourPicker picker =
                     new MGuiColourPicker(
                             this,
@@ -359,7 +372,7 @@ public class GuiDraconiumChest extends ModularGuiContainer<ContainerDraconiumChe
             picker.cancelButton.setEnabled(false);
             picker.selectButton.xSize = 72;
             picker.show();
-        } else if (element instanceof MGuiColourPicker && eventString.equals("COLOUR_PICKED")) {
+        } else if (element instanceof MGuiColourPicker && "COLOUR_PICKED".equals(eventString)) {
             tile.setColour(((MGuiColourPicker) element).getColourARGB());
         }
     }
@@ -880,8 +893,10 @@ public class GuiDraconiumChest extends ModularGuiContainer<ContainerDraconiumChe
                     tile.slotRegions[editingRegion].enabled = true;
                     return true;
                 }
-                selectStartX = selectEndX = ((mouseX - 6 - guiLeft()) / 18);
-                selectStartY = selectEndY = ((mouseY - 6 - guiTop()) / 18);
+                selectEndX = ((mouseX - 6 - guiLeft()) / 18);
+                selectStartX = selectEndX;
+                selectEndY = ((mouseY - 6 - guiTop()) / 18);
+                selectStartY = selectEndY;
                 for (TileDraconiumChest.SlotRegion region : tile.slotRegions) {
                     if (region.enabled
                             && region.getRectangle().contains(selectStartX, selectStartY)
@@ -943,13 +958,13 @@ public class GuiDraconiumChest extends ModularGuiContainer<ContainerDraconiumChe
         public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
             if (eventElement instanceof MGuiButton
                     && eventElement.isInGroup("R_SELECTORS")
-                    && ((MGuiButton) eventElement).buttonName.equals("SELECT_REGION")) {
+                    && "SELECT_REGION".equals(((MGuiButton) eventElement).buttonName)) {
                 setChildGroupEnabled("R_SELECTORS", false);
                 setChildGroupEnabled("REGION_EDITOR", true);
                 editingRegion = ((MGuiButton) eventElement).buttonId;
                 setChildGroupEnabled("EXCLUDE_DEFAULT", editingRegion != 6);
             } else if (eventElement instanceof MGuiButton
-                    && ((MGuiButton) eventElement).buttonName.equals("TOGGLE_REGION")) {
+                    && "TOGGLE_REGION".equals(((MGuiButton) eventElement).buttonName)) {
                 if (editingRegion >= 0 || editingRegion < tile.slotRegions.length) {
                     tile.slotRegions[editingRegion].enabled =
                             !tile.slotRegions[editingRegion].enabled;
@@ -959,7 +974,7 @@ public class GuiDraconiumChest extends ModularGuiContainer<ContainerDraconiumChe
                     tile.setRegionState(editingRegion);
                 }
             } else if (eventElement instanceof MGuiButton
-                    && ((MGuiButton) eventElement).buttonName.equals("BACK")) {
+                    && "BACK".equals(((MGuiButton) eventElement).buttonName)) {
                 editingRegion = -1;
                 setChildGroupEnabled("R_SELECTORS", true);
                 setChildGroupEnabled("REGION_EDITOR", false);

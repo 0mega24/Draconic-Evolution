@@ -123,6 +123,8 @@ public class ReactorComponent extends BlockBCore
                     return AABB_INJ_WEST;
                 case EAST:
                     return AABB_INJ_EAST;
+                default:
+                    break;
             }
         }
 

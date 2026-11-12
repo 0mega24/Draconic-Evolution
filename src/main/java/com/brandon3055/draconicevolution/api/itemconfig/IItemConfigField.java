@@ -95,7 +95,7 @@ public interface IItemConfigField {
      */
     Map<Integer, String> getValues();
 
-    public enum EnumControlType {
+    enum EnumControlType {
         /** Has a single plus and a single minus button. As well as a max and min button */
         PLUS1_MINUS1,
         /** Has 2 plus and 2 minus buttons. As well as a max and min button */
@@ -110,7 +110,7 @@ public interface IItemConfigField {
         TOGGLE
     }
 
-    public enum EnumButton {
+    enum EnumButton {
         /** data field is not relevant for this button. */
         PLUS1(0),
         /** data field is not relevant for this button. */
@@ -140,7 +140,7 @@ public interface IItemConfigField {
         public final int index;
         private static final EnumButton[] buttons;
 
-        private EnumButton(int index) {
+        EnumButton(int index) {
             this.index = index;
         }
 
