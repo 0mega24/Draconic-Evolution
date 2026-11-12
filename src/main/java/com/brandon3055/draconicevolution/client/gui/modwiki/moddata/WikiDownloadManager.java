@@ -5,9 +5,18 @@ import com.brandon3055.brandonscore.handlers.IProcess;
 import com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.google.gson.stream.JsonReader;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /** Created by brandon3055 on 20/09/2016. */
 public class WikiDownloadManager {
