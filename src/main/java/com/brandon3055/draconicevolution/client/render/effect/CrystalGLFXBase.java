@@ -8,9 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-/**
- * Created by brandon3055 on 29/11/2016.
- */
+/** Created by brandon3055 on 29/11/2016. */
 public abstract class CrystalGLFXBase<T extends IENetEffectTile> extends BCParticle {
 
     protected final T tile;
@@ -40,5 +38,13 @@ public abstract class CrystalGLFXBase<T extends IENetEffectTile> extends BCParti
     public abstract void onUpdate();
 
     @Override
-    public abstract void renderParticle(BufferBuilder vertexbuffer, Entity entity, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ);
+    public abstract void renderParticle(
+            BufferBuilder vertexbuffer,
+            Entity entity,
+            float partialTicks,
+            float rotationX,
+            float rotationZ,
+            float rotationYZ,
+            float rotationXY,
+            float rotationXZ);
 }

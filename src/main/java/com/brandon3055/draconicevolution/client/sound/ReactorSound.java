@@ -7,9 +7,7 @@ import net.minecraft.client.audio.ITickableSound;
 import net.minecraft.client.audio.PositionedSound;
 import net.minecraft.util.SoundCategory;
 
-/**
- * Created by brandon3055 on 4/10/2015.
- */
+/** Created by brandon3055 on 4/10/2015. */
 public class ReactorSound extends PositionedSound implements ITickableSound {
     public boolean donePlaying = false;
     private TileReactorCore tile;
@@ -26,10 +24,9 @@ public class ReactorSound extends PositionedSound implements ITickableSound {
         this.repeat = true;
         if (tile.reactorState.value == TileReactorCore.ReactorState.BEYOND_HOPE) {
             this.volume = 10F;
-        }
-        else {
+        } else {
             this.volume = 1.5F;
-//            this.volume = 3.5F;
+            //            this.volume = 3.5F;
         }
         this.targetPitch = 1F;
     }
@@ -45,21 +42,31 @@ public class ReactorSound extends PositionedSound implements ITickableSound {
             xPosF = (float) tile.roller.pos.x;
             yPosF = (float) tile.roller.pos.y;
             zPosF = (float) tile.roller.pos.z;
-        }
-        else {
+        } else {
             xPosF = (float) tile.getPos().getX() + 0.5F;
             yPosF = (float) tile.getPos().getY() + 0.5F;
             zPosF = (float) tile.getPos().getZ() + 0.5F;
         }
 
         pitch = (float) MathHelper.approachExp(pitch, targetPitch, 0.05);
-        if (tile.reactorState.value == TileReactorCore.ReactorState.WARMING_UP || tile.reactorState.value == TileReactorCore.ReactorState.STOPPING || tile.reactorState.value == TileReactorCore.ReactorState.COOLING) {
+        if (tile.reactorState.value == TileReactorCore.ReactorState.WARMING_UP
+                || tile.reactorState.value == TileReactorCore.ReactorState.STOPPING
+                || tile.reactorState.value == TileReactorCore.ReactorState.COOLING) {
             targetPitch = 0.5F + (tile.shieldAnimationState / 2F);
-        }
-        else if (tile.reactorState.value == TileReactorCore.ReactorState.RUNNING) {
-            targetPitch = 1F + (float) Math.max(0, Math.min(0.5, 1 - ((tile.shieldCharge.value / tile.maxShieldCharge.value) * 10)));
-        }
-        else if (tile.reactorState.value == TileReactorCore.ReactorState.BEYOND_HOPE) {
+        } else if (tile.reactorState.value == TileReactorCore.ReactorState.RUNNING) {
+            targetPitch =
+                    1F
+                            + (float)
+                                    Math.max(
+                                            0,
+                                            Math.min(
+                                                    0.5,
+                                                    1
+                                                            - ((tile.shieldCharge.value
+                                                                            / tile.maxShieldCharge
+                                                                                    .value)
+                                                                    * 10)));
+        } else if (tile.reactorState.value == TileReactorCore.ReactorState.BEYOND_HOPE) {
             if (volume == 1.5F) {
                 donePlaying = true;
             }
@@ -68,12 +75,15 @@ public class ReactorSound extends PositionedSound implements ITickableSound {
             }
         }
 
-
-        if (tile.isInvalid() || !tile.getWorld().getChunkFromBlockCoords(tile.getPos()).isLoaded()) {// || player == null || tile.getDistanceFrom(player.posX, player.posY, player.posZ) > 512){
-//            if (stopTimer++ == 60) {
-                donePlaying = true;
-                repeat = false;
-//            }
+        if (tile.isInvalid()
+                || !tile.getWorld()
+                        .getChunkFromBlockCoords(tile.getPos())
+                        .isLoaded()) { // || player == null || tile.getDistanceFrom(player.posX,
+            // player.posY, player.posZ) > 512){
+            //            if (stopTimer++ == 60) {
+            donePlaying = true;
+            repeat = false;
+            //            }
         }
     }
 }

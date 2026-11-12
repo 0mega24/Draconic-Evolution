@@ -6,6 +6,8 @@ import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.items.MobSoul;
 import com.brandon3055.draconicevolution.utils.LogHelper;
+import java.util.HashSet;
+import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -16,20 +18,14 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.model.IModelState;
 
-import java.util.HashSet;
-import java.util.Set;
-
-/**
- * Created by brandon3055 on 18/04/2017.
- */
+/** Created by brandon3055 on 18/04/2017. */
 public class RenderItemMobSoul implements IItemRenderer {
 
     private static Set<Entity> brokenMobs = new HashSet<>();
 
-    public RenderItemMobSoul() {
-    }
+    public RenderItemMobSoul() {}
 
-    //region Unused
+    // region Unused
 
     @Override
     public boolean isAmbientOcclusion() {
@@ -41,14 +37,14 @@ public class RenderItemMobSoul implements IItemRenderer {
         return true;
     }
 
-    //endregion
+    // endregion
 
     @Override
     public IModelState getTransforms() {
         return TransformUtils.DEFAULT_ITEM;
     }
 
-    //Remember GuiInventory.drawEntityOnScreen
+    // Remember GuiInventory.drawEntityOnScreen
     @Override
     public void renderItem(ItemStack item, ItemCameraTransforms.TransformType transformType) {
         Entity mob = DEFeatures.mobSoul.getRenderEntity(item);
@@ -60,15 +56,33 @@ public class RenderItemMobSoul implements IItemRenderer {
             GlStateManager.translate(0.5, 0.175, 0.5);
             GlStateManager.scale(scale, scale, scale);
 
-            if (transformType != ItemCameraTransforms.TransformType.GROUND && transformType != ItemCameraTransforms.TransformType.FIXED) {
-                GlStateManager.rotate((float) Math.sin((ClientEventHandler.elapsedTicks + Minecraft.getMinecraft().getRenderPartialTicks()) / 50F) * 15F, 1, 0, -0.5F);
-                GlStateManager.rotate((ClientEventHandler.elapsedTicks + Minecraft.getMinecraft().getRenderPartialTicks()) * 3, 0, 1, 0);
+            if (transformType != ItemCameraTransforms.TransformType.GROUND
+                    && transformType != ItemCameraTransforms.TransformType.FIXED) {
+                GlStateManager.rotate(
+                        (float)
+                                        Math.sin(
+                                                (ClientEventHandler.elapsedTicks
+                                                                + Minecraft.getMinecraft()
+                                                                        .getRenderPartialTicks())
+                                                        / 50F)
+                                * 15F,
+                        1,
+                        0,
+                        -0.5F);
+                GlStateManager.rotate(
+                        (ClientEventHandler.elapsedTicks
+                                        + Minecraft.getMinecraft().getRenderPartialTicks())
+                                * 3,
+                        0,
+                        1,
+                        0);
             }
 
             RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
             rendermanager.renderEntity(mob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
 
-            if (transformType != ItemCameraTransforms.TransformType.GROUND && transformType != ItemCameraTransforms.TransformType.FIXED) {
+            if (transformType != ItemCameraTransforms.TransformType.GROUND
+                    && transformType != ItemCameraTransforms.TransformType.FIXED) {
                 GlStateManager.enableRescaleNormal();
                 GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
                 GlStateManager.disableTexture2D();
@@ -76,12 +90,16 @@ public class RenderItemMobSoul implements IItemRenderer {
                 GlStateManager.disableLighting();
             }
 
-            //Some entities like the ender dragon modify the blend state which if not corrected like this breaks inventory rendering.
+            // Some entities like the ender dragon modify the blend state which if not corrected
+            // like this breaks inventory rendering.
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.tryBlendFuncSeparate(
+                    GlStateManager.SourceFactor.SRC_ALPHA,
+                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                    GlStateManager.SourceFactor.ONE,
+                    GlStateManager.DestFactor.ZERO);
             GlStateManager.popMatrix();
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             if (MobSoul.randomDisplayList != null) {
                 MobSoul.randomDisplayList.remove(EntityList.getEntityString(mob));
             } else {

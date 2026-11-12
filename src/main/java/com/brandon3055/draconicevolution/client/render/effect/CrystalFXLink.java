@@ -19,9 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Created by brandon3055 on 29/11/2016.
- */
+/** Created by brandon3055 on 29/11/2016. */
 public class CrystalFXLink extends CrystalGLFXBase<TileCrystalBase> {
 
     private final Vec3D linkTarget;
@@ -36,9 +34,17 @@ public class CrystalFXLink extends CrystalGLFXBase<TileCrystalBase> {
         this.setPosition(tile.getBeamLinkPos(linkTarget.getPos()));
         this.terminateSource = true;
         this.linkTarget = linkTarget;
-        EnumFacing face = tile instanceof TileCrystalWirelessIO ? ((TileCrystalWirelessIO) tile).getReceiversFaces().get(linkTarget.getPos()) : null;
+        EnumFacing face =
+                tile instanceof TileCrystalWirelessIO
+                        ? ((TileCrystalWirelessIO) tile)
+                                .getReceiversFaces()
+                                .get(linkTarget.getPos())
+                        : null;
         if (face != null) {
-            linkTarget.add(face.getFrontOffsetX() * 0.6, face.getFrontOffsetY() * 0.6, face.getFrontOffsetZ() * 0.6);
+            linkTarget.add(
+                    face.getFrontOffsetX() * 0.6,
+                    face.getFrontOffsetY() * 0.6,
+                    face.getFrontOffsetZ() * 0.6);
         }
         this.terminateTarget = true;
     }
@@ -52,14 +58,21 @@ public class CrystalFXLink extends CrystalGLFXBase<TileCrystalBase> {
     public void onUpdate() {
         if (!ClientEventHandler.playerHoldingWrench && timeout <= 0) {
             setExpired();
-        }
-        else if (timeout > 0) {
+        } else if (timeout > 0) {
             timeout--;
         }
     }
 
     @Override
-    public void renderParticle(BufferBuilder buffer, Entity entity, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+    public void renderParticle(
+            BufferBuilder buffer,
+            Entity entity,
+            float partialTicks,
+            float rotationX,
+            float rotationZ,
+            float rotationYZ,
+            float rotationXY,
+            float rotationXZ) {
         double scale = 0.1 + (timeout * 0.005);
         Vector3 source = new Vector3(posX - interpPosX, posY - interpPosY, posZ - interpPosZ);
         Vector3 target = linkTarget.toVector3().subtract(interpPosX, interpPosY, interpPosZ);
@@ -72,7 +85,12 @@ public class CrystalFXLink extends CrystalGLFXBase<TileCrystalBase> {
         planeB.multiply(scale);
         planeC.multiply(scale);
         planeD.multiply(scale);
-        double dist = 0.2 * source.copy().subtract(target).mag();//Utils.getDistanceAtoB(new Vec3D(source), new Vec3D(target));
+        double dist =
+                0.2
+                        * source.copy()
+                                .subtract(target)
+                                .mag(); // Utils.getDistanceAtoB(new Vec3D(source), new
+        // Vec3D(target));
         double anim = (ClientEventHandler.elapsedTicks + partialTicks) / -15D;
 
         Vector3 p1 = source.copy().add(planeA);
@@ -106,21 +124,68 @@ public class CrystalFXLink extends CrystalGLFXBase<TileCrystalBase> {
         double maxV = 0.53;
 
         if (terminateSource) {
-            buffer.pos((source.x - rotationX * scale - rotationXY * scale), (source.y - rotationZ * scale), (source.z - rotationYZ * scale - rotationXZ * scale)).tex(maxU, maxV).endVertex();
-            buffer.pos((source.x - rotationX * scale + rotationXY * scale), (source.y + rotationZ * scale), (source.z - rotationYZ * scale + rotationXZ * scale)).tex(maxU, minV).endVertex();
-            buffer.pos((source.x + rotationX * scale + rotationXY * scale), (source.y + rotationZ * scale), (source.z + rotationYZ * scale + rotationXZ * scale)).tex(minU, minV).endVertex();
-            buffer.pos((source.x + rotationX * scale - rotationXY * scale), (source.y - rotationZ * scale), (source.z + rotationYZ * scale - rotationXZ * scale)).tex(minU, maxV).endVertex();
+            buffer.pos(
+                            (source.x - rotationX * scale - rotationXY * scale),
+                            (source.y - rotationZ * scale),
+                            (source.z - rotationYZ * scale - rotationXZ * scale))
+                    .tex(maxU, maxV)
+                    .endVertex();
+            buffer.pos(
+                            (source.x - rotationX * scale + rotationXY * scale),
+                            (source.y + rotationZ * scale),
+                            (source.z - rotationYZ * scale + rotationXZ * scale))
+                    .tex(maxU, minV)
+                    .endVertex();
+            buffer.pos(
+                            (source.x + rotationX * scale + rotationXY * scale),
+                            (source.y + rotationZ * scale),
+                            (source.z + rotationYZ * scale + rotationXZ * scale))
+                    .tex(minU, minV)
+                    .endVertex();
+            buffer.pos(
+                            (source.x + rotationX * scale - rotationXY * scale),
+                            (source.y - rotationZ * scale),
+                            (source.z + rotationYZ * scale - rotationXZ * scale))
+                    .tex(minU, maxV)
+                    .endVertex();
         }
 
         if (terminateTarget) {
-            buffer.pos((target.x - rotationX * scale - rotationXY * scale), (target.y - rotationZ * scale), (target.z - rotationYZ * scale - rotationXZ * scale)).tex(maxU, maxV).endVertex();
-            buffer.pos((target.x - rotationX * scale + rotationXY * scale), (target.y + rotationZ * scale), (target.z - rotationYZ * scale + rotationXZ * scale)).tex(maxU, minV).endVertex();
-            buffer.pos((target.x + rotationX * scale + rotationXY * scale), (target.y + rotationZ * scale), (target.z + rotationYZ * scale + rotationXZ * scale)).tex(minU, minV).endVertex();
-            buffer.pos((target.x + rotationX * scale - rotationXY * scale), (target.y - rotationZ * scale), (target.z + rotationYZ * scale - rotationXZ * scale)).tex(minU, maxV).endVertex();
+            buffer.pos(
+                            (target.x - rotationX * scale - rotationXY * scale),
+                            (target.y - rotationZ * scale),
+                            (target.z - rotationYZ * scale - rotationXZ * scale))
+                    .tex(maxU, maxV)
+                    .endVertex();
+            buffer.pos(
+                            (target.x - rotationX * scale + rotationXY * scale),
+                            (target.y + rotationZ * scale),
+                            (target.z - rotationYZ * scale + rotationXZ * scale))
+                    .tex(maxU, minV)
+                    .endVertex();
+            buffer.pos(
+                            (target.x + rotationX * scale + rotationXY * scale),
+                            (target.y + rotationZ * scale),
+                            (target.z + rotationYZ * scale + rotationXZ * scale))
+                    .tex(minU, minV)
+                    .endVertex();
+            buffer.pos(
+                            (target.x + rotationX * scale - rotationXY * scale),
+                            (target.y - rotationZ * scale),
+                            (target.z + rotationYZ * scale - rotationXZ * scale))
+                    .tex(minU, maxV)
+                    .endVertex();
         }
     }
 
-    private void bufferQuad(BufferBuilder buffer, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, double anim, double dist) {
+    private void bufferQuad(
+            BufferBuilder buffer,
+            Vector3 p1,
+            Vector3 p2,
+            Vector3 p3,
+            Vector3 p4,
+            double anim,
+            double dist) {
         buffer.pos(p1.x, p1.y, p1.z).tex(0.5, anim).endVertex();
         buffer.pos(p2.x, p2.y, p2.z).tex(0.5, dist + anim).endVertex();
         buffer.pos(p4.x, p4.y, p4.z).tex(1.0, dist + anim).endVertex();
@@ -136,11 +201,19 @@ public class CrystalFXLink extends CrystalGLFXBase<TileCrystalBase> {
 
     public static class FXHandler implements IGLFXHandler {
 
-        public FXHandler() {
-        }
+        public FXHandler() {}
 
         @Override
-        public void preDraw(int layer, BufferBuilder vertexbuffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+        public void preDraw(
+                int layer,
+                BufferBuilder vertexbuffer,
+                Entity entityIn,
+                float partialTicks,
+                float rotationX,
+                float rotationZ,
+                float rotationYZ,
+                float rotationXY,
+                float rotationXZ) {
             GlStateTracker.pushState();
             GlStateManager.depthMask(false);
             GlStateManager.glTexParameterf(3553, 10242, 10497.0F);
@@ -148,11 +221,11 @@ public class CrystalFXLink extends CrystalGLFXBase<TileCrystalBase> {
             GlStateManager.disableCull();
             GlStateManager.alphaFunc(GL11.GL_GREATER, 0F);
             GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+            GlStateManager.blendFunc(
+                    GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
             ResourceHelperDE.bindTexture(DETextures.ENERGY_BEAM_BASIC);
-//            GlStateManager.disableTexture2D();
+            //            GlStateManager.disableTexture2D();
             GlStateManager.color(1, 0, 0, 1);
-
 
             vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         }
@@ -160,8 +233,10 @@ public class CrystalFXLink extends CrystalGLFXBase<TileCrystalBase> {
         @Override
         public void postDraw(int layer, BufferBuilder vertexbuffer, Tessellator tessellator) {
             tessellator.draw();
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-//            GlStateManager.enableTexture2D();
+            GlStateManager.blendFunc(
+                    GlStateManager.SourceFactor.SRC_ALPHA,
+                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            //            GlStateManager.enableTexture2D();
             GlStateTracker.popState();
         }
     }

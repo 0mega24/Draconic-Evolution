@@ -12,9 +12,7 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.model.IModelState;
 
-/**
- * Created by brandon3055 on 21/11/2016.
- */
+/** Created by brandon3055 on 21/11/2016. */
 public class RenderItemReactorPart implements IItemRenderer {
 
     public static ModelReactorStabilizerCore modelBase = new ModelReactorStabilizerCore();
@@ -26,7 +24,7 @@ public class RenderItemReactorPart implements IItemRenderer {
         modelBaseRotors.rotor2R.childModels.clear();
     }
 
-    //region Unused
+    // region Unused
 
     @Override
     public boolean isAmbientOcclusion() {
@@ -38,7 +36,7 @@ public class RenderItemReactorPart implements IItemRenderer {
         return false;
     }
 
-    //endregion
+    // endregion
 
     @Override
     public IModelState getTransforms() {
@@ -51,12 +49,12 @@ public class RenderItemReactorPart implements IItemRenderer {
         GlStateTracker.pushState();
         GlStateManager.translate(0.5, 0.5, 0.5);
 
-//        ResourceHelperDE.bindTexture(DETextures.REACTOR_STABILIZER_RING);
-//        GlStateManager.rotate(90, 1, 0, 0);
-//        GlStateManager.translate(0, -0.58, 0);
-//        GlStateManager.scale(0.95, 0.95, 0.95);
+        //        ResourceHelperDE.bindTexture(DETextures.REACTOR_STABILIZER_RING);
+        //        GlStateManager.rotate(90, 1, 0, 0);
+        //        GlStateManager.translate(0, -0.58, 0);
+        //        GlStateManager.scale(0.95, 0.95, 0.95);
 
-//        RenderTileReactorComponent.renderStabilizer(25, 0, 1F, 0, true, -1);
+        //        RenderTileReactorComponent.renderStabilizer(25, 0, 1F, 0, true, -1);
 
         switch (item.getItemDamage()) {
             case 0:

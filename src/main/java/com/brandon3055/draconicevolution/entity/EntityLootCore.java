@@ -3,6 +3,10 @@ package com.brandon3055.draconicevolution.entity;
 import com.brandon3055.brandonscore.inventory.InventoryDynamic;
 import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.network.PacketLootSync;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
@@ -15,16 +19,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.event.ForgeEventFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-/**
- * Created by brandon3055 on 26/08/2016.
- */
+/** Created by brandon3055 on 26/08/2016. */
 public class EntityLootCore extends Entity {
     private InventoryDynamic inventory = new InventoryDynamic();
     public double rotX = 0;
@@ -58,8 +54,7 @@ public class EntityLootCore extends Entity {
     }
 
     @Override
-    protected void entityInit() {
-    }
+    protected void entityInit() {}
 
     @Override
     public void onUpdate() {
@@ -86,13 +81,30 @@ public class EntityLootCore extends Entity {
             this.motionY -= 0.03999999910593033D;
         }
 
-        this.noClip = this.pushOutOfBlocks(this.posX, (this.getEntityBoundingBox().minY + this.getEntityBoundingBox().maxY) / 2.0D, this.posZ);
+        this.noClip =
+                this.pushOutOfBlocks(
+                        this.posX,
+                        (this.getEntityBoundingBox().minY + this.getEntityBoundingBox().maxY)
+                                / 2.0D,
+                        this.posZ);
         this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 
         float f = 0.98F;
 
         if (this.onGround) {
-            f = this.world.getBlockState(new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.posZ))).getBlock().slipperiness * 0.98F;
+            f =
+                    this.world
+                                    .getBlockState(
+                                            new BlockPos(
+                                                    MathHelper.floor(this.posX),
+                                                    MathHelper.floor(
+                                                                    this.getEntityBoundingBox()
+                                                                            .minY)
+                                                            - 1,
+                                                    MathHelper.floor(this.posZ)))
+                                    .getBlock()
+                                    .slipperiness
+                            * 0.98F;
         }
 
         this.motionX *= (double) f;
@@ -145,7 +157,15 @@ public class EntityLootCore extends Entity {
         }
 
         if (inserted) {
-            this.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+            this.world.playSound(
+                    null,
+                    player.posX,
+                    player.posY,
+                    player.posZ,
+                    SoundEvents.ENTITY_ITEM_PICKUP,
+                    SoundCategory.PLAYERS,
+                    0.2F,
+                    ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
             updateStored();
         }
 
@@ -184,7 +204,8 @@ public class EntityLootCore extends Entity {
         }
 
         for (EntityPlayerMP playerMP : trackingPlayers) {
-            DraconicEvolution.network.sendTo(new PacketLootSync(getEntityId(), displayMap), playerMP);
+            DraconicEvolution.network.sendTo(
+                    new PacketLootSync(getEntityId(), displayMap), playerMP);
         }
     }
 

@@ -12,9 +12,7 @@ import com.brandon3055.draconicevolution.utils.DETextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumFacing;
 
-/**
- * Created by brandon3055 on 20/01/2017.
- */
+/** Created by brandon3055 on 20/01/2017. */
 public class RenderTileReactorComponent extends TESRBase<TileReactorComponent> {
 
     public static ModelReactorStabilizerCore stabilizerModel = new ModelReactorStabilizerCore();
@@ -22,43 +20,58 @@ public class RenderTileReactorComponent extends TESRBase<TileReactorComponent> {
     public static ModelReactorEnergyInjector injectorModel = new ModelReactorEnergyInjector();
 
     @Override
-    public void render(TileReactorComponent te, double x, double y, double z, float partialTicks, int destroyStage, float a) {
+    public void render(
+            TileReactorComponent te,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            int destroyStage,
+            float a) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x + 0.5, y + 0.5, z + 0.5);
 
         if (te.facing.value == EnumFacing.SOUTH) {
             GlStateManager.rotate(180, 0, 1, 0);
-        }
-        else if (te.facing.value == EnumFacing.EAST) {
+        } else if (te.facing.value == EnumFacing.EAST) {
             GlStateManager.rotate(-90, 0, 1, 0);
-        }
-        else if (te.facing.value == EnumFacing.WEST) {
+        } else if (te.facing.value == EnumFacing.WEST) {
             GlStateManager.rotate(90, 0, 1, 0);
-        }
-        else if (te.facing.value == EnumFacing.UP) {
+        } else if (te.facing.value == EnumFacing.UP) {
             GlStateManager.rotate(90, 1, 0, 0);
-        }
-        else if (te.facing.value == EnumFacing.DOWN) {
+        } else if (te.facing.value == EnumFacing.DOWN) {
             GlStateManager.rotate(-90, 1, 0, 0);
         }
 
         if (te instanceof TileReactorStabilizer) {
-            float coreRotation = te.animRotation + (partialTicks * te.animRotationSpeed);//Remember Partial Ticks here
-            float ringRotation = coreRotation * -0.5F;//Remember Partial Ticks here
-            renderStabilizer(coreRotation, ringRotation, te.animRotationSpeed / 15F, partialTicks, false, destroyStage);
-        }
-        else if (te instanceof TileReactorEnergyInjector) {
+            float coreRotation =
+                    te.animRotation
+                            + (partialTicks * te.animRotationSpeed); // Remember Partial Ticks here
+            float ringRotation = coreRotation * -0.5F; // Remember Partial Ticks here
+            renderStabilizer(
+                    coreRotation,
+                    ringRotation,
+                    te.animRotationSpeed / 15F,
+                    partialTicks,
+                    false,
+                    destroyStage);
+        } else if (te instanceof TileReactorEnergyInjector) {
             renderInjector(te.animRotationSpeed / 15F, partialTicks, false, destroyStage);
         }
 
         GlStateManager.popMatrix();
     }
 
-    public static void renderStabilizer(float coreRotation, float ringRotation, float brightness, float partialTicks, boolean invRender, int destroyStage) {
+    public static void renderStabilizer(
+            float coreRotation,
+            float ringRotation,
+            float brightness,
+            float partialTicks,
+            boolean invRender,
+            int destroyStage) {
         if (destroyStage >= 0) {
             ResourceHelperDE.bindTexture(DESTROY_STAGES[destroyStage]);
-        }
-        else {
+        } else {
             ResourceHelperDE.bindTexture(DETextures.REACTOR_STABILIZER);
         }
         stabilizerModel.render(null, coreRotation, brightness, invRender ? 1 : 0, 0, 0, 1F / 16F);
@@ -70,18 +83,16 @@ public class RenderTileReactorComponent extends TESRBase<TileReactorComponent> {
         stabilizerRingModel.render(null, -70F, brightness, invRender ? 1 : 0, 0, 0, 1F / 16F);
     }
 
-    public static void renderInjector(float brightness, float partialTicks, boolean invRender, int destroyStage) {
+    public static void renderInjector(
+            float brightness, float partialTicks, boolean invRender, int destroyStage) {
         if (destroyStage >= 0) {
             ResourceHelperDE.bindTexture(DESTROY_STAGES[destroyStage]);
-        }
-        else {
+        } else {
             ResourceHelperDE.bindTexture(DETextures.REACTOR_INJECTOR);
         }
         injectorModel.render(null, brightness, invRender ? 1 : 0, 0, 0, 0, 1F / 16F);
     }
-
 }
-
 
 //        if (destroyStage >= 0) {
 //                bindTexture(DESTROY_STAGES[destroyStage]);

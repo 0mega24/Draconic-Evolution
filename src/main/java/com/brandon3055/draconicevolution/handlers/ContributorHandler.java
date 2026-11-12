@@ -10,6 +10,13 @@ import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.google.common.base.Charsets;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,17 +25,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
-
-/**
- * Created by brandon3055 on 5/11/2015.
- */
+/** Created by brandon3055 on 5/11/2015. */
 public class ContributorHandler {
 
     public static Map<String, Contributor> contributors = new LinkedHashMap<>();
@@ -40,55 +37,65 @@ public class ContributorHandler {
         thread = new DLThread();
         thread.start();
 
-        IProcess process = new IProcess() {
-            @Override
-            public void updateProcess() {
-                if (thread.isFinished()) {
-                    thread = null;
-                    readFile();
-                    successfulLoad = true;
-                    loadContributorConfig();
-                    LogHelper.dev("Read Contributors File");
-                }
-                else if (thread.isFailed()) {
-                    thread = null;
-                    LogHelper.dev("Contributors File Download Failed");
-                }
-            }
+        IProcess process =
+                new IProcess() {
+                    @Override
+                    public void updateProcess() {
+                        if (thread.isFinished()) {
+                            thread = null;
+                            readFile();
+                            successfulLoad = true;
+                            loadContributorConfig();
+                            LogHelper.dev("Read Contributors File");
+                        } else if (thread.isFailed()) {
+                            thread = null;
+                            LogHelper.dev("Contributors File Download Failed");
+                        }
+                    }
 
-            @Override
-            public boolean isDead() {
-                return thread == null;
-            }
-        };
+                    @Override
+                    public boolean isDead() {
+                        return thread == null;
+                    }
+                };
 
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
             ProcessHandlerClient.addProcess(process);
-        }
-        else {
+        } else {
             ProcessHandler.addProcess(process);
         }
     }
 
     public static boolean isPlayerContributor(EntityPlayer player) {
-        return contributors.containsKey(player.getName()) && contributors.get(player.getName()).isUserValid(player);
+        return contributors.containsKey(player.getName())
+                && contributors.get(player.getName()).isUserValid(player);
     }
 
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.player instanceof EntityPlayerMP) {
             for (String contribName : ContributorHandler.contributors.keySet()) {
-                for (String name : FMLCommonHandler.instance().getMinecraftServerInstance().getOnlinePlayerNames()) {
+                for (String name :
+                        FMLCommonHandler.instance()
+                                .getMinecraftServerInstance()
+                                .getOnlinePlayerNames()) {
                     if (name.equals(contribName)) {
-                        ContributorHandler.Contributor contributor = ContributorHandler.contributors.get(contribName);
-                        DraconicEvolution.network.sendTo(new PacketContributor(contribName, contributor.contributorWingsEnabled, contributor.patreonBadgeEnabled, contributor.lolnetBadgeEnabled), (EntityPlayerMP) event.player);
+                        ContributorHandler.Contributor contributor =
+                                ContributorHandler.contributors.get(contribName);
+                        DraconicEvolution.network.sendTo(
+                                new PacketContributor(
+                                        contribName,
+                                        contributor.contributorWingsEnabled,
+                                        contributor.patreonBadgeEnabled,
+                                        contributor.lolnetBadgeEnabled),
+                                (EntityPlayerMP) event.player);
                     }
                 }
             }
         }
     }
 
-    //region Reading online contributors list
+    // region Reading online contributors list
     private static void readFile() {
         File cFile = new File(FileHandler.brandon3055Folder, "contributors.json");
 
@@ -113,20 +120,15 @@ public class ContributorHandler {
 
                     if (name.equals("name")) {
                         contributor.name = reader.nextString();
-                    }
-                    else if (name.equals("ign")) {
+                    } else if (name.equals("ign")) {
                         contributor.ign = reader.nextString();
-                    }
-                    else if (name.equals("contribution")) {
+                    } else if (name.equals("contribution")) {
                         contributor.setContribution(reader.nextString());
-                    }
-                    else if (name.equals("details")) {
+                    } else if (name.equals("details")) {
                         contributor.setDetails(reader.nextString());
-                    }
-                    else if (name.equals("website")) {
+                    } else if (name.equals("website")) {
                         contributor.website = reader.nextString();
-                    }
-                    else if (name.equals("contributionLevel")) {
+                    } else if (name.equals("contributionLevel")) {
                         contributor.setContributionLevel(reader.nextInt());
                     }
                 }
@@ -140,8 +142,7 @@ public class ContributorHandler {
 
             reader.close();
             cFile.delete();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -161,15 +162,14 @@ public class ContributorHandler {
 
             try {
                 File cFile = new File(FileHandler.brandon3055Folder, "contributors.json");
-                FileHandler.downloadFile("http://www.brandon3055.com/json/DEContributors.json", cFile);
+                FileHandler.downloadFile(
+                        "http://www.brandon3055.com/json/DEContributors.json", cFile);
                 finished = true;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 LogHelper.error("Failed to download contributors list");
                 failed = true;
                 e.printStackTrace();
             }
-
         }
 
         public boolean isFinished() {
@@ -180,7 +180,7 @@ public class ContributorHandler {
             return failed;
         }
     }
-    //endregion
+    // endregion
 
     public static void loadContributorConfig() {
         try {
@@ -209,8 +209,7 @@ public class ContributorHandler {
             }
 
             reader.endObject();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -236,8 +235,7 @@ public class ContributorHandler {
 
             writer.endObject();
             writer.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -259,20 +257,25 @@ public class ContributorHandler {
 
         /**
          * As a big supporter of the lolnet.co.nz Minecraft Community i have offered to support
-         * their upcoming donation drive but offering lolnet badges and temporary contributor wings to everyone who donates.
+         * their upcoming donation drive but offering lolnet badges and temporary contributor wings
+         * to everyone who donates.
          */
         public boolean lolnetBadgeEnabled = true;
+
         public boolean isLolnetContributor = false;
 
-        public Contributor() {
-        }
+        public Contributor() {}
 
         public boolean isUserValid(EntityPlayer player) {
             if (player == null) {
                 return false;
             }
             if (!validated) {
-                isValid = !UUID.nameUUIDFromBytes(("OfflinePlayer:" + player.getName()).getBytes(Charsets.UTF_8)).equals(player.getUniqueID());
+                isValid =
+                        !UUID.nameUUIDFromBytes(
+                                        ("OfflinePlayer:" + player.getName())
+                                                .getBytes(Charsets.UTF_8))
+                                .equals(player.getUniqueID());
                 validated = true;
             }
             return isValid;
@@ -305,7 +308,15 @@ public class ContributorHandler {
 
         @Override
         public String toString() {
-            return "[Contributor: " + name + ", Contribution: " + contribution + ", Details: " + details + ", Website: " + website + "]";
+            return "[Contributor: "
+                    + name
+                    + ", Contribution: "
+                    + contribution
+                    + ", Details: "
+                    + details
+                    + ", Website: "
+                    + website
+                    + "]";
         }
     }
 }

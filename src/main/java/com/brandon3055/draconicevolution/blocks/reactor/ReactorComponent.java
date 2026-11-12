@@ -12,6 +12,7 @@ import com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorSt
 import com.brandon3055.draconicevolution.client.render.item.RenderItemReactorComponent;
 import com.brandon3055.draconicevolution.client.render.tile.RenderTileReactorComponent;
 import com.brandon3055.draconicevolution.lib.PropertyStringTemp;
+import java.util.List;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -38,20 +39,23 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
+/** Created by brandon3055 on 18/01/2017. */
+public class ReactorComponent extends BlockBCore
+        implements ITileEntityProvider, IRegistryOverride, IRenderOverride {
 
-/**
- * Created by brandon3055 on 18/01/2017.
- */
-public class ReactorComponent extends BlockBCore implements ITileEntityProvider, IRegistryOverride, IRenderOverride {
-
-    public static final PropertyStringTemp TYPE = new PropertyStringTemp("type", "stabilizer", "injector");
-    private static final AxisAlignedBB AABB_INJ_DOWN = new AxisAlignedBB(0F, 0.885F, 0F, 1F, 1F, 1F);
+    public static final PropertyStringTemp TYPE =
+            new PropertyStringTemp("type", "stabilizer", "injector");
+    private static final AxisAlignedBB AABB_INJ_DOWN =
+            new AxisAlignedBB(0F, 0.885F, 0F, 1F, 1F, 1F);
     private static final AxisAlignedBB AABB_INJ_UP = new AxisAlignedBB(0F, 0F, 0F, 1F, 0.125F, 1F);
-    private static final AxisAlignedBB AABB_INJ_NORTH = new AxisAlignedBB(0F, 0F, 0.885F, 1F, 1F, 1F);
-    private static final AxisAlignedBB AABB_INJ_SOUTH = new AxisAlignedBB(0F, 0F, 0F, 1F, 1F, 0.125F);
-    private static final AxisAlignedBB AABB_INJ_WEST = new AxisAlignedBB(0.885F, 0F, 0F, 1F, 1F, 1F);
-    private static final AxisAlignedBB AABB_INJ_EAST = new AxisAlignedBB(0F, 0F, 0F, 0.125F, 1F, 1F);
+    private static final AxisAlignedBB AABB_INJ_NORTH =
+            new AxisAlignedBB(0F, 0F, 0.885F, 1F, 1F, 1F);
+    private static final AxisAlignedBB AABB_INJ_SOUTH =
+            new AxisAlignedBB(0F, 0F, 0F, 1F, 1F, 0.125F);
+    private static final AxisAlignedBB AABB_INJ_WEST =
+            new AxisAlignedBB(0.885F, 0F, 0F, 1F, 1F, 1F);
+    private static final AxisAlignedBB AABB_INJ_EAST =
+            new AxisAlignedBB(0F, 0F, 0F, 0.125F, 1F, 1F);
 
     public ReactorComponent() {
         this.setHardness(25F);
@@ -65,7 +69,7 @@ public class ReactorComponent extends BlockBCore implements ITileEntityProvider,
         return false;
     }
 
-    //region Block & Registry
+    // region Block & Registry
 
     @Override
     protected BlockStateContainer createBlockState() {
@@ -95,10 +99,11 @@ public class ReactorComponent extends BlockBCore implements ITileEntityProvider,
 
     @Override
     public void handleCustomRegistration(Feature feature) {
-        GameRegistry.registerTileEntity(TileReactorStabilizer.class, feature.getRegistryName() + "_stabilizer");
-        GameRegistry.registerTileEntity(TileReactorEnergyInjector.class, feature.getRegistryName() + "_injector");
+        GameRegistry.registerTileEntity(
+                TileReactorStabilizer.class, feature.getRegistryName() + "_stabilizer");
+        GameRegistry.registerTileEntity(
+                TileReactorEnergyInjector.class, feature.getRegistryName() + "_injector");
     }
-
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
@@ -124,18 +129,21 @@ public class ReactorComponent extends BlockBCore implements ITileEntityProvider,
         return super.getBoundingBox(state, source, pos);
     }
 
-    //endregion
+    // endregion
 
-    //region Rendering
+    // region Rendering
 
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
         StateMap deviceStateMap = new StateMap.Builder().ignore(TYPE).build();
         ModelLoader.setCustomStateMapper(this, deviceStateMap);
-        ClientRegistry.bindTileEntitySpecialRenderer(TileReactorStabilizer.class, new RenderTileReactorComponent());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileReactorEnergyInjector.class, new RenderTileReactorComponent());
-        ModelRegistryHelper.registerItemRenderer(Item.getItemFromBlock(this), new RenderItemReactorComponent());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileReactorStabilizer.class, new RenderTileReactorComponent());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileReactorEnergyInjector.class, new RenderTileReactorComponent());
+        ModelRegistryHelper.registerItemRenderer(
+                Item.getItemFromBlock(this), new RenderItemReactorComponent());
     }
 
     @Override
@@ -148,12 +156,17 @@ public class ReactorComponent extends BlockBCore implements ITileEntityProvider,
         return EnumBlockRenderType.INVISIBLE;
     }
 
-    //endregion
+    // endregion
 
-    //region Place & Interact
+    // region Place & Interact
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    public void onBlockPlacedBy(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityLivingBase placer,
+            ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
         TileEntity te = world.getTileEntity(pos);
         EnumFacing facing = RotationUtils.getPlacedRotation(pos, placer);
@@ -168,7 +181,16 @@ public class ReactorComponent extends BlockBCore implements ITileEntityProvider,
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer playerIn,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         TileEntity te = world.getTileEntity(pos);
 
         if (te instanceof TileReactorComponent) {
@@ -190,7 +212,8 @@ public class ReactorComponent extends BlockBCore implements ITileEntityProvider,
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
+    public void addInformation(
+            ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
         tooltip.add(I18n.format("info.de.shiftReversePlaceLogic.txt"));
     }
 
@@ -199,8 +222,7 @@ public class ReactorComponent extends BlockBCore implements ITileEntityProvider,
         return getMetaFromState(state);
     }
 
-    //endregion
-
+    // endregion
 
     @Override
     public boolean hasComparatorInputOverride(IBlockState state) {

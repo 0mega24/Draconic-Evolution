@@ -1,5 +1,9 @@
 package com.brandon3055.draconicevolution.items.tools;
 
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumControlType.SLIDER;
+import static com.brandon3055.draconicevolution.items.ToolUpgrade.DIG_AOE;
+import static com.brandon3055.draconicevolution.items.ToolUpgrade.DIG_SPEED;
+
 import codechicken.lib.inventory.InventoryUtils;
 import codechicken.lib.raytracer.RayTracer;
 import com.brandon3055.brandonscore.inventory.BlockToStackHelper;
@@ -13,6 +17,11 @@ import com.brandon3055.draconicevolution.api.itemupgrade.UpgradeHelper;
 import com.brandon3055.draconicevolution.entity.EntityLootCore;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -42,53 +51,109 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumControlType.SLIDER;
-import static com.brandon3055.draconicevolution.items.ToolUpgrade.DIG_AOE;
-import static com.brandon3055.draconicevolution.items.ToolUpgrade.DIG_SPEED;
-
-/**
- * Created by brandon3055 on 2/06/2016.
- */
+/** Created by brandon3055 on 2/06/2016. */
 public abstract class MiningToolBase extends ToolBase {
 
-    protected static final Set SHOVEL_OVERRIDES = Sets.newHashSet(Blocks.CLAY, Blocks.DIRT, Blocks.FARMLAND, Blocks.GRASS, Blocks.GRAVEL, Blocks.MYCELIUM, Blocks.SAND, Blocks.SNOW, Blocks.SNOW_LAYER, Blocks.SOUL_SAND, Blocks.GRASS_PATH);
-    protected static final Set PICKAXE_OVERRIDES = Sets.newHashSet(Blocks.ACTIVATOR_RAIL, Blocks.COAL_ORE, Blocks.COBBLESTONE, Blocks.DETECTOR_RAIL, Blocks.DIAMOND_BLOCK, Blocks.DIAMOND_ORE, Blocks.DOUBLE_STONE_SLAB, Blocks.GOLDEN_RAIL, Blocks.GOLD_BLOCK, Blocks.GOLD_ORE, Blocks.ICE, Blocks.IRON_BLOCK, Blocks.IRON_ORE, Blocks.LAPIS_BLOCK, Blocks.LAPIS_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.MOSSY_COBBLESTONE, Blocks.NETHERRACK, Blocks.PACKED_ICE, Blocks.RAIL, Blocks.REDSTONE_ORE, Blocks.SANDSTONE, Blocks.RED_SANDSTONE, Blocks.STONE, Blocks.STONE_SLAB, Blocks.STONE_BUTTON, Blocks.STONE_PRESSURE_PLATE, Blocks.OBSIDIAN, Material.ROCK, Material.IRON, Material.ANVIL, Material.GLASS, Material.CIRCUITS);
-    protected static final Set AXE_OVERRIDES = Sets.newHashSet(Blocks.PLANKS, Blocks.BOOKSHELF, Blocks.LOG, Blocks.LOG2, Blocks.CHEST, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.MELON_BLOCK, Blocks.LADDER, Blocks.WOODEN_BUTTON, Blocks.WOODEN_PRESSURE_PLATE, Material.PLANTS, Material.LEAVES, Material.WEB, Material.WOOD, Material.CAKE, Material.CLOTH, Material.PISTON);
+    protected static final Set SHOVEL_OVERRIDES =
+            Sets.newHashSet(
+                    Blocks.CLAY,
+                    Blocks.DIRT,
+                    Blocks.FARMLAND,
+                    Blocks.GRASS,
+                    Blocks.GRAVEL,
+                    Blocks.MYCELIUM,
+                    Blocks.SAND,
+                    Blocks.SNOW,
+                    Blocks.SNOW_LAYER,
+                    Blocks.SOUL_SAND,
+                    Blocks.GRASS_PATH);
+    protected static final Set PICKAXE_OVERRIDES =
+            Sets.newHashSet(
+                    Blocks.ACTIVATOR_RAIL,
+                    Blocks.COAL_ORE,
+                    Blocks.COBBLESTONE,
+                    Blocks.DETECTOR_RAIL,
+                    Blocks.DIAMOND_BLOCK,
+                    Blocks.DIAMOND_ORE,
+                    Blocks.DOUBLE_STONE_SLAB,
+                    Blocks.GOLDEN_RAIL,
+                    Blocks.GOLD_BLOCK,
+                    Blocks.GOLD_ORE,
+                    Blocks.ICE,
+                    Blocks.IRON_BLOCK,
+                    Blocks.IRON_ORE,
+                    Blocks.LAPIS_BLOCK,
+                    Blocks.LAPIS_ORE,
+                    Blocks.LIT_REDSTONE_ORE,
+                    Blocks.MOSSY_COBBLESTONE,
+                    Blocks.NETHERRACK,
+                    Blocks.PACKED_ICE,
+                    Blocks.RAIL,
+                    Blocks.REDSTONE_ORE,
+                    Blocks.SANDSTONE,
+                    Blocks.RED_SANDSTONE,
+                    Blocks.STONE,
+                    Blocks.STONE_SLAB,
+                    Blocks.STONE_BUTTON,
+                    Blocks.STONE_PRESSURE_PLATE,
+                    Blocks.OBSIDIAN,
+                    Material.ROCK,
+                    Material.IRON,
+                    Material.ANVIL,
+                    Material.GLASS,
+                    Material.CIRCUITS);
+    protected static final Set AXE_OVERRIDES =
+            Sets.newHashSet(
+                    Blocks.PLANKS,
+                    Blocks.BOOKSHELF,
+                    Blocks.LOG,
+                    Blocks.LOG2,
+                    Blocks.CHEST,
+                    Blocks.PUMPKIN,
+                    Blocks.LIT_PUMPKIN,
+                    Blocks.MELON_BLOCK,
+                    Blocks.LADDER,
+                    Blocks.WOODEN_BUTTON,
+                    Blocks.WOODEN_PRESSURE_PLATE,
+                    Material.PLANTS,
+                    Material.LEAVES,
+                    Material.WEB,
+                    Material.WOOD,
+                    Material.CAKE,
+                    Material.CLOTH,
+                    Material.PISTON);
     protected Set<Object> effectiveBlocks = new HashSet<Object>();
     protected float baseMiningSpeed = 1F;
     protected int baseAOE = 0;
 
-    public MiningToolBase(/*double attackDamage, double attackSpeed, */Set effectiveBlocks) {
-//        super(attackDamage, attackSpeed);
+    public MiningToolBase(/*double attackDamage, double attackSpeed, */ Set effectiveBlocks) {
+        //        super(attackDamage, attackSpeed);
         this.effectiveBlocks.addAll(effectiveBlocks);
     }
 
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
         ICapabilityProvider parent = super.initCapabilities(stack, nbt);
-        ItemStackHandler itemHandler = new ItemStackHandler(9 * (getToolTier(stack) + 1)){
-            @Override
-            public int getSlotLimit(int slot) {
-                return 1;
-            }
-
-            @Nonnull
-            @Override
-            public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-                for (ItemStack check : stacks) {
-                    if (stack.isItemEqual(check) && ItemStack.areItemStackTagsEqual(stack, check)) {
-                        return stack;
+        ItemStackHandler itemHandler =
+                new ItemStackHandler(9 * (getToolTier(stack) + 1)) {
+                    @Override
+                    public int getSlotLimit(int slot) {
+                        return 1;
                     }
-                }
-                return super.insertItem(slot, stack, simulate);
-            }
-        };
+
+                    @Nonnull
+                    @Override
+                    public ItemStack insertItem(
+                            int slot, @Nonnull ItemStack stack, boolean simulate) {
+                        for (ItemStack check : stacks) {
+                            if (stack.isItemEqual(check)
+                                    && ItemStack.areItemStackTagsEqual(stack, check)) {
+                                return stack;
+                            }
+                        }
+                        return super.insertItem(slot, stack, simulate);
+                    }
+                };
         return new ItemCapProvider(parent, itemHandler);
     }
 
@@ -103,7 +168,7 @@ public abstract class MiningToolBase extends ToolBase {
         baseAOE = getBaseMinAOEConfig();
     }
 
-    //region Upgrades and Config
+    // region Upgrades and Config
 
     @Override
     public List<String> getValidUpgrades(ItemStack stack) {
@@ -116,22 +181,54 @@ public abstract class MiningToolBase extends ToolBase {
 
     @Override
     public ItemConfigFieldRegistry getFields(ItemStack stack, ItemConfigFieldRegistry registry) {
-        registry.register(stack, new IntegerConfigField("digSpeed", 100, 1, 100, "config.field.digSpeed.description", SLIDER).setExtension("%"));
-        registry.register(stack, new BooleanConfigField("aoeSafeMode", false, "config.field.aoeSafeMode.description"));
-        registry.register(stack, new BooleanConfigField("showDigAOE", false, "config.field.showDigAOE.description"));
+        registry.register(
+                stack,
+                new IntegerConfigField(
+                                "digSpeed",
+                                100,
+                                1,
+                                100,
+                                "config.field.digSpeed.description",
+                                SLIDER)
+                        .setExtension("%"));
+        registry.register(
+                stack,
+                new BooleanConfigField(
+                        "aoeSafeMode", false, "config.field.aoeSafeMode.description"));
+        registry.register(
+                stack,
+                new BooleanConfigField("showDigAOE", false, "config.field.showDigAOE.description"));
 
         int maxAOE = getMaxDigAOE(stack);
-        registry.register(stack, new AOEConfigField("digAOE", 0, 0, maxAOE, "config.field.digAOE.description"));
+        registry.register(
+                stack,
+                new AOEConfigField("digAOE", 0, 0, maxAOE, "config.field.digAOE.description"));
 
         if (getToolTier(stack) > 0) {
             int depth = getMaxDigDepth(stack);
-            registry.register(stack, new IntegerConfigField("digDepth", 0, 0, depth, "config.field.digDepth.description", SLIDER));
+            registry.register(
+                    stack,
+                    new IntegerConfigField(
+                            "digDepth", 0, 0, depth, "config.field.digDepth.description", SLIDER));
         }
 
         if (!(this instanceof WyvernAxe)) {
-            registry.register(stack, new ExternalConfigField("junkFilter", "config.field.junkFilter.description", DraconicEvolution.instance, GuiHandler.GUIID_JUNK_FILTER, "config.field.junkFilter.button"));
-            registry.register(stack, new BooleanConfigField("enableJunkFilter", true, "config.field.enableJunkFilter.description"));
-            registry.register(stack, new BooleanConfigField("junkNbtSens", true, "config.field.junkNbtSens.description"));
+            registry.register(
+                    stack,
+                    new ExternalConfigField(
+                            "junkFilter",
+                            "config.field.junkFilter.description",
+                            DraconicEvolution.instance,
+                            GuiHandler.GUIID_JUNK_FILTER,
+                            "config.field.junkFilter.button"));
+            registry.register(
+                    stack,
+                    new BooleanConfigField(
+                            "enableJunkFilter", true, "config.field.enableJunkFilter.description"));
+            registry.register(
+                    stack,
+                    new BooleanConfigField(
+                            "junkNbtSens", true, "config.field.junkNbtSens.description"));
         }
 
         addEnchantConfig(stack, registry);
@@ -139,9 +236,9 @@ public abstract class MiningToolBase extends ToolBase {
         return registry;
     }
 
-    //endregion
+    // endregion
 
-    //region Vanilla Item Mining Code
+    // region Vanilla Item Mining Code
 
     @Override
     public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
@@ -161,9 +258,14 @@ public abstract class MiningToolBase extends ToolBase {
         return super.onBlockStartBreak(stack, pos, player);
     }
 
-    //Note: Called for every AOE block destroyed
+    // Note: Called for every AOE block destroyed
     @Override
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
+    public boolean onBlockDestroyed(
+            ItemStack stack,
+            World worldIn,
+            IBlockState state,
+            BlockPos pos,
+            EntityLivingBase entityLiving) {
         modifyEnergy(stack, -energyPerOperation);
         return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
     }
@@ -178,7 +280,7 @@ public abstract class MiningToolBase extends ToolBase {
             return getEfficiency(stack);
         }
         return 1F;
-        //return this.effectiveBlocks.contains(state.getBlock()) ? getEfficiency(stack) : 1.0F;
+        // return this.effectiveBlocks.contains(state.getBlock()) ? getEfficiency(stack) : 1.0F;
     }
 
     @Override
@@ -188,16 +290,19 @@ public abstract class MiningToolBase extends ToolBase {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return super.canApplyAtEnchantingTable(stack, enchantment) && (enchantment.type == EnumEnchantmentType.DIGGER || enchantment.type == EnumEnchantmentType.ALL);
+        return super.canApplyAtEnchantingTable(stack, enchantment)
+                && (enchantment.type == EnumEnchantmentType.DIGGER
+                        || enchantment.type == EnumEnchantmentType.ALL);
     }
 
-    //endregion
+    // endregion
 
-    //region AOE Mining Code
+    // region AOE Mining Code
 
-    //region New Code
+    // region New Code
 
-    public boolean breakAOEBlocks(ItemStack stack, BlockPos pos, int breakRadius, int breakDepth, EntityPlayer player) {
+    public boolean breakAOEBlocks(
+            ItemStack stack, BlockPos pos, int breakRadius, int breakDepth, EntityPlayer player) {
         IBlockState blockState = player.world.getBlockState(pos);
 
         if (!isToolEffective(stack, blockState)) {
@@ -209,16 +314,19 @@ public abstract class MiningToolBase extends ToolBase {
         float refStrength = ForgeHooks.blockStrength(blockState, player, player.world, pos);
 
         PairKV<BlockPos, BlockPos> aoe = getMiningArea(pos, player, breakRadius, breakDepth);
-        List<BlockPos> aoeBlocks = Lists.newArrayList(BlockPos.getAllInBox(aoe.getKey(), aoe.getValue()));
+        List<BlockPos> aoeBlocks =
+                Lists.newArrayList(BlockPos.getAllInBox(aoe.getKey(), aoe.getValue()));
 
         if (ToolConfigHelper.getBooleanField("aoeSafeMode", stack)) {
             for (BlockPos block : aoeBlocks) {
                 if (!player.world.isAirBlock(block) && player.world.getTileEntity(block) != null) {
                     if (player.world.isRemote) {
                         player.sendMessage(new TextComponentTranslation("msg.de.baseSafeAOW.txt"));
-                    }
-                    else {
-                        ((EntityPlayerMP) player).connection.sendPacket(new SPacketBlockChange(((EntityPlayerMP) player).world, block));
+                    } else {
+                        ((EntityPlayerMP) player)
+                                .connection.sendPacket(
+                                        new SPacketBlockChange(
+                                                ((EntityPlayerMP) player).world, block));
                     }
                     return true;
                 }
@@ -228,11 +336,21 @@ public abstract class MiningToolBase extends ToolBase {
         player.world.playEvent(2001, pos, Block.getStateId(blockState));
 
         for (BlockPos block : aoeBlocks) {
-            breakAOEBlock(stack, player.world, block, player, refStrength, inventoryDynamic, itemRand.nextInt(Math.max(5, (breakRadius * breakDepth) / 5)) == 0);
+            breakAOEBlock(
+                    stack,
+                    player.world,
+                    block,
+                    player,
+                    refStrength,
+                    inventoryDynamic,
+                    itemRand.nextInt(Math.max(5, (breakRadius * breakDepth) / 5)) == 0);
         }
 
-
-        @SuppressWarnings("unchecked") List<EntityItem> items = player.world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(aoe.getKey(), aoe.getValue().add(1, 1, 1)));
+        @SuppressWarnings("unchecked")
+        List<EntityItem> items =
+                player.world.getEntitiesWithinAABB(
+                        EntityItem.class,
+                        new AxisAlignedBB(aoe.getKey(), aoe.getValue().add(1, 1, 1)));
         for (EntityItem item : items) {
             if (!player.world.isRemote && !item.isDead) {
                 InventoryUtils.insertItem(inventoryDynamic, item.getItem(), false);
@@ -243,14 +361,16 @@ public abstract class MiningToolBase extends ToolBase {
         Set<ItemStack> junkFilter = getJunkFilter(stack);
         if (junkFilter != null) {
             boolean nbtSens = ToolConfigHelper.getBooleanField("junkNbtSens", stack);
-            inventoryDynamic.removeIf(check -> {
-                for (ItemStack junk : junkFilter) {
-                    if (junk.isItemEqual(check) && (!nbtSens || ItemStack.areItemStackTagsEqual(junk, check))) {
-                        return true;
-                    }
-                }
-                return false;
-            });
+            inventoryDynamic.removeIf(
+                    check -> {
+                        for (ItemStack junk : junkFilter) {
+                            if (junk.isItemEqual(check)
+                                    && (!nbtSens || ItemStack.areItemStackTagsEqual(junk, check))) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
         }
 
         if (!player.world.isRemote) {
@@ -258,15 +378,16 @@ public abstract class MiningToolBase extends ToolBase {
                 for (int i = 0; i < inventoryDynamic.getSizeInventory(); i++) {
                     ItemStack sis = inventoryDynamic.getStackInSlot(i);
                     if (sis != null) {
-                        EntityItem item = new EntityItem(player.world, player.posX, player.posY, player.posZ, sis);
+                        EntityItem item =
+                                new EntityItem(
+                                        player.world, player.posX, player.posY, player.posZ, sis);
                         item.setPickupDelay(0);
                         player.world.spawnEntity(item);
                     }
                 }
                 player.addExperience(inventoryDynamic.xp);
                 inventoryDynamic.clear();
-            }
-            else {
+            } else {
                 EntityLootCore lootCore = new EntityLootCore(player.world, inventoryDynamic);
                 lootCore.setPosition(player.posX, player.posY, player.posZ);
                 player.world.spawnEntity(lootCore);
@@ -276,7 +397,14 @@ public abstract class MiningToolBase extends ToolBase {
         return true;
     }
 
-    protected void breakAOEBlock(ItemStack stack, World world, BlockPos pos, EntityPlayer player, float refStrength, InventoryDynamic inventory, boolean breakFX) {
+    protected void breakAOEBlock(
+            ItemStack stack,
+            World world,
+            BlockPos pos,
+            EntityPlayer player,
+            float refStrength,
+            InventoryDynamic inventory,
+            boolean breakFX) {
         if (world.isAirBlock(pos)) {
             return;
         }
@@ -290,7 +418,8 @@ public abstract class MiningToolBase extends ToolBase {
 
         float strength = ForgeHooks.blockStrength(state, player, world, pos);
 
-        if (!ForgeHooks.canHarvestBlock(block, player, world, pos) || refStrength / strength > 10f) {
+        if (!ForgeHooks.canHarvestBlock(block, player, world, pos)
+                || refStrength / strength > 10f) {
             return;
         }
 
@@ -312,7 +441,12 @@ public abstract class MiningToolBase extends ToolBase {
         }
 
         if (!world.isRemote) {
-            int xp = ForgeHooks.onBlockBreakEvent(world, ((EntityPlayerMP) player).interactionManager.getGameType(), (EntityPlayerMP) player, pos);
+            int xp =
+                    ForgeHooks.onBlockBreakEvent(
+                            world,
+                            ((EntityPlayerMP) player).interactionManager.getGameType(),
+                            (EntityPlayerMP) player,
+                            pos);
             if (xp == -1) {
                 EntityPlayerMP mpPlayer = (EntityPlayerMP) player;
                 mpPlayer.connection.sendPacket(new SPacketBlockChange(world, pos));
@@ -321,8 +455,7 @@ public abstract class MiningToolBase extends ToolBase {
 
             stack.onBlockDestroyed(world, state, pos, player);
             BlockToStackHelper.breakAndCollectWithPlayer(world, pos, inventory, player, xp);
-        }
-        else {
+        } else {
             if (breakFX) {
                 world.playEvent(2001, pos, Block.getStateId(state));
             }
@@ -332,13 +465,20 @@ public abstract class MiningToolBase extends ToolBase {
 
             stack.onBlockDestroyed(world, state, pos, player);
 
-            Minecraft.getMinecraft().getConnection().sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pos, Minecraft.getMinecraft().objectMouseOver.sideHit));
+            Minecraft.getMinecraft()
+                    .getConnection()
+                    .sendPacket(
+                            new CPacketPlayerDigging(
+                                    CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK,
+                                    pos,
+                                    Minecraft.getMinecraft().objectMouseOver.sideHit));
         }
     }
 
-    //endregion
+    // endregion
 
-    public PairKV<BlockPos, BlockPos> getMiningArea(BlockPos pos, EntityPlayer player, int breakRadius, int breakDepth) {
+    public PairKV<BlockPos, BlockPos> getMiningArea(
+            BlockPos pos, EntityPlayer player, int breakRadius, int breakDepth) {
         RayTraceResult traceResult = RayTracer.retrace(player);
 
         if (traceResult == null || traceResult.typeOfHit != RayTraceResult.Type.BLOCK) {
@@ -396,12 +536,13 @@ public abstract class MiningToolBase extends ToolBase {
             yOffset = 0;
         }
 
-        return new PairKV<>(pos.add(-xMin, yOffset - yMin, -zMin), pos.add(xMax, yOffset + yMax, zMax));
+        return new PairKV<>(
+                pos.add(-xMin, yOffset - yMin, -zMin), pos.add(xMax, yOffset + yMax, zMax));
     }
 
-    //endregion
+    // endregion
 
-    //region Setters, Getters & Helpers
+    // region Setters, Getters & Helpers
 
     public void setHarvestLevel(String toolClass, int level) {
         if (toolClass.equals("pickaxe") && level >= 0) {
@@ -418,7 +559,9 @@ public abstract class MiningToolBase extends ToolBase {
 
     public float getEfficiency(ItemStack stack) {
         float speedSetting = (float) ToolConfigHelper.getIntegerField("digSpeed", stack) / 100F;
-        return baseMiningSpeed * (float) (UpgradeHelper.getUpgradeLevel(stack, DIG_SPEED) + 1) * speedSetting;
+        return baseMiningSpeed
+                * (float) (UpgradeHelper.getUpgradeLevel(stack, DIG_SPEED) + 1)
+                * speedSetting;
     }
 
     public int getDigAOE(ItemStack stack) {
@@ -451,7 +594,9 @@ public abstract class MiningToolBase extends ToolBase {
         }
 
         for (String type : stack.getItem().getToolClasses(stack)) {
-            if (state.getBlock().isToolEffective(type, state) || effectiveBlocks.contains(state.getBlock()) || effectiveBlocks.contains(state.getMaterial())) {
+            if (state.getBlock().isToolEffective(type, state)
+                    || effectiveBlocks.contains(state.getBlock())
+                    || effectiveBlocks.contains(state.getMaterial())) {
                 return true;
             }
         }
@@ -460,8 +605,10 @@ public abstract class MiningToolBase extends ToolBase {
     }
 
     public Set<ItemStack> getJunkFilter(ItemStack stack) {
-        if (ToolConfigHelper.getBooleanField("enableJunkFilter", stack) && stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
-            IItemHandler itemHandler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        if (ToolConfigHelper.getBooleanField("enableJunkFilter", stack)
+                && stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+            IItemHandler itemHandler =
+                    stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
             Set<ItemStack> junkFilter = new HashSet<>();
 
             if (itemHandler != null) {
@@ -478,14 +625,13 @@ public abstract class MiningToolBase extends ToolBase {
         return null;
     }
 
-    //endregion
-
+    // endregion
 
     private static class ItemCapProvider implements ICapabilitySerializable<NBTTagCompound> {
         private ICapabilityProvider parentProvider;
         private ItemStackHandler itemHandler;
 
-        public ItemCapProvider(ICapabilityProvider parentProvider, ItemStackHandler iItemHandler){
+        public ItemCapProvider(ICapabilityProvider parentProvider, ItemStackHandler iItemHandler) {
             this.parentProvider = parentProvider;
             this.itemHandler = iItemHandler;
         }
@@ -501,7 +647,8 @@ public abstract class MiningToolBase extends ToolBase {
         }
 
         @Override
-        public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        public boolean hasCapability(
+                @Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
             if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
                 return true;
             }
@@ -517,5 +664,4 @@ public abstract class MiningToolBase extends ToolBase {
             return parentProvider == null ? null : parentProvider.getCapability(capability, facing);
         }
     }
-
 }

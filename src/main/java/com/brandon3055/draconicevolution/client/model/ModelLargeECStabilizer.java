@@ -4,10 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-/**
- * CoreStabilizer - brandon3055
- * Created using Tabula 5.1.0
- */
+/** CoreStabilizer - brandon3055 Created using Tabula 5.1.0 */
 public class ModelLargeECStabilizer extends ModelBase {
     public ModelRenderer cubeBottomF;
     public ModelRenderer cubeBottomB;
@@ -377,9 +374,7 @@ public class ModelLargeECStabilizer extends ModelBase {
         this.cubeBottomB.render(f5);
     }
 
-    /**
-     * This is a helper function from Tabula to set the ROTATION of model parts
-     */
+    /** This is a helper function from Tabula to set the ROTATION of model parts */
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

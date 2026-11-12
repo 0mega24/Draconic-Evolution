@@ -1,13 +1,9 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.swing;
 
-
+import java.awt.Window;
 import org.lwjgl.opengl.Display;
 
-import java.awt.Window;
-
-/**
- * Created by brandon3055 on 8/09/2016.
- */
+/** Created by brandon3055 on 8/09/2016. */
 public class SwingHelper {
 
     public static void centerOnMinecraftWindow(Window window) {
@@ -15,5 +11,4 @@ public class SwingHelper {
         int centerY = Display.getY() + (Display.getHeight() / 2);
         window.setLocation(centerX - (window.getWidth() / 2), centerY - (window.getHeight() / 2));
     }
-
 }

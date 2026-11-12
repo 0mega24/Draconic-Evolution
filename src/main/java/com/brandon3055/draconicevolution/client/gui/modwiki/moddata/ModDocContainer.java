@@ -1,19 +1,18 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.moddata;
 
-import org.w3c.dom.Element;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_DOC_REV;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.ATTRIB_DOC_REV;
+import org.w3c.dom.Element;
 
 /**
- * Created by brandon3055 on 9/09/2016.
- * This is responsible for holding a mods documentation and mapping it to its various loaded languages.
- * There will only be 1 language loaded if the language is set to english or 2 if another language is selected and there
- * is actually documentation for that language.
+ * Created by brandon3055 on 9/09/2016. This is responsible for holding a mods documentation and
+ * mapping it to its various loaded languages. There will only be 1 language loaded if the language
+ * is set to english or 2 if another language is selected and there is actually documentation for
+ * that language.
  */
 public class ModDocContainer {
     public static final int VERSION_STAT_OK = 0;
@@ -33,21 +32,20 @@ public class ModDocContainer {
     }
 
     /**
-     * Returns the doc element for the given language or the default (en_US) if there is no doc for that language.
+     * Returns the doc element for the given language or the default (en_US) if there is no doc for
+     * that language.
      */
     public Element getElement(String lang) {
         if (langOverride != null) {
             if (langToElement.containsKey(langOverride)) {
                 return langToElement.get(langOverride);
-            }
-            else {
+            } else {
                 langStatus = "guiwiki.langStatus.OverrideFailed";
             }
         }
         if (langToElement.containsKey(lang)) {
             return langToElement.get(lang);
-        }
-        else if (langToElement.containsKey("en_US")) {
+        } else if (langToElement.containsKey("en_US")) {
             langStatus = "guiwiki.langStatus.NADefaultLoaded";
             return langToElement.get("en_US");
         }
@@ -70,8 +68,7 @@ public class ModDocContainer {
 
         if (version == -1) {
             langToVerState.put(lang, VERSION_STAT_ERROR);
-        }
-        else {
+        } else {
             langToVerState.put(lang, VERSION_STAT_OK);
         }
     }
@@ -79,8 +76,7 @@ public class ModDocContainer {
     public int getVersion(Element modElement) {
         try {
             return Integer.parseInt(modElement.getAttribute(ATTRIB_DOC_REV));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return -1;
         }
     }

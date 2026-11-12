@@ -7,17 +7,14 @@ import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import net.minecraft.util.StringUtils;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import net.minecraft.util.StringUtils;
 
-/**
- * Created by brandon3055 on 8/09/2016.
- */
+/** Created by brandon3055 on 8/09/2016. */
 public class UIAddModBranch extends JFrame implements ActionListener {
 
     private TreeBranchRoot parentBranch;
@@ -55,23 +52,135 @@ public class UIAddModBranch extends JFrame implements ActionListener {
         textPane.setDoubleBuffered(true);
         textPane.setOpaque(true);
         textPane.setVisible(true);
-        contentPane.add(textPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, 1, 1, null, null, null, 0, false));
-        textPane.setBorder(BorderFactory.createTitledBorder(null, "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, new Color(-4473925)));
+        contentPane.add(
+                textPane,
+                new GridConstraints(
+                        0,
+                        0,
+                        1,
+                        1,
+                        GridConstraints.ANCHOR_CENTER,
+                        GridConstraints.FILL_BOTH,
+                        1,
+                        1,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
+        textPane.setBorder(
+                BorderFactory.createTitledBorder(
+                        null,
+                        "",
+                        TitledBorder.DEFAULT_JUSTIFICATION,
+                        TitledBorder.DEFAULT_POSITION,
+                        null,
+                        new Color(-4473925)));
         idLabel = new JLabel();
         idLabel.setText("Mod ID (Lowercase)");
-        textPane.add(idLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        textPane.add(
+                idLabel,
+                new GridConstraints(
+                        0,
+                        0,
+                        1,
+                        1,
+                        GridConstraints.ANCHOR_WEST,
+                        GridConstraints.FILL_NONE,
+                        GridConstraints.SIZEPOLICY_FIXED,
+                        GridConstraints.SIZEPOLICY_FIXED,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
         idField = new JTextField();
-        textPane.add(idField, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        textPane.add(
+                idField,
+                new GridConstraints(
+                        1,
+                        0,
+                        1,
+                        2,
+                        GridConstraints.ANCHOR_WEST,
+                        GridConstraints.FILL_HORIZONTAL,
+                        GridConstraints.SIZEPOLICY_WANT_GROW,
+                        GridConstraints.SIZEPOLICY_FIXED,
+                        null,
+                        new Dimension(150, -1),
+                        null,
+                        0,
+                        false));
         final Spacer spacer1 = new Spacer();
-        textPane.add(spacer1, new GridConstraints(4, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        textPane.add(
+                spacer1,
+                new GridConstraints(
+                        4,
+                        0,
+                        1,
+                        3,
+                        GridConstraints.ANCHOR_CENTER,
+                        GridConstraints.FILL_VERTICAL,
+                        1,
+                        GridConstraints.SIZEPOLICY_WANT_GROW,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
         nameLabel = new JLabel();
         nameLabel.setText("Mod Name");
-        textPane.add(nameLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        textPane.add(
+                nameLabel,
+                new GridConstraints(
+                        2,
+                        0,
+                        1,
+                        1,
+                        GridConstraints.ANCHOR_WEST,
+                        GridConstraints.FILL_NONE,
+                        GridConstraints.SIZEPOLICY_FIXED,
+                        GridConstraints.SIZEPOLICY_FIXED,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
         nameField = new JTextField();
-        textPane.add(nameField, new GridConstraints(3, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        textPane.add(
+                nameField,
+                new GridConstraints(
+                        3,
+                        0,
+                        1,
+                        3,
+                        GridConstraints.ANCHOR_WEST,
+                        GridConstraints.FILL_HORIZONTAL,
+                        GridConstraints.SIZEPOLICY_WANT_GROW,
+                        GridConstraints.SIZEPOLICY_FIXED,
+                        null,
+                        new Dimension(150, -1),
+                        null,
+                        0,
+                        false));
         selectLabel = new JLabel();
         selectLabel.setText("Select From Installed");
-        textPane.add(selectLabel, new GridConstraints(0, 1, 1, 2, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        textPane.add(
+                selectLabel,
+                new GridConstraints(
+                        0,
+                        1,
+                        1,
+                        2,
+                        GridConstraints.ANCHOR_EAST,
+                        GridConstraints.FILL_NONE,
+                        GridConstraints.SIZEPOLICY_FIXED,
+                        GridConstraints.SIZEPOLICY_FIXED,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
         selectorBox = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         selectorBox.setMaximumRowCount(20);
@@ -81,22 +190,127 @@ public class UIAddModBranch extends JFrame implements ActionListener {
         }
 
         selectorBox.setModel(defaultComboBoxModel1);
-        textPane.add(selectorBox, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        textPane.add(
+                selectorBox,
+                new GridConstraints(
+                        1,
+                        2,
+                        1,
+                        1,
+                        GridConstraints.ANCHOR_WEST,
+                        GridConstraints.FILL_HORIZONTAL,
+                        GridConstraints.SIZEPOLICY_CAN_GROW,
+                        GridConstraints.SIZEPOLICY_FIXED,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
         final Spacer spacer2 = new Spacer();
-        textPane.add(spacer2, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        textPane.add(
+                spacer2,
+                new GridConstraints(
+                        2,
+                        1,
+                        1,
+                        1,
+                        GridConstraints.ANCHOR_CENTER,
+                        GridConstraints.FILL_HORIZONTAL,
+                        GridConstraints.SIZEPOLICY_WANT_GROW,
+                        1,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
-        contentPane.add(buttonPanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        contentPane.add(
+                buttonPanel,
+                new GridConstraints(
+                        2,
+                        0,
+                        1,
+                        1,
+                        GridConstraints.ANCHOR_CENTER,
+                        GridConstraints.FILL_BOTH,
+                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
         final Spacer spacer3 = new Spacer();
-        buttonPanel.add(spacer3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        buttonPanel.add(
+                spacer3,
+                new GridConstraints(
+                        0,
+                        0,
+                        1,
+                        1,
+                        GridConstraints.ANCHOR_CENTER,
+                        GridConstraints.FILL_HORIZONTAL,
+                        GridConstraints.SIZEPOLICY_WANT_GROW,
+                        1,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
         createButton = new JButton();
         createButton.setText("Create");
-        buttonPanel.add(createButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        buttonPanel.add(
+                createButton,
+                new GridConstraints(
+                        0,
+                        1,
+                        1,
+                        1,
+                        GridConstraints.ANCHOR_CENTER,
+                        GridConstraints.FILL_HORIZONTAL,
+                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+                        GridConstraints.SIZEPOLICY_FIXED,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
         cancelButton = new JButton();
         cancelButton.setText("Cancel");
-        buttonPanel.add(cancelButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        buttonPanel.add(
+                cancelButton,
+                new GridConstraints(
+                        0,
+                        2,
+                        1,
+                        1,
+                        GridConstraints.ANCHOR_CENTER,
+                        GridConstraints.FILL_HORIZONTAL,
+                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+                        GridConstraints.SIZEPOLICY_FIXED,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
         final Spacer spacer4 = new Spacer();
-        contentPane.add(spacer4, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        contentPane.add(
+                spacer4,
+                new GridConstraints(
+                        1,
+                        0,
+                        1,
+                        1,
+                        GridConstraints.ANCHOR_CENTER,
+                        GridConstraints.FILL_VERTICAL,
+                        1,
+                        GridConstraints.SIZEPOLICY_WANT_GROW,
+                        null,
+                        null,
+                        null,
+                        0,
+                        false));
 
         setContentPane(contentPane);
     }
@@ -111,23 +325,33 @@ public class UIAddModBranch extends JFrame implements ActionListener {
         }
         if (command.equals("Create")) {
             if (WikiDocManager.modDocMap.containsKey(idField.getText())) {
-                JOptionPane.showMessageDialog(this, "There is already documentation for that mod! Just add to the existing documentation.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else if (StringUtils.isNullOrEmpty(idField.getText()) || StringUtils.isNullOrEmpty(nameField.getText())) {
-                JOptionPane.showMessageDialog(this, "Please fill in both the id and name fields", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {//TODO Implement multi language support
+                JOptionPane.showMessageDialog(
+                        this,
+                        "There is already documentation for that mod! Just add to the existing documentation.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } else if (StringUtils.isNullOrEmpty(idField.getText())
+                    || StringUtils.isNullOrEmpty(nameField.getText())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Please fill in both the id and name fields",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } else { // TODO Implement multi language support
                 try {
-                    WikiDocManager.createNewModEntry(idField.getText(), nameField.getText(), "en_US");
+                    WikiDocManager.createNewModEntry(
+                            idField.getText(), nameField.getText(), "en_US");
                     dispose();
-                }
-                catch (Exception e1) {
-                    LogHelper.error("####################################################################################################################################################################################");
-                    LogHelper.error("Looks like something went wrong! Error: [" + e1.getMessage() + "]");
+                } catch (Exception e1) {
+                    LogHelper.error(
+                            "####################################################################################################################################################################################");
+                    LogHelper.error(
+                            "Looks like something went wrong! Error: [" + e1.getMessage() + "]");
                     LogHelper.error("");
                     e1.printStackTrace();
                     LogHelper.error("");
-                    LogHelper.error("####################################################################################################################################################################################");
+                    LogHelper.error(
+                            "####################################################################################################################################################################################");
                     String trace = "";
                     int lines = 0;
                     for (Object o : e1.getStackTrace()) {
@@ -138,7 +362,16 @@ public class UIAddModBranch extends JFrame implements ActionListener {
                             break;
                         }
                     }
-                    JOptionPane.showMessageDialog(this, "An exception occurred when creating the mod xml.\n\nMessage:\n" + e1.getMessage() + "\n\nTrace: (" + e1.getClass().getName() + ")\n" + trace, "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "An exception occurred when creating the mod xml.\n\nMessage:\n"
+                                    + e1.getMessage()
+                                    + "\n\nTrace: ("
+                                    + e1.getClass().getName()
+                                    + ")\n"
+                                    + trace,
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         }

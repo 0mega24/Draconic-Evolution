@@ -7,9 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by covers1624 on 29/06/2017.
- */
+/** Created by covers1624 on 29/06/2017. */
 public interface IToolModelProvider {
 
     /**
@@ -18,7 +16,6 @@ public interface IToolModelProvider {
      * @param stack The stack.
      * @return Pair of 2D model -> OBJ ResourceLocation
      */
-    @SideOnly (Side.CLIENT)
+    @SideOnly(Side.CLIENT)
     PairKV<TextureAtlasSprite, ResourceLocation> getModels(ItemStack stack);
-
 }

@@ -22,36 +22,36 @@ public class RenderTilePotentiometer extends FastTESR<TilePotentiometer> {
 
     public RenderTilePotentiometer() {
         double pxl = 1D / 16D;
-        double ls = pxl * 2.5;      //Left Side
-        double rs = pxl * 1.5;      //Right Side
-        double fe = pxl * 7;        //Front Edge
-        double be = pxl * 0;        //Back Edge
-        double bh = pxl * 3;        //Back Height
-        double fh = pxl * 0.5;      //Front Height
+        double ls = pxl * 2.5; // Left Side
+        double rs = pxl * 1.5; // Right Side
+        double fe = pxl * 7; // Front Edge
+        double be = pxl * 0; // Back Edge
+        double bh = pxl * 3; // Back Height
+        double fh = pxl * 0.5; // Front Height
         int i = 24;
 
         model = CCModel.quadModel(40);
         model.generateBlock(0, new Cuboid6(0, 0, 0, pxl * 4, pxl, pxl * 4));
 
-        //Top
+        // Top
         model.verts[i++] = new Vertex5(new Vector3(ls, bh, be), new UV(ls, be));
         model.verts[i++] = new Vertex5(new Vector3(ls, fh, fe), new UV(ls, fe));
         model.verts[i++] = new Vertex5(new Vector3(rs, fh, fe), new UV(rs, fe));
         model.verts[i++] = new Vertex5(new Vector3(rs, bh, be), new UV(rs, be));
 
-        //Left
+        // Left
         model.verts[i++] = new Vertex5(new Vector3(ls, 0, fe), new UV(0, fe));
         model.verts[i++] = new Vertex5(new Vector3(ls, 0, be), new UV(0, be));
         model.verts[i++] = new Vertex5(new Vector3(ls, bh, be), new UV(bh, be));
         model.verts[i++] = new Vertex5(new Vector3(ls, fh, fe), new UV(fh, fe));
 
-        //Right
+        // Right
         model.verts[i++] = new Vertex5(new Vector3(rs, 0, fe), new UV(0, fe));
         model.verts[i++] = new Vertex5(new Vector3(rs, 0, be), new UV(0, be));
         model.verts[i++] = new Vertex5(new Vector3(rs, bh, be), new UV(bh, be));
         model.verts[i++] = new Vertex5(new Vector3(rs, fh, fe), new UV(fh, fe));
 
-        //Back
+        // Back
         model.verts[i++] = new Vertex5(new Vector3(ls, pxl, be), new UV(ls, 0));
         model.verts[i++] = new Vertex5(new Vector3(rs, pxl, be), new UV(rs, 0));
         model.verts[i++] = new Vertex5(new Vector3(rs, bh, be), new UV(rs, bh));
@@ -62,7 +62,15 @@ public class RenderTilePotentiometer extends FastTESR<TilePotentiometer> {
     }
 
     @Override
-    public void renderTileEntityFast(TilePotentiometer te, double x, double y, double z, float partialTicks, int destroyStage, float partial, BufferBuilder buffer) {
+    public void renderTileEntityFast(
+            TilePotentiometer te,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            int destroyStage,
+            float partial,
+            BufferBuilder buffer) {
         TextureAtlasSprite stoneTex = TextureUtils.getBlockTexture("planks_oak");
         UVTransformation iconTransform = new IconTransformation(stoneTex);
         CCRenderState state = CCRenderState.instance();
@@ -73,11 +81,19 @@ public class RenderTilePotentiometer extends FastTESR<TilePotentiometer> {
 
         Matrix4 mat = new Matrix4();
         mat.apply(new Translation(x, y, z));
-        mat.apply(Rotation.sideOrientation(te.getState(DEFeatures.potentiometer).getValue(Potentiometer.FACING).getOpposite().getIndex(), 0).at(Vector3.center));
+        mat.apply(
+                Rotation.sideOrientation(
+                                te.getState(DEFeatures.potentiometer)
+                                        .getValue(Potentiometer.FACING)
+                                        .getOpposite()
+                                        .getIndex(),
+                                0)
+                        .at(Vector3.center));
         mat.apply(new Translation(6 * pxl, pxl, 6 * pxl));
-        mat.apply(new Rotation(te.POWER.value * 22.5D * -MathHelper.torad, 0, 1, 0).at(new Vector3(pxl * 2, 0, pxl * 2)));
+        mat.apply(
+                new Rotation(te.POWER.value * 22.5D * -MathHelper.torad, 0, 1, 0)
+                        .at(new Vector3(pxl * 2, 0, pxl * 2)));
 
         model.render(state, LightModel.standardLightModel, iconTransform, mat);
-
     }
 }

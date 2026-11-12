@@ -4,6 +4,8 @@ import com.brandon3055.brandonscore.handlers.IProcess;
 import com.brandon3055.brandonscore.handlers.ProcessHandler;
 import com.brandon3055.brandonscore.inventory.BlockToStackHelper;
 import com.brandon3055.brandonscore.inventory.InventoryDynamic;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,12 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 25/08/2016.
- */
+/** Created by brandon3055 on 25/08/2016. */
 public class TreeCollector {
 
     private World world;
@@ -35,7 +32,13 @@ public class TreeCollector {
     public int collected = 0;
     public int energyUsed = 0;
 
-    public TreeCollector(World world, boolean breakDown, int connectionRadius, ItemStack stack, EntityPlayer player, WyvernAxe axe) {
+    public TreeCollector(
+            World world,
+            boolean breakDown,
+            int connectionRadius,
+            ItemStack stack,
+            EntityPlayer player,
+            WyvernAxe axe) {
         this.world = world;
         this.breakDown = breakDown;
         this.connectionRadius = connectionRadius;
@@ -45,7 +48,8 @@ public class TreeCollector {
     }
 
     public void collectTree(BlockPos startPos) {
-        CollectTreeProcess process = new CollectTreeProcess(this, startPos, inventory, new ArrayList<BlockPos>());
+        CollectTreeProcess process =
+                new CollectTreeProcess(this, startPos, inventory, new ArrayList<BlockPos>());
         ProcessHandler.addProcess(process);
     }
 
@@ -83,7 +87,11 @@ public class TreeCollector {
         private int ticks = 0;
         private double randOffset = 0;
 
-        public CollectTreeProcess(TreeCollector selector, BlockPos pos, InventoryDynamic inventory, List<BlockPos> processedBlocks) {
+        public CollectTreeProcess(
+                TreeCollector selector,
+                BlockPos pos,
+                InventoryDynamic inventory,
+                List<BlockPos> processedBlocks) {
             this.collector = selector;
             this.world = selector.world;
             this.pos = pos;
@@ -109,7 +117,9 @@ public class TreeCollector {
                 return;
             }
 
-            if ((collector.axe.getEnergyStored(collector.stack) - collector.energyUsed) < collector.axe.energyPerOperation && !collector.player.capabilities.isCreativeMode) {
+            if ((collector.axe.getEnergyStored(collector.stack) - collector.energyUsed)
+                            < collector.axe.energyPerOperation
+                    && !collector.player.capabilities.isCreativeMode) {
                 isDead = true;
                 return;
             }
@@ -125,7 +135,12 @@ public class TreeCollector {
                 collector.collectionCallback.call(pos);
             }
 
-            int xp = ForgeHooks.onBlockBreakEvent(world, ((EntityPlayerMP) collector.player).interactionManager.getGameType(), (EntityPlayerMP) collector.player, pos);
+            int xp =
+                    ForgeHooks.onBlockBreakEvent(
+                            world,
+                            ((EntityPlayerMP) collector.player).interactionManager.getGameType(),
+                            (EntityPlayerMP) collector.player,
+                            pos);
             if (xp == -1) {
                 isDead = true;
                 return;
@@ -140,7 +155,10 @@ public class TreeCollector {
             collector.collected++;
 
             int rad = collector.connectionRadius;
-            Iterable<BlockPos> blocks = BlockPos.getAllInBox(pos.add(-rad, collector.breakDown ? -rad : 0, -rad), pos.add(rad, rad, rad));
+            Iterable<BlockPos> blocks =
+                    BlockPos.getAllInBox(
+                            pos.add(-rad, collector.breakDown ? -rad : 0, -rad),
+                            pos.add(rad, rad, rad));
             for (BlockPos newPos : blocks) {
 
                 if (processedBlocks.contains(newPos)) {
@@ -151,7 +169,8 @@ public class TreeCollector {
                 IBlockState newState = world.getBlockState(newPos);
 
                 if (newState.getBlock().isWood(world, newPos)) {
-                    ProcessHandler.addProcess(new CollectTreeProcess(collector, newPos, inventory, processedBlocks));
+                    ProcessHandler.addProcess(
+                            new CollectTreeProcess(collector, newPos, inventory, processedBlocks));
                 }
             }
 

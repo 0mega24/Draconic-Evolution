@@ -1,5 +1,7 @@
 package com.brandon3055.draconicevolution.items.tools;
 
+import static com.brandon3055.draconicevolution.items.ToolUpgrade.ATTACK_DAMAGE;
+
 import codechicken.lib.model.ModelRegistryHelper;
 import codechicken.lib.model.bakedmodels.OverrideListModel;
 import com.brandon3055.brandonscore.items.ItemEnergyBase;
@@ -16,6 +18,11 @@ import com.brandon3055.draconicevolution.client.model.tool.ToolOverrideList;
 import com.brandon3055.draconicevolution.entity.EntityPersistentItem;
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
 import com.google.common.collect.Multimap;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Nullable;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -43,26 +50,21 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.brandon3055.draconicevolution.items.ToolUpgrade.ATTACK_DAMAGE;
-
-/**
- * Created by brandon3055 on 2/06/2016.
- */
-public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride, IUpgradableItem, IConfigurableItem, IHudDisplay, IToolModelProvider {
+/** Created by brandon3055 on 2/06/2016. */
+public abstract class ToolBase extends ItemEnergyBase
+        implements IRenderOverride,
+                IUpgradableItem,
+                IConfigurableItem,
+                IHudDisplay,
+                IToolModelProvider {
 
     private float baseAttackDamage;
     private float baseAttackSpeed;
-    protected int energyPerOperation = 1024;//TODO Energy Cost
+    protected int energyPerOperation = 1024; // TODO Energy Cost
 
-    public ToolBase(/*double attackDamage, double attackSpeed*/) {
-//        this.baseAttackDamage = (float) attackDamage;
-//        this.baseAttackSpeed = (float) attackSpeed;
+    public ToolBase(/*double attackDamage, double attackSpeed*/ ) {
+        //        this.baseAttackDamage = (float) attackDamage;
+        //        this.baseAttackSpeed = (float) attackSpeed;
         setMaxStackSize(1);
     }
 
@@ -86,7 +88,8 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
             ItemStack uberStack = new ItemStack(this);
 
             for (String upgrade : getValidUpgrades(uberStack)) {
-                UpgradeHelper.setUpgradeLevel(uberStack, upgrade, getMaxUpgradeLevel(uberStack, upgrade));
+                UpgradeHelper.setUpgradeLevel(
+                        uberStack, upgrade, getMaxUpgradeLevel(uberStack, upgrade));
             }
 
             setEnergy(uberStack, getCapacity(uberStack));
@@ -99,7 +102,7 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
         return newStack.getItem() != oldStack.getItem();
     }
 
-    //region Basic Item
+    // region Basic Item
 
     @Override
     public int getItemEnchantability(ItemStack stack) {
@@ -121,9 +124,9 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
         return new EntityPersistentItem(world, location, itemstack);
     }
 
-    //endregion
+    // endregion
 
-    //region Config
+    // region Config
 
     @Override
     public int getProfileCount(ItemStack stack) {
@@ -133,43 +136,51 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
     protected void addEnchantConfig(ItemStack stack, ItemConfigFieldRegistry registry) {
         Map<Enchantment, Integer> enchants = getAllEnchants(stack);
         Map<Enchantment, Integer> disEnchants = getDisabledEnchants(stack);
-        enchants.forEach((enchantment, integer) -> {
-            ToolConfigHelper.getFieldStorage(stack).removeTag(enchantment.getName());
-            registry.registerOverridden(stack, new BooleanConfigField(enchantment.getRegistryName() + "", !disEnchants.containsKey(enchantment), "config.field.toggleEnchant.description"){
-                @Override
-                public String getUnlocalizedName() {
-                    return enchantment.getTranslatedName(integer);
-                }
+        enchants.forEach(
+                (enchantment, integer) -> {
+                    ToolConfigHelper.getFieldStorage(stack).removeTag(enchantment.getName());
+                    registry.registerOverridden(
+                            stack,
+                            new BooleanConfigField(
+                                    enchantment.getRegistryName() + "",
+                                    !disEnchants.containsKey(enchantment),
+                                    "config.field.toggleEnchant.description") {
+                                @Override
+                                public String getUnlocalizedName() {
+                                    return enchantment.getTranslatedName(integer);
+                                }
 
-                @Override
-                public void readFromNBT(NBTTagCompound compound) {
-                    super.readFromNBT(compound);
-                }
+                                @Override
+                                public void readFromNBT(NBTTagCompound compound) {
+                                    super.readFromNBT(compound);
+                                }
 
-                @Override
-                public void writeToNBT(NBTTagCompound compound) {
-                    super.writeToNBT(compound);
-                }
+                                @Override
+                                public void writeToNBT(NBTTagCompound compound) {
+                                    super.writeToNBT(compound);
+                                }
 
-                @Override
-                public Integer getValue() {
-//                    return EnchantmentHelper.getEnchantments(stack).containsKey(enchantment) ? 1 : 0;
-                    return super.getValue();
-                }
+                                @Override
+                                public Integer getValue() {
+                                    //                    return
+                                    // EnchantmentHelper.getEnchantments(stack).containsKey(enchantment) ? 1 : 0;
+                                    return super.getValue();
+                                }
 
-                @Override
-                public String getReadableValue() {
-                    return super.getReadableValue();
-                }
-            });
-        });
+                                @Override
+                                public String getReadableValue() {
+                                    return super.getReadableValue();
+                                }
+                            });
+                });
     }
 
     public Map<Enchantment, Integer> getDisabledEnchants(ItemStack stack) {
         NBTTagList list = ItemNBTHelper.getCompound(stack).getTagList("disableEnchants", 10);
         Map<Enchantment, Integer> disEnch = new HashMap<>();
         for (int i = 0; i < list.tagCount(); i++) {
-            Enchantment enchantment = Enchantment.getEnchantmentByID(list.getCompoundTagAt(i).getShort("id"));
+            Enchantment enchantment =
+                    Enchantment.getEnchantmentByID(list.getCompoundTagAt(i).getShort("id"));
             int level = list.getCompoundTagAt(i).getShort("lvl");
             disEnch.put(enchantment, level);
         }
@@ -185,14 +196,17 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
 
     @Override
     public void onFieldChanged(ItemStack stack, IItemConfigField field) {
-        if (field instanceof BooleanConfigField && field.getDescription().equals("config.field.toggleEnchant.description")) {
-            Enchantment target = Enchantment.REGISTRY.getObject(new ResourceLocation(field.getName()));
+        if (field instanceof BooleanConfigField
+                && field.getDescription().equals("config.field.toggleEnchant.description")) {
+            Enchantment target =
+                    Enchantment.REGISTRY.getObject(new ResourceLocation(field.getName()));
 
             if (EnchantmentHelper.getEnchantments(stack).containsKey(target)) {
                 Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
                 for (Enchantment enchantment : enchants.keySet()) {
                     if (enchantment == target) {
-                        NBTTagList list = ItemNBTHelper.getCompound(stack).getTagList("disableEnchants", 10);
+                        NBTTagList list =
+                                ItemNBTHelper.getCompound(stack).getTagList("disableEnchants", 10);
                         NBTTagCompound ench = new NBTTagCompound();
                         ench.setShort("id", (short) Enchantment.getEnchantmentID(enchantment));
                         ench.setShort("lvl", enchants.get(enchantment).shortValue());
@@ -205,14 +219,16 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
                         return;
                     }
                 }
-            }
-            else {
+            } else {
                 Map<Enchantment, Integer> enchants = getDisabledEnchants(stack);
                 for (Enchantment enchantment : enchants.keySet()) {
                     if (enchantment == target) {
-                        NBTTagList list = ItemNBTHelper.getCompound(stack).getTagList("disableEnchants", 10);
+                        NBTTagList list =
+                                ItemNBTHelper.getCompound(stack).getTagList("disableEnchants", 10);
                         for (int i = 0; i < list.tagCount(); i++) {
-                            Enchantment e = Enchantment.getEnchantmentByID(list.getCompoundTagAt(i).getShort("id"));
+                            Enchantment e =
+                                    Enchantment.getEnchantmentByID(
+                                            list.getCompoundTagAt(i).getShort("id"));
                             if (e == enchantment) {
                                 list.removeTag(i);
                                 break;
@@ -226,44 +242,51 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
                 }
             }
 
-
-//            if (((BooleanConfigField) field).getValue() == 0) {
-//                Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
-//                for (Enchantment enchantment : enchants.keySet()) {
-//                    if (enchantment.getName().equals(target)) {
-//                        NBTTagList list = ItemNBTHelper.getCompound(stack).getTagList("disableEnchants", 10);
-//                        NBTTagCompound ench = new NBTTagCompound();
-//                        ench.setShort("id", (short) Enchantment.getEnchantmentID(enchantment));
-//                        ench.setShort("lvl", enchants.get(enchantment).shortValue());
-//                        list.appendTag(ench);
-//                        ItemNBTHelper.getCompound(stack).setTag("disableEnchants", list);
-//                        enchants.remove(enchantment);
-//                        EnchantmentHelper.setEnchantments(enchants, stack);
-//
-//                        ToolConfigHelper.getFieldStorage(stack).setBoolean(field.getName(), false);
-//                        return;
-//                    }
-//                }
-//            }
-//            else {
-//                Map<Enchantment, Integer> enchants = getDisabledEnchants(stack);
-//                for (Enchantment enchantment : enchants.keySet()) {
-//                    if (enchantment.getName().equals(target)) {
-//                        NBTTagList list = ItemNBTHelper.getCompound(stack).getTagList("disableEnchants", 10);
-//                        for (int i = 0; i < list.tagCount(); i++) {
-//                            Enchantment e = Enchantment.getEnchantmentByID(list.getCompoundTagAt(i).getShort("id"));
-//                            if (e == enchantment) {
-//                                list.removeTag(i);
-//                                break;
-//                            }
-//                        }
-//
-//                        stack.addEnchantment(enchantment, enchants.get(enchantment));
-//                        ToolConfigHelper.getFieldStorage(stack).setBoolean(field.getName(), true);
-//                        return;
-//                    }
-//                }
-//            }
+            //            if (((BooleanConfigField) field).getValue() == 0) {
+            //                Map<Enchantment, Integer> enchants =
+            // EnchantmentHelper.getEnchantments(stack);
+            //                for (Enchantment enchantment : enchants.keySet()) {
+            //                    if (enchantment.getName().equals(target)) {
+            //                        NBTTagList list =
+            // ItemNBTHelper.getCompound(stack).getTagList("disableEnchants", 10);
+            //                        NBTTagCompound ench = new NBTTagCompound();
+            //                        ench.setShort("id", (short)
+            // Enchantment.getEnchantmentID(enchantment));
+            //                        ench.setShort("lvl", enchants.get(enchantment).shortValue());
+            //                        list.appendTag(ench);
+            //                        ItemNBTHelper.getCompound(stack).setTag("disableEnchants",
+            // list);
+            //                        enchants.remove(enchantment);
+            //                        EnchantmentHelper.setEnchantments(enchants, stack);
+            //
+            //
+            // ToolConfigHelper.getFieldStorage(stack).setBoolean(field.getName(), false);
+            //                        return;
+            //                    }
+            //                }
+            //            }
+            //            else {
+            //                Map<Enchantment, Integer> enchants = getDisabledEnchants(stack);
+            //                for (Enchantment enchantment : enchants.keySet()) {
+            //                    if (enchantment.getName().equals(target)) {
+            //                        NBTTagList list =
+            // ItemNBTHelper.getCompound(stack).getTagList("disableEnchants", 10);
+            //                        for (int i = 0; i < list.tagCount(); i++) {
+            //                            Enchantment e =
+            // Enchantment.getEnchantmentByID(list.getCompoundTagAt(i).getShort("id"));
+            //                            if (e == enchantment) {
+            //                                list.removeTag(i);
+            //                                break;
+            //                            }
+            //                        }
+            //
+            //                        stack.addEnchantment(enchantment, enchants.get(enchantment));
+            //
+            // ToolConfigHelper.getFieldStorage(stack).setBoolean(field.getName(), true);
+            //                        return;
+            //                    }
+            //                }
+            //            }
         }
     }
 
@@ -272,15 +295,17 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
         return !getDisabledEnchants(stack).containsKey(enchantment);
     }
 
-    //endregion
+    // endregion
 
-    //region Upgrade
+    // region Upgrade
 
     @Override
     public List<String> getValidUpgrades(ItemStack stack) {
-        return new ArrayList<String>() {{
-            add(ToolUpgrade.RF_CAPACITY);
-        }};
+        return new ArrayList<String>() {
+            {
+                add(ToolUpgrade.RF_CAPACITY);
+            }
+        };
     }
 
     @Override
@@ -288,14 +313,23 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World playerIn, List<String> tooltip, ITooltipFlag advanced) {
+    public void addInformation(
+            ItemStack stack,
+            @Nullable World playerIn,
+            List<String> tooltip,
+            ITooltipFlag advanced) {
         holdCTRLForUpgrades(tooltip, stack);
         super.addInformation(stack, playerIn, tooltip, advanced);
     }
 
     public static void holdCTRLForUpgrades(List<String> list, ItemStack stack) {
         if (!(stack.getItem() instanceof IUpgradableItem)) return;
-        if (!InfoHelper.isCtrlKeyDown()) list.add(I18n.format("upgrade.de.holdCtrlForUpgrades.info", TextFormatting.AQUA + "" + TextFormatting.ITALIC, TextFormatting.RESET + "" + TextFormatting.GRAY));
+        if (!InfoHelper.isCtrlKeyDown())
+            list.add(
+                    I18n.format(
+                            "upgrade.de.holdCtrlForUpgrades.info",
+                            TextFormatting.AQUA + "" + TextFormatting.ITALIC,
+                            TextFormatting.RESET + "" + TextFormatting.GRAY));
         else {
             list.add(TextFormatting.GOLD + I18n.format("upgrade.de.upgrades.info"));
             list.addAll(UpgradeHelper.getUpgradeStats(stack));
@@ -308,43 +342,68 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
 
         if (level == 0) {
             return super.getCapacity(stack);
-        }
-        else {
+        } else {
             return super.getCapacity(stack) * (int) Math.pow(2, level + 1);
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Custom Item Rendering
+    // region Custom Item Rendering
 
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ModelResourceLocation modelLocation = new ModelResourceLocation("draconicevolution:" + feature.getName(), "inventory");
+        ModelResourceLocation modelLocation =
+                new ModelResourceLocation("draconicevolution:" + feature.getName(), "inventory");
         ModelLoader.setCustomModelResourceLocation(this, 0, modelLocation);
         ModelLoader.setCustomMeshDefinition(this, stack -> modelLocation);
         ModelRegistryHelper.register(modelLocation, new OverrideListModel(new ToolOverrideList()));
     }
 
-    //endregion
+    // endregion
 
-    //region Attack
+    // region Attack
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-        if (this instanceof IAOEWeapon && player.getCooledAttackStrength(0.5F) >= 0.95F && ((IAOEWeapon) this).getWeaponAOE(stack) > 0) {
+        if (this instanceof IAOEWeapon
+                && player.getCooledAttackStrength(0.5F) >= 0.95F
+                && ((IAOEWeapon) this).getWeaponAOE(stack) > 0) {
 
-            List<EntityLivingBase> entities = player.world.getEntitiesWithinAABB(EntityLivingBase.class, entity.getEntityBoundingBox().grow(((IAOEWeapon) this).getWeaponAOE(stack), 0.25D, ((IAOEWeapon) this).getWeaponAOE(stack)));
+            List<EntityLivingBase> entities =
+                    player.world.getEntitiesWithinAABB(
+                            EntityLivingBase.class,
+                            entity.getEntityBoundingBox()
+                                    .grow(
+                                            ((IAOEWeapon) this).getWeaponAOE(stack),
+                                            0.25D,
+                                            ((IAOEWeapon) this).getWeaponAOE(stack)));
 
             for (EntityLivingBase aoeEntity : entities) {
-                if (aoeEntity != player && aoeEntity != entity && !player.isOnSameTeam(entity) && extractAttackEnergy(stack, aoeEntity, player)) {
-                    aoeEntity.knockBack(player, 0.4F, (double) MathHelper.sin(player.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
-                    aoeEntity.attackEntityFrom(DamageSource.causePlayerDamage(player), getAttackDamage(stack));
+                if (aoeEntity != player
+                        && aoeEntity != entity
+                        && !player.isOnSameTeam(entity)
+                        && extractAttackEnergy(stack, aoeEntity, player)) {
+                    aoeEntity.knockBack(
+                            player,
+                            0.4F,
+                            (double) MathHelper.sin(player.rotationYaw * 0.017453292F),
+                            (double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+                    aoeEntity.attackEntityFrom(
+                            DamageSource.causePlayerDamage(player), getAttackDamage(stack));
                 }
             }
 
-            player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
+            player.world.playSound(
+                    null,
+                    player.posX,
+                    player.posY,
+                    player.posZ,
+                    SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,
+                    player.getSoundCategory(),
+                    1.0F,
+                    1.0F);
             player.spawnSweepParticles();
         }
 
@@ -361,7 +420,10 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
     }
 
     public float getAttackDamage(ItemStack stack) {
-        float damage = baseAttackDamage + (UpgradeHelper.getUpgradeLevel(stack, ATTACK_DAMAGE) * (baseAttackDamage / 4F));
+        float damage =
+                baseAttackDamage
+                        + (UpgradeHelper.getUpgradeLevel(stack, ATTACK_DAMAGE)
+                                * (baseAttackDamage / 4F));
         if (getEnergyStored(stack) < energyPerOperation) {
             damage /= 10;
         }
@@ -373,36 +435,62 @@ public abstract class ToolBase extends ItemEnergyBase implements IRenderOverride
     }
 
     @Override
-    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot equipmentSlot, ItemStack stack) {
-        Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(equipmentSlot, stack);
+    public Multimap<String, AttributeModifier> getAttributeModifiers(
+            EntityEquipmentSlot equipmentSlot, ItemStack stack) {
+        Multimap<String, AttributeModifier> multimap =
+                super.getAttributeModifiers(equipmentSlot, stack);
 
         if (equipmentSlot == EntityEquipmentSlot.MAINHAND) {
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) getAttackDamage(stack) - 1, 0));
-            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", (double) getAttackSpeed(stack), 0));
+            multimap.put(
+                    SharedMonsterAttributes.ATTACK_DAMAGE.getName(),
+                    new AttributeModifier(
+                            ATTACK_DAMAGE_MODIFIER,
+                            "Weapon modifier",
+                            (double) getAttackDamage(stack) - 1,
+                            0));
+            multimap.put(
+                    SharedMonsterAttributes.ATTACK_SPEED.getName(),
+                    new AttributeModifier(
+                            ATTACK_SPEED_MODIFIER,
+                            "Weapon modifier",
+                            (double) getAttackSpeed(stack),
+                            0));
         }
 
         return multimap;
     }
 
-    //endregion
+    // endregion
 
-    //region Helpers
+    // region Helpers
 
     public abstract int getToolTier(ItemStack stack);
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void addDisplayData(@Nullable ItemStack stack, World world, @Nullable BlockPos pos, List<String> displayList) {
+    public void addDisplayData(
+            @Nullable ItemStack stack,
+            World world,
+            @Nullable BlockPos pos,
+            List<String> displayList) {
         ItemConfigFieldRegistry registry = new ItemConfigFieldRegistry();
         getFields(stack, registry);
 
-        displayList.add(TextFormatting.DARK_PURPLE + ToolConfigHelper.getProfileName(stack, ToolConfigHelper.getProfile(stack)));
+        displayList.add(
+                TextFormatting.DARK_PURPLE
+                        + ToolConfigHelper.getProfileName(
+                                stack, ToolConfigHelper.getProfile(stack)));
 
         for (IItemConfigField field : registry.getFields()) {
             if (field instanceof ExternalConfigField) continue;
-            displayList.add(InfoHelper.ITC() + I18n.format(field.getUnlocalizedName()) + ": " + InfoHelper.HITC() + field.getReadableValue());
+            displayList.add(
+                    InfoHelper.ITC()
+                            + I18n.format(field.getUnlocalizedName())
+                            + ": "
+                            + InfoHelper.HITC()
+                            + field.getReadableValue());
         }
     }
 
-    //endregion
+    // endregion
 }

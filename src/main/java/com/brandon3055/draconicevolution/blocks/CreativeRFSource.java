@@ -6,9 +6,7 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-/**
- * Created by brandon3055 on 19/07/2016.
- */
+/** Created by brandon3055 on 19/07/2016. */
 public class CreativeRFSource extends BlockBCore implements ITileEntityProvider {
 
     @Override

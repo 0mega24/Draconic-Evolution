@@ -10,8 +10,8 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 
 /**
- * Created by brandon3055 on 22/3/2016.
- * This class will handle all ore dictionary entries for DE along with some other stuff
+ * Created by brandon3055 on 22/3/2016. This class will handle all ore dictionary entries for DE
+ * along with some other stuff
  */
 public class OreHandler {
 
@@ -43,7 +43,8 @@ public class OreHandler {
         }
 
         if (ModFeatureParser.isEnabled(DEFeatures.draconicBlock)) {
-            OreDictionary.registerOre("blockDraconiumAwakened", new ItemStack(DEFeatures.draconicBlock));
+            OreDictionary.registerOre(
+                    "blockDraconiumAwakened", new ItemStack(DEFeatures.draconicBlock));
         }
 
         if (ModFeatureParser.isEnabled(DEFeatures.draconiumIngot)) {
@@ -60,7 +61,8 @@ public class OreHandler {
 
         if (ModFeatureParser.isEnabled(DEFeatures.nugget)) {
             OreDictionary.registerOre("nuggetDraconium", new ItemStack(DEFeatures.nugget, 1, 0));
-            OreDictionary.registerOre("nuggetDraconiumAwakened", new ItemStack(DEFeatures.nugget, 1, 1));
+            OreDictionary.registerOre(
+                    "nuggetDraconiumAwakened", new ItemStack(DEFeatures.nugget, 1, 1));
         }
     }
 }

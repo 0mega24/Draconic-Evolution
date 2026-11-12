@@ -5,8 +5,6 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.player.EntityPlayer;
-
 
 public class ModelWyvernArmor extends ModelBiped {
 
@@ -21,43 +19,83 @@ public class ModelWyvernArmor extends ModelBiped {
     public ModelRenderOBJ rightBoot;
     public ModelRenderOBJ leftBoot;
 
-    public ModelWyvernArmor(float modelSize, boolean isHelmet, boolean isChestPiece, boolean isLeggings, boolean isdBoots) {
+    public ModelWyvernArmor(
+            float modelSize,
+            boolean isHelmet,
+            boolean isChestPiece,
+            boolean isLeggings,
+            boolean isdBoots) {
         super(modelSize);
 
-//        this.bipedHead = new ModelRenderer(this, 0, 0);
-//        this.bipedHead.setRotationPoint(0.0F, 0.0F, 0.0F);
-//        this.bipedHead.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, 0.0F);
-//
-//        this.bipedBody = new ModelRenderer(this, 16, 16);
-//        this.bipedBody.setRotationPoint(0.0F, 0.0F, 0.0F);
-//        this.bipedBody.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, 0.0F);
-//
-//        this.bipedLeftArm = new ModelRenderer(this, 40, 16);
-//        this.bipedLeftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
-//        this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, 0.0F);
-//
-//        this.bipedRightArm = new ModelRenderer(this, 40, 16);
-//        this.bipedRightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
-//        this.bipedRightArm.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, 0.0F);
-//
-//        this.bipedLeftLeg = new ModelRenderer(this, 0, 16);
-//        this.bipedLeftLeg.setRotationPoint(2.0F, 12.0F, 0.0F);
-//        this.bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.0F);
-//
-//        this.bipedRightLeg = new ModelRenderer(this, 0, 16);
-//        this.bipedRightLeg.setRotationPoint(-2.0F, 12.0F, 0.0F);
-//        this.bipedRightLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.0F);
+        //        this.bipedHead = new ModelRenderer(this, 0, 0);
+        //        this.bipedHead.setRotationPoint(0.0F, 0.0F, 0.0F);
+        //        this.bipedHead.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, 0.0F);
+        //
+        //        this.bipedBody = new ModelRenderer(this, 16, 16);
+        //        this.bipedBody.setRotationPoint(0.0F, 0.0F, 0.0F);
+        //        this.bipedBody.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, 0.0F);
+        //
+        //        this.bipedLeftArm = new ModelRenderer(this, 40, 16);
+        //        this.bipedLeftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
+        //        this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, 0.0F);
+        //
+        //        this.bipedRightArm = new ModelRenderer(this, 40, 16);
+        //        this.bipedRightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
+        //        this.bipedRightArm.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, 0.0F);
+        //
+        //        this.bipedLeftLeg = new ModelRenderer(this, 0, 16);
+        //        this.bipedLeftLeg.setRotationPoint(2.0F, 12.0F, 0.0F);
+        //        this.bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.0F);
+        //
+        //        this.bipedRightLeg = new ModelRenderer(this, 0, 16);
+        //        this.bipedRightLeg.setRotationPoint(-2.0F, 12.0F, 0.0F);
+        //        this.bipedRightLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.0F);
 
-
-        this.head = new ModelRenderOBJ(this, ResourceHelperDE.getResource("models/armor/wyvern_helmet.obj"), ResourceHelperDE.getResource("models/armor/Wyvern_helmet"));
-        this.body = new ModelRenderOBJ(this, ResourceHelperDE.getResource("models/armor/wyvern_body.obj"), ResourceHelperDE.getResource("models/armor/wyvern_body"));
-        this.rightArm = new ModelRenderOBJ(this, ResourceHelperDE.getResource("models/armor/wyvern_right_arm.obj"), ResourceHelperDE.getResource("models/armor/wyvern_right_arm"));
-        this.leftArm = new ModelRenderOBJ(this, ResourceHelperDE.getResource("models/armor/wyvern_left_arm.obj"), ResourceHelperDE.getResource("models/armor/wyvern_left_arm"));
-        this.belt = new ModelRenderOBJ(this, ResourceHelperDE.getResource("models/armor/wyvern_belt.obj"), ResourceHelperDE.getResource("models/armor/wyvern_belt"));
-        this.rightLeg = new ModelRenderOBJ(this, ResourceHelperDE.getResource("models/armor/wyvern_right_leg.obj"), ResourceHelperDE.getResource("models/armor/wyvern_right_leg"));
-        this.leftLeg = new ModelRenderOBJ(this, ResourceHelperDE.getResource("models/armor/wyvern_left_leg.obj"), ResourceHelperDE.getResource("models/armor/wyvern_left_leg"));
-        this.rightBoot = new ModelRenderOBJ(this, ResourceHelperDE.getResource("models/armor/wyvern_right_boot.obj"), ResourceHelperDE.getResource("models/armor/wyvern_right_boot"));
-        this.leftBoot = new ModelRenderOBJ(this, ResourceHelperDE.getResource("models/armor/wyvern_left_boot.obj"), ResourceHelperDE.getResource("models/armor/wyvern_left_boot"));
+        this.head =
+                new ModelRenderOBJ(
+                        this,
+                        ResourceHelperDE.getResource("models/armor/wyvern_helmet.obj"),
+                        ResourceHelperDE.getResource("models/armor/Wyvern_helmet"));
+        this.body =
+                new ModelRenderOBJ(
+                        this,
+                        ResourceHelperDE.getResource("models/armor/wyvern_body.obj"),
+                        ResourceHelperDE.getResource("models/armor/wyvern_body"));
+        this.rightArm =
+                new ModelRenderOBJ(
+                        this,
+                        ResourceHelperDE.getResource("models/armor/wyvern_right_arm.obj"),
+                        ResourceHelperDE.getResource("models/armor/wyvern_right_arm"));
+        this.leftArm =
+                new ModelRenderOBJ(
+                        this,
+                        ResourceHelperDE.getResource("models/armor/wyvern_left_arm.obj"),
+                        ResourceHelperDE.getResource("models/armor/wyvern_left_arm"));
+        this.belt =
+                new ModelRenderOBJ(
+                        this,
+                        ResourceHelperDE.getResource("models/armor/wyvern_belt.obj"),
+                        ResourceHelperDE.getResource("models/armor/wyvern_belt"));
+        this.rightLeg =
+                new ModelRenderOBJ(
+                        this,
+                        ResourceHelperDE.getResource("models/armor/wyvern_right_leg.obj"),
+                        ResourceHelperDE.getResource("models/armor/wyvern_right_leg"));
+        this.leftLeg =
+                new ModelRenderOBJ(
+                        this,
+                        ResourceHelperDE.getResource("models/armor/wyvern_left_leg.obj"),
+                        ResourceHelperDE.getResource("models/armor/wyvern_left_leg"));
+        this.rightBoot =
+                new ModelRenderOBJ(
+                        this,
+                        ResourceHelperDE.getResource("models/armor/wyvern_right_boot.obj"),
+                        ResourceHelperDE.getResource("models/armor/wyvern_right_boot"));
+        this.leftBoot =
+                new ModelRenderOBJ(
+                        this,
+                        ResourceHelperDE.getResource("models/armor/wyvern_left_boot.obj"),
+                        ResourceHelperDE.getResource("models/armor/wyvern_left_boot"));
 
         this.bipedHead.cubeList.clear();
         this.bipedHeadwear.cubeList.clear();
@@ -75,17 +113,17 @@ public class ModelWyvernArmor extends ModelBiped {
         body.offsetY = 0.755F;
         body.offsetZ = -0.03F;
         rightArm.offsetY = 0.72F;
-        rightArm.offsetX = -0.21F; //rightArm.offsetX = -0.18F;
+        rightArm.offsetX = -0.21F; // rightArm.offsetX = -0.18F;
         rightArm.offsetZ = 0.F;
         leftArm.offsetY = 0.72F;
-        leftArm.offsetX = 0.21F; //leftArm.offsetX = 0.18F;
+        leftArm.offsetX = 0.21F; // leftArm.offsetX = 0.18F;
         leftArm.offsetZ = 0F;
         belt.offsetY = 0.756F;
         belt.offsetZ = -0.04F;
         rightLeg.offsetY = 0.6F;
-        rightLeg.offsetX = -0.085F; //rightLeg.offsetX = -0.06F;
+        rightLeg.offsetX = -0.085F; // rightLeg.offsetX = -0.06F;
         leftLeg.offsetY = 0.6F;
-        leftLeg.offsetX = 0.085F; //leftLeg.offsetX = 0.06F;
+        leftLeg.offsetX = 0.085F; // leftLeg.offsetX = 0.06F;
         rightBoot.offsetY = 0.76F;
         rightBoot.offsetX = -0.03F;
         leftBoot.offsetY = 0.76F;
@@ -116,17 +154,23 @@ public class ModelWyvernArmor extends ModelBiped {
             this.bipedLeftLeg.addChild(leftBoot);
             this.bipedRightLeg.addChild(rightBoot);
         }
-
     }
 
     @Override
-    public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void render(
+            Entity entity,
+            float limbSwing,
+            float limbSwingAmount,
+            float ageInTicks,
+            float netHeadYaw,
+            float headPitch,
+            float scale) {
 
         if (entity == null || entity instanceof EntityArmorStand) {
             isSneak = false;
             isRiding = false;
             isChild = false;
-            //aimedBow = false;
+            // aimedBow = false;
 
             this.bipedRightArm.rotateAngleX = 0F;
             this.bipedRightArm.rotateAngleY = 0F;
@@ -152,17 +196,17 @@ public class ModelWyvernArmor extends ModelBiped {
             bipedRightLeg.rotateAngleZ = 0F;
 
             setRotationAngles(0, 0, 0, 0, 0, 0, null);
-        }
-        else {
-            //super.render(entity, f, f1, f2, f3, f4, f5);
-            super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
+        } else {
+            // super.render(entity, f, f1, f2, f3, f4, f5);
+            super.setRotationAngles(
+                    limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
         }
 
         GlStateManager.pushMatrix();
 
-//        if (entityModel != null && !(entity instanceof EntityPlayer)) {
-//            ModelDraconicArmor.applyModelRotations(entityModel, this);
-//        }
+        //        if (entityModel != null && !(entity instanceof EntityPlayer)) {
+        //            ModelDraconicArmor.applyModelRotations(entityModel, this);
+        //        }
 
         if (this.isChild) {
             float f = 2.0F;
@@ -193,10 +237,16 @@ public class ModelWyvernArmor extends ModelBiped {
         }
 
         GlStateManager.popMatrix();
-
     }
 
-    public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float scale, Entity p_78087_7_) {
+    public void setRotationAngles(
+            float p_78087_1_,
+            float p_78087_2_,
+            float p_78087_3_,
+            float p_78087_4_,
+            float p_78087_5_,
+            float scale,
+            Entity p_78087_7_) {
         this.bipedRightArm.rotateAngleZ = 0.0F;
         this.bipedLeftArm.rotateAngleZ = 0.0F;
         this.bipedRightArm.rotationPointZ = 0.0F;

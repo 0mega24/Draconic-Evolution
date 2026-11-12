@@ -8,9 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 
-/**
- * Created by brandon3055 on 17/07/2016.
- */
+/** Created by brandon3055 on 17/07/2016. */
 public class ParticlePortal extends BCParticle {
 
     public Vec3D target;
@@ -27,7 +25,10 @@ public class ParticlePortal extends BCParticle {
         this.motionZ = (target.z - start.z) * speed;
         this.particleMaxAge = 120;
         this.particleRed = this.particleGreen = this.particleBlue = 1.0f;
-        float baseSize = 0.05F + ((float) Minecraft.getMinecraft().player.getDistance(pos.x, pos.y, pos.z)) * 0.007F;
+        float baseSize =
+                0.05F
+                        + ((float) Minecraft.getMinecraft().player.getDistance(pos.x, pos.y, pos.z))
+                                * 0.007F;
         this.baseScale = baseSize + (rand.nextFloat() * (baseSize * 2F));
         this.particleScale = 0;
         texturesPerRow = 8F;
@@ -56,7 +57,8 @@ public class ParticlePortal extends BCParticle {
     public static class Factory implements IBCParticleFactory {
 
         @Override
-        public Particle getEntityFX(int particleID, World world, Vec3D pos, Vec3D speed, int... args) {
+        public Particle getEntityFX(
+                int particleID, World world, Vec3D pos, Vec3D speed, int... args) {
             return new ParticlePortal(world, pos, speed);
         }
     }

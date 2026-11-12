@@ -18,19 +18,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-/**
- * Created by brandon3055 on 16/07/2016.
- */
+/** Created by brandon3055 on 16/07/2016. */
 public class DislocatorReceptacle extends BlockBCore implements ITileEntityProvider {
 
     public static final PropertyBool ACTIVE = PropertyBool.create("active");
     public static final PropertyBool CAMO = PropertyBool.create("camo");
 
     public DislocatorReceptacle() {
-        this.setDefaultState(blockState.getBaseState().withProperty(ACTIVE, false).withProperty(CAMO, false));
+        this.setDefaultState(
+                blockState.getBaseState().withProperty(ACTIVE, false).withProperty(CAMO, false));
     }
 
-    //region Block state and tile creation
+    // region Block state and tile creation
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
@@ -55,21 +54,35 @@ public class DislocatorReceptacle extends BlockBCore implements ITileEntityProvi
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tile = worldIn.getTileEntity(pos);
-        return state.withProperty(CAMO, tile instanceof TileDislocatorReceptacle && ((TileDislocatorReceptacle) tile).CAMO.value);
+        return state.withProperty(
+                CAMO,
+                tile instanceof TileDislocatorReceptacle
+                        && ((TileDislocatorReceptacle) tile).CAMO.value);
     }
 
-    //endregion
+    // endregion
 
-    //region Fun stuff
+    // region Fun stuff
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World worldIn,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer playerIn,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         TileEntity tile = worldIn.getTileEntity(pos);
 
         if (tile instanceof TileDislocatorReceptacle) {
             ItemStack stack = playerIn.getHeldItem(hand);
-            if (stack.getItem() instanceof ItemBlock && ((ItemBlock) stack.getItem()).getBlock() == DEFeatures.infusedObsidian) {
-                ((TileDislocatorReceptacle) tile).CAMO.value = !((TileDislocatorReceptacle) tile).CAMO.value;
+            if (stack.getItem() instanceof ItemBlock
+                    && ((ItemBlock) stack.getItem()).getBlock() == DEFeatures.infusedObsidian) {
+                ((TileDislocatorReceptacle) tile).CAMO.value =
+                        !((TileDislocatorReceptacle) tile).CAMO.value;
                 ((TileDislocatorReceptacle) tile).updateBlock();
                 return true;
             }
@@ -101,7 +114,8 @@ public class DislocatorReceptacle extends BlockBCore implements ITileEntityProvi
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    public void neighborChanged(
+            IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
         TileEntity t = world.getTileEntity(pos);
 
         if (t instanceof TileDislocatorReceptacle) {
@@ -112,8 +126,7 @@ public class DislocatorReceptacle extends BlockBCore implements ITileEntityProvi
             if (!powered && tile.LT_REDSTONE.value) {
                 tile.LT_REDSTONE.value = false;
                 tile.deactivate();
-            }
-            else if (powered && !tile.LT_REDSTONE.value) {
+            } else if (powered && !tile.LT_REDSTONE.value) {
                 tile.LT_REDSTONE.value = true;
                 tile.updateBlock();
                 if (!tile.ACTIVE.value) {
@@ -123,5 +136,5 @@ public class DislocatorReceptacle extends BlockBCore implements ITileEntityProvi
         }
     }
 
-    //endregion
+    // endregion
 }

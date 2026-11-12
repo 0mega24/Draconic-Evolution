@@ -24,9 +24,7 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 11/06/2016.
- */
+/** Created by brandon3055 on 11/06/2016. */
 public class FusionCraftingCore extends BlockBCore implements IRenderOverride, ITileEntityProvider {
 
     public FusionCraftingCore() {
@@ -44,7 +42,16 @@ public class FusionCraftingCore extends BlockBCore implements IRenderOverride, I
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer player,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileFusionCraftingCore) {
@@ -52,7 +59,14 @@ public class FusionCraftingCore extends BlockBCore implements IRenderOverride, I
         }
 
         if (!world.isRemote) {
-            FMLNetworkHandler.openGui(player, DraconicEvolution.instance, GuiHandler.GUIID_FUSION_CRAFTING, world, pos.getX(), pos.getY(), pos.getZ());
+            FMLNetworkHandler.openGui(
+                    player,
+                    DraconicEvolution.instance,
+                    GuiHandler.GUIID_FUSION_CRAFTING,
+                    world,
+                    pos.getX(),
+                    pos.getY(),
+                    pos.getZ());
         }
         return true;
     }
@@ -60,7 +74,8 @@ public class FusionCraftingCore extends BlockBCore implements IRenderOverride, I
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileFusionCraftingCore.class, new RenderTileFusionCraftingCore());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileFusionCraftingCore.class, new RenderTileFusionCraftingCore());
     }
 
     @Override
@@ -74,7 +89,8 @@ public class FusionCraftingCore extends BlockBCore implements IRenderOverride, I
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    public void neighborChanged(
+            IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
         if (!world.isRemote) {
             if (world.isBlockPowered(pos)) {
                 TileEntity tile = world.getTileEntity(pos);

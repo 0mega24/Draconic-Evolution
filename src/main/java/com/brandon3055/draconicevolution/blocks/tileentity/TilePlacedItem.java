@@ -14,6 +14,9 @@ import com.brandon3055.draconicevolution.integration.ModHelper;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -30,33 +33,48 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 25/07/2016.
- */
+/** Created by brandon3055 on 25/07/2016. */
 public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
 
-    public final ManagedByte displayCount = register("displayCount", new ManagedByte(1)).saveToTile().syncViaTile().trigerUpdate().finish();
-    public final ManagedBool toolDisplay = register("toolDisplay", new ManagedBool(false)).saveToTile().syncViaTile().trigerUpdate().finish();
-    public final ManagedBool altRenderMode = register("altRenderMode", new ManagedBool(false)).saveToTile().syncViaTile().trigerUpdate().finish();
+    public final ManagedByte displayCount =
+            register("displayCount", new ManagedByte(1))
+                    .saveToTile()
+                    .syncViaTile()
+                    .trigerUpdate()
+                    .finish();
+    public final ManagedBool toolDisplay =
+            register("toolDisplay", new ManagedBool(false))
+                    .saveToTile()
+                    .syncViaTile()
+                    .trigerUpdate()
+                    .finish();
+    public final ManagedBool altRenderMode =
+            register("altRenderMode", new ManagedBool(false))
+                    .saveToTile()
+                    .syncViaTile()
+                    .trigerUpdate()
+                    .finish();
     public final ManagedByte[] rotation = new ManagedByte[4];
     public EnumFacing facing = EnumFacing.NORTH;
-    private boolean[] isBlock = new boolean[]{false, false, false, false};
+    private boolean[] isBlock = new boolean[] {false, false, false, false};
     public PlacedItemInventory inventory = new PlacedItemInventory(this);
 
     public TilePlacedItem() {
         for (int i = 0; i < rotation.length; i++) {
-            rotation[i] = register("rotation" + i, new ManagedByte(0)).saveToTile().syncViaTile().trigerUpdate().finish();
+            rotation[i] =
+                    register("rotation" + i, new ManagedByte(0))
+                            .saveToTile()
+                            .syncViaTile()
+                            .trigerUpdate()
+                            .finish();
         }
     }
 
-    //region Bounds / Interaction
+    // region Bounds / Interaction
 
     public void handleClick(int hit, EntityPlayer player) {
-        if (!player.getHeldItemMainhand().isEmpty() && ModHelper.isWrench(player.getHeldItemMainhand())) {
+        if (!player.getHeldItemMainhand().isEmpty()
+                && ModHelper.isWrench(player.getHeldItemMainhand())) {
             altRenderMode.value = !altRenderMode.value;
             LogHelper.dev(altRenderMode);
             super.update();
@@ -72,7 +90,15 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
 
             if (index >= 0 && index < rotation.length) {
                 rotation[index].value++;
-                DESoundHandler.playSoundFromServer(world, Vec3D.getCenter(pos), SoundEvents.ENTITY_ITEMFRAME_ROTATE_ITEM, SoundCategory.PLAYERS, 1.0F, 0.9F + world.rand.nextFloat() * 0.2F, false, 24);
+                DESoundHandler.playSoundFromServer(
+                        world,
+                        Vec3D.getCenter(pos),
+                        SoundEvents.ENTITY_ITEMFRAME_ROTATE_ITEM,
+                        SoundCategory.PLAYERS,
+                        1.0F,
+                        0.9F + world.rand.nextFloat() * 0.2F,
+                        false,
+                        24);
                 super.update();
             }
 
@@ -81,14 +107,15 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
 
         if (hit == 0) {
             for (int i = 0; i < inventory.getSizeInventory(); i++) {
-                FeatureUtils.dropItemNoDellay(inventory.getStackInSlot(i), world, Vector3.fromEntity(player));
+                FeatureUtils.dropItemNoDellay(
+                        inventory.getStackInSlot(i), world, Vector3.fromEntity(player));
             }
             inventory.stacks.clear();
             world.setBlockToAir(pos);
-        }
-        else {
+        } else {
             if (!inventory.getStackInSlot(hit - 1).isEmpty()) {
-                FeatureUtils.dropItemNoDellay(inventory.getStackInSlot(hit - 1), world, Vector3.fromEntity(player));
+                FeatureUtils.dropItemNoDellay(
+                        inventory.getStackInSlot(hit - 1), world, Vector3.fromEntity(player));
                 inventory.setInventorySlotContents(hit - 1, ItemStack.EMPTY);
             }
         }
@@ -96,7 +123,8 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
 
     public void breakBlock() {
         for (int i = 0; i < inventory.getSizeInventory(); i++) {
-            FeatureUtils.dropItemNoDellay(inventory.getStackInSlot(i), world, Vector3.fromTileCenter(this));
+            FeatureUtils.dropItemNoDellay(
+                    inventory.getStackInSlot(i), world, Vector3.fromTileCenter(this));
         }
         inventory.stacks.clear();
     }
@@ -106,8 +134,12 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
 
     private synchronized void calculateBounds() {
 
-        IBlockState state = getState(DEFeatures.placedItem);//world.getBlockState(getPos());
-        Cuboid6 box = new Cuboid6(0.5, 0, 0.5, 0.5, 0, 0.5).apply(Rotation.sideRotations[state.getValue(PlacedItem.FACING).getIndex()].at(Vector3.center));
+        IBlockState state = getState(DEFeatures.placedItem); // world.getBlockState(getPos());
+        Cuboid6 box =
+                new Cuboid6(0.5, 0, 0.5, 0.5, 0, 0.5)
+                        .apply(
+                                Rotation.sideRotations[state.getValue(PlacedItem.FACING).getIndex()]
+                                        .at(Vector3.center));
 
         int i = 0;
         for (Cuboid6 cuboid : indexedCuboids) {
@@ -117,15 +149,17 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
 
         if (facing.getAxisDirection() == EnumFacing.AxisDirection.NEGATIVE) {
             box.setSide(facing.getIndex() ^ 1, 0.01);
-        }
-        else {
+        } else {
             box.setSide(facing.getIndex() ^ 1, 0.99);
         }
 
-
         if (i > 1) {
             EnumFacing.Axis axis = facing.getAxis();
-            box.expand(new Vector3(axis == EnumFacing.Axis.X ? -0.02 : 0.03, axis == EnumFacing.Axis.Y ? -0.02 : 0.03, axis == EnumFacing.Axis.Z ? -0.02 : 0.03));
+            box.expand(
+                    new Vector3(
+                            axis == EnumFacing.Axis.X ? -0.02 : 0.03,
+                            axis == EnumFacing.Axis.Y ? -0.02 : 0.03,
+                            axis == EnumFacing.Axis.Z ? -0.02 : 0.03));
         }
 
         blockBounds = new IndexedCuboid6(0, box);
@@ -138,36 +172,143 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
         }
         indexedCuboids = new ArrayList<>();
 
-        double scale = displayCount.value == 1 && (toolDisplay.value || altRenderMode.value) ? 0.2 : 0.32;
+        double scale =
+                displayCount.value == 1 && (toolDisplay.value || altRenderMode.value) ? 0.2 : 0.32;
 
-        Transformation rotation = rotations[state.getValue(PlacedItem.FACING).getIndex()].at(Vector3.center);
+        Transformation rotation =
+                rotations[state.getValue(PlacedItem.FACING).getIndex()].at(Vector3.center);
 
         double offset = 0.225;
         double blockH = 0.36;
         double itemH = 0.03;
 
         if (displayCount.value == 1) {
-            indexedCuboids.add(new IndexedCuboid6(1, new Cuboid6(scale, scale, 0, 1 - scale, 1 - scale, isBlock[0] ? blockH : itemH).apply(rotation)));
-        }
-        else if (displayCount.value == 2) {
-            indexedCuboids.add(new IndexedCuboid6(1, new Cuboid6(scale, scale, 0, 1 - scale, 1 - scale, isBlock[0] ? blockH : itemH).apply(new Translation(-offset, 0, 0).with(rotation))));
-            indexedCuboids.add(new IndexedCuboid6(2, new Cuboid6(scale, scale, 0, 1 - scale, 1 - scale, isBlock[1] ? blockH : itemH).apply(new Translation(offset, 0, 0).with(rotation))));
-        }
-        else if (displayCount.value == 3) {
-            indexedCuboids.add(new IndexedCuboid6(1, new Cuboid6(scale, scale, 0, 1 - scale, 1 - scale, isBlock[0] ? blockH : itemH).apply(new Translation(0, offset, 0).with(rotation))));
-            indexedCuboids.add(new IndexedCuboid6(2, new Cuboid6(scale, scale, 0, 1 - scale, 1 - scale, isBlock[1] ? blockH : itemH).apply(new Translation(-offset, -offset, 0).with(rotation))));
-            indexedCuboids.add(new IndexedCuboid6(3, new Cuboid6(scale, scale, 0, 1 - scale, 1 - scale, isBlock[2] ? blockH : itemH).apply(new Translation(offset, -offset, 0).with(rotation))));
-        }
-        else if (displayCount.value == 4) {
-            indexedCuboids.add(new IndexedCuboid6(1, new Cuboid6(scale, scale, 0, 1 - scale, 1 - scale, isBlock[0] ? blockH : itemH).apply(new Translation(-offset, offset, 0).with(rotation))));
-            indexedCuboids.add(new IndexedCuboid6(2, new Cuboid6(scale, scale, 0, 1 - scale, 1 - scale, isBlock[1] ? blockH : itemH).apply(new Translation(offset, offset, 0).with(rotation))));
-            indexedCuboids.add(new IndexedCuboid6(3, new Cuboid6(scale, scale, 0, 1 - scale, 1 - scale, isBlock[2] ? blockH : itemH).apply(new Translation(-offset, -offset, 0).with(rotation))));
-            indexedCuboids.add(new IndexedCuboid6(4, new Cuboid6(scale, scale, 0, 1 - scale, 1 - scale, isBlock[3] ? blockH : itemH).apply(new Translation(offset, -offset, 0).with(rotation))));
+            indexedCuboids.add(
+                    new IndexedCuboid6(
+                            1,
+                            new Cuboid6(
+                                            scale,
+                                            scale,
+                                            0,
+                                            1 - scale,
+                                            1 - scale,
+                                            isBlock[0] ? blockH : itemH)
+                                    .apply(rotation)));
+        } else if (displayCount.value == 2) {
+            indexedCuboids.add(
+                    new IndexedCuboid6(
+                            1,
+                            new Cuboid6(
+                                            scale,
+                                            scale,
+                                            0,
+                                            1 - scale,
+                                            1 - scale,
+                                            isBlock[0] ? blockH : itemH)
+                                    .apply(new Translation(-offset, 0, 0).with(rotation))));
+            indexedCuboids.add(
+                    new IndexedCuboid6(
+                            2,
+                            new Cuboid6(
+                                            scale,
+                                            scale,
+                                            0,
+                                            1 - scale,
+                                            1 - scale,
+                                            isBlock[1] ? blockH : itemH)
+                                    .apply(new Translation(offset, 0, 0).with(rotation))));
+        } else if (displayCount.value == 3) {
+            indexedCuboids.add(
+                    new IndexedCuboid6(
+                            1,
+                            new Cuboid6(
+                                            scale,
+                                            scale,
+                                            0,
+                                            1 - scale,
+                                            1 - scale,
+                                            isBlock[0] ? blockH : itemH)
+                                    .apply(new Translation(0, offset, 0).with(rotation))));
+            indexedCuboids.add(
+                    new IndexedCuboid6(
+                            2,
+                            new Cuboid6(
+                                            scale,
+                                            scale,
+                                            0,
+                                            1 - scale,
+                                            1 - scale,
+                                            isBlock[1] ? blockH : itemH)
+                                    .apply(new Translation(-offset, -offset, 0).with(rotation))));
+            indexedCuboids.add(
+                    new IndexedCuboid6(
+                            3,
+                            new Cuboid6(
+                                            scale,
+                                            scale,
+                                            0,
+                                            1 - scale,
+                                            1 - scale,
+                                            isBlock[2] ? blockH : itemH)
+                                    .apply(new Translation(offset, -offset, 0).with(rotation))));
+        } else if (displayCount.value == 4) {
+            indexedCuboids.add(
+                    new IndexedCuboid6(
+                            1,
+                            new Cuboid6(
+                                            scale,
+                                            scale,
+                                            0,
+                                            1 - scale,
+                                            1 - scale,
+                                            isBlock[0] ? blockH : itemH)
+                                    .apply(new Translation(-offset, offset, 0).with(rotation))));
+            indexedCuboids.add(
+                    new IndexedCuboid6(
+                            2,
+                            new Cuboid6(
+                                            scale,
+                                            scale,
+                                            0,
+                                            1 - scale,
+                                            1 - scale,
+                                            isBlock[1] ? blockH : itemH)
+                                    .apply(new Translation(offset, offset, 0).with(rotation))));
+            indexedCuboids.add(
+                    new IndexedCuboid6(
+                            3,
+                            new Cuboid6(
+                                            scale,
+                                            scale,
+                                            0,
+                                            1 - scale,
+                                            1 - scale,
+                                            isBlock[2] ? blockH : itemH)
+                                    .apply(new Translation(-offset, -offset, 0).with(rotation))));
+            indexedCuboids.add(
+                    new IndexedCuboid6(
+                            4,
+                            new Cuboid6(
+                                            scale,
+                                            scale,
+                                            0,
+                                            1 - scale,
+                                            1 - scale,
+                                            isBlock[3] ? blockH : itemH)
+                                    .apply(new Translation(offset, -offset, 0).with(rotation))));
         }
         indexedCuboids = ImmutableList.copyOf(indexedCuboids);
     }
 
-    private static final Transformation[] rotations = new Transformation[]{Rotation.sideRotations[3], Rotation.sideRotations[2], Rotation.sideRotations[0], Rotation.sideRotations[1], Rotation.quarterRotations[3], Rotation.quarterRotations[1],};
+    private static final Transformation[] rotations =
+            new Transformation[] {
+                Rotation.sideRotations[3],
+                Rotation.sideRotations[2],
+                Rotation.sideRotations[0],
+                Rotation.sideRotations[1],
+                Rotation.quarterRotations[3],
+                Rotation.quarterRotations[1],
+            };
 
     public synchronized List<IndexedCuboid6> getCachedRenderCuboids() {
         if (indexedCuboids.isEmpty()) {
@@ -186,9 +327,9 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
         return list;
     }
 
-    //endregion
+    // endregion
 
-    //region inventory
+    // region inventory
 
     @Override
     public void updateBlock() {
@@ -196,9 +337,9 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
         recalculateCuboids();
     }
 
-    //endregion
+    // endregion
 
-    //region save
+    // region save
 
     @Override
     public void writeExtraNBT(NBTTagCompound compound) {
@@ -220,8 +361,7 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
         inventory.fromNBT(compound);
     }
 
-    //endregion
-
+    // endregion
 
     @SideOnly(Side.CLIENT)
     @Override
@@ -251,8 +391,7 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
 
             if (count == 0) {
                 tile.world.setBlockToAir(tile.getPos());
-            }
-            else {
+            } else {
                 tile.displayCount.value = (byte) count;
                 ItemStack stack0 = getStackInSlot(0);
                 tile.toolDisplay.value = count == 1 && stack0.getItem().isEnchantable(stack0);
@@ -268,7 +407,9 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
 
         @Override
         public ItemStack getStackInSlot(int index) {
-            return index >= 0 && index < stacks.size() && stacks.get(index) != null ? stacks.get(index) : ItemStack.EMPTY;
+            return index >= 0 && index < stacks.size() && stacks.get(index) != null
+                    ? stacks.get(index)
+                    : ItemStack.EMPTY;
         }
 
         private void setSlot(int index, ItemStack stack) {
@@ -280,11 +421,9 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
                 if (index < stacks.size()) {
                     stacks.remove(index);
                 }
-            }
-            else if (index < stacks.size()) {
+            } else if (index < stacks.size()) {
                 stacks.set(index, stack);
-            }
-            else {
+            } else {
                 stacks.add(stack);
             }
 
@@ -331,8 +470,7 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
 
             if (index >= 0 && index < stacks.size() && !stacks.get(index).isEmpty() && count > 0) {
                 stack = stacks.get(index).splitStack(count);
-            }
-            else {
+            } else {
                 stack = ItemStack.EMPTY;
             }
 
@@ -342,7 +480,6 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
 
             return stack;
         }
-
 
         @Override
         public int getInventoryStackLimit() {
@@ -360,14 +497,10 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
         }
 
         @Override
-        public void openInventory(EntityPlayer player) {
-
-        }
+        public void openInventory(EntityPlayer player) {}
 
         @Override
-        public void closeInventory(EntityPlayer player) {
-
-        }
+        public void closeInventory(EntityPlayer player) {}
 
         @Override
         public boolean isItemValidForSlot(int index, ItemStack stack) {
@@ -380,9 +513,7 @@ public class TilePlacedItem extends TileBCBase implements ICuboidProvider {
         }
 
         @Override
-        public void setField(int id, int value) {
-
-        }
+        public void setField(int id, int value) {}
 
         @Override
         public int getFieldCount() {

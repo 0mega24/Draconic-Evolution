@@ -12,12 +12,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 11/02/2017.
- */
+/** Created by brandon3055 on 11/02/2017. */
 public class ReactorEffectHandler {
 
     private TileReactorCore reactor;
+
     @SideOnly(Side.CLIENT)
     private ReactorBeamFX[] effects;
 
@@ -34,17 +33,23 @@ public class ReactorEffectHandler {
             effects = new ReactorBeamFX[6];
         }
 
-//        reactorSound.donePlaying = true;
-//        reactorSound = null;;
-        if ((reactorSound == null || reactorSound.isDonePlaying() || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(reactorSound)) && reactor.reactorState.value.isShieldActive() && reactor.shieldCharge.value > 0) {
+        //        reactorSound.donePlaying = true;
+        //        reactorSound = null;;
+        if ((reactorSound == null
+                        || reactorSound.isDonePlaying()
+                        || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(reactorSound))
+                && reactor.reactorState.value.isShieldActive()
+                && reactor.shieldCharge.value > 0) {
             reactorSound = new ReactorSound(reactor);
             Minecraft.getMinecraft().getSoundHandler().playSound(reactorSound);
-        }
-        else if (reactorSound != null && (!reactor.reactorState.value.isShieldActive() || reactor.shieldCharge.value <= 0)) {
+        } else if (reactorSound != null
+                && (!reactor.reactorState.value.isShieldActive()
+                        || reactor.shieldCharge.value <= 0)) {
             reactorSound.donePlaying = true;
         }
 
-        if (reactor.reactorState.value == TileReactorCore.ReactorState.INVALID || reactor.shieldAnimationState <= 0) {
+        if (reactor.reactorState.value == TileReactorCore.ReactorState.INVALID
+                || reactor.shieldAnimationState <= 0) {
             return;
         }
 
@@ -61,14 +66,19 @@ public class ReactorEffectHandler {
             }
 
             if (effects[index] != null && effects[index].isAlive()) {
-                effects[index].updateFX((float) reactor.shieldAnimationState, 1);//todo Power Stat
+                effects[index].updateFX((float) reactor.shieldAnimationState, 1); // todo Power Stat
                 continue;
             }
 
-            ReactorBeamFX beamFX = new ReactorBeamFX(reactor.getWorld(), Vec3D.getCenter(component.getPos()), component.facing.value, reactor, component instanceof TileReactorEnergyInjector);
+            ReactorBeamFX beamFX =
+                    new ReactorBeamFX(
+                            reactor.getWorld(),
+                            Vec3D.getCenter(component.getPos()),
+                            component.facing.value,
+                            reactor,
+                            component instanceof TileReactorEnergyInjector);
             effects[index] = beamFX;
             BCEffectHandler.spawnGLParticle(ReactorBeamFX.FX_HANDLER, beamFX);
         }
     }
-
 }

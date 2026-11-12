@@ -1,23 +1,19 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree;
 
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.*;
+
 import com.brandon3055.draconicevolution.client.gui.modwiki.GuiModWiki;
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.ModDocContainer;
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.StringUtils;
-import org.w3c.dom.Element;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.StringUtils;
+import org.w3c.dom.Element;
 
-import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.*;
-
-
-/**
- * Created by brandon3055 on 7/09/2016.
- */
+/** Created by brandon3055 on 7/09/2016. */
 public class GuiDocTree {
 
     private TreeBranchRoot dataRootBranch;
@@ -33,11 +29,9 @@ public class GuiDocTree {
         this.activeBranch = this.dataRootBranch;
     }
 
-    //region Load / Reload
+    // region Load / Reload
 
-    /**
-     * Reloads the data tree from the WikiDocManager
-     */
+    /** Reloads the data tree from the WikiDocManager */
     public void reloadData() {
         idToBranchMap.clear();
         dataRootBranch = new TreeBranchRoot(guiWiki, null, I18n.format("guiwiki.label.mods"));
@@ -59,7 +53,8 @@ public class GuiDocTree {
 
     private void generateModBranch(Element modData, String modid) {
         String modName = modData.getAttribute(ATTRIB_MOD_NAME);
-        TreeBranchContent modBranch = new TreeBranchContent(guiWiki, dataRootBranch, modData, modName);
+        TreeBranchContent modBranch =
+                new TreeBranchContent(guiWiki, dataRootBranch, modData, modName);
         modBranch.isModBranch = true;
         modBranch.setBranchID(modid);
         modBranch.loadBranchesXML();
@@ -67,9 +62,9 @@ public class GuiDocTree {
         dataRootBranch.addSubBranch(modBranch);
     }
 
-    //endregion
+    // endregion
 
-    //region Active Branch
+    // region Active Branch
 
     public TreeBranchRoot getActiveBranch() {
         return activeBranch;
@@ -78,11 +73,9 @@ public class GuiDocTree {
     public List<TreeBranchRoot> getActiveList() {
         if (activeBranch.subBranches.size() > 0) {
             return activeBranch.subBranches;
-        }
-        else if (activeBranch.subBranches.size() == 0 && activeBranch.parent != null) {
+        } else if (activeBranch.subBranches.size() == 0 && activeBranch.parent != null) {
             return activeBranch.parent.subBranches;
-        }
-        else return new ArrayList<TreeBranchRoot>();
+        } else return new ArrayList<TreeBranchRoot>();
     }
 
     public void setActiveBranch(TreeBranchRoot activeBranch) {
@@ -93,18 +86,18 @@ public class GuiDocTree {
     }
 
     public void reOpenLast() {
-        if (!StringUtils.isNullOrEmpty(GuiModWiki.activeID) && idToBranchMap.containsKey(GuiModWiki.activeID)) {
+        if (!StringUtils.isNullOrEmpty(GuiModWiki.activeID)
+                && idToBranchMap.containsKey(GuiModWiki.activeID)) {
             setActiveBranch(idToBranchMap.get(GuiModWiki.activeID));
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Filter
+    // region Filter
 
-    public void updateFilter() {
-    }
+    public void updateFilter() {}
 
-    //endregion
+    // endregion
 
 }

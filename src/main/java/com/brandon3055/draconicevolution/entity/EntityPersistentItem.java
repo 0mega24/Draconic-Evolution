@@ -11,9 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-/**
- * Created by Brandon on 15/08/2014.
- */
+/** Created by Brandon on 15/08/2014. */
 public class EntityPersistentItem extends EntityItem {
     public EntityPersistentItem(World par1World, double par2, double par4, double par6) {
         super(par1World, par2, par4, par6);
@@ -21,7 +19,8 @@ public class EntityPersistentItem extends EntityItem {
         this.lifespan = 72000;
     }
 
-    public EntityPersistentItem(World par1World, double par2, double par4, double par6, ItemStack par8ItemStack) {
+    public EntityPersistentItem(
+            World par1World, double par2, double par4, double par6, ItemStack par8ItemStack) {
         this(par1World, par2, par4, par6);
         this.setItem(par8ItemStack);
         this.lifespan = 72000;
@@ -37,8 +36,7 @@ public class EntityPersistentItem extends EntityItem {
         this(world, original.posX, original.posY, original.posZ);
         if (original instanceof EntityItem) {
             this.pickupDelay = ((EntityItem) original).pickupDelay;
-        }
-        else {
+        } else {
             setDefaultPickupDelay();
         }
         this.motionX = original.motionX;
@@ -77,8 +75,7 @@ public class EntityPersistentItem extends EntityItem {
         }
         if (stack.isEmpty()) {
             this.setDead();
-        }
-        else {
+        } else {
             super.onEntityUpdate();
 
             if (this.pickupDelay > 0 && this.pickupDelay != 32767) {
@@ -89,17 +86,30 @@ public class EntityPersistentItem extends EntityItem {
             this.prevPosY = this.posY;
             this.prevPosZ = this.posZ;
             this.motionY -= 0.03999999910593033D;
-            this.noClip = this.pushOutOfBlocks(this.posX, (this.getEntityBoundingBox().minY + this.getEntityBoundingBox().maxY) / 2.0D, this.posZ);
+            this.noClip =
+                    this.pushOutOfBlocks(
+                            this.posX,
+                            (this.getEntityBoundingBox().minY + this.getEntityBoundingBox().maxY)
+                                    / 2.0D,
+                            this.posZ);
 
             this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-            boolean flag = (int) this.prevPosX != (int) this.posX || (int) this.prevPosY != (int) this.posY || (int) this.prevPosZ != (int) this.posZ;
+            boolean flag =
+                    (int) this.prevPosX != (int) this.posX
+                            || (int) this.prevPosY != (int) this.posY
+                            || (int) this.prevPosZ != (int) this.posZ;
 
             if (flag || this.ticksExisted % 25 == 0) {
                 if (this.world.getBlockState(new BlockPos(this)).getMaterial() == Material.LAVA) {
                     this.motionY = 0.2D;
-                    this.motionX = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-                    this.motionZ = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-                    this.playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
+                    this.motionX =
+                            (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+                    this.motionZ =
+                            (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+                    this.playSound(
+                            SoundEvents.ENTITY_GENERIC_BURN,
+                            0.4F,
+                            2.0F + this.rand.nextFloat() * 0.4F);
                 }
 
                 if (!this.world.isRemote) {
@@ -110,7 +120,19 @@ public class EntityPersistentItem extends EntityItem {
             float f = 0.98F;
 
             if (this.onGround) {
-                f = this.world.getBlockState(new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.posZ))).getBlock().slipperiness * 0.98F;
+                f =
+                        this.world
+                                        .getBlockState(
+                                                new BlockPos(
+                                                        MathHelper.floor(this.posX),
+                                                        MathHelper.floor(
+                                                                        this.getEntityBoundingBox()
+                                                                                .minY)
+                                                                - 1,
+                                                        MathHelper.floor(this.posZ)))
+                                        .getBlock()
+                                        .slipperiness
+                                * 0.98F;
             }
 
             this.motionX *= (double) f;

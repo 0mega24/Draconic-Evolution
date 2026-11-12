@@ -1,6 +1,9 @@
 package com.brandon3055.draconicevolution.integration.jei;
 
 import com.brandon3055.draconicevolution.integration.ModHelper;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import mezz.jei.api.IRecipeRegistry;
 import mezz.jei.api.gui.IRecipeLayoutDrawable;
 import mezz.jei.api.recipe.IFocus;
@@ -11,16 +14,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.common.Optional;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+/** Created by brandon3055 on 21/09/2016. */
+public class JeiHelper { // TODO This Is Now Borked
 
-/**
- * Created by brandon3055 on 21/09/2016.
- */
-public class JeiHelper {//TODO This Is Now Borked
-
-    //region JEI Checks
+    // region JEI Checks
 
     public static boolean jeiAvailable() {
         if (!ModHelper.isJEIInstalled) {
@@ -35,9 +32,9 @@ public class JeiHelper {//TODO This Is Now Borked
         return DEJEIPlugin.jeiRuntime != null;
     }
 
-    //endregion
+    // endregion
 
-    //region Get Renderers
+    // region Get Renderers
 
     public static List<IRecipeRenderer> getRecipeRenderers(ItemStack result) {
         if (!jeiAvailable()) {
@@ -53,16 +50,20 @@ public class JeiHelper {//TODO This Is Now Borked
 
         IRecipeRegistry registry = DEJEIPlugin.jeiRuntime.getRecipeRegistry();
         List<IRecipeCategory> categories = new LinkedList<>();
-//        categories.addAll(registry.getRecipeCategories(registry.createFocus(IFocus.Mode.INPUT, result)));//getRecipeCategoriesWithOutput(result);TODO Verify this is correct.
-        categories.addAll(registry.getRecipeCategories(registry.createFocus(IFocus.Mode.OUTPUT, result)));
+        //
+        // categories.addAll(registry.getRecipeCategories(registry.createFocus(IFocus.Mode.INPUT,
+        // result)));//getRecipeCategoriesWithOutput(result);TODO Verify this is correct.
+        categories.addAll(
+                registry.getRecipeCategories(registry.createFocus(IFocus.Mode.OUTPUT, result)));
 
         for (IRecipeCategory category : categories) {
-            List wrappers = registry.getRecipeWrappers(category, registry.createFocus(IFocus.Mode.OUTPUT, result));
+            List wrappers =
+                    registry.getRecipeWrappers(
+                            category, registry.createFocus(IFocus.Mode.OUTPUT, result));
             for (Object wrapper : wrappers) {
                 try {
                     renderers.add(new RecipeRenderer(category, (IRecipeWrapper) wrapper, result));
-                }
-                catch (Throwable t) {
+                } catch (Throwable t) {
                     t.printStackTrace();
                 }
             }
@@ -71,9 +72,9 @@ public class JeiHelper {//TODO This Is Now Borked
         return renderers;
     }
 
-    //endregion
+    // endregion
 
-    //region IRecipeRenderer
+    // region IRecipeRenderer
 
     private static class RecipeRenderer implements IRecipeRenderer {
 
@@ -85,8 +86,14 @@ public class JeiHelper {//TODO This Is Now Borked
         private String title;
 
         public RecipeRenderer(IRecipeCategory category, IRecipeWrapper wrapper, ItemStack result) {
-            IFocus<?> f = DEJEIPlugin.jeiRuntime.getRecipeRegistry().createFocus(IFocus.Mode.OUTPUT, result);//new Focus<Object>(result);
-            this.recipeLayout = DEJEIPlugin.jeiRuntime.getRecipeRegistry().createRecipeLayoutDrawable(category, wrapper, f);
+            IFocus<?> f =
+                    DEJEIPlugin.jeiRuntime
+                            .getRecipeRegistry()
+                            .createFocus(IFocus.Mode.OUTPUT, result); // new Focus<Object>(result);
+            this.recipeLayout =
+                    DEJEIPlugin.jeiRuntime
+                            .getRecipeRegistry()
+                            .createRecipeLayoutDrawable(category, wrapper, f);
             this.width = category.getBackground().getWidth();
             this.height = category.getBackground().getHeight();
             this.title = category.getTitle();
@@ -121,11 +128,16 @@ public class JeiHelper {//TODO This Is Now Borked
             Object clicked = recipeLayout.getIngredientUnderMouse(mouseX, mouseY);
 
             if (clicked != null) {
-                IFocus f = DEJEIPlugin.jeiRuntime.getRecipeRegistry().createFocus(mouseButton == 0 ? IFocus.Mode.OUTPUT : IFocus.Mode.INPUT, clicked);
+                IFocus f =
+                        DEJEIPlugin.jeiRuntime
+                                .getRecipeRegistry()
+                                .createFocus(
+                                        mouseButton == 0 ? IFocus.Mode.OUTPUT : IFocus.Mode.INPUT,
+                                        clicked);
                 DEJEIPlugin.jeiRuntime.getRecipesGui().show(f);
             }
 
-            return false;//layout.handleRecipeClick(minecraft, mouseX, mouseY, mouseButton);
+            return false; // layout.handleRecipeClick(minecraft, mouseX, mouseY, mouseButton);
         }
 
         @Override
@@ -134,6 +146,6 @@ public class JeiHelper {//TODO This Is Now Borked
         }
     }
 
-    //endregion
+    // endregion
 
 }

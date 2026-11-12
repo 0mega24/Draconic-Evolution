@@ -28,9 +28,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 25/07/2016.
- */
+/** Created by brandon3055 on 25/07/2016. */
 public class PlacedItem extends BlockBCore implements ITileEntityProvider, IRenderOverride {
 
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
@@ -42,7 +40,7 @@ public class PlacedItem extends BlockBCore implements ITileEntityProvider, IRend
         this.setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
     }
 
-    //region Block state and stuff...
+    // region Block state and stuff...
 
     @Override
     public boolean uberIsBlockFullCube() {
@@ -50,8 +48,7 @@ public class PlacedItem extends BlockBCore implements ITileEntityProvider, IRend
     }
 
     @Override
-    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
-    }
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {}
 
     @Override
     protected BlockStateContainer createBlockState() {
@@ -84,9 +81,9 @@ public class PlacedItem extends BlockBCore implements ITileEntityProvider, IRend
         return new TilePlacedItem();
     }
 
-    //endregion
+    // endregion
 
-    //region Render
+    // region Render
 
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
@@ -101,15 +98,25 @@ public class PlacedItem extends BlockBCore implements ITileEntityProvider, IRend
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TilePlacedItem.class, new RenderTilePlacedItem());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TilePlacedItem.class, new RenderTilePlacedItem());
     }
 
-    //endregion
+    // endregion
 
-    //region Interact
+    // region Interact
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer player,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         if (world.isRemote) {
             return true;
         }
@@ -118,12 +125,16 @@ public class PlacedItem extends BlockBCore implements ITileEntityProvider, IRend
         if (tile instanceof TilePlacedItem) {
 
             RayTraceResult hit = RayTracer.retraceBlock(world, player, pos);
-            RayTraceResult subHitResult = RayTracer.rayTraceCuboidsClosest(new Vector3(RayTracer.getStartVec(player)), new Vector3(RayTracer.getEndVec(player)), pos, ((TilePlacedItem) tile).getIndexedCuboids());
+            RayTraceResult subHitResult =
+                    RayTracer.rayTraceCuboidsClosest(
+                            new Vector3(RayTracer.getStartVec(player)),
+                            new Vector3(RayTracer.getEndVec(player)),
+                            pos,
+                            ((TilePlacedItem) tile).getIndexedCuboids());
 
             if (subHitResult != null) {
                 hit = subHitResult;
-            }
-            else if (hit == null) {
+            } else if (hit == null) {
                 return true;
             }
 
@@ -142,16 +153,18 @@ public class PlacedItem extends BlockBCore implements ITileEntityProvider, IRend
 
         if (tile instanceof ICuboidProvider) {
             return ((ICuboidProvider) tile).getIndexedCuboids().get(0).aabb();
-//            return ((TilePlacedItem) tile).getBlockBounds().aabb();
+            //            return ((TilePlacedItem) tile).getBlockBounds().aabb();
         }
 
         return super.getBoundingBox(state, source, pos);
     }
 
-    public RayTraceResult collisionRayTrace(IBlockState state, World world, BlockPos pos, Vec3d start, Vec3d end) {
+    public RayTraceResult collisionRayTrace(
+            IBlockState state, World world, BlockPos pos, Vec3d start, Vec3d end) {
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof ICuboidProvider) {
-            return RayTracer.rayTraceCuboidsClosest(start, end, pos, ((ICuboidProvider) tile).getIndexedCuboids());
+            return RayTracer.rayTraceCuboidsClosest(
+                    start, end, pos, ((ICuboidProvider) tile).getIndexedCuboids());
         }
         return super.collisionRayTrace(state, world, pos, start, end);
     }
@@ -161,27 +174,38 @@ public class PlacedItem extends BlockBCore implements ITileEntityProvider, IRend
         return false;
     }
 
-    //endregion
+    // endregion
 
-    //region Harvest
+    // region Harvest
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+    public ItemStack getPickBlock(
+            IBlockState state,
+            RayTraceResult target,
+            World world,
+            BlockPos pos,
+            EntityPlayer player) {
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TilePlacedItem) {
 
             RayTraceResult hit = target;
-            RayTraceResult subHitResult = RayTracer.rayTraceCuboidsClosest(new Vector3(RayTracer.getStartVec(player)), new Vector3(RayTracer.getEndVec(player)), pos, ((TilePlacedItem) tile).getIndexedCuboids());
+            RayTraceResult subHitResult =
+                    RayTracer.rayTraceCuboidsClosest(
+                            new Vector3(RayTracer.getStartVec(player)),
+                            new Vector3(RayTracer.getEndVec(player)),
+                            pos,
+                            ((TilePlacedItem) tile).getIndexedCuboids());
 
             if (subHitResult != null) {
                 hit = subHitResult;
-            }
-            else if (hit == null) {
+            } else if (hit == null) {
                 return ItemStack.EMPTY;
             }
 
-            if (hit.subHit > 0 && ((TilePlacedItem) tile).inventory.getStackInSlot(hit.subHit - 1) != null) {
-                ItemStack stack = ((TilePlacedItem) tile).inventory.getStackInSlot(hit.subHit - 1).copy();
+            if (hit.subHit > 0
+                    && ((TilePlacedItem) tile).inventory.getStackInSlot(hit.subHit - 1) != null) {
+                ItemStack stack =
+                        ((TilePlacedItem) tile).inventory.getStackInSlot(hit.subHit - 1).copy();
                 if (stack.hasTagCompound()) {
                     stack.getTagCompound().removeTag("BlockEntityTag");
                 }
@@ -193,8 +217,13 @@ public class PlacedItem extends BlockBCore implements ITileEntityProvider, IRend
     }
 
     @Override
-    public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack heldStack) {
-    }
+    public void harvestBlock(
+            World world,
+            EntityPlayer player,
+            BlockPos pos,
+            IBlockState state,
+            TileEntity te,
+            ItemStack heldStack) {}
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
@@ -207,5 +236,5 @@ public class PlacedItem extends BlockBCore implements ITileEntityProvider, IRend
         super.breakBlock(world, pos, state);
     }
 
-    //endregion
+    // endregion
 }

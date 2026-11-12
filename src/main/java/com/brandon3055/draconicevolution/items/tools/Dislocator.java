@@ -7,6 +7,7 @@ import com.brandon3055.brandonscore.utils.Teleporter.TeleportLocation;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.entity.EntityPersistentItem;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
+import java.util.List;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -24,11 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
-
-/**
- * Created by brandon3055 on 16/07/2016.
- */
+/** Created by brandon3055 on 16/07/2016. */
 public class Dislocator extends ItemBCore {
 
     public Dislocator() {
@@ -67,7 +64,17 @@ public class Dislocator extends ItemBCore {
             }
 
             if (!entity.world.isRemote) {
-                DESoundHandler.playSoundFromServer(player.world, player.posX, player.posY, player.posZ, DESoundHandler.portal, SoundCategory.PLAYERS, 0.1F, player.world.rand.nextFloat() * 0.1F + 0.9F, false, 32);
+                DESoundHandler.playSoundFromServer(
+                        player.world,
+                        player.posX,
+                        player.posY,
+                        player.posZ,
+                        DESoundHandler.portal,
+                        SoundCategory.PLAYERS,
+                        0.1F,
+                        player.world.rand.nextFloat() * 0.1F + 0.9F,
+                        false,
+                        32);
             }
 
             getLocation(stack, player.world).teleport(entity);
@@ -76,17 +83,36 @@ public class Dislocator extends ItemBCore {
                 player.inventory.deleteStack(stack);
             }
 
-
             if (!entity.world.isRemote) {
-                DESoundHandler.playSoundFromServer(player.world, player.posX, player.posY, player.posZ, DESoundHandler.portal, SoundCategory.PLAYERS, 0.1F, player.world.rand.nextFloat() * 0.1F + 0.9F, false, 32);
+                DESoundHandler.playSoundFromServer(
+                        player.world,
+                        player.posX,
+                        player.posY,
+                        player.posZ,
+                        DESoundHandler.portal,
+                        SoundCategory.PLAYERS,
+                        0.1F,
+                        player.world.rand.nextFloat() * 0.1F + 0.9F,
+                        false,
+                        32);
             }
 
             if (player.world.isRemote) {
                 TeleportLocation location = getLocation(stack, player.world);
-                player.sendMessage(new TextComponentString(new TextComponentTranslation("msg.teleporterSentMob.txt").getFormattedText() + " x:" + (int) location.getXCoord() + " y:" + (int) location.getYCoord() + " z:" + (int) location.getZCoord() + " Dimension: " + location.getDimensionName()));
+                player.sendMessage(
+                        new TextComponentString(
+                                new TextComponentTranslation("msg.teleporterSentMob.txt")
+                                                .getFormattedText()
+                                        + " x:"
+                                        + (int) location.getXCoord()
+                                        + " y:"
+                                        + (int) location.getYCoord()
+                                        + " z:"
+                                        + (int) location.getZCoord()
+                                        + " Dimension: "
+                                        + location.getDimensionName()));
             }
-        }
-        else if (player.world.isRemote) {
+        } else if (player.world.isRemote) {
             player.sendMessage(new TextComponentTranslation("msg.teleporterLowHealth.txt"));
         }
 
@@ -94,14 +120,26 @@ public class Dislocator extends ItemBCore {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(
+            World world, EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (player.isSneaking()) {
             if (getLocation(stack, world) == null) {
                 if (world.isRemote) {
-                    player.sendMessage(new TextComponentString(new TextComponentTranslation("msg.teleporterBound.txt").getFormattedText() + "{X:" + (int) player.posX + " Y:" + (int) player.posY + " Z:" + (int) player.posZ + " Dim:" + player.world.provider.getDimensionType().getName() + "}"));
-                }
-                else {
+                    player.sendMessage(
+                            new TextComponentString(
+                                    new TextComponentTranslation("msg.teleporterBound.txt")
+                                                    .getFormattedText()
+                                            + "{X:"
+                                            + (int) player.posX
+                                            + " Y:"
+                                            + (int) player.posY
+                                            + " Z:"
+                                            + (int) player.posZ
+                                            + " Dim:"
+                                            + player.world.provider.getDimensionType().getName()
+                                            + "}"));
+                } else {
                     ItemNBTHelper.setDouble(stack, "X", player.posX);
                     ItemNBTHelper.setDouble(stack, "Y", player.posY);
                     ItemNBTHelper.setDouble(stack, "Z", player.posZ);
@@ -109,17 +147,23 @@ public class Dislocator extends ItemBCore {
                     ItemNBTHelper.setFloat(stack, "Pitch", player.rotationPitch);
                     ItemNBTHelper.setInteger(stack, "Dimension", player.dimension);
                     ItemNBTHelper.setBoolean(stack, "IsSet", true);
-                    ItemNBTHelper.setString(stack, "DimentionName", BrandonsCore.proxy.getMCServer().getWorld(player.dimension).provider.getDimensionType().getName());//TODO Is this really needed?
+                    ItemNBTHelper.setString(
+                            stack,
+                            "DimentionName",
+                            BrandonsCore.proxy
+                                    .getMCServer()
+                                    .getWorld(player.dimension)
+                                    .provider
+                                    .getDimensionType()
+                                    .getName()); // TODO Is this really needed?
                 }
                 return new ActionResult<>(EnumActionResult.PASS, stack);
-            }
-            else if (world.isRemote) {
+            } else if (world.isRemote) {
                 player.sendMessage(new TextComponentTranslation("msg.teleporterAlreadySet.txt"));
             }
 
             return new ActionResult<>(EnumActionResult.PASS, stack);
-        }
-        else {
+        } else {
             if (getLocation(stack, world) == null) {
                 if (world.isRemote) {
                     player.sendMessage(new TextComponentTranslation("msg.teleporterUnSet.txt"));
@@ -130,13 +174,33 @@ public class Dislocator extends ItemBCore {
             if (player.getHealth() > 2 || player.capabilities.isCreativeMode) {
 
                 if (!world.isRemote) {
-                    DESoundHandler.playSoundFromServer(player.world, player.posX, player.posY, player.posZ, DESoundHandler.portal, SoundCategory.PLAYERS, 0.1F, player.world.rand.nextFloat() * 0.1F + 0.9F, false, 32);
+                    DESoundHandler.playSoundFromServer(
+                            player.world,
+                            player.posX,
+                            player.posY,
+                            player.posZ,
+                            DESoundHandler.portal,
+                            SoundCategory.PLAYERS,
+                            0.1F,
+                            player.world.rand.nextFloat() * 0.1F + 0.9F,
+                            false,
+                            32);
                 }
 
                 getLocation(stack, world).teleport(player);
 
                 if (!world.isRemote) {
-                    DESoundHandler.playSoundFromServer(player.world, player.posX, player.posY, player.posZ, DESoundHandler.portal, SoundCategory.PLAYERS, 0.1F, player.world.rand.nextFloat() * 0.1F + 0.9F, false, 32);
+                    DESoundHandler.playSoundFromServer(
+                            player.world,
+                            player.posX,
+                            player.posY,
+                            player.posZ,
+                            DESoundHandler.portal,
+                            SoundCategory.PLAYERS,
+                            0.1F,
+                            player.world.rand.nextFloat() * 0.1F + 0.9F,
+                            false,
+                            32);
                 }
 
                 stack.damageItem(1, player);
@@ -144,29 +208,41 @@ public class Dislocator extends ItemBCore {
                 if (!player.capabilities.isCreativeMode) {
                     player.setHealth(player.getHealth() - 2);
                 }
-            }
-            else if (world.isRemote) {
+            } else if (world.isRemote) {
                 player.sendMessage(new TextComponentTranslation("msg.teleporterLowHealth.txt"));
             }
             return new ActionResult<>(EnumActionResult.PASS, stack);
         }
-
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag advanced) {
+    public void addInformation(
+            ItemStack stack, World world, List<String> tooltip, ITooltipFlag advanced) {
         if (!ItemNBTHelper.getBoolean(stack, "IsSet", false)) {
             tooltip.add(TextFormatting.RED + I18n.format("info.teleporterInfUnset1.txt"));
             tooltip.add(TextFormatting.WHITE + I18n.format("info.teleporterInfUnset2.txt"));
             tooltip.add(TextFormatting.WHITE + I18n.format("info.teleporterInfUnset3.txt"));
             tooltip.add(TextFormatting.WHITE + I18n.format("info.teleporterInfUnset4.txt"));
             tooltip.add(TextFormatting.WHITE + I18n.format("info.teleporterInfUnset5.txt"));
-        }
-        else {
+        } else {
             tooltip.add(TextFormatting.GREEN + I18n.format("info.teleporterInfSet1.txt"));
-            tooltip.add(TextFormatting.WHITE + "{x:" + (int) ItemNBTHelper.getDouble(stack, "X", 0) + " y:" + (int) ItemNBTHelper.getDouble(stack, "Y", 0) + " z:" + (int) ItemNBTHelper.getDouble(stack, "Z", 0) + " Dim:" + getLocation(stack, world).getDimensionName() + "}");
-            tooltip.add(TextFormatting.BLUE + String.valueOf(stack.getMaxDamage() - stack.getItemDamage() + 1) + " " + I18n.format("info.teleporterInfSet2.txt"));
+            tooltip.add(
+                    TextFormatting.WHITE
+                            + "{x:"
+                            + (int) ItemNBTHelper.getDouble(stack, "X", 0)
+                            + " y:"
+                            + (int) ItemNBTHelper.getDouble(stack, "Y", 0)
+                            + " z:"
+                            + (int) ItemNBTHelper.getDouble(stack, "Z", 0)
+                            + " Dim:"
+                            + getLocation(stack, world).getDimensionName()
+                            + "}");
+            tooltip.add(
+                    TextFormatting.BLUE
+                            + String.valueOf(stack.getMaxDamage() - stack.getItemDamage() + 1)
+                            + " "
+                            + I18n.format("info.teleporterInfSet2.txt"));
         }
     }
 

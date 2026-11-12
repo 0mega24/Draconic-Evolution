@@ -16,12 +16,8 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 
-/**
- * Created by brandon3055 on 28/09/2016.
- */
+/** Created by brandon3055 on 28/09/2016. */
 public class TileDissEnchanter extends TileInventoryBase {
-
-
 
     public TileDissEnchanter() {
         setInventorySize(3);
@@ -31,11 +27,9 @@ public class TileDissEnchanter extends TileInventoryBase {
     public boolean isItemValidForSlot(int index, ItemStack stack) {
         if (index == 0) {
             return stack.isItemEnchanted() && ModHelper.canRemoveEnchants(stack);
-        }
-        else if (index == 1) {
+        } else if (index == 1) {
             return stack.getItem() == Items.BOOK;
-        }
-        else return false;
+        } else return false;
     }
 
     @Override
@@ -44,7 +38,11 @@ public class TileDissEnchanter extends TileInventoryBase {
         ItemStack books = getStackInSlot(1);
         ItemStack output = getStackInSlot(2);
 
-        if (input.isEmpty() || !input.isItemEnchanted() || books.isEmpty() || books.getCount() <= 0 || !output.isEmpty()) {
+        if (input.isEmpty()
+                || !input.isItemEnchanted()
+                || books.isEmpty()
+                || books.getCount() <= 0
+                || !output.isEmpty()) {
             return;
         }
 
@@ -65,10 +63,15 @@ public class TileDissEnchanter extends TileInventoryBase {
                 continue;
             }
 
-            int cost = (int) ((((double) lvl / (double) e.getMaxLevel()) * 20) * DEConfig.disenchnaterCostMultiplyer);
+            int cost =
+                    (int)
+                            ((((double) lvl / (double) e.getMaxLevel()) * 20)
+                                    * DEConfig.disenchnaterCostMultiplyer);
 
             if (!client.capabilities.isCreativeMode && cost > client.experienceLevel) {
-                client.sendMessage(new TextComponentTranslation("chat.dissEnchanter.notEnoughLevels.msg", cost).setStyle(new Style().setColor(TextFormatting.RED)));
+                client.sendMessage(
+                        new TextComponentTranslation("chat.dissEnchanter.notEnoughLevels.msg", cost)
+                                .setStyle(new Style().setColor(TextFormatting.RED)));
                 return;
             }
 

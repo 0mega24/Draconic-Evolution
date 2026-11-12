@@ -1,5 +1,8 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki;
 
+import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.CONTENT_WINDOW;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_TEXT;
+
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourARGB;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
@@ -12,21 +15,15 @@ import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.displayconte
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.displaycontent.DisplayComponentRegistry;
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree.TreeBranchRoot;
 import com.brandon3055.draconicevolution.utils.LogHelper;
-import net.minecraft.client.Minecraft;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import net.minecraft.client.Minecraft;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
-import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.CONTENT_WINDOW;
-import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_TEXT;
-
-/**
- * Created by brandon3055 on 31/08/2016.
- */
+/** Created by brandon3055 on 31/08/2016. */
 public class WikiContentWindow extends MGuiList implements IMGuiListener {
     private GuiModWiki guiModWiki;
     public TreeBranchRoot activeBranch;
@@ -45,45 +42,80 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
         rightPadding = 4;
     }
 
-    //region Init
+    // region Init
 
     @Override
     public void initElement() {
         toRemove.addAll(childElements);
 
-        addChild(label = new MGuiLabel(guiModWiki, xPos, yPos + 1, xSize, 12, activeBranch.branchID.equals("ROOT") ? "Project Intelligence" : activeBranch.branchName) {
-            @Override
-            public int getTextColour() {
-                return NAV_TEXT;
-            }
+        addChild(
+                label =
+                        new MGuiLabel(
+                                guiModWiki,
+                                xPos,
+                                yPos + 1,
+                                xSize,
+                                12,
+                                activeBranch.branchID.equals("ROOT")
+                                        ? "Project Intelligence"
+                                        : activeBranch.branchName) {
+                            @Override
+                            public int getTextColour() {
+                                return NAV_TEXT;
+                            }
 
-            @Override
-            public boolean getDropShadow() {
-                Colour colour = new ColourARGB(NAV_TEXT);
-                long l = ((colour.r & 0xff) + (colour.g & 0xff) + (colour.b & 0xff)) / 3;
-                return l > 80;
-            }
-        }.setAlignment(EnumAlignment.LEFT));
+                            @Override
+                            public boolean getDropShadow() {
+                                Colour colour = new ColourARGB(NAV_TEXT);
+                                long l =
+                                        ((colour.r & 0xff) + (colour.g & 0xff) + (colour.b & 0xff))
+                                                / 3;
+                                return l > 80;
+                            }
+                        }.setAlignment(EnumAlignment.LEFT));
 
-        addChild(delete = (MGuiButtonSolid) new MGuiButtonSolid(guiModWiki, "DELETE", xPos + xSize - 12, yPos, 12, 12, "X") {
-            @Override
-            public int getFillColour(boolean hovering, boolean disabled) {
-                return disabled ? 0xFF777777 : hovering ? 0xFFFFFFFF : 0xFFFF0000;
-            }
+        addChild(
+                delete =
+                        (MGuiButtonSolid)
+                                new MGuiButtonSolid(
+                                        guiModWiki,
+                                        "DELETE",
+                                        xPos + xSize - 12,
+                                        yPos,
+                                        12,
+                                        12,
+                                        "X") {
+                                    @Override
+                                    public int getFillColour(boolean hovering, boolean disabled) {
+                                        return disabled
+                                                ? 0xFF777777
+                                                : hovering ? 0xFFFFFFFF : 0xFFFF0000;
+                                    }
 
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return disabled ? 0xFF555555 : hovering ? 0xFFFF0000 : 0xFFFFFFFF;
-            }
-        }.setListener(this).setToolTip(new String[]{"Delete Selected Display Component"}));
+                                    @Override
+                                    public int getBorderColour(boolean hovering, boolean disabled) {
+                                        return disabled
+                                                ? 0xFF555555
+                                                : hovering ? 0xFFFF0000 : 0xFFFFFFFF;
+                                    }
+                                }.setListener(this)
+                                        .setToolTip(
+                                                new String[] {
+                                                    "Delete Selected Display Component"
+                                                }));
         delete.disabled = true;
 
-        addChild(add = (MGuiButtonSolid) new MGuiButtonSolid(modularGui, "ADD", xPos + xSize - 38, yPos, 25, 12, "Add") {
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return hovering ? 0xFF00FF00 : 0xFFFF0000;
-            }
-        }.setListener(this).setToolTip(new String[]{"Add New Display Component"}));
+        addChild(
+                add =
+                        (MGuiButtonSolid)
+                                new MGuiButtonSolid(
+                                        modularGui, "ADD", xPos + xSize - 38, yPos, 25, 12, "Add") {
+                                    @Override
+                                    public int getBorderColour(boolean hovering, boolean disabled) {
+                                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                                    }
+                                }.setListener(this)
+                                        .setToolTip(new String[] {"Add New Display Component"}));
 
         delete.setEnabled(WikiConfig.editMode && activeBranch.branchData != null);
         add.setEnabled(WikiConfig.editMode && activeBranch.branchData != null);
@@ -94,14 +126,20 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
 
     @Override
     protected void initScrollBar() {
-//        scrollBar = new MGuiScrollBar(modularGui, xPos + xSize - 10, yPos + 12, 10, ySize - 14);
-        scrollBar = new MGuiScrollBar(modularGui, xPos + xSize - 5, yPos + 11, 6, ySize - 12) {
-            @Override
-            public int getScrollColour() {
-                return mixColours(CONTENT_WINDOW, 0x00505050);
-            }
-        };
-        scrollBar.addChild(new MGuiHoverPopup(modularGui, new String[]{"Pro Tip.", "Hold shift while scrolling to scroll faster!"}, scrollBar));
+        //        scrollBar = new MGuiScrollBar(modularGui, xPos + xSize - 10, yPos + 12, 10, ySize
+        // - 14);
+        scrollBar =
+                new MGuiScrollBar(modularGui, xPos + xSize - 5, yPos + 11, 6, ySize - 12) {
+                    @Override
+                    public int getScrollColour() {
+                        return mixColours(CONTENT_WINDOW, 0x00505050);
+                    }
+                };
+        scrollBar.addChild(
+                new MGuiHoverPopup(
+                        modularGui,
+                        new String[] {"Pro Tip.", "Hold shift while scrolling to scroll faster!"},
+                        scrollBar));
         scrollBar.borderColour = 0x00000000;
         scrollBar.backColour = 0x00000000;
         addChild(scrollBar);
@@ -109,53 +147,78 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
         scrollBar.parentScrollable = this;
     }
 
-    //endregion
+    // endregion
 
-    //region Render
+    // region Render
 
     @Override
-    public void renderBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
+    public void renderBackgroundLayer(
+            Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
         int navWindowColour = CONTENT_WINDOW;
 
         int neg15 = mixColours(navWindowColour, 0x00151515, true);
         int pos20 = mixColours(navWindowColour, 0x00202020);
         int neg30 = mixColours(navWindowColour, 0x00303030, true);
 
-        drawColouredRect(xPos, yPos, xSize, ySize, navWindowColour);        //Main Window
-        drawColouredRect(xPos, yPos, xSize, 0.5, pos20);                    //Top Accent
-        drawColouredRect(xPos, yPos + 0.5, xSize, 0.6, neg15);              //Top Accent
-        drawColouredRect(xPos, yPos + 1, xSize, 11, mixColours(navWindowColour, 0x00080808, true));                    //Top Bar
-        drawColouredRect(xPos, yPos + 11.5, xSize, 0.5, neg30);              //Top Bar
-        drawColouredRect(xPos, yPos + ySize - 1, xSize, 1, neg30);          //Bottom Accent
-        drawColouredRect(xPos, yPos, 0.6, ySize, pos20);                    //Window Left Accent
-        drawColouredRect(xPos + 0.6, yPos + 0.5, 0.6, ySize - 1, neg15);    //Window Left Accent 2
-        drawColouredRect(xPos + xSize - 0.6, yPos, 0.6, 12, pos20);      //Window Right Accent
-        drawColouredRect(xPos + xSize - 1.2, yPos + 0.5, 0.6, 11, neg15);      //Window Right Accent 2
+        drawColouredRect(xPos, yPos, xSize, ySize, navWindowColour); // Main Window
+        drawColouredRect(xPos, yPos, xSize, 0.5, pos20); // Top Accent
+        drawColouredRect(xPos, yPos + 0.5, xSize, 0.6, neg15); // Top Accent
+        drawColouredRect(
+                xPos,
+                yPos + 1,
+                xSize,
+                11,
+                mixColours(navWindowColour, 0x00080808, true)); // Top Bar
+        drawColouredRect(xPos, yPos + 11.5, xSize, 0.5, neg30); // Top Bar
+        drawColouredRect(xPos, yPos + ySize - 1, xSize, 1, neg30); // Bottom Accent
+        drawColouredRect(xPos, yPos, 0.6, ySize, pos20); // Window Left Accent
+        drawColouredRect(xPos + 0.6, yPos + 0.5, 0.6, ySize - 1, neg15); // Window Left Accent 2
+        drawColouredRect(xPos + xSize - 0.6, yPos, 0.6, 12, pos20); // Window Right Accent
+        drawColouredRect(xPos + xSize - 1.2, yPos + 0.5, 0.6, 11, neg15); // Window Right Accent 2
 
-        if (scrollBar.isEnabled() && GuiHelper.isInRect(scrollBar.xPos, scrollBar.yPos, scrollBar.xSize, scrollBar.ySize, mouseX, mouseY)) {
-            drawColouredRect(xPos + xSize - 4, yPos + 12, 4, ySize - 12, mixColours(scrollBar.scrollColour, 0xCC000000, true));
+        if (scrollBar.isEnabled()
+                && GuiHelper.isInRect(
+                        scrollBar.xPos,
+                        scrollBar.yPos,
+                        scrollBar.xSize,
+                        scrollBar.ySize,
+                        mouseX,
+                        mouseY)) {
+            drawColouredRect(
+                    xPos + xSize - 4,
+                    yPos + 12,
+                    4,
+                    ySize - 12,
+                    mixColours(scrollBar.scrollColour, 0xCC000000, true));
         }
 
         if (activeBranch.branchData == null) {
-            drawString(fontRenderer, "[Error: Failed to load page content]", xPos + 3, yPos + 15, 0xFF0000);
+            drawString(
+                    fontRenderer,
+                    "[Error: Failed to load page content]",
+                    xPos + 3,
+                    yPos + 15,
+                    0xFF0000);
         }
 
         super.renderBackgroundLayer(minecraft, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public void renderForegroundLayer(Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
+    public void renderForegroundLayer(
+            Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
         super.renderForegroundLayer(minecraft, mouseX, mouseY, partialTicks);
     }
 
-//    @Override
-//    public void renderOverlayLayer(Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
-//        super.renderOverlayLayer(minecraft, mouseX, mouseY, partialTicks);
-//    }
+    //    @Override
+    //    public void renderOverlayLayer(Minecraft minecraft, int mouseX, int mouseY, float
+    // partialTicks) {
+    //        super.renderOverlayLayer(minecraft, mouseX, mouseY, partialTicks);
+    //    }
 
-    //endregion
+    // endregion
 
-    //region List
+    // region List
 
     public void updatePositions() {
         if (!initialized) {
@@ -167,9 +230,9 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
         label.xSize = xSize;
     }
 
-    //endregion
+    // endregion
 
-    //region Editing
+    // region Editing
 
     public void setEditingComponent(DisplayComponentBase component) {
         topPadding = 12;
@@ -220,24 +283,22 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
     @Override
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         if (eventElement == delete && editingComponent != null) {
-//            if (editingComponent instanceof DCSplitContainer) {
-//                ((DCSplitContainer) editingComponent).deleteSelectedComponent();
-//            }
-//            else {
+            //            if (editingComponent instanceof DCSplitContainer) {
+            //                ((DCSplitContainer) editingComponent).deleteSelectedComponent();
+            //            }
+            //            else {
             editingComponent.element.getParentNode().removeChild(editingComponent.element);
-//                activeBranch.branchData.removeChild(editingComponent.element);
-//            }
+            //                activeBranch.branchData.removeChild(editingComponent.element);
+            //            }
             try {
                 activeBranch.save();
                 WikiDocManager.reload(false, true, true);
                 guiModWiki.wikiDataTree.reOpenLast();
                 setEditingComponent(null);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else if (eventElement == add) {
+        } else if (eventElement == add) {
             if (addSelector != null) {
                 modularGui.getManager().remove(addSelector);
                 addSelector = null;
@@ -265,24 +326,31 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
             addSelector.setListener(this);
             modularGui.getManager().add(addSelector, 2);
 
-        }
-        else if (eventString.equals("SELECTOR_PICK") && eventElement instanceof MGuiLabel) {
+        } else if (eventString.equals("SELECTOR_PICK") && eventElement instanceof MGuiLabel) {
             String type = ((MGuiLabel) eventElement).displayString;
-            Element element = activeBranch.branchData.getOwnerDocument().createElement(WikiDocManager.ELEMENT_CONTENT);
+            Element element =
+                    activeBranch
+                            .branchData
+                            .getOwnerDocument()
+                            .createElement(WikiDocManager.ELEMENT_CONTENT);
 
-            int index = activeBranch.branchContent.size() == 0 ? 0 : activeBranch.branchContent.getLast().posIndex + 1;
+            int index =
+                    activeBranch.branchContent.size() == 0
+                            ? 0
+                            : activeBranch.branchContent.getLast().posIndex + 1;
             element.setAttribute("index", String.valueOf(index));
             element.setAttribute(WikiDocManager.ATTRIB_TYPE, type);
 
             Node node = activeBranch.branchData.getFirstChild();
             if (node == null) {
                 activeBranch.branchData.appendChild(element);
-            }
-            else {
+            } else {
                 activeBranch.branchData.insertBefore(element, node);
             }
 
-            DisplayComponentBase component = DisplayComponentRegistry.createComponent(guiModWiki, type, element, activeBranch);
+            DisplayComponentBase component =
+                    DisplayComponentRegistry.createComponent(
+                            guiModWiki, type, element, activeBranch);
             if (component == null) {
                 LogHelper.error("Failed to create display component... This should not happen.");
                 return;
@@ -297,16 +365,15 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
                 activeBranch.save();
                 WikiDocManager.reload(false, true, true);
                 guiModWiki.wikiDataTree.reOpenLast();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Misc
+    // region Misc
 
     public void setActiveBranch(TreeBranchRoot activeBranch) {
         if (activeBranch != this.activeBranch && scrollBar != null) {
@@ -316,7 +383,10 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
         this.activeBranch = activeBranch;
         setEditingComponent(null);
         if (label != null) {
-            label.setDisplayString(activeBranch.branchID.equals("ROOT") ? "Project Intelligence" : activeBranch.branchName);
+            label.setDisplayString(
+                    activeBranch.branchID.equals("ROOT")
+                            ? "Project Intelligence"
+                            : activeBranch.branchName);
         }
 
         clear();
@@ -346,5 +416,5 @@ public class WikiContentWindow extends MGuiList implements IMGuiListener {
         return false;
     }
 
-    //endregion
+    // endregion
 }

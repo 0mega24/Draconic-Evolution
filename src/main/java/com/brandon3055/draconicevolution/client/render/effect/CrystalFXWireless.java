@@ -9,6 +9,9 @@ import com.brandon3055.draconicevolution.client.DEParticles;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -21,13 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 29/11/2016.
- */
+/** Created by brandon3055 on 29/11/2016. */
 public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
 
     private final BlockPos linkTarget;
@@ -67,17 +64,30 @@ public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
             PTracker next = i.next();
             if (next.ticksActive >= next.travelTime) {
                 i.remove();
-            }
-            else {
+            } else {
                 next.ticksActive++;
             }
         }
 
         int ps = Minecraft.getMinecraft().gameSettings.particleSetting;
-        if (particleAge % 2 == 0 && powerLevel > rand.nextFloat() && (ps == 0 || (ps == 1 && rand.nextInt(3) == 0) || (ps == 2 && rand.nextInt(10) == 0))) {
+        if (particleAge % 2 == 0
+                && powerLevel > rand.nextFloat()
+                && (ps == 0
+                        || (ps == 1 && rand.nextInt(3) == 0)
+                        || (ps == 2 && rand.nextInt(10) == 0))) {
             double travel = 50 + rand.nextInt(50);
             travel *= (1.4F - powerLevel);
-            trackers.add(new PTracker((int) travel, new Vector3(targetBB.minX + (rand.nextDouble() * (targetBB.maxX - targetBB.minX)), targetBB.minY + (rand.nextDouble() * (targetBB.maxY - targetBB.minY)), targetBB.minZ + (rand.nextDouble() * (targetBB.maxZ - targetBB.minZ)))));
+            trackers.add(
+                    new PTracker(
+                            (int) travel,
+                            new Vector3(
+                                    targetBB.minX
+                                            + (rand.nextDouble() * (targetBB.maxX - targetBB.minX)),
+                                    targetBB.minY
+                                            + (rand.nextDouble() * (targetBB.maxY - targetBB.minY)),
+                                    targetBB.minZ
+                                            + (rand.nextDouble()
+                                                    * (targetBB.maxZ - targetBB.minZ)))));
         }
 
         particleTextureIndexX = ClientEventHandler.elapsedTicks % 5;
@@ -85,8 +95,16 @@ public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
     }
 
     @Override
-    public void renderParticle(BufferBuilder buffer, Entity entity, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
-        double scale = 0.08;// * powerLevel;
+    public void renderParticle(
+            BufferBuilder buffer,
+            Entity entity,
+            float partialTicks,
+            float rotationX,
+            float rotationZ,
+            float rotationYZ,
+            float rotationXY,
+            float rotationXZ) {
+        double scale = 0.08; // * powerLevel;
         boolean output = !tile.inputMode.value;
 
         float minU = (float) this.particleTextureIndexX / texturesPerRow;
@@ -95,10 +113,12 @@ public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
         float maxV = minV + 1F / texturesPerRow;
 
         Vector3 source = new Vector3(posX - interpPosX, posY - interpPosY, posZ - interpPosZ);
-        Vector3 target = Vector3.fromBlockPos(linkTarget).subtract(interpPosX, interpPosY, interpPosZ);
+        Vector3 target =
+                Vector3.fromBlockPos(linkTarget).subtract(interpPosX, interpPosY, interpPosZ);
 
         for (PTracker tracker : trackers) {
-            double progress = ((double) tracker.ticksActive + partialTicks) / (double) tracker.travelTime;
+            double progress =
+                    ((double) tracker.ticksActive + partialTicks) / (double) tracker.travelTime;
             if (!output) progress = 1 - progress;
             if (progress >= 1 || progress <= 0) {
                 continue;
@@ -108,14 +128,53 @@ public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
             pathVec.multiply(progress);
             pathVec.add(source);
 
-            buffer.pos((pathVec.x - rotationX * scale - rotationXY * scale), (pathVec.y - rotationZ * scale), (pathVec.z - rotationYZ * scale - rotationXZ * scale)).tex((double) maxU, (double) maxV)/*.color(particleRed, particleGreen, particleBlue, particleAlpha)*/.endVertex();
-            buffer.pos((pathVec.x - rotationX * scale + rotationXY * scale), (pathVec.y + rotationZ * scale), (pathVec.z - rotationYZ * scale + rotationXZ * scale)).tex((double) maxU, (double) minV)/*.color(particleRed, particleGreen, particleBlue, particleAlpha)*/.endVertex();
-            buffer.pos((pathVec.x + rotationX * scale + rotationXY * scale), (pathVec.y + rotationZ * scale), (pathVec.z + rotationYZ * scale + rotationXZ * scale)).tex((double) minU, (double) minV)/*.color(particleRed, particleGreen, particleBlue, particleAlpha)*/.endVertex();
-            buffer.pos((pathVec.x + rotationX * scale - rotationXY * scale), (pathVec.y - rotationZ * scale), (pathVec.z + rotationYZ * scale - rotationXZ * scale)).tex((double) minU, (double) maxV)/*.color(particleRed, particleGreen, particleBlue, particleAlpha)*/.endVertex();
+            buffer.pos(
+                            (pathVec.x - rotationX * scale - rotationXY * scale),
+                            (pathVec.y - rotationZ * scale),
+                            (pathVec.z - rotationYZ * scale - rotationXZ * scale))
+                    .tex(
+                            (double) maxU,
+                            (double)
+                                    maxV) /*.color(particleRed, particleGreen, particleBlue, particleAlpha)*/
+                    .endVertex();
+            buffer.pos(
+                            (pathVec.x - rotationX * scale + rotationXY * scale),
+                            (pathVec.y + rotationZ * scale),
+                            (pathVec.z - rotationYZ * scale + rotationXZ * scale))
+                    .tex(
+                            (double) maxU,
+                            (double)
+                                    minV) /*.color(particleRed, particleGreen, particleBlue, particleAlpha)*/
+                    .endVertex();
+            buffer.pos(
+                            (pathVec.x + rotationX * scale + rotationXY * scale),
+                            (pathVec.y + rotationZ * scale),
+                            (pathVec.z + rotationYZ * scale + rotationXZ * scale))
+                    .tex(
+                            (double) minU,
+                            (double)
+                                    minV) /*.color(particleRed, particleGreen, particleBlue, particleAlpha)*/
+                    .endVertex();
+            buffer.pos(
+                            (pathVec.x + rotationX * scale - rotationXY * scale),
+                            (pathVec.y - rotationZ * scale),
+                            (pathVec.z + rotationYZ * scale - rotationXZ * scale))
+                    .tex(
+                            (double) minU,
+                            (double)
+                                    maxV) /*.color(particleRed, particleGreen, particleBlue, particleAlpha)*/
+                    .endVertex();
         }
     }
 
-    private void bufferQuad(BufferBuilder buffer, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, double anim, double dist) {
+    private void bufferQuad(
+            BufferBuilder buffer,
+            Vector3 p1,
+            Vector3 p2,
+            Vector3 p3,
+            Vector3 p4,
+            double anim,
+            double dist) {
         buffer.pos(p1.x, p1.y, p1.z).tex(0.5, anim).endVertex();
         buffer.pos(p2.x, p2.y, p2.z).tex(0.5, dist + anim).endVertex();
         buffer.pos(p4.x, p4.y, p4.z).tex(1.0, dist + anim).endVertex();
@@ -124,12 +183,15 @@ public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
 
     @Override
     public IGLFXHandler getFXHandler() {
-        return tile.getTier() == 0 ? BASIC_HANDLER : tile.getTier() == 1 ? WYVERN_HANDLER : DRACONIC_HANDLER;
+        return tile.getTier() == 0
+                ? BASIC_HANDLER
+                : tile.getTier() == 1 ? WYVERN_HANDLER : DRACONIC_HANDLER;
     }
 
     private static final FXHandler BASIC_HANDLER = new FXHandler(DETextures.ENERGY_BEAM_BASIC);
     private static final FXHandler WYVERN_HANDLER = new FXHandler(DETextures.ENERGY_BEAM_WYVERN);
-    private static final FXHandler DRACONIC_HANDLER = new FXHandler(DETextures.ENERGY_BEAM_DRACONIC);
+    private static final FXHandler DRACONIC_HANDLER =
+            new FXHandler(DETextures.ENERGY_BEAM_DRACONIC);
 
     public static class FXHandler implements IGLFXHandler {
 
@@ -141,7 +203,16 @@ public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
         }
 
         @Override
-        public void preDraw(int layer, BufferBuilder vertexbuffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+        public void preDraw(
+                int layer,
+                BufferBuilder vertexbuffer,
+                Entity entityIn,
+                float partialTicks,
+                float rotationX,
+                float rotationZ,
+                float rotationYZ,
+                float rotationXY,
+                float rotationXZ) {
             GlStateManager.color(0.0F, 1.0F, 1.0F, 1.0F);
             GlStateTracker.pushState();
             GlStateManager.depthMask(false);
@@ -151,8 +222,8 @@ public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
             GlStateManager.alphaFunc(GL11.GL_GREATER, 0F);
             ResourceHelperDE.bindTexture(DEParticles.DE_SHEET);
             GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-
+            GlStateManager.blendFunc(
+                    GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
 
             vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         }
@@ -160,7 +231,9 @@ public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
         @Override
         public void postDraw(int layer, BufferBuilder vertexbuffer, Tessellator tessellator) {
             tessellator.draw();
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            GlStateManager.blendFunc(
+                    GlStateManager.SourceFactor.SRC_ALPHA,
+                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             GlStateTracker.popState();
         }
     }

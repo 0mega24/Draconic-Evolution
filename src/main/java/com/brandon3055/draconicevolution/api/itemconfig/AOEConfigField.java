@@ -1,14 +1,11 @@
 package com.brandon3055.draconicevolution.api.itemconfig;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-/**
- * Created by brandon3055 on 8/06/2016.
- */
+/** Created by brandon3055 on 8/06/2016. */
 public class AOEConfigField extends IntegerConfigField {
 
     public AOEConfigField(String name, int value, int minValue, int maxValue, String description) {
@@ -39,8 +36,7 @@ public class AOEConfigField extends IntegerConfigField {
             value = data;
             if (value > maxValue) {
                 value = maxValue;
-            }
-            else if (value < minValue) {
+            } else if (value < minValue) {
                 value = minValue;
             }
         }

@@ -5,6 +5,13 @@ import com.brandon3055.brandonscore.client.utils.GuiHelper;
 import com.brandon3055.draconicevolution.integration.ModHelper;
 import com.brandon3055.draconicevolution.inventory.ContainerRecipeBuilder;
 import com.google.common.base.CaseFormat;
+import java.awt.*;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -14,17 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.awt.*;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.StringSelection;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-/**
- * Created by brandon3055 on 21/07/2016.
- */
+/** Created by brandon3055 on 21/07/2016. */
 public class GuiRecipeBuilder extends GuiContainer {
     private ContainerRecipeBuilder container;
     private GuiTextField textField;
@@ -43,7 +40,7 @@ public class GuiRecipeBuilder extends GuiContainer {
         ySize = 230;
     }
 
-    //region Init
+    // region Init
 
     @Override
     public void initGui() {
@@ -53,22 +50,105 @@ public class GuiRecipeBuilder extends GuiContainer {
         textField.setTextColor(0x00FF00);
         textField.setMaxStringLength(1000);
         buttonList.clear();
-        buttonList.add(new ButtonColourRect(0, "Crafting", guiLeft + 18, guiTop + 130, 50, 12, 0xFF440000, 0xFF000066, 0xFF006600));
-        buttonList.add(new ButtonColourRect(1, "Fusion", guiLeft + 70, guiTop + 130, 50, 12, 0xFF440000, 0xFF000066, 0xFF006600));
+        buttonList.add(
+                new ButtonColourRect(
+                        0,
+                        "Crafting",
+                        guiLeft + 18,
+                        guiTop + 130,
+                        50,
+                        12,
+                        0xFF440000,
+                        0xFF000066,
+                        0xFF006600));
+        buttonList.add(
+                new ButtonColourRect(
+                        1,
+                        "Fusion",
+                        guiLeft + 70,
+                        guiTop + 130,
+                        50,
+                        12,
+                        0xFF440000,
+                        0xFF000066,
+                        0xFF006600));
 
-
-        buttonList.add(new ButtonColourRect(9, "Copy", guiLeft + xSize - 31, guiTop + 130, 29, 12, 0xFF440000, 0xFF000066, 0xFF006600));
-        buttonList.add(genShaped = new ButtonColourRect(10, "Shaped", guiLeft + 18, guiTop + 100, 42, 12, 0xFF440000, 0xFF000066, 0xFF006600));
-        buttonList.add(genShapeless = new ButtonColourRect(11, "Shapeless", guiLeft + 61, guiTop + 100, 56, 12, 0xFF440000, 0xFF000066, 0xFF006600));
-        buttonList.add(genOre = new ButtonColourRect(12, "Ore: true", guiLeft + 118, guiTop + 100, 56, 12, 0xFF440000, 0xFF000066, 0xFF006600));
-        buttonList.add(genFusion = new ButtonColourRect(13, "Gen Fusion", guiLeft + 18, guiTop + 100, 70, 12, 0xFF440000, 0xFF000066, 0xFF006600));
-        buttonList.add(new ButtonColourRect(100, "Reload Recipes", guiLeft - 90, guiTop + ySize - 12, 90, 12, 0xFF440000, 0xFF000066, 0xFF006600));
+        buttonList.add(
+                new ButtonColourRect(
+                        9,
+                        "Copy",
+                        guiLeft + xSize - 31,
+                        guiTop + 130,
+                        29,
+                        12,
+                        0xFF440000,
+                        0xFF000066,
+                        0xFF006600));
+        buttonList.add(
+                genShaped =
+                        new ButtonColourRect(
+                                10,
+                                "Shaped",
+                                guiLeft + 18,
+                                guiTop + 100,
+                                42,
+                                12,
+                                0xFF440000,
+                                0xFF000066,
+                                0xFF006600));
+        buttonList.add(
+                genShapeless =
+                        new ButtonColourRect(
+                                11,
+                                "Shapeless",
+                                guiLeft + 61,
+                                guiTop + 100,
+                                56,
+                                12,
+                                0xFF440000,
+                                0xFF000066,
+                                0xFF006600));
+        buttonList.add(
+                genOre =
+                        new ButtonColourRect(
+                                12,
+                                "Ore: true",
+                                guiLeft + 118,
+                                guiTop + 100,
+                                56,
+                                12,
+                                0xFF440000,
+                                0xFF000066,
+                                0xFF006600));
+        buttonList.add(
+                genFusion =
+                        new ButtonColourRect(
+                                13,
+                                "Gen Fusion",
+                                guiLeft + 18,
+                                guiTop + 100,
+                                70,
+                                12,
+                                0xFF440000,
+                                0xFF000066,
+                                0xFF006600));
+        buttonList.add(
+                new ButtonColourRect(
+                        100,
+                        "Reload Recipes",
+                        guiLeft - 90,
+                        guiTop + ySize - 12,
+                        90,
+                        12,
+                        0xFF440000,
+                        0xFF000066,
+                        0xFF006600));
         genFusion.visible = false;
     }
 
-    //endregion
+    // endregion
 
-    //region Rendering
+    // region Rendering
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
@@ -77,39 +157,74 @@ public class GuiRecipeBuilder extends GuiContainer {
 
         int posX = 20;
         int posY = 145;
-        GuiHelper.drawBorderedRect(guiLeft + posX - 2, guiTop + posY - 2, 164, 78, 1, 0xFF000000, 0xFF00FFFF);
-
+        GuiHelper.drawBorderedRect(
+                guiLeft + posX - 2, guiTop + posY - 2, 164, 78, 1, 0xFF000000, 0xFF00FFFF);
 
         for (int x = 0; x < 9; x++) {
-            GuiHelper.drawBorderedRect(guiLeft + posX + 18 * x - 1, guiTop + posY + 57, 18, 18, 1, 0xFFAAAAAA, 0xFF444444);
+            GuiHelper.drawBorderedRect(
+                    guiLeft + posX + 18 * x - 1,
+                    guiTop + posY + 57,
+                    18,
+                    18,
+                    1,
+                    0xFFAAAAAA,
+                    0xFF444444);
         }
 
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
-                GuiHelper.drawBorderedRect(guiLeft + posX + 18 * x - 1, guiTop + posY + y * 18 - 1, 18, 18, 1, 0xFFAAAAAA, 0xFF444444);
+                GuiHelper.drawBorderedRect(
+                        guiLeft + posX + 18 * x - 1,
+                        guiTop + posY + y * 18 - 1,
+                        18,
+                        18,
+                        1,
+                        0xFFAAAAAA,
+                        0xFF444444);
             }
         }
-
 
         if (recipeType == 0) {
             posY = 30;
             for (int y = 0; y < 3; y++) {
                 for (int x = 0; x < 3; x++) {
-                    GuiHelper.drawBorderedRect(guiLeft + posX + 18 * x - 1, guiTop + posY + y * 18 - 1, 18, 18, 1, 0xFFAAAAAA, 0xFF444444);
+                    GuiHelper.drawBorderedRect(
+                            guiLeft + posX + 18 * x - 1,
+                            guiTop + posY + y * 18 - 1,
+                            18,
+                            18,
+                            1,
+                            0xFFAAAAAA,
+                            0xFF444444);
                 }
             }
-            GuiHelper.drawBorderedRect(guiLeft + 70 + 36, guiTop + posY + 18 - 1, 18, 18, 1, 0xFFAAAAAA, 0xFF444444);
-        }
-        else {
-            GuiHelper.drawBorderedRect(guiLeft + 89 - 18, guiTop + 19, 18, 18, 1, 0xFFAAAAAA, 0xFF444444);
-            GuiHelper.drawBorderedRect(guiLeft + 89 + 18, guiTop + 19, 18, 18, 1, 0xFFAAAAAA, 0xFF444444);
+            GuiHelper.drawBorderedRect(
+                    guiLeft + 70 + 36, guiTop + posY + 18 - 1, 18, 18, 1, 0xFFAAAAAA, 0xFF444444);
+        } else {
+            GuiHelper.drawBorderedRect(
+                    guiLeft + 89 - 18, guiTop + 19, 18, 18, 1, 0xFFAAAAAA, 0xFF444444);
+            GuiHelper.drawBorderedRect(
+                    guiLeft + 89 + 18, guiTop + 19, 18, 18, 1, 0xFFAAAAAA, 0xFF444444);
 
             for (int i = 1; i < 10; i++) {
-                GuiHelper.drawBorderedRect(guiLeft + 19 + (i - 1) * 18, guiTop + 49, 18, 18, 1, 0xFFAAAAAA, 0xFF444444);
-                GuiHelper.drawBorderedRect(guiLeft + 19 + (i - 1) * 18, guiTop + 67, 18, 18, 1, 0xFFAAAAAA, 0xFF444444);
+                GuiHelper.drawBorderedRect(
+                        guiLeft + 19 + (i - 1) * 18,
+                        guiTop + 49,
+                        18,
+                        18,
+                        1,
+                        0xFFAAAAAA,
+                        0xFF444444);
+                GuiHelper.drawBorderedRect(
+                        guiLeft + 19 + (i - 1) * 18,
+                        guiTop + 67,
+                        18,
+                        18,
+                        1,
+                        0xFFAAAAAA,
+                        0xFF444444);
             }
         }
-
     }
 
     @Override
@@ -126,14 +241,15 @@ public class GuiRecipeBuilder extends GuiContainer {
         textField.drawTextBox();
         GlStateManager.pushMatrix();
         GlStateManager.scale(0.666, 0.666, 0.666);
-        fontRenderer.drawSplitString(textField.getText(), 5, 5, (int) ((guiLeft + xSize - 10) * 1.5D), 0xFFFFFF);
+        fontRenderer.drawSplitString(
+                textField.getText(), 5, 5, (int) ((guiLeft + xSize - 10) * 1.5D), 0xFFFFFF);
         GlStateManager.popMatrix();
         this.renderHoveredToolTip(mouseX, mouseY);
     }
 
-    //endregion
+    // endregion
 
-    //region UserInput
+    // region UserInput
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
@@ -142,39 +258,31 @@ public class GuiRecipeBuilder extends GuiContainer {
             if (button.id == 0) {
                 genShaped.visible = genShapeless.visible = true;
                 genFusion.visible = false;
-            }
-            else {
+            } else {
                 genShaped.visible = genShapeless.visible = false;
                 genFusion.visible = true;
             }
-        }
-        else if (button.id == 2) {
+        } else if (button.id == 2) {
             container.inventoryCache.clear();
-        }
-        else if (button == genOre) {
+        } else if (button == genOre) {
             ore = !ore;
             genOre.displayString = "Ore: " + ore;
-        }
-        else if (button == genShaped) {
+        } else if (button == genShaped) {
             buildShaped(ore);
-        }
-        else if (button == genShapeless) {
+        } else if (button == genShapeless) {
             buildShapeless(ore);
-        }
-        else if (button == genFusion) {
+        } else if (button == genFusion) {
             buildFusion(ore);
-        }
-        else if (button.id == 9) {
+        } else if (button.id == 9) {
             try {
                 StringSelection stringselection = new StringSelection(textField.getText());
-                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringselection, (ClipboardOwner) null);
+                Toolkit.getDefaultToolkit()
+                        .getSystemClipboard()
+                        .setContents(stringselection, (ClipboardOwner) null);
+            } catch (Exception var2) {;
             }
-            catch (Exception var2) {
-                ;
-            }
-        }
-        else if (button.id == 100) {
-//            RecipeManager.loadRecipes();
+        } else if (button.id == 100) {
+            //            RecipeManager.loadRecipes();
             ModHelper.reloadJEI();
         }
     }
@@ -192,9 +300,9 @@ public class GuiRecipeBuilder extends GuiContainer {
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Build
+    // region Build
 
     private void buildShaped(boolean ore) {
         ItemStack output = container.inventoryCache.getStackInSlot(0);
@@ -208,13 +316,19 @@ public class GuiRecipeBuilder extends GuiContainer {
 
         if (output.getCount() > 1 || output.getItemDamage() > 0) {
             if (output.getItemDamage() > 0) {
-                recipeString.append(String.format("new ItemStack(%s, %s, %s)", findItemString(output, false), output.getCount(), output.getItemDamage()));
+                recipeString.append(
+                        String.format(
+                                "new ItemStack(%s, %s, %s)",
+                                findItemString(output, false),
+                                output.getCount(),
+                                output.getItemDamage()));
+            } else {
+                recipeString.append(
+                        String.format(
+                                "new ItemStack(%s, %s)",
+                                findItemString(output, false), output.getCount()));
             }
-            else {
-                recipeString.append(String.format("new ItemStack(%s, %s)", findItemString(output, false), output.getCount()));
-            }
-        }
-        else {
+        } else {
             recipeString.append(findItemString(output, false));
         }
 
@@ -228,8 +342,7 @@ public class GuiRecipeBuilder extends GuiContainer {
 
             if (stack.isEmpty()) {
                 recipeString.append(" ");
-            }
-            else {
+            } else {
                 if (!charMap.containsKey(stack.toString())) {
                     charMap.put(stack.toString(), String.valueOf(lastChar));
                     stackMap.put(stack.toString(), stack);
@@ -250,9 +363,11 @@ public class GuiRecipeBuilder extends GuiContainer {
             recipeString.append(String.format("'%s', ", charString));
 
             if (stack.getItemDamage() > 0) {
-                recipeString.append(String.format("new ItemStack(%s, 1, %s), ", findItemString(stack, false), stack.getItemDamage()));
-            }
-            else {
+                recipeString.append(
+                        String.format(
+                                "new ItemStack(%s, 1, %s), ",
+                                findItemString(stack, false), stack.getItemDamage()));
+            } else {
                 recipeString.append(findItemString(stack, ore)).append(", ");
             }
         }
@@ -274,13 +389,19 @@ public class GuiRecipeBuilder extends GuiContainer {
 
         if (output.getCount() > 1 || output.getItemDamage() > 0) {
             if (output.getItemDamage() > 0) {
-                recipeString += String.format("new ItemStack(%s, %s, %s)", findItemString(output, false), output.getCount(), output.getItemDamage());
+                recipeString +=
+                        String.format(
+                                "new ItemStack(%s, %s, %s)",
+                                findItemString(output, false),
+                                output.getCount(),
+                                output.getItemDamage());
+            } else {
+                recipeString +=
+                        String.format(
+                                "new ItemStack(%s, %s)",
+                                findItemString(output, false), output.getCount());
             }
-            else {
-                recipeString += String.format("new ItemStack(%s, %s)", findItemString(output, false), output.getCount());
-            }
-        }
-        else {
+        } else {
             recipeString += findItemString(output, false);
         }
 
@@ -294,9 +415,11 @@ public class GuiRecipeBuilder extends GuiContainer {
             }
 
             if (stack.getItemDamage() > 0) {
-                recipeString += String.format("new ItemStack(%s, 1, %s), ", findItemString(stack, false), stack.getItemDamage());
-            }
-            else {
+                recipeString +=
+                        String.format(
+                                "new ItemStack(%s, 1, %s), ",
+                                findItemString(stack, false), stack.getItemDamage());
+            } else {
                 recipeString += findItemString(stack, ore) + ", ";
             }
         }
@@ -318,26 +441,38 @@ public class GuiRecipeBuilder extends GuiContainer {
 
         if (output.getCount() > 1 || output.getItemDamage() > 0) {
             if (output.getItemDamage() > 0) {
-                recipeString.append(String.format("new ItemStack(%s, %s, %s)", findItemString(output, false), output.getCount(), output.getItemDamage()));
+                recipeString.append(
+                        String.format(
+                                "new ItemStack(%s, %s, %s)",
+                                findItemString(output, false),
+                                output.getCount(),
+                                output.getItemDamage()));
+            } else {
+                recipeString.append(
+                        String.format(
+                                "new ItemStack(%s, %s)",
+                                findItemString(output, false), output.getCount()));
             }
-            else {
-                recipeString.append(String.format("new ItemStack(%s, %s)", findItemString(output, false), output.getCount()));
-            }
-        }
-        else {
+        } else {
             recipeString.append(String.format("new ItemStack(%s)", findItemString(output, false)));
         }
 
         recipeString.append(", ");
         if (input.getCount() > 1 || input.getItemDamage() > 0) {
             if (input.getItemDamage() > 0) {
-                recipeString.append(String.format("new ItemStack(%s, %s, %s)", findItemString(input, false), input.getCount(), input.getItemDamage()));
+                recipeString.append(
+                        String.format(
+                                "new ItemStack(%s, %s, %s)",
+                                findItemString(input, false),
+                                input.getCount(),
+                                input.getItemDamage()));
+            } else {
+                recipeString.append(
+                        String.format(
+                                "new ItemStack(%s, %s)",
+                                findItemString(input, false), input.getCount()));
             }
-            else {
-                recipeString.append(String.format("new ItemStack(%s, %s)", findItemString(input, false), input.getCount()));
-            }
-        }
-        else {
+        } else {
             recipeString.append(String.format("new ItemStack(%s)", findItemString(input, false)));
         }
 
@@ -351,9 +486,11 @@ public class GuiRecipeBuilder extends GuiContainer {
             }
 
             if (stack.getItemDamage() > 0) {
-                recipeString.append(String.format("new ItemStack(%s, 1, %s), ", findItemString(stack, false), stack.getItemDamage()));
-            }
-            else {
+                recipeString.append(
+                        String.format(
+                                "new ItemStack(%s, 1, %s), ",
+                                findItemString(stack, false), stack.getItemDamage()));
+            } else {
                 recipeString.append(findItemString(stack, ore)).append(", ");
             }
         }
@@ -362,7 +499,8 @@ public class GuiRecipeBuilder extends GuiContainer {
         textField.setText(recipeString.toString());
     }
 
-    //FusionRecipeRegistry.addRecipe(new SimpleFusionRecipe(new ItemStack(Items.STONE_AXE), new ItemStack(Items.WOODEN_AXE), 1000, 0, new ItemStack(DEFeatures.draconicCore)));
+    // FusionRecipeRegistry.addRecipe(new SimpleFusionRecipe(new ItemStack(Items.STONE_AXE), new
+    // ItemStack(Items.WOODEN_AXE), 1000, 0, new ItemStack(DEFeatures.draconicCore)));
 
     private static String findItemString(ItemStack stack, boolean findOre) {
         if (findOre && OreDictionary.getOreIDs(stack).length > 0) {
@@ -372,16 +510,18 @@ public class GuiRecipeBuilder extends GuiContainer {
         Item item = stack.getItem();
 
         if (item.getRegistryName().getResourceDomain().equals("minecraft")) {
-            //return (item instanceof ItemBlock ? "Blocks." : "Items.") + item.getRegistryName().getResourcePath().toUpperCase();
+            // return (item instanceof ItemBlock ? "Blocks." : "Items.") +
+            // item.getRegistryName().getResourcePath().toUpperCase();
             return item.getRegistryName().getResourcePath().toUpperCase();
         }
         if (item.getRegistryName().getResourceDomain().equals("draconicevolution")) {
-            //return "DEFeatures." + item.getRegistryName().getResourcePath();
-            return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, item.getRegistryName().getResourcePath());
+            // return "DEFeatures." + item.getRegistryName().getResourcePath();
+            return CaseFormat.LOWER_UNDERSCORE.to(
+                    CaseFormat.LOWER_CAMEL, item.getRegistryName().getResourcePath());
         }
 
         return "Unknown";
     }
 
-    //endregion
+    // endregion
 }

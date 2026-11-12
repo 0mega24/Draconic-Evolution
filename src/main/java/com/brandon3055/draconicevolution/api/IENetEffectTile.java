@@ -2,14 +2,11 @@ package com.brandon3055.draconicevolution.api;
 
 import com.brandon3055.draconicevolution.blocks.energynet.rendering.ENetFXHandler;
 import com.brandon3055.draconicevolution.client.render.effect.CrystalGLFXBase;
+import java.util.LinkedList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.LinkedList;
-
-/**
- * Created by brandon3055 on 3/18/2018.
- */
+/** Created by brandon3055 on 3/18/2018. */
 public interface IENetEffectTile extends ICrystalLink {
 
     ENetFXHandler createServerFXHandler();
@@ -26,5 +23,7 @@ public interface IENetEffectTile extends ICrystalLink {
 
     int getIDHash();
 
-    default boolean hasStaticFX() { return true; }
+    default boolean hasStaticFX() {
+        return true;
+    }
 }

@@ -17,10 +17,10 @@ public class PacketParticleGenerator implements IMessage {
     private int value;
     private int randomValue;
 
-    public PacketParticleGenerator() {
-    }
+    public PacketParticleGenerator() {}
 
-    public PacketParticleGenerator(int tileX, int tileY, int tileZ, byte key, int value, int rValue) {
+    public PacketParticleGenerator(
+            int tileX, int tileY, int tileZ, byte key, int value, int rValue) {
         this.tileX = tileX;
         this.tileY = tileY;
         this.tileZ = tileZ;
@@ -53,8 +53,14 @@ public class PacketParticleGenerator implements IMessage {
 
         @Override
         public IMessage handleMessage(PacketParticleGenerator message, MessageContext ctx) {
-            TileEntity tile = ctx.getServerHandler().player.world.getTileEntity(new BlockPos(message.tileX, message.tileY, message.tileZ));
-            TileParticleGenerator gen = (tile instanceof TileParticleGenerator) ? ((TileParticleGenerator) tile) : null;
+            TileEntity tile =
+                    ctx.getServerHandler()
+                            .player
+                            .world
+                            .getTileEntity(
+                                    new BlockPos(message.tileX, message.tileY, message.tileZ));
+            TileParticleGenerator gen =
+                    (tile instanceof TileParticleGenerator) ? ((TileParticleGenerator) tile) : null;
 
             if (gen != null) {
                 switch (message.key) {
@@ -75,16 +81,16 @@ public class PacketParticleGenerator implements IMessage {
                         gen.RANDOM_ALPHA.value = message.randomValue;
                         break;
                     case 4:
-                        gen.SCALE.value = message.value/10000D;
-                        gen.RANDOM_SCALE.value = message.randomValue/10000D;
+                        gen.SCALE.value = message.value / 10000D;
+                        gen.RANDOM_SCALE.value = message.randomValue / 10000D;
                         break;
                     case 5:
                         gen.LIFE.value = message.value;
                         gen.RANDOM_LIFE.value = message.randomValue;
                         break;
                     case 6:
-                        gen.GRAVITY.value = message.value/10000D;
-                        gen.RANDOM_GRAVITY.value = message.randomValue/10000D;
+                        gen.GRAVITY.value = message.value / 10000D;
+                        gen.RANDOM_GRAVITY.value = message.randomValue / 10000D;
                         break;
                     case 7:
                         gen.FADE.value = message.value;
@@ -97,28 +103,28 @@ public class PacketParticleGenerator implements IMessage {
                         gen.COLLISION.value = message.value == 1;
                         break;
                     case 10:
-                        gen.MOTION_X.value = message.value/10000D;
-                        gen.RANDOM_MOTION_X.value = message.randomValue/10000D;
+                        gen.MOTION_X.value = message.value / 10000D;
+                        gen.RANDOM_MOTION_X.value = message.randomValue / 10000D;
                         break;
                     case 11:
-                        gen.MOTION_Y.value = message.value/10000D;
-                        gen.RANDOM_MOTION_Y.value = message.randomValue/10000D;
+                        gen.MOTION_Y.value = message.value / 10000D;
+                        gen.RANDOM_MOTION_Y.value = message.randomValue / 10000D;
                         break;
                     case 12:
-                        gen.MOTION_Z.value = message.value/10000D;
-                        gen.RANDOM_MOTION_Z.value = message.randomValue/10000D;
+                        gen.MOTION_Z.value = message.value / 10000D;
+                        gen.RANDOM_MOTION_Z.value = message.randomValue / 10000D;
                         break;
                     case 13:
-                        gen.SPAWN_X.value = message.value/10000D;
-                        gen.RANDOM_SPAWN_X.value = message.randomValue/10000D;
+                        gen.SPAWN_X.value = message.value / 10000D;
+                        gen.RANDOM_SPAWN_X.value = message.randomValue / 10000D;
                         break;
                     case 14:
-                        gen.SPAWN_Y.value = message.value/10000D;
-                        gen.RANDOM_SPAWN_Y.value = message.randomValue/10000D;
+                        gen.SPAWN_Y.value = message.value / 10000D;
+                        gen.RANDOM_SPAWN_Y.value = message.randomValue / 10000D;
                         break;
                     case 15:
-                        gen.SPAWN_Z.value = message.value/10000D;
-                        gen.RANDOM_SPAWN_Z.value = message.randomValue/10000D;
+                        gen.SPAWN_Z.value = message.value / 10000D;
+                        gen.RANDOM_SPAWN_Z.value = message.randomValue / 10000D;
                         break;
                     case 16:
                         gen.DELAY.value = message.value;
@@ -128,5 +134,4 @@ public class PacketParticleGenerator implements IMessage {
             return null;
         }
     }
-
 }

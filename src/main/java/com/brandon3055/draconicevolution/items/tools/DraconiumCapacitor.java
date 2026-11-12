@@ -17,6 +17,8 @@ import com.brandon3055.draconicevolution.entity.EntityPersistentItem;
 import com.brandon3055.draconicevolution.integration.BaublesHelper;
 import com.brandon3055.draconicevolution.integration.ModHelper;
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -34,14 +36,10 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 31/05/2016.
- */
+/** Created by brandon3055 on 31/05/2016. */
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "baubles")
-public class DraconiumCapacitor extends ItemEnergyBase implements IInvCharge, IUpgradableItem, IBauble {
+public class DraconiumCapacitor extends ItemEnergyBase
+        implements IInvCharge, IUpgradableItem, IBauble {
 
     public static final int wyvernTransfer = 8000000;
     public static final int draconicTransfer = 64000000;
@@ -52,7 +50,7 @@ public class DraconiumCapacitor extends ItemEnergyBase implements IInvCharge, IU
         this.setMaxStackSize(1);
     }
 
-    //region Item
+    // region Item
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
@@ -64,7 +62,8 @@ public class DraconiumCapacitor extends ItemEnergyBase implements IInvCharge, IU
 
             ItemStack uberWyvern = new ItemStack(DEFeatures.draconiumCapacitor, 1, 0);
             for (String upgrade : getValidUpgrades(uberWyvern)) {
-                UpgradeHelper.setUpgradeLevel(uberWyvern, upgrade, getMaxUpgradeLevel(uberWyvern, upgrade));
+                UpgradeHelper.setUpgradeLevel(
+                        uberWyvern, upgrade, getMaxUpgradeLevel(uberWyvern, upgrade));
             }
             setEnergy(uberWyvern, getCapacity(uberWyvern));
             subItems.add(uberWyvern);
@@ -76,7 +75,8 @@ public class DraconiumCapacitor extends ItemEnergyBase implements IInvCharge, IU
 
             ItemStack uberDraconic = new ItemStack(DEFeatures.draconiumCapacitor, 1, 1);
             for (String upgrade : getValidUpgrades(uberDraconic)) {
-                UpgradeHelper.setUpgradeLevel(uberDraconic, upgrade, getMaxUpgradeLevel(uberDraconic, upgrade));
+                UpgradeHelper.setUpgradeLevel(
+                        uberDraconic, upgrade, getMaxUpgradeLevel(uberDraconic, upgrade));
             }
             setEnergy(uberDraconic, getCapacity(uberDraconic));
             subItems.add(uberDraconic);
@@ -95,9 +95,9 @@ public class DraconiumCapacitor extends ItemEnergyBase implements IInvCharge, IU
         return new EntityPersistentItem(world, location, itemstack);
     }
 
-    //endregion
+    // endregion
 
-    //region Energy
+    // region Energy
 
     @Override
     public int getCapacity(ItemStack stack) {
@@ -107,9 +107,11 @@ public class DraconiumCapacitor extends ItemEnergyBase implements IInvCharge, IU
 
         switch (tier) {
             case 0:
-                return DEConfig.wyvernFluxCapBaseCap + (upgrade * (DEConfig.wyvernFluxCapBaseCap / 2));
+                return DEConfig.wyvernFluxCapBaseCap
+                        + (upgrade * (DEConfig.wyvernFluxCapBaseCap / 2));
             case 1:
-                return DEConfig.draconicFluxCapBaseCap + (upgrade * (DEConfig.draconicFluxCapBaseCap / 2));
+                return DEConfig.draconicFluxCapBaseCap
+                        + (upgrade * (DEConfig.draconicFluxCapBaseCap / 2));
             case 2:
                 return Integer.MAX_VALUE;
         }
@@ -175,33 +177,43 @@ public class DraconiumCapacitor extends ItemEnergyBase implements IInvCharge, IU
         return super.extractEnergy(container, maxExtract, simulate);
     }
 
-    //endregion
+    // endregion
 
-    //region Activation
+    // region Activation
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(
+            World world, EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (player.isSneaking()) {
             int mode = ItemNBTHelper.getShort(stack, "Mode", (short) 0);
             int newMode = mode == 4 ? 0 : mode + 1;
             ItemNBTHelper.setShort(stack, "Mode", (short) newMode);
             if (world.isRemote) {
-                ChatHelper.indexedMsg(player, InfoHelper.ITC() + I18n.format("info.de.capacitorMode.txt") + ": " + InfoHelper.HITC() + I18n.format("info.de.capacitorMode" + ItemNBTHelper.getShort(stack, "Mode", (short) 0) + ".txt"));
+                ChatHelper.indexedMsg(
+                        player,
+                        InfoHelper.ITC()
+                                + I18n.format("info.de.capacitorMode.txt")
+                                + ": "
+                                + InfoHelper.HITC()
+                                + I18n.format(
+                                        "info.de.capacitorMode"
+                                                + ItemNBTHelper.getShort(stack, "Mode", (short) 0)
+                                                + ".txt"));
             }
         }
         return new ActionResult<>(EnumActionResult.PASS, stack);
     }
 
     @Override
-    public void onUpdate(ItemStack container, World world, Entity entity, int itemSlot, boolean isSelected) {
+    public void onUpdate(
+            ItemStack container, World world, Entity entity, int itemSlot, boolean isSelected) {
         if (!(entity instanceof EntityPlayer)) {
             return;
         }
         if (ModHelper.isBaublesInstalled) {
             updateEnergy(container, (EntityPlayer) entity, getBaubles((EntityPlayer) entity));
-        }
-        else {
+        } else {
             updateEnergy(container, (EntityPlayer) entity, new ArrayList<>());
         }
     }
@@ -213,19 +225,17 @@ public class DraconiumCapacitor extends ItemEnergyBase implements IInvCharge, IU
             return;
         }
 
-        if (mode == 4) { //Charge All
+        if (mode == 4) { // Charge All
             stacks.addAll(player.inventory.armorInventory);
             stacks.addAll(player.inventory.mainInventory);
             stacks.addAll(player.inventory.offHandInventory);
-        }
-        else {
-            if (mode == 1 || mode == 3) { //Charge Armor
+        } else {
+            if (mode == 1 || mode == 3) { // Charge Armor
                 stacks.addAll(player.inventory.armorInventory);
-            }
-            else {
+            } else {
                 stacks.clear(); // Dont charge baubles
             }
-            if (mode == 2 || mode == 3) { //Charge Held Items
+            if (mode == 2 || mode == 3) { // Charge Held Items
                 stacks.add(player.getHeldItemOffhand());
                 stacks.add(player.getHeldItemMainhand());
             }
@@ -251,9 +261,9 @@ public class DraconiumCapacitor extends ItemEnergyBase implements IInvCharge, IU
         return false;
     }
 
-    //endregion
+    // endregion
 
-    //region Display
+    // region Display
 
     @Override
     public boolean hasEffect(ItemStack stack) {
@@ -262,30 +272,46 @@ public class DraconiumCapacitor extends ItemEnergyBase implements IInvCharge, IU
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, World playerIn, List<String> tooltip, ITooltipFlag advanced) {
+    public void addInformation(
+            ItemStack stack, World playerIn, List<String> tooltip, ITooltipFlag advanced) {
         if (InfoHelper.holdShiftForDetails(tooltip)) {
             tooltip.add(I18n.format("info.de.changwMode.txt"));
-            tooltip.add(InfoHelper.ITC() + I18n.format("info.de.capacitorMode.txt") + ": " + InfoHelper.HITC() + I18n.format("info.de.capacitorMode" + ItemNBTHelper.getShort(stack, "Mode", (short) 0) + ".txt"));
-            //InfoHelper.addLore(stack, tooltip);
+            tooltip.add(
+                    InfoHelper.ITC()
+                            + I18n.format("info.de.capacitorMode.txt")
+                            + ": "
+                            + InfoHelper.HITC()
+                            + I18n.format(
+                                    "info.de.capacitorMode"
+                                            + ItemNBTHelper.getShort(stack, "Mode", (short) 0)
+                                            + ".txt"));
+            // InfoHelper.addLore(stack, tooltip);
         }
 
         ToolBase.holdCTRLForUpgrades(tooltip, stack);
 
         InfoHelper.addEnergyInfo(stack, tooltip);
         if (stack.getItemDamage() == 2) {
-            tooltip.add(InfoHelper.HITC() + I18n.format("info.creativeCapacitor.txt") + " " + Utils.formatNumber(Integer.MAX_VALUE / 2) + " RF/t");
+            tooltip.add(
+                    InfoHelper.HITC()
+                            + I18n.format("info.creativeCapacitor.txt")
+                            + " "
+                            + Utils.formatNumber(Integer.MAX_VALUE / 2)
+                            + " RF/t");
         }
     }
 
-    //endregion
+    // endregion
 
-    //region IUpgradable
+    // region IUpgradable
 
     @Override
     public List<String> getValidUpgrades(ItemStack stack) {
-        return new ArrayList<String>() {{
-            add(ToolUpgrade.RF_CAPACITY);
-        }};
+        return new ArrayList<String>() {
+            {
+                add(ToolUpgrade.RF_CAPACITY);
+            }
+        };
     }
 
     @Override
@@ -293,7 +319,7 @@ public class DraconiumCapacitor extends ItemEnergyBase implements IInvCharge, IU
         return stack.getItemDamage() == 0 ? 3 : stack.getItemDamage() == 1 ? 4 : 0;
     }
 
-    //endregion
+    // endregion
 
     @Override
     @Optional.Method(modid = "baubles")

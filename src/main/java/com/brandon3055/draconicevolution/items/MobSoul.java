@@ -10,6 +10,8 @@ import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.client.render.item.RenderItemMobSoul;
 import com.brandon3055.draconicevolution.utils.LogHelper;
+import java.util.*;
+import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -29,12 +31,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.*;
-
-/**
- * Created by brandon3055 on 25/09/2016.
- */
+/** Created by brandon3055 on 25/09/2016. */
 public class MobSoul extends ItemBCore implements IRenderOverride {
 
     private static Map<String, Entity> renderEntityMap = new HashMap<>();
@@ -43,7 +40,15 @@ public class MobSoul extends ItemBCore implements IRenderOverride {
     private static Map<String, ResourceLocation> rlCache = new WeakHashMap<>();
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(
+            EntityPlayer player,
+            World world,
+            BlockPos pos,
+            EnumHand hand,
+            EnumFacing facing,
+            float hitX,
+            float hitY,
+            float hitZ) {
         ItemStack stack = player.getHeldItem(hand);
         if (player.isSneaking()) {
 
@@ -58,10 +63,12 @@ public class MobSoul extends ItemBCore implements IRenderOverride {
             entity.setLocationAndAngles(sX, sY, sZ, player.rotationYaw, 0F);
 
             if (!world.isRemote) {
-//                NBTTagCompound compound = ItemNBTHelper.getCompound(stack);
-//                if (!compound.hasKey("EntityData") && entity instanceof EntityLivingBase) {
-//                    ((EntityLiving) entity).onInitialSpawn(world.getDifficultyForLocation(pos) ,null);
-//                }
+                //                NBTTagCompound compound = ItemNBTHelper.getCompound(stack);
+                //                if (!compound.hasKey("EntityData") && entity instanceof
+                // EntityLivingBase) {
+                //                    ((EntityLiving)
+                // entity).onInitialSpawn(world.getDifficultyForLocation(pos) ,null);
+                //                }
                 world.spawnEntity(entity);
                 if (!player.capabilities.isCreativeMode) {
                     InventoryUtils.consumeHeldItem(player, stack, hand);
@@ -77,34 +84,44 @@ public class MobSoul extends ItemBCore implements IRenderOverride {
         String eString = getEntityString(stack);
 
         if (eString.equals("[Random-Display]")) {
-            return "Mob " + I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name");
+            return "Mob "
+                    + I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name");
         }
 
         String eModifier = "";
         if (ItemNBTHelper.verifyExistance(stack, "ZombieVillagerType")) {
-            eModifier = "-" + ItemNBTHelper.getString(stack, "ZombieVillagerType", "minecraft:farmer");
-        }
-        else if (ItemNBTHelper.verifyExistance(stack, "ZombieTypeHusk")) {
+            eModifier =
+                    "-" + ItemNBTHelper.getString(stack, "ZombieVillagerType", "minecraft:farmer");
+        } else if (ItemNBTHelper.verifyExistance(stack, "ZombieTypeHusk")) {
             eModifier = "-Husk";
         }
 
-        String localizedName = entityNameCache.computeIfAbsent(eString + eModifier, s -> {
-            try {
-                Entity entity = EntityList.createEntityByIDFromName(getCachedRegName(eString), null);
-                if (entity == null) {
-                    return I18n.translateToLocal("entity." + EntityList.getTranslationName(getCachedRegName(eString)) + ".name");
-                }
+        String localizedName =
+                entityNameCache.computeIfAbsent(
+                        eString + eModifier,
+                        s -> {
+                            try {
+                                Entity entity =
+                                        EntityList.createEntityByIDFromName(
+                                                getCachedRegName(eString), null);
+                                if (entity == null) {
+                                    return I18n.translateToLocal(
+                                            "entity."
+                                                    + EntityList.getTranslationName(
+                                                            getCachedRegName(eString))
+                                                    + ".name");
+                                }
 
-                loadAdditionalEntityInfo(stack, entity);
-                return entity.getName();
-            }
-            catch (Throwable e) {
-                return "Name-Error";
-            }
-        });
+                                loadAdditionalEntityInfo(stack, entity);
+                                return entity.getName();
+                            } catch (Throwable e) {
+                                return "Name-Error";
+                            }
+                        });
 
-
-        return localizedName + " " + I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name");
+        return localizedName
+                + " "
+                + I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name");
     }
 
     @SideOnly(Side.CLIENT)
@@ -148,23 +165,28 @@ public class MobSoul extends ItemBCore implements IRenderOverride {
             Entity entity = EntityList.createEntityByIDFromName(getCachedRegName(eName), world);
             if (entity == null) {
                 entity = new EntityPig(world);
-            }
-            else {
+            } else {
                 if (entityData != null) {
                     entity.readFromNBT(entityData);
-                }
-                else {
+                } else {
                     loadAdditionalEntityInfo(stack, entity);
                     if (entity instanceof EntityLiving) {
-                        if (!ForgeEventFactory.doSpecialSpawn((EntityLiving) entity, world, (float) entity.posX, (float) entity.posY, (float) entity.posZ)) {
-                            ((EntityLiving) entity).onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entity)), null);
+                        if (!ForgeEventFactory.doSpecialSpawn(
+                                (EntityLiving) entity,
+                                world,
+                                (float) entity.posX,
+                                (float) entity.posY,
+                                (float) entity.posZ)) {
+                            ((EntityLiving) entity)
+                                    .onInitialSpawn(
+                                            world.getDifficultyForLocation(new BlockPos(entity)),
+                                            null);
                         }
                     }
                 }
             }
             return entity;
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             return new EntityPig(world);
         }
     }
@@ -179,8 +201,7 @@ public class MobSoul extends ItemBCore implements IRenderOverride {
             NBTTagCompound compound = new NBTTagCompound();
             entity.writeToNBT(compound);
             setEntityData(compound, soul);
-        }
-        else {
+        } else {
             saveAditionalEntityInfo(entity, soul);
         }
 
@@ -196,11 +217,15 @@ public class MobSoul extends ItemBCore implements IRenderOverride {
         if (name.equals("[Random-Display]")) {
             if (randomDisplayList == null) {
                 randomDisplayList = new ArrayList<>();
-                EntityList.ENTITY_EGGS.forEach((resourceLocation, entityEggInfo) -> randomDisplayList.add(entityEggInfo.spawnedID+""));
+                EntityList.ENTITY_EGGS.forEach(
+                        (resourceLocation, entityEggInfo) ->
+                                randomDisplayList.add(entityEggInfo.spawnedID + ""));
             }
 
             if (randomDisplayList.size() > 0) {
-                name = randomDisplayList.get((ClientEventHandler.elapsedTicks / 20) % randomDisplayList.size());
+                name =
+                        randomDisplayList.get(
+                                (ClientEventHandler.elapsedTicks / 20) % randomDisplayList.size());
             }
         }
 
@@ -212,8 +237,7 @@ public class MobSoul extends ItemBCore implements IRenderOverride {
                 if (entity == null) {
                     entity = new EntityPig(world);
                 }
-            }
-            catch (Throwable e) {
+            } catch (Throwable e) {
                 entity = new EntityPig(world);
             }
             renderEntityMap.put(name, entity);
@@ -223,37 +247,47 @@ public class MobSoul extends ItemBCore implements IRenderOverride {
     }
 
     private void saveAditionalEntityInfo(Entity entity, ItemStack stack) {
-//        if (entity instanceof EntitySkeleton) {TODO Is this not needed now? Mojang? Did you do a good thing?
-//            ItemNBTHelper.setInteger(stack, "EntityTypeID", ((EntitySkeleton) entity).getSkeletonType().getId());
-//        }
-//        else if (entity instanceof EntityZombie) {
-//            VillagerRegistry.VillagerProfession prof = ((EntityZombie) entity).getVillagerTypeForge();
-//            if (prof != null && prof.getRegistryName() != null) {
-//                ItemNBTHelper.setString(stack, "ZombieVillagerType", prof.getRegistryName().toString());
-//            }
-//            else if (((EntityZombie) entity).getZombieType() == ZombieType.HUSK) {
-//                ItemNBTHelper.setBoolean(stack, "ZombieTypeHusk", true);
-//            }
-//        }
+        //        if (entity instanceof EntitySkeleton) {TODO Is this not needed now? Mojang? Did
+        // you do a good thing?
+        //            ItemNBTHelper.setInteger(stack, "EntityTypeID", ((EntitySkeleton)
+        // entity).getSkeletonType().getId());
+        //        }
+        //        else if (entity instanceof EntityZombie) {
+        //            VillagerRegistry.VillagerProfession prof = ((EntityZombie)
+        // entity).getVillagerTypeForge();
+        //            if (prof != null && prof.getRegistryName() != null) {
+        //                ItemNBTHelper.setString(stack, "ZombieVillagerType",
+        // prof.getRegistryName().toString());
+        //            }
+        //            else if (((EntityZombie) entity).getZombieType() == ZombieType.HUSK) {
+        //                ItemNBTHelper.setBoolean(stack, "ZombieTypeHusk", true);
+        //            }
+        //        }
     }
 
     private void loadAdditionalEntityInfo(ItemStack stack, Entity entity) {
-//        if (entity instanceof EntitySkeleton && ItemNBTHelper.verifyExistance(stack, "EntityTypeID")) {
-//            ((EntitySkeleton) entity).setSkeletonType(SkeletonType.getByOrdinal(ItemNBTHelper.getInteger(stack, "EntityTypeID", ((EntitySkeleton) entity).getSkeletonType().getId())));
-//        }
-//        else if (entity instanceof EntityZombie) {
-//            if (ItemNBTHelper.verifyExistance(stack, "ZombieVillagerType")) {
-//                String name = ItemNBTHelper.getString(stack, "ZombieVillagerType", "minecraft:farmer");
-//                VillagerRegistry.VillagerProfession p = ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation(name));
-//                if (p == null) {
-//                    p = ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation("minecraft:farmer"));
-//                }
-//                ((EntityZombie) entity).setVillagerType(p);
-//            }
-//            else if (ItemNBTHelper.verifyExistance(stack, "ZombieTypeHusk")) {
-//                ((EntityZombie) entity).setZombieType(ZombieType.HUSK);
-//            }
-//        }
+        //        if (entity instanceof EntitySkeleton && ItemNBTHelper.verifyExistance(stack,
+        // "EntityTypeID")) {
+        //            ((EntitySkeleton)
+        // entity).setSkeletonType(SkeletonType.getByOrdinal(ItemNBTHelper.getInteger(stack,
+        // "EntityTypeID", ((EntitySkeleton) entity).getSkeletonType().getId())));
+        //        }
+        //        else if (entity instanceof EntityZombie) {
+        //            if (ItemNBTHelper.verifyExistance(stack, "ZombieVillagerType")) {
+        //                String name = ItemNBTHelper.getString(stack, "ZombieVillagerType",
+        // "minecraft:farmer");
+        //                VillagerRegistry.VillagerProfession p =
+        // ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation(name));
+        //                if (p == null) {
+        //                    p = ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new
+        // ResourceLocation("minecraft:farmer"));
+        //                }
+        //                ((EntityZombie) entity).setVillagerType(p);
+        //            }
+        //            else if (ItemNBTHelper.verifyExistance(stack, "ZombieTypeHusk")) {
+        //                ((EntityZombie) entity).setZombieType(ZombieType.HUSK);
+        //            }
+        //        }
     }
 
     public static ResourceLocation getCachedRegName(String name) {

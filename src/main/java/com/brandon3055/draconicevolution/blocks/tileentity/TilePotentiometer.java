@@ -14,14 +14,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 
-/**
- * Created by brandon3055 on 28/09/2016.
- */
+/** Created by brandon3055 on 28/09/2016. */
 public class TilePotentiometer extends TileBCBase implements IRedstoneEmitter, IActivatableTile {
 
-    public final ManagedByte ROTATION = register("ROTATION", new ManagedByte(0)).saveToTile().saveToItem().syncViaTile().finish();
-    public final ManagedByte POWER = register("POWER", new ManagedByte(0)).saveToTile().saveToItem().syncViaTile().finish();
-
+    public final ManagedByte ROTATION =
+            register("ROTATION", new ManagedByte(0))
+                    .saveToTile()
+                    .saveToItem()
+                    .syncViaTile()
+                    .finish();
+    public final ManagedByte POWER =
+            register("POWER", new ManagedByte(0)).saveToTile().saveToItem().syncViaTile().finish();
 
     @Override
     public boolean hasFastRenderer() {
@@ -48,14 +51,20 @@ public class TilePotentiometer extends TileBCBase implements IRedstoneEmitter, I
     }
 
     @Override
-    public boolean onBlockActivated(IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            IBlockState state,
+            EntityPlayer player,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         if (player.isSneaking()) {
             POWER.value--;
             if (POWER.value < 0) {
                 POWER.value = 15;
             }
-        }
-        else {
+        } else {
             POWER.value++;
             if (POWER.value > 15) {
                 POWER.value = 0;
@@ -64,13 +73,24 @@ public class TilePotentiometer extends TileBCBase implements IRedstoneEmitter, I
 
         if (world.isRemote) {
             ChatHelper.indexedMsg(player, POWER.toString());
-        }
-        else {
-            world.playSound(null, pos, SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.3F, 0.5F + (POWER.value / 20F));
+        } else {
+            world.playSound(
+                    null,
+                    pos,
+                    SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON,
+                    SoundCategory.BLOCKS,
+                    0.3F,
+                    0.5F + (POWER.value / 20F));
         }
 
         world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-        world.notifyNeighborsOfStateChange(pos.offset(getState(DEFeatures.potentiometer).getValue(Potentiometer.FACING).getOpposite()), getBlockType(), true);
+        world.notifyNeighborsOfStateChange(
+                pos.offset(
+                        getState(DEFeatures.potentiometer)
+                                .getValue(Potentiometer.FACING)
+                                .getOpposite()),
+                getBlockType(),
+                true);
         super.update();
 
         return true;

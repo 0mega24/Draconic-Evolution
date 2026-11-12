@@ -1,5 +1,9 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree;
 
+import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_TEXT;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_WINDOW;
+import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.*;
+
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourARGB;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
@@ -16,63 +20,67 @@ import com.brandon3055.draconicevolution.client.gui.modwiki.guielements.PopupEdi
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager;
 import com.brandon3055.draconicevolution.client.gui.modwiki.swing.SwingHelper;
 import com.brandon3055.draconicevolution.client.gui.modwiki.swing.UIAddBranch;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.text.TextFormatting;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_TEXT;
-import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_WINDOW;
-import static com.brandon3055.draconicevolution.client.gui.modwiki.moddata.WikiDocManager.*;
-
-/**
- * Created by brandon3055 on 8/09/2016.
- */
+/** Created by brandon3055 on 8/09/2016. */
 public class TreeBranchContent extends TreeBranchRoot {
 
     private MGuiLabel label;
     private MGuiElementBase icon;
     private MGuiElementBase iconBackground;
 
-    //TODO add display MGuiList for content area
+    // TODO add display MGuiList for content area
 
-    public TreeBranchContent(GuiModWiki guiWiki, TreeBranchRoot parent, Element branchData, String contentName) {
+    public TreeBranchContent(
+            GuiModWiki guiWiki, TreeBranchRoot parent, Element branchData, String contentName) {
         super(guiWiki, parent, contentName);
         this.branchData = branchData;
         xSize = guiWiki.wikiList.getListEntryWidth();
-//        ySize = 22;
+        //        ySize = 22;
     }
 
     public void initBranches() {
         removeChild(label);
         removeChild(icon);
-        addChild(label = new MGuiLabel(guiWiki, xPos, yPos, xSize, ySize, branchName) {
-            @Override
-            public int getTextColour() {
-                return NAV_TEXT;
-            }
+        addChild(
+                label =
+                        new MGuiLabel(guiWiki, xPos, yPos, xSize, ySize, branchName) {
+                            @Override
+                            public int getTextColour() {
+                                return NAV_TEXT;
+                            }
 
-            @Override
-            public boolean getDropShadow() {
-                Colour colour = new ColourARGB(NAV_TEXT);
-                long l = ((colour.r & 0xff) + (colour.g & 0xff) + (colour.b & 0xff)) / 3;
-                return l > 80;
-            }
-        }.setAlignment(EnumAlignment.LEFT).setWrap(true));
+                            @Override
+                            public boolean getDropShadow() {
+                                Colour colour = new ColourARGB(NAV_TEXT);
+                                long l =
+                                        ((colour.r & 0xff) + (colour.g & 0xff) + (colour.b & 0xff))
+                                                / 3;
+                                return l > 80;
+                            }
+                        }.setAlignment(EnumAlignment.LEFT).setWrap(true));
 
         StackReference stackReference = getDisplayStack();
         if (stackReference != null) {
-            MGuiStackIcon stackIcon = new MGuiStackIcon(modularGui, xPos, yPos, 18, 18, stackReference);
+            MGuiStackIcon stackIcon =
+                    new MGuiStackIcon(modularGui, xPos, yPos, 18, 18, stackReference);
             MGuiSlotRender back = new MGuiSlotRender(modularGui, xPos, yPos, 18, 18);
             addChild(icon = stackIcon);
             addChild(iconBackground = back);
 
-            int line = modularGui.getMinecraft().fontRenderer.listFormattedStringToWidth(branchName, label.xSize - 28).size();
+            int line =
+                    modularGui
+                            .getMinecraft()
+                            .fontRenderer
+                            .listFormattedStringToWidth(branchName, label.xSize - 28)
+                            .size();
             ySize = Math.max(22, (line * modularGui.getMinecraft().fontRenderer.FONT_HEIGHT) + 7);
             label.ySize = ySize;
             stackIcon.yOffset = (ySize - 18) / 2;
@@ -80,8 +88,7 @@ public class TreeBranchContent extends TreeBranchRoot {
             back.yOffset = (ySize - 18) / 2;
             back.xOffset = 3;
 
-        }
-        else {
+        } else {
             icon = null;
         }
 
@@ -93,7 +100,7 @@ public class TreeBranchContent extends TreeBranchRoot {
     @Override
     public void positionElements(int newXPos, int newYPos) {
         if (icon != null) {
-            //Set Icon Pos
+            // Set Icon Pos
             label.xPos = icon.xPos + icon.xSize;
             label.xSize = (xSize - icon.xSize);
             icon.yPos = yPos;
@@ -103,12 +110,14 @@ public class TreeBranchContent extends TreeBranchRoot {
         }
     }
 
-    //region Render In List
+    // region Render In List
 
     @Override
-    public void renderBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
+    public void renderBackgroundLayer(
+            Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
 
-        boolean selected = isMouseOver(mouseX, mouseY) || guiWiki.wikiDataTree.getActiveBranch() == this;
+        boolean selected =
+                isMouseOver(mouseX, mouseY) || guiWiki.wikiDataTree.getActiveBranch() == this;
         int navWindowColour = NAV_WINDOW;
 
         if (isModBranch) {
@@ -121,8 +130,7 @@ public class TreeBranchContent extends TreeBranchRoot {
             drawColouredRect(xPos + 1, yPos + 1, 0.5, ySize - 2, pos);
             drawColouredRect(xPos + 1, yPos + ySize - 1, xSize - 2, 0.5, neg);
             drawColouredRect(xPos + xSize - 1, yPos + 1, 0.5, ySize - 2, neg);
-        }
-        else {
+        } else {
             int back = mixColours(navWindowColour, selected ? 0x00404040 : 0x00202020);
             int pos = mixColours(navWindowColour, 0x00505050);
             int neg = mixColours(navWindowColour, 0x00202020, true);
@@ -152,29 +160,51 @@ public class TreeBranchContent extends TreeBranchRoot {
     }
 
     @Override
-    public boolean renderOverlayLayer(Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
+    public boolean renderOverlayLayer(
+            Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
         if (WikiConfig.editMode && isMouseOver(mouseX, mouseY)) {
-            drawHoveringText(Collections.singletonList(TextFormatting.RED + "[Right click to edit]"), mouseX, mouseY, minecraft.fontRenderer, modularGui.screenWidth(), modularGui.screenHeight());
+            drawHoveringText(
+                    Collections.singletonList(TextFormatting.RED + "[Right click to edit]"),
+                    mouseX,
+                    mouseY,
+                    minecraft.fontRenderer,
+                    modularGui.screenWidth(),
+                    modularGui.screenHeight());
             return true;
         }
         return super.renderOverlayLayer(minecraft, mouseX, mouseY, partialTicks);
     }
 
-    //endregion
+    // endregion
 
-    //region Edit
+    // region Edit
 
     @Override
     public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (WikiConfig.editMode && isMouseOver(mouseX, mouseY) && mouseButton == 1) {
             if (isModBranch) {
-                PopupEditMod editMod = new PopupEditMod(modularGui, list.xPos + 12, list.yPos + 24, list.xSize - 12 - list.rightPadding, list.ySize - 25, list, this);
+                PopupEditMod editMod =
+                        new PopupEditMod(
+                                modularGui,
+                                list.xPos + 12,
+                                list.yPos + 24,
+                                list.xSize - 12 - list.rightPadding,
+                                list.ySize - 25,
+                                list,
+                                this);
                 list.addChild(editMod);
                 list.disableList = true;
                 editMod.initElement();
-            }
-            else {
-                PopupEditContent editContent = new PopupEditContent(modularGui, list.xPos + 12, list.yPos + 24, list.xSize - 12 - list.rightPadding, list.ySize - 25, list, this);
+            } else {
+                PopupEditContent editContent =
+                        new PopupEditContent(
+                                modularGui,
+                                list.xPos + 12,
+                                list.yPos + 24,
+                                list.xSize - 12 - list.rightPadding,
+                                list.ySize - 25,
+                                list,
+                                this);
                 list.addChild(editContent);
                 list.disableList = true;
                 editContent.initElement();
@@ -185,23 +215,22 @@ public class TreeBranchContent extends TreeBranchRoot {
         return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    //endregion
+    // endregion
 
-    //region XML
+    // region XML
 
-    /**
-     * Loads this branch and all of its children from XML
-     */
+    /** Loads this branch and all of its children from XML */
     public void loadBranchesXML() {
-        //Load Branch ID if not a mod branch (In the case of Mod Branches the branch id is the modid)
+        // Load Branch ID if not a mod branch (In the case of Mod Branches the branch id is the
+        // modid)
         if (!isModBranch) {
             loadNonModAttributes();
         }
 
-        //Load branch content
+        // Load branch content
         loadBranchContent();
 
-        //Load sub branches
+        // Load sub branches
         NodeList entryList = branchData.getElementsByTagName(WikiDocManager.ELEMENT_ENTRY);
         for (int entryIndex = 0; entryIndex < entryList.getLength(); entryIndex++) {
             Element entry = (Element) entryList.item(entryIndex);
@@ -230,7 +259,8 @@ public class TreeBranchContent extends TreeBranchRoot {
 
     public StackReference getDisplayStack() {
         if (!isModBranch && branchData.hasAttribute(ATTRIB_ICON_TYPE)) {
-            if (branchData.getAttribute(ATTRIB_ICON_TYPE).equals(ICON_TYPE_STACK) && branchData.hasAttribute(ATTRIB_ICON)) {
+            if (branchData.getAttribute(ATTRIB_ICON_TYPE).equals(ICON_TYPE_STACK)
+                    && branchData.hasAttribute(ATTRIB_ICON)) {
                 String stackString = branchData.getAttribute(ATTRIB_ICON);
                 StackReference stackRef = StackReference.fromString(stackString);
 
@@ -244,17 +274,22 @@ public class TreeBranchContent extends TreeBranchRoot {
         return null;
     }
 
-    //endregion
+    // endregion
 
-    //region User Create
+    // region User Create
 
     @Override
     public void createNewSubBranch() {
-        UIAddBranch frame = new UIAddBranch(this, WikiDocManager.loadedCategories, branchID, new ArrayList<String>(guiWiki.wikiDataTree.idToBranchMap.keySet()));
+        UIAddBranch frame =
+                new UIAddBranch(
+                        this,
+                        WikiDocManager.loadedCategories,
+                        branchID,
+                        new ArrayList<String>(guiWiki.wikiDataTree.idToBranchMap.keySet()));
         frame.pack();
         frame.setVisible(true);
         SwingHelper.centerOnMinecraftWindow(frame);
     }
 
-    //endregion
+    // endregion
 }

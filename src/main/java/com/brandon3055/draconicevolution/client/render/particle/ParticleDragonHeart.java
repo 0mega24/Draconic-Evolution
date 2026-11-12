@@ -40,7 +40,7 @@ public class ParticleDragonHeart extends BCParticle {
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 
-        //particleTextureIndexX = rand.nextInt(5);
+        // particleTextureIndexX = rand.nextInt(5);
 
         double dist = Utils.getDistanceAtoB(new Vec3D(posX, posY, posZ), targetPos);
         double progress = (dist / startDist);
@@ -53,21 +53,40 @@ public class ParticleDragonHeart extends BCParticle {
         motionZ = dir.z * speed;
         moveEntityNoClip(motionX, motionY, motionZ);
 
-        if (particleAge++ > particleMaxAge || Utils.getDistanceAtoB(posX, posY, posZ, targetPos.x, targetPos.y, targetPos.z) < 0.01) {
+        if (particleAge++ > particleMaxAge
+                || Utils.getDistanceAtoB(posX, posY, posZ, targetPos.x, targetPos.y, targetPos.z)
+                        < 0.01) {
             setExpired();
         }
     }
 
     @Override
-    //@SideOnly(Side.CLIENT)
-    public void renderParticle(BufferBuilder vertexbuffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
-        super.renderParticle(vertexbuffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
+    // @SideOnly(Side.CLIENT)
+    public void renderParticle(
+            BufferBuilder vertexbuffer,
+            Entity entityIn,
+            float partialTicks,
+            float rotationX,
+            float rotationZ,
+            float rotationYZ,
+            float rotationXY,
+            float rotationXZ) {
+        super.renderParticle(
+                vertexbuffer,
+                entityIn,
+                partialTicks,
+                rotationX,
+                rotationZ,
+                rotationYZ,
+                rotationXY,
+                rotationXZ);
     }
 
     public static class Factory implements IBCParticleFactory {
 
         @Override
-        public Particle getEntityFX(int particleID, World world, Vec3D pos, Vec3D speed, int... args) {
+        public Particle getEntityFX(
+                int particleID, World world, Vec3D pos, Vec3D speed, int... args) {
             ParticleDragonHeart particleHeart = new ParticleDragonHeart(world, pos, speed);
 
             if (args.length >= 3) {
@@ -86,7 +105,15 @@ public class ParticleDragonHeart extends BCParticle {
                     double randX = world.rand.nextDouble() - 0.5D;
                     double randY = world.rand.nextDouble() - 0.5D;
                     double randZ = world.rand.nextDouble() - 0.5D;
-                    BCEffectHandler.spawnFX(DEParticles.LINE_INDICATOR, world, pos.add(playerDir.x * d, playerDir.y * d, playerDir.z * d), new Vec3D(randX * 0.05F, randY * 0.05F, randZ * 0.05F), 512D, 255, 0, 0);
+                    BCEffectHandler.spawnFX(
+                            DEParticles.LINE_INDICATOR,
+                            world,
+                            pos.add(playerDir.x * d, playerDir.y * d, playerDir.z * d),
+                            new Vec3D(randX * 0.05F, randY * 0.05F, randZ * 0.05F),
+                            512D,
+                            255,
+                            0,
+                            0);
                 }
             }
 

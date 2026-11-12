@@ -4,6 +4,8 @@ import codechicken.lib.math.MathHelper;
 import com.brandon3055.brandonscore.inventory.ContainerBCBase;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorCore;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
@@ -12,12 +14,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-/**
- * Created by brandon3055 on 10/02/2017.
- */
+/** Created by brandon3055 on 10/02/2017. */
 public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
 
     public boolean fuelSlots = false;
@@ -44,11 +41,12 @@ public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
                 addSlotToContainer(new SlotReactor(tile, 3 + x, 183 + (x * 18), 180));
             }
 
-//            for (int y = 0; y < 2; y++) {
-//                for (int x = 0; x < 2; x++) {
-//                    addSlotToContainer(new SlotReactor(tile, 3 + x + y * 2, 192 + (x * 18), 180 + (y * 18)));
-//                }
-//            }
+            //            for (int y = 0; y < 2; y++) {
+            //                for (int x = 0; x < 2; x++) {
+            //                    addSlotToContainer(new SlotReactor(tile, 3 + x + y * 2, 192 + (x *
+            // 18), 180 + (y * 18)));
+            //                }
+            //            }
         }
     }
 
@@ -63,7 +61,8 @@ public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
 
     @Nullable
     @Override
-    public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
+    public ItemStack slotClick(
+            int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
         int maxFuel = 10368 + 15;
         int installedFuel = (int) (tile.reactableFuel.value + tile.convertedFuel.value);
         int free = maxFuel - installedFuel;
@@ -81,36 +80,40 @@ public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
 
                 if ((value = getFuelValue(copy)) > 0) {
                     int maxInsert = free / value;
-                    int insert = Math.min(Math.min(heldStack.getCount(), maxInsert), dragType == 1 ? 1 : 64);
+                    int insert =
+                            Math.min(
+                                    Math.min(heldStack.getCount(), maxInsert),
+                                    dragType == 1 ? 1 : 64);
                     tile.reactableFuel.value += insert * value;
                     heldStack.shrink(insert);
-                }
-                else if ((value = getChaosValue(copy)) > 0) {
+                } else if ((value = getChaosValue(copy)) > 0) {
                     int maxInsert = free / value;
-                    int insert = Math.min(Math.min(heldStack.getCount(), maxInsert), dragType == 1 ? 1 : 64);
+                    int insert =
+                            Math.min(
+                                    Math.min(heldStack.getCount(), maxInsert),
+                                    dragType == 1 ? 1 : 64);
                     tile.convertedFuel.value += insert * value;
                     heldStack.shrink(insert);
                 }
-//                else if ((value = getChaosValue(copy)) > 0) {
-//                    int maxInsert = free / value;
-//                    int insert = Math.min(Math.min(heldStack.stackSize, maxInsert), dragType == 1 ? 1 : 64);
-//                    tile.convertedFuel.value += insert * value;
-//                    heldStack.stackSize -= insert;
-//                }
+                //                else if ((value = getChaosValue(copy)) > 0) {
+                //                    int maxInsert = free / value;
+                //                    int insert = Math.min(Math.min(heldStack.stackSize,
+                // maxInsert), dragType == 1 ? 1 : 64);
+                //                    tile.convertedFuel.value += insert * value;
+                //                    heldStack.stackSize -= insert;
+                //                }
 
                 if (heldStack.getCount() <= 0) {
                     inventory.setItemStack(ItemStack.EMPTY);
                 }
-            }
-            else if (!stackInSlot.isEmpty()) {
+            } else if (!stackInSlot.isEmpty()) {
                 tile.reactableFuel.value -= getFuelValue(stackInSlot);
                 tile.convertedFuel.value -= getChaosValue(stackInSlot);
                 inventory.setItemStack(stackInSlot);
             }
 
             return ItemStack.EMPTY;
-        }
-        else if (slotId <= 35) {
+        } else if (slotId <= 35) {
             return super.slotClick(slotId, dragType, clickTypeIn, player);
         }
         return ItemStack.EMPTY;
@@ -119,14 +122,11 @@ public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
     private int getFuelValue(ItemStack stack) {
         if (stack.isEmpty()) {
             return 0;
-        }
-        else if (stack.getItem() == Item.getItemFromBlock(DEFeatures.draconicBlock)) {
+        } else if (stack.getItem() == Item.getItemFromBlock(DEFeatures.draconicBlock)) {
             return stack.getCount() * 1296;
-        }
-        else if (stack.getItem() == DEFeatures.draconicIngot) {
+        } else if (stack.getItem() == DEFeatures.draconicIngot) {
             return stack.getCount() * 144;
-        }
-        else if (stack.getItem() == DEFeatures.nugget && stack.getItemDamage() == 1) {
+        } else if (stack.getItem() == DEFeatures.nugget && stack.getItemDamage() == 1) {
             return stack.getCount() * 16;
         }
         return 0;
@@ -135,14 +135,11 @@ public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
     private int getChaosValue(ItemStack stack) {
         if (stack.isEmpty()) {
             return 0;
-        }
-        else if (stack.getItem() == DEFeatures.chaosShard && stack.getItemDamage() == 1) {
+        } else if (stack.getItem() == DEFeatures.chaosShard && stack.getItemDamage() == 1) {
             return stack.getCount() * 1296;
-        }
-        else if (stack.getItem() == DEFeatures.chaosShard && stack.getItemDamage() == 2) {
+        } else if (stack.getItem() == DEFeatures.chaosShard && stack.getItemDamage() == 2) {
             return stack.getCount() * 144;
-        }
-        else if (stack.getItem() == DEFeatures.chaosShard && stack.getItemDamage() == 3) {
+        } else if (stack.getItem() == DEFeatures.chaosShard && stack.getItemDamage() == 3) {
             return stack.getCount() * 16;
         }
         return 0;
@@ -187,15 +184,12 @@ public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
 
                 if (index == 0 && block > 0) {
                     return new ItemStack(DEFeatures.draconicBlock, block);
-                }
-                else if (index == 1 && ingot > 0) {
+                } else if (index == 1 && ingot > 0) {
                     return new ItemStack(DEFeatures.draconicIngot, ingot);
-                }
-                else if (index == 2 && nugget > 0) {
+                } else if (index == 2 && nugget > 0) {
                     return new ItemStack(DEFeatures.nugget, nugget, 1);
                 }
-            }
-            else {
+            } else {
                 int chaos = MathHelper.floor(tile.convertedFuel.value);
                 int block = chaos / 1296;
                 int ingot = (chaos % 1296) / 144;
@@ -203,11 +197,9 @@ public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
 
                 if (index == 3 && block > 0) {
                     return new ItemStack(DEFeatures.chaosShard, block, 1);
-                }
-                else if (index == 4 && ingot > 0) {
+                } else if (index == 4 && ingot > 0) {
                     return new ItemStack(DEFeatures.chaosShard, ingot, 2);
-                }
-                else if (index == 5 && nugget > 0) {
+                } else if (index == 5 && nugget > 0) {
                     return new ItemStack(DEFeatures.chaosShard, nugget, 3);
                 }
             }
@@ -217,7 +209,7 @@ public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
 
         @Override
         public void putStack(@Nonnull ItemStack stack) {
-            //this.inventory.setInventorySlotContents(this.slotIndex, stack);
+            // this.inventory.setInventorySlotContents(this.slotIndex, stack);
             this.onSlotChanged();
         }
 
@@ -228,17 +220,17 @@ public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
 
         @Override
         public int getSlotStackLimit() {
-            return 64;//this.inventory.getInventoryStackLimit();
+            return 64; // this.inventory.getInventoryStackLimit();
         }
 
         @Override
         public ItemStack decrStackSize(int amount) {
-            return ItemStack.EMPTY;//this.inventory.decrStackSize(this.getSlotIndex, amount);
+            return ItemStack.EMPTY; // this.inventory.decrStackSize(this.getSlotIndex, amount);
         }
 
         @Override
         public boolean isHere(IInventory inv, int slotIn) {
-            return false;//inv == this.inventory && slotIn == this.getSlotIndex();
+            return false; // inv == this.inventory && slotIn == this.getSlotIndex();
         }
     }
 }

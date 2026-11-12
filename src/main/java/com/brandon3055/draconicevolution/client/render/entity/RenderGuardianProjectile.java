@@ -12,9 +12,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Created by brandon3055 on 24/8/2015.
- */
+/** Created by brandon3055 on 24/8/2015. */
 public class RenderGuardianProjectile extends Render<EntityGuardianProjectile> {
 
     public RenderGuardianProjectile(RenderManager renderManager) {
@@ -22,7 +20,13 @@ public class RenderGuardianProjectile extends Render<EntityGuardianProjectile> {
     }
 
     @Override
-    public void doRender(EntityGuardianProjectile projectile, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(
+            EntityGuardianProjectile projectile,
+            double x,
+            double y,
+            double z,
+            float entityYaw,
+            float partialTicks) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x, (float) y, (float) z);
         float height = (projectile.ticksExisted) % 8 * 1F / 8F;
@@ -46,7 +50,10 @@ public class RenderGuardianProjectile extends Render<EntityGuardianProjectile> {
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0F);
         GlStateManager.disableLighting();
 
-        float f2 = projectile.type == EntityGuardianProjectile.MINI_CHAOS_CHASER ? projectile.power / 10 : projectile.power / 5;
+        float f2 =
+                projectile.type == EntityGuardianProjectile.MINI_CHAOS_CHASER
+                        ? projectile.power / 10
+                        : projectile.power / 5;
         GlStateManager.scale(f2 / 1.0F, f2 / 1.0F, f2 / 1.0F);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
@@ -61,22 +68,30 @@ public class RenderGuardianProjectile extends Render<EntityGuardianProjectile> {
         GlStateManager.rotate(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 
-        if (projectile.type == EntityGuardianProjectile.FIREBOMB || projectile.type == EntityGuardianProjectile.FIRE_CHASER) {
+        if (projectile.type == EntityGuardianProjectile.FIREBOMB
+                || projectile.type == EntityGuardianProjectile.FIRE_CHASER) {
             GlStateManager.translate(0, 0.25, 0);
             GlStateManager.rotate((projectile.ticksExisted * 40 + partialTicks * 40), 0, 0, 1);
             GlStateManager.translate(0, -0.25, 0);
-        }
-        else if (projectile.type == EntityGuardianProjectile.TELEPORT) {
+        } else if (projectile.type == EntityGuardianProjectile.TELEPORT) {
             f5 = 0;
             f6 = 1;
         }
 
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
-        buffer.pos((double) (0.0F - f8), (double) (0.0F - f9), 0.0D).tex((double) f3, (double) f6).endVertex();
-        buffer.pos((double) (f7 - f8), (double) (0.0F - f9), 0.0D).tex((double) f4, (double) f6).endVertex();
-        buffer.pos((double) (f7 - f8), (double) (1.0F - f9), 0.0D).tex((double) f4, (double) f5).endVertex();
-        buffer.pos((double) (0.0F - f8), (double) (1.0F - f9), 0.0D).tex((double) f3, (double) f5).endVertex();
+        buffer.pos((double) (0.0F - f8), (double) (0.0F - f9), 0.0D)
+                .tex((double) f3, (double) f6)
+                .endVertex();
+        buffer.pos((double) (f7 - f8), (double) (0.0F - f9), 0.0D)
+                .tex((double) f4, (double) f6)
+                .endVertex();
+        buffer.pos((double) (f7 - f8), (double) (1.0F - f9), 0.0D)
+                .tex((double) f4, (double) f5)
+                .endVertex();
+        buffer.pos((double) (0.0F - f8), (double) (1.0F - f9), 0.0D)
+                .tex((double) f3, (double) f5)
+                .endVertex();
         tessellator.draw();
 
         GlStateManager.enableLighting();
@@ -106,5 +121,4 @@ public class RenderGuardianProjectile extends Render<EntityGuardianProjectile> {
                 return ResourceHelperDE.getResource(DETextures.PROJECTILE_FIRE);
         }
     }
-
 }

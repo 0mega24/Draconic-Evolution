@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
+public class PacketDislocator implements IMessage { // TODO Re Write this mess!!!
     public static final int ADDDESTINATION = 0;
     public static final int REMOVEDESTINATION = 1;
     public static final int UPDATENAME = 2;
@@ -36,8 +36,7 @@ public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
     private byte function = -1;
     private TeleportLocation location;
 
-    public PacketDislocator() {
-    }
+    public PacketDislocator() {}
 
     public PacketDislocator(int function, int data, boolean b) {
         this.data = data;
@@ -67,7 +66,7 @@ public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
             bytes.writeFloat(location.getPitch());
             bytes.writeFloat(location.getYaw());
             ByteBufUtils.writeUTF8String(bytes, location.getName());
-            //ByteBufUtils.writeUTF8String(bytes, location.getDimensionName());
+            // ByteBufUtils.writeUTF8String(bytes, location.getDimensionName());
             if (function == UPDATEDESTINATION) bytes.writeInt(data);
         }
 
@@ -76,7 +75,11 @@ public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
             bytes.writeBoolean(dataB);
         }
 
-        if (function == UPDATEOFFSET || function == CHANGESELECTION || function == REMOVEDESTINATION || function == ADDFUEL || function == SCROLL) {
+        if (function == UPDATEOFFSET
+                || function == CHANGESELECTION
+                || function == REMOVEDESTINATION
+                || function == ADDFUEL
+                || function == SCROLL) {
             bytes.writeInt(data);
         }
 
@@ -102,7 +105,7 @@ public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
             location.setPitch(bytes.readFloat());
             location.setYaw(bytes.readFloat());
             location.setName(ByteBufUtils.readUTF8String(bytes));
-            //location.setDimentionName(ByteBufUtils.readUTF8String(bytes));
+            // location.setDimentionName(ByteBufUtils.readUTF8String(bytes));
             if (function == UPDATEDESTINATION) data = bytes.readInt();
         }
 
@@ -111,7 +114,11 @@ public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
             dataB = bytes.readBoolean();
         }
 
-        if (function == UPDATEOFFSET || function == CHANGESELECTION || function == REMOVEDESTINATION || function == ADDFUEL || function == SCROLL) {
+        if (function == UPDATEOFFSET
+                || function == CHANGESELECTION
+                || function == REMOVEDESTINATION
+                || function == ADDFUEL
+                || function == SCROLL) {
             data = bytes.readInt();
         }
 
@@ -130,7 +137,9 @@ public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
 
         @Override
         public IMessage handleMessage(PacketDislocator message, MessageContext ctx) {
-            ItemStack teleporter = HandHelper.getItem(ctx.getServerHandler().player, DEFeatures.dislocatorAdvanced);
+            ItemStack teleporter =
+                    HandHelper.getItem(
+                            ctx.getServerHandler().player, DEFeatures.dislocatorAdvanced);
             if (teleporter.isEmpty()) {
                 return null;
             }
@@ -140,7 +149,13 @@ public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
 
             if (message.function == ADDDESTINATION) {
                 NBTTagCompound tag = new NBTTagCompound();
-                message.location.setDimensionName(BrandonsCore.proxy.getMCServer().getWorld(message.location.getDimension()).provider.getDimensionType().getName());
+                message.location.setDimensionName(
+                        BrandonsCore.proxy
+                                .getMCServer()
+                                .getWorld(message.location.getDimension())
+                                .provider
+                                .getDimensionType()
+                                .getName());
 
                 message.location.setXCoord(ctx.getServerHandler().player.posX);
                 message.location.setYCoord(ctx.getServerHandler().player.posY);
@@ -174,12 +189,17 @@ public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
                     ItemNBTHelper.setInteger(teleporter, "SelectionOffset", selectionOffset - 1);
                     return null;
                 }
-
             }
 
             if (message.function == UPDATEDESTINATION) {
                 NBTTagCompound tag = list.getCompoundTagAt(message.data);
-                message.location.setDimensionName(BrandonsCore.proxy.getMCServer().getWorld(message.location.getDimension()).provider.getDimensionType().getName());
+                message.location.setDimensionName(
+                        BrandonsCore.proxy
+                                .getMCServer()
+                                .getWorld(message.location.getDimension())
+                                .provider
+                                .getDimensionType()
+                                .getName());
 
                 message.location.setXCoord(ctx.getServerHandler().player.posX);
                 message.location.setYCoord(ctx.getServerHandler().player.posY);
@@ -211,16 +231,37 @@ public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
 
             if (message.function == TELEPORT) {
                 int fuel = ItemNBTHelper.getInteger(teleporter, "Fuel", 0);
-                if (!ctx.getServerHandler().player.capabilities.isCreativeMode) ItemNBTHelper.setInteger(teleporter, "Fuel", fuel - 1);
+                if (!ctx.getServerHandler().player.capabilities.isCreativeMode)
+                    ItemNBTHelper.setInteger(teleporter, "Fuel", fuel - 1);
                 TeleportLocation destination = new TeleportLocation();
                 destination.readFromNBT(list.getCompoundTagAt(message.data));
 
                 if (!ctx.getServerHandler().player.world.isRemote) {
-                    DESoundHandler.playSoundFromServer(ctx.getServerHandler().player.world, ctx.getServerHandler().player.posX, ctx.getServerHandler().player.posY, ctx.getServerHandler().player.posZ, DESoundHandler.portal, SoundCategory.PLAYERS, 0.1F, ctx.getServerHandler().player.world.rand.nextFloat() * 0.1F + 0.9F, false, 32);
+                    DESoundHandler.playSoundFromServer(
+                            ctx.getServerHandler().player.world,
+                            ctx.getServerHandler().player.posX,
+                            ctx.getServerHandler().player.posY,
+                            ctx.getServerHandler().player.posZ,
+                            DESoundHandler.portal,
+                            SoundCategory.PLAYERS,
+                            0.1F,
+                            ctx.getServerHandler().player.world.rand.nextFloat() * 0.1F + 0.9F,
+                            false,
+                            32);
                 }
                 destination.teleport(ctx.getServerHandler().player);
                 if (!ctx.getServerHandler().player.world.isRemote) {
-                    DESoundHandler.playSoundFromServer(ctx.getServerHandler().player.world, ctx.getServerHandler().player.posX, ctx.getServerHandler().player.posY, ctx.getServerHandler().player.posZ, DESoundHandler.portal, SoundCategory.PLAYERS, 0.1F, ctx.getServerHandler().player.world.rand.nextFloat() * 0.1F + 0.9F, false, 32);
+                    DESoundHandler.playSoundFromServer(
+                            ctx.getServerHandler().player.world,
+                            ctx.getServerHandler().player.posX,
+                            ctx.getServerHandler().player.posY,
+                            ctx.getServerHandler().player.posZ,
+                            DESoundHandler.portal,
+                            SoundCategory.PLAYERS,
+                            0.1F,
+                            ctx.getServerHandler().player.world.rand.nextFloat() * 0.1F + 0.9F,
+                            false,
+                            32);
                 }
             }
 
@@ -230,26 +271,39 @@ public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
                 int maxSelect = Math.min(list.tagCount() - 1, 11);
                 int maxOffset = Math.max(list.tagCount() - 12, 0);
 
-                if (message.dataB) //up
+                if (message.dataB) // up
                 {
                     if (selected > 0) {
                         NBTTagCompound temp = list.getCompoundTagAt(selected + selectionOffset);
-                        list.set(selected + selectionOffset, list.getCompoundTagAt(selected + selectionOffset - 1));
+                        list.set(
+                                selected + selectionOffset,
+                                list.getCompoundTagAt(selected + selectionOffset - 1));
                         list.set(selected + selectionOffset - 1, temp);
                         compound.setTag("Locations", list);
                         teleporter.setTagCompound(compound);
-                        ItemNBTHelper.setShort(teleporter, "Selection", (short) (ItemNBTHelper.getShort(teleporter, "Selection", (short) 0) - 1));
+                        ItemNBTHelper.setShort(
+                                teleporter,
+                                "Selection",
+                                (short)
+                                        (ItemNBTHelper.getShort(teleporter, "Selection", (short) 0)
+                                                - 1));
                     }
-                }
-                else //down
+                } else // down
                 {
                     if (selected < maxSelect) {
                         NBTTagCompound temp = list.getCompoundTagAt(selected + selectionOffset);
-                        list.set(selected + selectionOffset, list.getCompoundTagAt(selected + selectionOffset + 1));
+                        list.set(
+                                selected + selectionOffset,
+                                list.getCompoundTagAt(selected + selectionOffset + 1));
                         list.set(selected + selectionOffset + 1, temp);
                         compound.setTag("Locations", list);
                         teleporter.setTagCompound(compound);
-                        ItemNBTHelper.setShort(teleporter, "Selection", (short) (ItemNBTHelper.getShort(teleporter, "Selection", (short) 0) + 1));
+                        ItemNBTHelper.setShort(
+                                teleporter,
+                                "Selection",
+                                (short)
+                                        (ItemNBTHelper.getShort(teleporter, "Selection", (short) 0)
+                                                + 1));
                     }
                 }
             }
@@ -258,13 +312,19 @@ public class PacketDislocator implements IMessage { //TODO Re Write this mess!!!
                 int fuel = ItemNBTHelper.getInteger(teleporter, "Fuel", 0);
                 int count = 0;
                 for (int i = 0; i < message.data; i++) {
-                    if (ctx.getServerHandler().player.inventory.hasItemStack(new ItemStack(Items.ENDER_PEARL))) {
-                        ctx.getServerHandler().player.inventory.clearMatchingItems(Items.ENDER_PEARL, 0, 1, null);
+                    if (ctx.getServerHandler()
+                            .player
+                            .inventory
+                            .hasItemStack(new ItemStack(Items.ENDER_PEARL))) {
+                        ctx.getServerHandler()
+                                .player
+                                .inventory
+                                .clearMatchingItems(Items.ENDER_PEARL, 0, 1, null);
                         count++;
-                    }
-                    else break;
+                    } else break;
                 }
-                ItemNBTHelper.setInteger(teleporter, "Fuel", fuel + (DEConfig.dislocatorUsesPerPearl * count));
+                ItemNBTHelper.setInteger(
+                        teleporter, "Fuel", fuel + (DEConfig.dislocatorUsesPerPearl * count));
             }
 
             if (message.function == CHANGESELECTION) {

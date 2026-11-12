@@ -1,5 +1,7 @@
 package com.brandon3055.draconicevolution.api;
 
+import java.util.List;
+import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -8,21 +10,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 
-import javax.annotation.Nonnull;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 21/06/2016.
- */
+/** Created by brandon3055 on 21/06/2016. */
 public class OreDictHelper {
-
 
     /**
      * Takes an object which may be an ore string, an item, a block or an ItemStack and returns true
      * if it matches the given ItemStack.
      *
      * @param oreStack an ore string, itemStack, item or block.
-     * @param compare  the stack the be compared with
+     * @param compare the stack the be compared with
      * @return true if the stacks are the same.
      */
     public static boolean areStacksEqual(Object oreStack, ItemStack compare) {
@@ -37,14 +33,11 @@ public class OreDictHelper {
                     return true;
                 }
             }
-        }
-        else if (oreStack instanceof ItemStack) {
+        } else if (oreStack instanceof ItemStack) {
             return OreDictionary.itemMatches(compare, (ItemStack) oreStack, false);
-        }
-        else if (oreStack instanceof Item) {
+        } else if (oreStack instanceof Item) {
             return areStacksEqual(new ItemStack((Item) oreStack), compare);
-        }
-        else if (oreStack instanceof Block) {
+        } else if (oreStack instanceof Block) {
             return areStacksEqual(new ItemStack((Block) oreStack), compare);
         }
 
@@ -61,21 +54,20 @@ public class OreDictHelper {
 
         if (stacks.size() == 0) {
             return ItemStack.EMPTY;
-        }
-        else if (stacks.size() == 1) {
+        } else if (stacks.size() == 1) {
             return stacks.get(0);
-        }
-        else {
-            //Prioritize Thermal Foundation
+        } else {
+            // Prioritize Thermal Foundation
             if (Loader.isModLoaded("ThermalFoundation")) {
                 for (ItemStack stack : stacks) {
                     if (stack.getItem() instanceof ItemBlock) {
-                        ResourceLocation name = Block.REGISTRY.getNameForObject(((ItemBlock) stack.getItem()).getBlock());
+                        ResourceLocation name =
+                                Block.REGISTRY.getNameForObject(
+                                        ((ItemBlock) stack.getItem()).getBlock());
                         if (name.getResourceDomain().equals("ThermalFoundation")) {
                             return stack;
                         }
-                    }
-                    else {
+                    } else {
                         ResourceLocation name = Item.REGISTRY.getNameForObject(stack.getItem());
                         if (name != null && name.getResourceDomain().equals("ThermalFoundation")) {
                             return stack;
@@ -88,20 +80,18 @@ public class OreDictHelper {
     }
 
     /**
-     * Takes some object. Works out of it is an itemstack a string an item or a block and returns a stack based on what it finds.
+     * Takes some object. Works out of it is an itemstack a string an item or a block and returns a
+     * stack based on what it finds.
      */
     @Nonnull
     public static ItemStack resolveObject(Object object) {
         if (object instanceof String) {
             return findFirstOreMatch((String) object);
-        }
-        else if (object instanceof ItemStack) {
+        } else if (object instanceof ItemStack) {
             return (ItemStack) object;
-        }
-        else if (object instanceof Item) {
+        } else if (object instanceof Item) {
             return new ItemStack((Item) object);
-        }
-        else if (object instanceof Block) {
+        } else if (object instanceof Block) {
             return new ItemStack((Block) object);
         }
         return ItemStack.EMPTY;

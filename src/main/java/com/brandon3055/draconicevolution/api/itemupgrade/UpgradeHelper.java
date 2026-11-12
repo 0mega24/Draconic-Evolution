@@ -1,26 +1,25 @@
 package com.brandon3055.draconicevolution.api.itemupgrade;
 
 import com.brandon3055.brandonscore.utils.InfoHelper;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * Created by brandon3055 on 31/05/2016.
- * This class contains useful helper methods for use with the upgrade system.
+ * Created by brandon3055 on 31/05/2016. This class contains useful helper methods for use with the
+ * upgrade system.
  */
 public class UpgradeHelper {
     public static final String UPGRADE_TAG = "DEUpgrades";
 
     /**
-     * @param stack   the stack.
+     * @param stack the stack.
      * @param upgrade the upgrade string.
      * @return the upgrade level.
      */
@@ -34,12 +33,12 @@ public class UpgradeHelper {
     }
 
     /**
-     * Note: This method assumes that you have already done the required checks to make sure the upgrade and level are
-     * valid for this item.
+     * Note: This method assumes that you have already done the required checks to make sure the
+     * upgrade and level are valid for this item.
      *
-     * @param stack   the stack
+     * @param stack the stack
      * @param upgrade the upgrade
-     * @param level   the level
+     * @param level the level
      */
     public static void setUpgradeLevel(ItemStack stack, String upgrade, int level) {
         NBTTagCompound upgradeTag = stack.getOrCreateSubCompound(UPGRADE_TAG);
@@ -70,11 +69,12 @@ public class UpgradeHelper {
     }
 
     /**
-     * Applies a map of upgrades to a stack. If the upgrade already exists on the item its level whil be changed to whatever the new level is.
-     * Any upgrades already applied and do not exist in the given map will not be affected.
-     * This will not apply an upgrade if the item does not accept it.
+     * Applies a map of upgrades to a stack. If the upgrade already exists on the item its level
+     * whil be changed to whatever the new level is. Any upgrades already applied and do not exist
+     * in the given map will not be affected. This will not apply an upgrade if the item does not
+     * accept it.
      *
-     * @param stack    The stack.
+     * @param stack The stack.
      * @param upgrades A map of upgrates and their levels.
      */
     public static void setUpgrades(ItemStack stack, Map<String, Integer> upgrades) {
@@ -96,11 +96,15 @@ public class UpgradeHelper {
 
         if (stack.getItem() instanceof IUpgradableItem) {
             for (String upgrade : ((IUpgradableItem) stack.getItem()).getValidUpgrades(stack)) {
-                list.add(InfoHelper.ITC() + I18n.format("upgrade.de." + upgrade + ".name") + " " + InfoHelper.HITC() + I18n.format("upgrade.level." + getUpgradeLevel(stack, upgrade)));
+                list.add(
+                        InfoHelper.ITC()
+                                + I18n.format("upgrade.de." + upgrade + ".name")
+                                + " "
+                                + InfoHelper.HITC()
+                                + I18n.format("upgrade.level." + getUpgradeLevel(stack, upgrade)));
             }
         }
 
         return list;
     }
-
 }

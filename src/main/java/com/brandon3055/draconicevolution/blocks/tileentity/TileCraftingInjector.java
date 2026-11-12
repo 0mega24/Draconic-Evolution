@@ -16,15 +16,25 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 
-/**
- * Created by brandon3055 on 10/06/2016.
- */
-public class TileCraftingInjector extends TileInventoryBase implements IEnergyReceiver, ICraftingInjector, IExtendedRFStorage {
+/** Created by brandon3055 on 10/06/2016. */
+public class TileCraftingInjector extends TileInventoryBase
+        implements IEnergyReceiver, ICraftingInjector, IExtendedRFStorage {
 
-    public final ManagedByte facing = register("facing", new ManagedByte(0)).syncViaTile().saveToTile().trigerUpdate().finish();
-    private final ManagedLong energy = register("energy", new ManagedLong(0)).syncViaTile().saveToTile().finish();
-    private final ManagedVec3I lastCorePos = register("lastCorePos", new ManagedVec3I(new Vec3I(0, 0, 0))).syncViaTile().saveToTile().finish();
-    public final ManagedBool singleItem = register("singleItem", new ManagedBool(false)).syncViaTile().saveToTile().finish();
+    public final ManagedByte facing =
+            register("facing", new ManagedByte(0))
+                    .syncViaTile()
+                    .saveToTile()
+                    .trigerUpdate()
+                    .finish();
+    private final ManagedLong energy =
+            register("energy", new ManagedLong(0)).syncViaTile().saveToTile().finish();
+    private final ManagedVec3I lastCorePos =
+            register("lastCorePos", new ManagedVec3I(new Vec3I(0, 0, 0)))
+                    .syncViaTile()
+                    .saveToTile()
+                    .finish();
+    public final ManagedBool singleItem =
+            register("singleItem", new ManagedBool(false)).syncViaTile().saveToTile().finish();
     public IFusionCraftingInventory currentCraftingInventory = null;
     private int chargeSpeedModifier = 300;
 
@@ -39,14 +49,21 @@ public class TileCraftingInjector extends TileInventoryBase implements IEnergyRe
         super.update();
     }
 
-    //region IEnergy
+    // region IEnergy
 
     @Override
     public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         validateCraftingInventory();
         if (currentCraftingInventory != null) {
-            long maxRFPerTick = currentCraftingInventory.getIngredientEnergyCost() / chargeSpeedModifier;
-            long maxAccept = Math.min(maxReceive, Math.min(currentCraftingInventory.getIngredientEnergyCost() - energy.value, maxRFPerTick));
+            long maxRFPerTick =
+                    currentCraftingInventory.getIngredientEnergyCost() / chargeSpeedModifier;
+            long maxAccept =
+                    Math.min(
+                            maxReceive,
+                            Math.min(
+                                    currentCraftingInventory.getIngredientEnergyCost()
+                                            - energy.value,
+                                    maxRFPerTick));
 
             if (!simulate) {
                 energy.value += maxAccept;
@@ -88,9 +105,9 @@ public class TileCraftingInjector extends TileInventoryBase implements IEnergyRe
         return super.getCapability(capability, facing);
     }
 
-    //endregion
+    // endregion
 
-    //region ICraftingPedestal
+    // region ICraftingPedestal
 
     @Override
     public int getPedestalTier() {
@@ -134,14 +151,16 @@ public class TileCraftingInjector extends TileInventoryBase implements IEnergyRe
     }
 
     private boolean validateCraftingInventory() {
-        if (!getStackInPedestal().isEmpty() && currentCraftingInventory != null && currentCraftingInventory.craftingInProgress() && !((TileEntity) currentCraftingInventory).isInvalid()) {
+        if (!getStackInPedestal().isEmpty()
+                && currentCraftingInventory != null
+                && currentCraftingInventory.craftingInProgress()
+                && !((TileEntity) currentCraftingInventory).isInvalid()) {
             return true;
         }
 
         currentCraftingInventory = null;
         return false;
     }
-
 
     @Override
     public void onCraft() {
@@ -150,8 +169,7 @@ public class TileCraftingInjector extends TileInventoryBase implements IEnergyRe
         }
     }
 
-    //endregion
-
+    // endregion
 
     @Override
     public int getInventoryStackLimit() {

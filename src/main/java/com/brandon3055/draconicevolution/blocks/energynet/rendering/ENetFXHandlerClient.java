@@ -6,15 +6,12 @@ import com.brandon3055.draconicevolution.api.IENetEffectTile;
 import com.brandon3055.draconicevolution.client.render.effect.CrystalFXBeam;
 import com.brandon3055.draconicevolution.client.render.effect.CrystalGLFXBase;
 import com.brandon3055.draconicevolution.network.CrystalUpdateBatcher.BatchedCrystalUpdate;
+import java.util.LinkedList;
+import java.util.Map;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.LinkedList;
-import java.util.Map;
-
-/**
- * Created by brandon3055 on 29/11/2016.
- */
+/** Created by brandon3055 on 29/11/2016. */
 public class ENetFXHandlerClient extends ENetFXHandler<IENetEffectTile> {
 
     protected CrystalGLFXBase staticFX;
@@ -26,7 +23,7 @@ public class ENetFXHandlerClient extends ENetFXHandler<IENetEffectTile> {
 
     @Override
     public void update() {
-        //region Update Static FX
+        // region Update Static FX
         if (tile.hasStaticFX()) {
             if (staticFX == null || !staticFX.isAlive()) {
                 staticFX = tile.createStaticFX();
@@ -38,9 +35,9 @@ public class ENetFXHandlerClient extends ENetFXHandler<IENetEffectTile> {
         if (renderCooldown > 0) {
             renderCooldown--;
         }
-        //endregion
+        // endregion
 
-        //region Update Beams
+        // region Update Beams
         boolean requiresUpdate = false;
         for (CrystalGLFXBase beam : beamFXList) {
             if (!beam.isAlive()) {
@@ -48,14 +45,15 @@ public class ENetFXHandlerClient extends ENetFXHandler<IENetEffectTile> {
             }
 
             if (tile.getFlowRates().size() > beamFXList.indexOf(beam)) {
-                beam.updateFX((tile.getFlowRates().get((byte) beamFXList.indexOf(beam)) & 0xFF) / 255F);
+                beam.updateFX(
+                        (tile.getFlowRates().get((byte) beamFXList.indexOf(beam)) & 0xFF) / 255F);
             }
         }
 
         if (requiresUpdate || tile.getLinks().size() != beamFXList.size()) {
-            reloadConnections();//TODO Make This Better. If needed...
+            reloadConnections(); // TODO Make This Better. If needed...
         }
-        //endregion
+        // endregion
 
     }
 
@@ -87,11 +85,11 @@ public class ENetFXHandlerClient extends ENetFXHandler<IENetEffectTile> {
             if (!(target instanceof ICrystalLink)) {
                 continue;
             }
-            CrystalFXBeam beam = new CrystalFXBeam(((TileEntity) tile).getWorld(), tile, (ICrystalLink) target);
+            CrystalFXBeam beam =
+                    new CrystalFXBeam(((TileEntity) tile).getWorld(), tile, (ICrystalLink) target);
             beamFXList.add(beam);
             BCEffectHandler.spawnGLParticle(beam.getFXHandler(), beam);
         }
-
     }
 
     @Override

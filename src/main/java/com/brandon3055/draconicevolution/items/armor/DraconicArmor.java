@@ -1,5 +1,8 @@
 package com.brandon3055.draconicevolution.items.armor;
 
+import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumControlType.SLIDER;
+import static net.minecraft.inventory.EntityEquipmentSlot.*;
+
 import codechicken.lib.math.MathHelper;
 import com.brandon3055.brandonscore.BrandonsCore;
 import com.brandon3055.brandonscore.lib.DelayedTask;
@@ -15,6 +18,7 @@ import com.brandon3055.draconicevolution.client.model.ModelDraconicArmor;
 import com.brandon3055.draconicevolution.integration.ModHelper;
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
 import com.brandon3055.draconicevolution.items.tools.ToolStats;
+import java.util.Collection;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -36,91 +40,171 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
-import java.util.Collection;
-
-import static com.brandon3055.draconicevolution.api.itemconfig.IItemConfigField.EnumControlType.SLIDER;
-import static net.minecraft.inventory.EntityEquipmentSlot.*;
-
-/**
- * Created by brandon3055 on 6/06/2016.
- */
+/** Created by brandon3055 on 6/06/2016. */
 public class DraconicArmor extends WyvernArmor {
 
-    private static ArmorMaterial draconicMaterial = EnumHelper.addArmorMaterial("draconicArmor", "draconicevolution:draconic_armor", -1, new int[]{3, 6, 8, 3}, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3.0F);
+    private static ArmorMaterial draconicMaterial =
+            EnumHelper.addArmorMaterial(
+                    "draconicArmor",
+                    "draconicevolution:draconic_armor",
+                    -1,
+                    new int[] {3, 6, 8, 3},
+                    20,
+                    SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,
+                    3.0F);
 
     public DraconicArmor(int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
         super(draconicMaterial, renderIndexIn, equipmentSlotIn);
     }
 
-    public DraconicArmor(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
+    public DraconicArmor(
+            ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
         super(materialIn, renderIndexIn, equipmentSlotIn);
     }
 
-    //region Upgrade
+    // region Upgrade
 
     @Override
     public int getMaxUpgradeLevel(ItemStack stack, String upgrade) {
         return 3;
     }
 
-    //endregion
+    // endregion
 
-    //region Config
+    // region Config
 
     @Override
     public ItemConfigFieldRegistry getFields(ItemStack stack, ItemConfigFieldRegistry registry) {
         if (armorType == HEAD) {
-            registry.register(stack, new BooleanConfigField("armorNV", false, "config.field.armorNV.description"));
-            registry.register(stack, new BooleanConfigField("armorNVLock", false, "config.field.armorNVLock.description"));
-            registry.register(stack, new BooleanConfigField("armorAutoFeed", false, "config.field.armorAutoFeed.description"));
-            //TODO RE Integrate thaumcraft
+            registry.register(
+                    stack,
+                    new BooleanConfigField("armorNV", false, "config.field.armorNV.description"));
+            registry.register(
+                    stack,
+                    new BooleanConfigField(
+                            "armorNVLock", false, "config.field.armorNVLock.description"));
+            registry.register(
+                    stack,
+                    new BooleanConfigField(
+                            "armorAutoFeed", false, "config.field.armorAutoFeed.description"));
+            // TODO RE Integrate thaumcraft
         }
         if (armorType == CHEST) {
-            registry.register(stack, new IntegerConfigField("armorFSpeedModifier", 0, 0, MathHelper.clip(DEConfig.flightSpeedLimit != -1 ? DEConfig.flightSpeedLimit : 600, 0, 1200), "config.field.armorFSpeedModifier.description", SLIDER).setPrefix("+").setExtension("%"));
-//            registry.register(stack, new IntegerConfigField("armorVFSpeedModifier", 0, 0, 600, "config.field.armorVFSpeedModifier.description", SLIDER).setPrefix("+").setExtension("%"));
-            registry.register(stack, new BooleanConfigField("armorInertiaCancel", false, "config.field.armorInertiaCancel.description"));
-            registry.register(stack, new BooleanConfigField("armorFlightLock", false, "config.field.armorFlightLock.description"));
+            registry.register(
+                    stack,
+                    new IntegerConfigField(
+                                    "armorFSpeedModifier",
+                                    0,
+                                    0,
+                                    MathHelper.clip(
+                                            DEConfig.flightSpeedLimit != -1
+                                                    ? DEConfig.flightSpeedLimit
+                                                    : 600,
+                                            0,
+                                            1200),
+                                    "config.field.armorFSpeedModifier.description",
+                                    SLIDER)
+                            .setPrefix("+")
+                            .setExtension("%"));
+            //            registry.register(stack, new IntegerConfigField("armorVFSpeedModifier", 0,
+            // 0, 600, "config.field.armorVFSpeedModifier.description",
+            // SLIDER).setPrefix("+").setExtension("%"));
+            registry.register(
+                    stack,
+                    new BooleanConfigField(
+                            "armorInertiaCancel",
+                            false,
+                            "config.field.armorInertiaCancel.description"));
+            registry.register(
+                    stack,
+                    new BooleanConfigField(
+                            "armorFlightLock", false, "config.field.armorFlightLock.description"));
         }
         if (armorType == LEGS) {
             int u = UpgradeHelper.getUpgradeLevel(stack, ToolUpgrade.MOVE_SPEED);
             int i = 200 + (100 * u) + (Math.max(u - 1, 0) * 100) + (Math.max(u - 2, 0) * 100);
-            registry.register(stack, new IntegerConfigField("armorSpeedModifier", 0, 0, i, "config.field.armorSpeedModifier.description", SLIDER).setPrefix("+").setExtension("%"));
-            registry.register(stack, new BooleanConfigField("armorSpeedFOVWarp", false, "config.field.armorSpeedFOVWarp.description"));
+            registry.register(
+                    stack,
+                    new IntegerConfigField(
+                                    "armorSpeedModifier",
+                                    0,
+                                    0,
+                                    i,
+                                    "config.field.armorSpeedModifier.description",
+                                    SLIDER)
+                            .setPrefix("+")
+                            .setExtension("%"));
+            registry.register(
+                    stack,
+                    new BooleanConfigField(
+                            "armorSpeedFOVWarp",
+                            false,
+                            "config.field.armorSpeedFOVWarp.description"));
         }
         if (armorType == FEET) {
             int u = UpgradeHelper.getUpgradeLevel(stack, ToolUpgrade.JUMP_BOOST);
             int i = 200 + (100 * u) + (Math.max(u - 1, 0) * 100) + (Math.max(u - 2, 0) * 100);
-            registry.register(stack, new IntegerConfigField("armorJumpModifier", 0, 0, i, "config.field.armorSpeedModifier.description", SLIDER).setPrefix("+").setExtension("%"));
-            registry.register(stack, new BooleanConfigField("armorHillStep", true, "config.field.armorHillStep.description"));
+            registry.register(
+                    stack,
+                    new IntegerConfigField(
+                                    "armorJumpModifier",
+                                    0,
+                                    0,
+                                    i,
+                                    "config.field.armorSpeedModifier.description",
+                                    SLIDER)
+                            .setPrefix("+")
+                            .setExtension("%"));
+            registry.register(
+                    stack,
+                    new BooleanConfigField(
+                            "armorHillStep", true, "config.field.armorHillStep.description"));
         }
         if (armorType == FEET || armorType == LEGS || armorType == CHEST) {
-            registry.register(stack, new BooleanConfigField("sprintBoost", false, "config.field.sprintBoost.description"));
+            registry.register(
+                    stack,
+                    new BooleanConfigField(
+                            "sprintBoost", false, "config.field.sprintBoost.description"));
         }
 
-        registry.register(stack, new BooleanConfigField("hideArmor", false, "config.field.hideArmor.description"));
+        registry.register(
+                stack,
+                new BooleanConfigField("hideArmor", false, "config.field.hideArmor.description"));
 
         return registry;
     }
 
-    //endregion
+    // endregion
 
-    //region Rendering
+    // region Rendering
 
     @SideOnly(Side.CLIENT)
     public ModelDraconicArmor model;
+
     @SideOnly(Side.CLIENT)
     public ModelBiped model_invisible;
 
     @SideOnly(Side.CLIENT)
     @Override
-    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
+    public ModelBiped getArmorModel(
+            EntityLivingBase entityLiving,
+            ItemStack itemStack,
+            EntityEquipmentSlot armorSlot,
+            ModelBiped _default) {
         if (ToolConfigHelper.getBooleanField("hideArmor", itemStack)) {
             if (model_invisible == null) {
-                model_invisible = new ModelBiped() {
-                    @Override
-                    public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-                    }
-                };
+                model_invisible =
+                        new ModelBiped() {
+                            @Override
+                            public void render(
+                                    Entity entityIn,
+                                    float limbSwing,
+                                    float limbSwingAmount,
+                                    float ageInTicks,
+                                    float netHeadYaw,
+                                    float headPitch,
+                                    float scale) {}
+                        };
             }
 
             return model_invisible;
@@ -130,11 +214,13 @@ public class DraconicArmor extends WyvernArmor {
             return super.getArmorModel(entityLiving, itemStack, armorSlot, _default);
         }
 
-//        model = null;
+        //        model = null;
         if (model == null) {
             if (armorType == HEAD) model = new ModelDraconicArmor(1F, true, false, false, false);
-            else if (armorType == CHEST) model = new ModelDraconicArmor(1F, false, true, false, false);
-            else if (armorType == LEGS) model = new ModelDraconicArmor(1F, false, false, true, false);
+            else if (armorType == CHEST)
+                model = new ModelDraconicArmor(1F, false, true, false, false);
+            else if (armorType == LEGS)
+                model = new ModelDraconicArmor(1F, false, false, true, false);
             else model = new ModelDraconicArmor(1F, false, false, false, true);
             this.model.bipedHead.showModel = (armorType == HEAD);
             this.model.bipedHeadwear.showModel = (armorType == HEAD);
@@ -157,7 +243,7 @@ public class DraconicArmor extends WyvernArmor {
         //     this.model.aimedBow = false;
         //     this.model.heldItemRight = (entityLiving.getHeldItem() != null ? 1 : 0);
 
-//                 this.model.bipedHead.showModel = (armorType == EntityEquipmentSlot.HEAD);
+        //                 this.model.bipedHead.showModel = (armorType == EntityEquipmentSlot.HEAD);
         this.model.bipedHeadwear.showModel = (armorType == HEAD);
         this.model.bipedBody.showModel = ((armorType == CHEST) || (armorType == LEGS));
         this.model.bipedLeftArm.showModel = (armorType == CHEST);
@@ -165,24 +251,27 @@ public class DraconicArmor extends WyvernArmor {
         this.model.bipedLeftLeg.showModel = (armorType == LEGS || armorType == FEET);
         this.model.bipedRightLeg.showModel = (armorType == LEGS || armorType == FEET);
 
-
         return model;
     }
 
-    //endregion
+    // endregion
 
-    //region ICustomArmor
+    // region ICustomArmor
 
     @Override
     public float getProtectionPoints(ItemStack stack) {
         int upgradeLevel = UpgradeHelper.getUpgradeLevel(stack, ToolUpgrade.SHIELD_CAPACITY);
-        float points = ToolStats.DRACONIC_BASE_SHIELD_CAPACITY * getProtectionShare() * (upgradeLevel + 1);
+        float points =
+                ToolStats.DRACONIC_BASE_SHIELD_CAPACITY * getProtectionShare() * (upgradeLevel + 1);
         return points;
     }
-    
+
     @Override
     public float getRecoveryRate(ItemStack stack) {
-        return (float)ToolStats.DRACONIC_SHIELD_RECOVERY * (1F + UpgradeHelper.getUpgradeLevel(stack, ToolUpgrade.SHIELD_RECOVERY));//TODO Balance
+        return (float) ToolStats.DRACONIC_SHIELD_RECOVERY
+                * (1F
+                        + UpgradeHelper.getUpgradeLevel(
+                                stack, ToolUpgrade.SHIELD_RECOVERY)); // TODO Balance
     }
 
     @Override
@@ -201,8 +290,12 @@ public class DraconicArmor extends WyvernArmor {
             }
 
             FoodStats foodStats = player.getFoodStats();
-            if (player.ticksExisted % 100 == 0 && ToolConfigHelper.getBooleanField("armorAutoFeed", stack) && foodStats.needFood() && this.getEnergyStored(stack) >= 500) {
-                IItemHandler handler = player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+            if (player.ticksExisted % 100 == 0
+                    && ToolConfigHelper.getBooleanField("armorAutoFeed", stack)
+                    && foodStats.needFood()
+                    && this.getEnergyStored(stack) >= 500) {
+                IItemHandler handler =
+                        player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
                 if (handler != null) {
                     for (int i = 0; i < handler.getSlots(); i++) {
@@ -210,26 +303,52 @@ public class DraconicArmor extends WyvernArmor {
                         if (!candidate.isEmpty() && candidate.getItem() instanceof ItemFood) {
                             ItemFood food = (ItemFood) candidate.getItem();
                             int amount = food.getHealAmount(candidate);
-                            if (amount > 0 && food.getHealAmount(candidate) + foodStats.getFoodLevel() <= 20) {
+                            if (amount > 0
+                                    && food.getHealAmount(candidate) + foodStats.getFoodLevel()
+                                            <= 20) {
                                 candidate = candidate.copy();
-                                ItemStack foodStack = handler.extractItem(i, candidate.getCount(), false);
+                                ItemStack foodStack =
+                                        handler.extractItem(i, candidate.getCount(), false);
 
                                 if (ItemStack.areItemStacksEqual(foodStack, candidate)) {
                                     foodStats.addStats(food, foodStack);
                                     foodStack = food.onItemUseFinish(foodStack, world, player);
                                     if (world.rand.nextInt(3) == 0) {
-                                        DelayedTask.run(20, () -> world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, .5F, world.rand.nextFloat() * 0.1F + 0.9F));
+                                        DelayedTask.run(
+                                                20,
+                                                () ->
+                                                        world.playSound(
+                                                                null,
+                                                                player.posX,
+                                                                player.posY,
+                                                                player.posZ,
+                                                                SoundEvents.ENTITY_PLAYER_BURP,
+                                                                SoundCategory.PLAYERS,
+                                                                .5F,
+                                                                world.rand.nextFloat() * 0.1F
+                                                                        + 0.9F));
                                     }
 
-                                    world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 0.5F + 0.5F * (float)world.rand.nextInt(2), (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
+                                    world.playSound(
+                                            null,
+                                            player.posX,
+                                            player.posY,
+                                            player.posZ,
+                                            SoundEvents.ENTITY_GENERIC_EAT,
+                                            SoundCategory.PLAYERS,
+                                            0.5F + 0.5F * (float) world.rand.nextInt(2),
+                                            (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F
+                                                    + 1.0F);
                                     foodStack = handler.insertItem(i, foodStack, false);
                                     this.modifyEnergy(stack, -500);
                                     if (!foodStack.isEmpty()) {
-                                        InventoryUtils.givePlayerStack(player, foodStack.copy());//I miss being able to just do setStackInSlot...
+                                        InventoryUtils.givePlayerStack(
+                                                player,
+                                                foodStack.copy()); // I miss being able to just do
+                                        // setStackInSlot...
                                     }
                                     break;
-                                }
-                                else {
+                                } else {
                                     foodStack = handler.insertItem(i, foodStack, false);
                                     if (!foodStack.isEmpty()) {
                                         InventoryUtils.givePlayerStack(player, foodStack.copy());
@@ -248,10 +367,16 @@ public class DraconicArmor extends WyvernArmor {
             }
 
             PotionEffect active = player.getActivePotionEffect(nv);
-            if (ToolConfigHelper.getBooleanField("armorNV", stack) && (player.world.getLightBrightness(new BlockPos((int) Math.floor(player.posX), (int) player.posY + 1, (int) Math.floor(player.posZ))) < 0.1F || ToolConfigHelper.getBooleanField("armorNVLock", stack))) {
+            if (ToolConfigHelper.getBooleanField("armorNV", stack)
+                    && (player.world.getLightBrightness(
+                                            new BlockPos(
+                                                    (int) Math.floor(player.posX),
+                                                    (int) player.posY + 1,
+                                                    (int) Math.floor(player.posZ)))
+                                    < 0.1F
+                            || ToolConfigHelper.getBooleanField("armorNVLock", stack))) {
                 player.addPotionEffect(new PotionEffect(nv, 500, 0, false, false));
-            }
-            else if (active != null && ToolConfigHelper.getBooleanField("armorNVLock", stack)) {
+            } else if (active != null && ToolConfigHelper.getBooleanField("armorNVLock", stack)) {
                 player.removePotionEffect(nv);
             }
         }
@@ -273,7 +398,8 @@ public class DraconicArmor extends WyvernArmor {
                 }
                 for (PotionEffect potion : potions) {
                     if (potion.getPotion().isBadEffect()) {
-                        if (potion.getPotion() == MobEffects.MINING_FATIGUE && ModHelper.isHoldingCleaver(player)) {
+                        if (potion.getPotion() == MobEffects.MINING_FATIGUE
+                                && ModHelper.isHoldingCleaver(player)) {
                             continue;
                         }
 
@@ -288,7 +414,6 @@ public class DraconicArmor extends WyvernArmor {
         return flag;
     }
 
-
     @Override
     public boolean hasHillStep(ItemStack stack, EntityPlayer player) {
         return ToolConfigHelper.getBooleanField("armorHillStep", stack);
@@ -301,7 +426,11 @@ public class DraconicArmor extends WyvernArmor {
 
     @Override
     public boolean[] hasFlight(ItemStack stack) {
-        return new boolean[]{true, ToolConfigHelper.getBooleanField("armorFlightLock", stack), ToolConfigHelper.getBooleanField("armorInertiaCancel", stack)};
+        return new boolean[] {
+            true,
+            ToolConfigHelper.getBooleanField("armorFlightLock", stack),
+            ToolConfigHelper.getBooleanField("armorInertiaCancel", stack)
+        };
     }
 
     @Override
@@ -313,7 +442,8 @@ public class DraconicArmor extends WyvernArmor {
 
         float modifier = value / 100F;
 
-        if (ToolConfigHelper.getBooleanField("sprintBoost", stack) && !BrandonsCore.proxy.isSprintKeyDown()) {
+        if (ToolConfigHelper.getBooleanField("sprintBoost", stack)
+                && !BrandonsCore.proxy.isSprintKeyDown()) {
             modifier /= 5F;
         }
 
@@ -324,7 +454,8 @@ public class DraconicArmor extends WyvernArmor {
     public float getFlightVModifier(ItemStack stack, EntityPlayer player) {
         float modifier = ToolConfigHelper.getIntegerField("armorVFSpeedModifier", stack) / 100F;
 
-        if (ToolConfigHelper.getBooleanField("sprintBoost", stack) && !BrandonsCore.proxy.isSprintKeyDown()) {
+        if (ToolConfigHelper.getBooleanField("sprintBoost", stack)
+                && !BrandonsCore.proxy.isSprintKeyDown()) {
             modifier /= 5F;
         }
 
@@ -336,9 +467,9 @@ public class DraconicArmor extends WyvernArmor {
         return ToolStats.DRACONIC_SHIELD_RECHARGE_COST;
     }
 
-    //endregion
+    // endregion
 
-    //region Energy
+    // region Energy
 
     @Override
     protected int getCapacity(ItemStack stack) {
@@ -346,8 +477,7 @@ public class DraconicArmor extends WyvernArmor {
 
         if (level == 0) {
             return ToolStats.DRACONIC_BASE_CAPACITY;
-        }
-        else {
+        } else {
             return ToolStats.DRACONIC_BASE_CAPACITY * (int) Math.pow(2, level + 1);
         }
     }
@@ -357,5 +487,5 @@ public class DraconicArmor extends WyvernArmor {
         return ToolStats.DRACONIC_MAX_RECIEVE;
     }
 
-    //endregion
+    // endregion
 }

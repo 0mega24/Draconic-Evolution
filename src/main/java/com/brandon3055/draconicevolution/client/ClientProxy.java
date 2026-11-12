@@ -75,7 +75,8 @@ public class ClientProxy extends CommonProxy {
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
 
-        for (RenderPlayer renderPlayer : Minecraft.getMinecraft().getRenderManager().getSkinMap().values()) {
+        for (RenderPlayer renderPlayer :
+                Minecraft.getMinecraft().getRenderManager().getSkinMap().values()) {
             renderPlayer.addLayer(layerWings = new LayerContributorPerkRenderer(renderPlayer));
         }
     }
@@ -88,27 +89,37 @@ public class ClientProxy extends CommonProxy {
 
     public void registerRendering() {
 
-        //Entities
-        RenderingRegistry.registerEntityRenderingHandler(EntityChaosGuardian.class, RenderChaosGuardian::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityDragonHeart.class, RenderDragonHeart::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityGuardianProjectile.class, RenderGuardianProjectile::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityGuardianCrystal.class, RenderGuardianCrystal::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityChaosImplosion.class, RenderEntityChaosVortex::new);
+        // Entities
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityChaosGuardian.class, RenderChaosGuardian::new);
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityDragonHeart.class, RenderDragonHeart::new);
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityGuardianProjectile.class, RenderGuardianProjectile::new);
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityGuardianCrystal.class, RenderGuardianCrystal::new);
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityChaosImplosion.class, RenderEntityChaosVortex::new);
 
         if (DEConfig.disableCustomArrowModel) {
-            RenderingRegistry.registerEntityRenderingHandler(EntityCustomArrow.class, manager -> new RenderArrow<EntityCustomArrow>(manager) {
-                @Override
-                protected ResourceLocation getEntityTexture(EntityCustomArrow entity) {
-                    return RenderTippedArrow.RES_ARROW;
-                }
-            });
-        }
-        else {
-            RenderingRegistry.registerEntityRenderingHandler(EntityCustomArrow.class, RenderCustomArrow::new);
+            RenderingRegistry.registerEntityRenderingHandler(
+                    EntityCustomArrow.class,
+                    manager ->
+                            new RenderArrow<EntityCustomArrow>(manager) {
+                                @Override
+                                protected ResourceLocation getEntityTexture(
+                                        EntityCustomArrow entity) {
+                                    return RenderTippedArrow.RES_ARROW;
+                                }
+                            });
+        } else {
+            RenderingRegistry.registerEntityRenderingHandler(
+                    EntityCustomArrow.class, RenderCustomArrow::new);
         }
 
         RenderingRegistry.registerEntityRenderingHandler(EntityLootCore.class, RenderLootCore::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityEnderEnergyManipulator.class, RenderEntityEnderEnergyManipulator::new);
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityEnderEnergyManipulator.class, RenderEntityEnderEnergyManipulator::new);
     }
 
     @Override

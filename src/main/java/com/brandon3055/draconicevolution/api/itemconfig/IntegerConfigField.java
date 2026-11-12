@@ -1,15 +1,14 @@
 package com.brandon3055.draconicevolution.api.itemconfig;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
- * Created by brandon3055 on 1/06/2016.
- * A basic integer config field. Can be extended by any other field that stores its state as an integer.
+ * Created by brandon3055 on 1/06/2016. A basic integer config field. Can be extended by any other
+ * field that stores its state as an integer.
  */
 public class IntegerConfigField implements IItemConfigField {
     protected final String name;
@@ -22,12 +21,19 @@ public class IntegerConfigField implements IItemConfigField {
     private String prefix = "";
 
     /**
-     * @param name         the name of the field
+     * @param name the name of the field
      * @param defaultValue the default defaultValue of the field
-     * @param description  a description for this field. This will be passed through I18n so it can be a localization key.
-     * @param controlType  Valid control types are PLUS_MINUS 1, 2 or 3, SLIDER or SELECTION
+     * @param description a description for this field. This will be passed through I18n so it can
+     *     be a localization key.
+     * @param controlType Valid control types are PLUS_MINUS 1, 2 or 3, SLIDER or SELECTION
      */
-    public IntegerConfigField(String name, int defaultValue, int minValue, int maxValue, String description, EnumControlType controlType) {
+    public IntegerConfigField(
+            String name,
+            int defaultValue,
+            int minValue,
+            int maxValue,
+            String description,
+            EnumControlType controlType) {
         this.name = name;
         this.value = defaultValue;
         this.minValue = minValue;
@@ -131,8 +137,7 @@ public class IntegerConfigField implements IItemConfigField {
 
         if (value > maxValue) {
             value = maxValue;
-        }
-        else if (value < minValue) {
+        } else if (value < minValue) {
             value = minValue;
         }
     }
@@ -148,8 +153,7 @@ public class IntegerConfigField implements IItemConfigField {
         if (value > maxValue) {
             value = maxValue;
             writeToNBT(compound);
-        }
-        else if (value < minValue) {
+        } else if (value < minValue) {
             value = minValue;
             writeToNBT(compound);
         }
@@ -172,5 +176,4 @@ public class IntegerConfigField implements IItemConfigField {
 
         return list;
     }
-
 }

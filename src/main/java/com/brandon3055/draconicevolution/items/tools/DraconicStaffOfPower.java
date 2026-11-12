@@ -1,5 +1,7 @@
 package com.brandon3055.draconicevolution.items.tools;
 
+import static com.brandon3055.draconicevolution.client.model.tool.ToolTransforms.STAFF_STATE;
+
 import com.brandon3055.brandonscore.lib.PairKV;
 import com.brandon3055.brandonscore.registry.Feature;
 import com.brandon3055.draconicevolution.api.IReaperItem;
@@ -11,6 +13,7 @@ import com.brandon3055.draconicevolution.api.itemupgrade.UpgradeHelper;
 import com.brandon3055.draconicevolution.client.model.tool.ToolOverrideList;
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
 import com.brandon3055.draconicevolution.utils.DETextures;
+import java.util.List;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.enchantment.Enchantment;
@@ -26,20 +29,15 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
-
-import static com.brandon3055.draconicevolution.client.model.tool.ToolTransforms.STAFF_STATE;
-
-/**
- * Created by brandon3055 on 5/06/2016.
- */
+/** Created by brandon3055 on 5/06/2016. */
 public class DraconicStaffOfPower extends MiningToolBase implements IAOEWeapon, IReaperItem {
     public DraconicStaffOfPower() {
-        super(/*ToolStats.DRA_STAFF_ATTACK_DAMAGE, ToolStats.DRA_STAFF_ATTACK_SPEED, */PICKAXE_OVERRIDES);
-//        this.baseMiningSpeed = (float) ToolStats.DRA_STAFF_MINING_SPEED;
-//        this.baseAOE = ToolStats.BASE_DRACONIC_MINING_AOE + 1;
-//        setEnergyStats(ToolStats.DRACONIC_BASE_CAPACITY * 3, 16000000, 0);
-//        this.setHarvestLevel("all", 10);
+        super(
+                /*ToolStats.DRA_STAFF_ATTACK_DAMAGE, ToolStats.DRA_STAFF_ATTACK_SPEED, */ PICKAXE_OVERRIDES);
+        //        this.baseMiningSpeed = (float) ToolStats.DRA_STAFF_MINING_SPEED;
+        //        this.baseAOE = ToolStats.BASE_DRACONIC_MINING_AOE + 1;
+        //        setEnergyStats(ToolStats.DRACONIC_BASE_CAPACITY * 3, 16000000, 0);
+        //        this.setHarvestLevel("all", 10);
         this.setHarvestLevel("pickaxe", 10);
         this.setHarvestLevel("axe", 10);
         this.setHarvestLevel("shovel", 10);
@@ -93,11 +91,13 @@ public class DraconicStaffOfPower extends MiningToolBase implements IAOEWeapon, 
         if (getDisabledEnchants(stack).containsKey(enchantment)) {
             return false;
         }
-        return super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.type == EnumEnchantmentType.WEAPON;
+        return super.canApplyAtEnchantingTable(stack, enchantment)
+                || enchantment.type == EnumEnchantmentType.WEAPON;
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+    public ActionResult<ItemStack> onItemRightClick(
+            World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
@@ -106,7 +106,7 @@ public class DraconicStaffOfPower extends MiningToolBase implements IAOEWeapon, 
         return super.onBlockStartBreak(itemstack, pos, player);
     }
 
-    //region Attack Stats
+    // region Attack Stats
 
     @Override
     public double getMaxWeaponAOE(ItemStack stack) {
@@ -121,7 +121,15 @@ public class DraconicStaffOfPower extends MiningToolBase implements IAOEWeapon, 
 
     @Override
     public ItemConfigFieldRegistry getFields(ItemStack stack, ItemConfigFieldRegistry registry) {
-        registry.register(stack, new DoubleConfigField("attackAOE", getMaxWeaponAOE(stack), 0, getMaxWeaponAOE(stack), "config.field.attackAOE.description", IItemConfigField.EnumControlType.SLIDER));
+        registry.register(
+                stack,
+                new DoubleConfigField(
+                        "attackAOE",
+                        getMaxWeaponAOE(stack),
+                        0,
+                        getMaxWeaponAOE(stack),
+                        "config.field.attackAOE.description",
+                        IItemConfigField.EnumControlType.SLIDER));
         return super.getFields(stack, registry);
     }
 
@@ -135,14 +143,14 @@ public class DraconicStaffOfPower extends MiningToolBase implements IAOEWeapon, 
         ToolConfigHelper.setDoubleField("attackAOE", stack, value);
     }
 
-    //endregion
+    // endregion
 
     @Override
     public int getReaperLevel(ItemStack stack) {
         return 3;
     }
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public void registerRenderer(Feature feature) {
@@ -150,15 +158,21 @@ public class DraconicStaffOfPower extends MiningToolBase implements IAOEWeapon, 
         ToolOverrideList.putOverride(this, DraconicStaffOfPower::handleTransforms);
     }
 
-    @SideOnly (Side.CLIENT)//Avoids synthetic lambda creation booping the classloader on the server.
+    @SideOnly(
+            Side.CLIENT) // Avoids synthetic lambda creation booping the classloader on the server.
     private static IModelState handleTransforms(TransformType transformType, IModelState state) {
-        return transformType == TransformType.FIXED || transformType == TransformType.GROUND ? STAFF_STATE : state;
+        return transformType == TransformType.FIXED || transformType == TransformType.GROUND
+                ? STAFF_STATE
+                : state;
     }
 
     @Override
     public PairKV<TextureAtlasSprite, ResourceLocation> getModels(ItemStack stack) {
-        return new PairKV<>(DETextures.DRACONIC_STAFF_OF_POWER, new ResourceLocation("draconicevolution", "models/item/tools/draconic_staff_of_power.obj"));
+        return new PairKV<>(
+                DETextures.DRACONIC_STAFF_OF_POWER,
+                new ResourceLocation(
+                        "draconicevolution", "models/item/tools/draconic_staff_of_power.obj"));
     }
 
-    //endregion
+    // endregion
 }

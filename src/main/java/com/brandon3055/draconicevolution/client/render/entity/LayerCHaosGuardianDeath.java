@@ -1,20 +1,27 @@
 package com.brandon3055.draconicevolution.client.render.entity;
 
 import com.brandon3055.draconicevolution.entity.EntityChaosGuardian;
+import java.util.Random;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Random;
-
 @SideOnly(Side.CLIENT)
 public class LayerCHaosGuardianDeath implements LayerRenderer<EntityChaosGuardian> {
-    public void doRenderLayer(EntityChaosGuardian entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void doRenderLayer(
+            EntityChaosGuardian entitylivingbaseIn,
+            float limbSwing,
+            float limbSwingAmount,
+            float partialTicks,
+            float ageInTicks,
+            float netHeadYaw,
+            float headPitch,
+            float scale) {
         if (entitylivingbaseIn.deathTicks > 0) {
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder vertexbuffer = tessellator.getBuffer();
@@ -30,7 +37,8 @@ public class LayerCHaosGuardianDeath implements LayerRenderer<EntityChaosGuardia
             GlStateManager.disableTexture2D();
             GlStateManager.shadeModel(7425);
             GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+            GlStateManager.blendFunc(
+                    GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
             GlStateManager.disableAlpha();
             GlStateManager.enableCull();
             GlStateManager.depthMask(false);
@@ -47,11 +55,26 @@ public class LayerCHaosGuardianDeath implements LayerRenderer<EntityChaosGuardia
                 float f2 = random.nextFloat() * 20.0F + 5.0F + f1 * 10.0F;
                 float f3 = random.nextFloat() * 2.0F + 1.0F + f1 * 2.0F;
                 vertexbuffer.begin(6, DefaultVertexFormats.POSITION_COLOR);
-                vertexbuffer.pos(0.0D, 0.0D, 0.0D).color(255, 255, 255, (int) (255.0F * (1.0F - f1))).endVertex();
-                vertexbuffer.pos(-0.866D * (double) f3, (double) f2, (double) (-0.5F * f3)).color(255, 0, 255, 0).endVertex();
-                vertexbuffer.pos(0.866D * (double) f3, (double) f2, (double) (-0.5F * f3)).color(255, 0, 255, 0).endVertex();
-                vertexbuffer.pos(0.0D, (double) f2, (double) (1.0F * f3)).color(255, 0, 255, 0).endVertex();
-                vertexbuffer.pos(-0.866D * (double) f3, (double) f2, (double) (-0.5F * f3)).color(255, 0, 255, 0).endVertex();
+                vertexbuffer
+                        .pos(0.0D, 0.0D, 0.0D)
+                        .color(255, 255, 255, (int) (255.0F * (1.0F - f1)))
+                        .endVertex();
+                vertexbuffer
+                        .pos(-0.866D * (double) f3, (double) f2, (double) (-0.5F * f3))
+                        .color(255, 0, 255, 0)
+                        .endVertex();
+                vertexbuffer
+                        .pos(0.866D * (double) f3, (double) f2, (double) (-0.5F * f3))
+                        .color(255, 0, 255, 0)
+                        .endVertex();
+                vertexbuffer
+                        .pos(0.0D, (double) f2, (double) (1.0F * f3))
+                        .color(255, 0, 255, 0)
+                        .endVertex();
+                vertexbuffer
+                        .pos(-0.866D * (double) f3, (double) f2, (double) (-0.5F * f3))
+                        .color(255, 0, 255, 0)
+                        .endVertex();
                 tessellator.draw();
             }
 

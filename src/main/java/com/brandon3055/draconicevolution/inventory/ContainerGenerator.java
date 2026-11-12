@@ -46,15 +46,14 @@ public class ContainerGenerator extends ContainerBCBase<TileGenerator> {
                 if (!mergeItemStack(stack, 0, 36, false)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (TileEntityFurnace.getItemBurnTime(stack) == 0 || !mergeItemStack(stack, 36, 36 + tile.getSizeInventory(), false)) {
+            } else if (TileEntityFurnace.getItemBurnTime(stack) == 0
+                    || !mergeItemStack(stack, 36, 36 + tile.getSizeInventory(), false)) {
                 return ItemStack.EMPTY;
             }
 
             if (stack.getCount() == 0) {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else {
+            } else {
                 slot.onSlotChanged();
             }
 

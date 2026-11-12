@@ -6,15 +6,18 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-/**
- * Created by Brandon on 17/11/2014.
- */
+/** Created by Brandon on 17/11/2014. */
 public class EnchantmentReaper extends Enchantment {
 
     public static EnchantmentReaper instance;
 
     public EnchantmentReaper() {
-        super(Rarity.RARE, EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+        super(
+                Rarity.RARE,
+                EnumEnchantmentType.WEAPON,
+                new EntityEquipmentSlot[] {
+                    EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND
+                });
         this.setName("draconicevolution.reaperEnchant");
         this.setRegistryName(new ResourceLocation("draconicevolution", "enchant_reaper"));
     }

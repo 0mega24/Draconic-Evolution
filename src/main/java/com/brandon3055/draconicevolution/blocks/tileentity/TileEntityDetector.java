@@ -19,6 +19,8 @@ import com.brandon3055.draconicevolution.GuiHandler;
 import com.brandon3055.draconicevolution.blocks.machines.EntityDetector;
 import com.brandon3055.draconicevolution.client.DEParticles;
 import com.brandon3055.draconicevolution.client.render.particle.ParticleStarSpark;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,13 +38,9 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 28/09/2016.
- */
-public class TileEntityDetector extends TileEnergyBase implements IActivatableTile, IRedstoneEmitter, ITickable, IEnergyReceiver {
+/** Created by brandon3055 on 28/09/2016. */
+public class TileEntityDetector extends TileEnergyBase
+        implements IActivatableTile, IRedstoneEmitter, ITickable, IEnergyReceiver {
 
     public float hRot = 0;
     public float yRot = (float) Math.PI / 2;
@@ -50,38 +48,65 @@ public class TileEntityDetector extends TileEnergyBase implements IActivatableTi
     public float ltyRot = 0;
 
     //    public final ManagedBool ADVANCED = new ManagedBool(true, true, false, true);
-    public final ManagedShort PULSE_RATE = register("PULSE_RATE", new ManagedShort(30)).saveToTile().saveToItem().syncViaTile().finish();
-    public final ManagedShort RANGE = register("RANGE", new ManagedShort(10)).saveToTile().saveToItem().syncViaTile().finish();
-    public final ManagedByte RS_MIN_DETECTION = register("RS_MIN_DETECTION", new ManagedByte(1)).saveToTile().saveToItem().syncViaTile().finish();
-    public final ManagedByte RS_MAX_DETECTION = register("RS_MAX_DETECTION", new ManagedByte(1)).saveToTile().saveToItem().syncViaTile().finish();
-    public final ManagedBool PULSE_RS_MODE = register("PULSE_RS_MODE", new ManagedBool(false)).saveToTile().saveToItem().syncViaTile().trigerUpdate().finish();
-    public final ManagedByte OUTPUT_STRENGTH = register("OUTPUT_STRENGTH", new ManagedByte(0)).saveToTile().finish();
+    public final ManagedShort PULSE_RATE =
+            register("PULSE_RATE", new ManagedShort(30))
+                    .saveToTile()
+                    .saveToItem()
+                    .syncViaTile()
+                    .finish();
+    public final ManagedShort RANGE =
+            register("RANGE", new ManagedShort(10))
+                    .saveToTile()
+                    .saveToItem()
+                    .syncViaTile()
+                    .finish();
+    public final ManagedByte RS_MIN_DETECTION =
+            register("RS_MIN_DETECTION", new ManagedByte(1))
+                    .saveToTile()
+                    .saveToItem()
+                    .syncViaTile()
+                    .finish();
+    public final ManagedByte RS_MAX_DETECTION =
+            register("RS_MAX_DETECTION", new ManagedByte(1))
+                    .saveToTile()
+                    .saveToItem()
+                    .syncViaTile()
+                    .finish();
+    public final ManagedBool PULSE_RS_MODE =
+            register("PULSE_RS_MODE", new ManagedBool(false))
+                    .saveToTile()
+                    .saveToItem()
+                    .syncViaTile()
+                    .trigerUpdate()
+                    .finish();
+    public final ManagedByte OUTPUT_STRENGTH =
+            register("OUTPUT_STRENGTH", new ManagedByte(0)).saveToTile().finish();
     private int pulseTimer = -1;
     private int pulseDuration = 0;
 
-    public TileEntityFilter entityFilter = new TileEntityFilter(this, (byte) 32) {
-        @Override
-        public boolean isListEnabled() {
-            return isAdvanced();
-        }
+    public TileEntityFilter entityFilter =
+            new TileEntityFilter(this, (byte) 32) {
+                @Override
+                public boolean isListEnabled() {
+                    return isAdvanced();
+                }
 
-        @Override
-        public boolean isOtherSelectorEnabled() {
-            return isAdvanced();
-        }
+                @Override
+                public boolean isOtherSelectorEnabled() {
+                    return isAdvanced();
+                }
 
-        @Override
-        public boolean isTypeSelectionEnabled() {
-            return true;
-        }
-    };
+                @Override
+                public boolean isTypeSelectionEnabled() {
+                    return true;
+                }
+            };
     public List<String> playerNames = new ArrayList<>();
 
     public TileEntityDetector() {
         setEnergySyncMode().syncViaContainer();
         setCapacityAndTransfer(512000, 32000, 0);
     }
-
 
     @Override
     public void update() {
@@ -115,9 +140,14 @@ public class TileEntityDetector extends TileEnergyBase implements IActivatableTi
 
     @SideOnly(Side.CLIENT)
     private void updateAnimation() {
-        //region Targeting
+        // region Targeting
 
-        List<Entity> entities = entityFilter.filterEntities(world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(RANGE.value, RANGE.value, RANGE.value)));
+        List<Entity> entities =
+                entityFilter.filterEntities(
+                        world.getEntitiesWithinAABB(
+                                Entity.class,
+                                new AxisAlignedBB(pos, pos.add(1, 1, 1))
+                                        .grow(RANGE.value, RANGE.value, RANGE.value)));
         Entity closest = null;
         double closestDist = -1;
 
@@ -138,9 +168,9 @@ public class TileEntityDetector extends TileEnergyBase implements IActivatableTi
 
             double xDist = closest.posX - (double) ((float) getPos().getX() + 0.5F);
             double zDist = closest.posZ - (double) ((float) getPos().getZ() + 0.5F);
-            double yDist = (closest.posY + closest.getEyeHeight()) - (double) ((float) pos.getY() + 0.5F);
+            double yDist =
+                    (closest.posY + closest.getEyeHeight()) - (double) ((float) pos.getY() + 0.5F);
             double dist = Utils.getDistanceAtoB(Vec3D.getCenter(pos), new Vec3D(closest));
-
 
             float thRot = (float) MathHelper.atan2(zDist, xDist);
             float tyRot = (float) MathHelper.atan2(dist, yDist);
@@ -177,12 +207,18 @@ public class TileEntityDetector extends TileEnergyBase implements IActivatableTi
             }
         }
 
-        //endregion
+        // endregion
 
-        //region Effects
+        // region Effects
 
-
-        ParticleStarSpark spark = new ParticleStarSpark(world, Vec3D.getCenter(pos).add((-0.5 + world.rand.nextDouble()) * 0.1, 0.005, (-0.5 + world.rand.nextDouble()) * 0.1));
+        ParticleStarSpark spark =
+                new ParticleStarSpark(
+                        world,
+                        Vec3D.getCenter(pos)
+                                .add(
+                                        (-0.5 + world.rand.nextDouble()) * 0.1,
+                                        0.005,
+                                        (-0.5 + world.rand.nextDouble()) * 0.1));
         spark.setSizeAndRandMotion(0.4F * (world.rand.nextFloat() + 0.1), 0.02D, 0, 0.02D);
         spark.setMaxAge(30, 10);
         spark.setGravity(0.0002D);
@@ -194,7 +230,9 @@ public class TileEntityDetector extends TileEnergyBase implements IActivatableTi
         double x = i / 2;
         double z = i % 2;
 
-        spark = new ParticleStarSpark(world, new Vec3D(pos).add(0.14 + (x * 0.72), 0.17, 0.14 + (z * 0.72)));
+        spark =
+                new ParticleStarSpark(
+                        world, new Vec3D(pos).add(0.14 + (x * 0.72), 0.17, 0.14 + (z * 0.72)));
         spark.setSizeAndRandMotion(0.3F * (world.rand.nextFloat() + 0.2), 0.002D, 0, 0.002D);
         spark.setGravity(0.0002D);
         spark.sparkSize = 0.15F;
@@ -206,12 +244,16 @@ public class TileEntityDetector extends TileEnergyBase implements IActivatableTi
 
         BCEffectHandler.spawnFXDirect(DEParticles.DE_SHEET, spark);
 
-
-        //endregion
+        // endregion
     }
 
     public void doScanPulse() {
-        List<Entity> entities = entityFilter.filterEntities(world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(RANGE.value, RANGE.value, RANGE.value)));
+        List<Entity> entities =
+                entityFilter.filterEntities(
+                        world.getEntitiesWithinAABB(
+                                Entity.class,
+                                new AxisAlignedBB(pos, pos.add(1, 1, 1))
+                                        .grow(RANGE.value, RANGE.value, RANGE.value)));
 
         double min = RS_MIN_DETECTION.value - 1;
         double max = RS_MAX_DETECTION.value;
@@ -238,7 +280,7 @@ public class TileEntityDetector extends TileEnergyBase implements IActivatableTi
         energyStorage.modifyEnergyStored(-getPulseCost());
     }
 
-    //region GuiInteraction
+    // region GuiInteraction
 
     public void adjustPulseRate(boolean decrement, boolean shift) {
         sendPacketToServer(output -> output.writeBoolean(decrement), shift ? (byte) 1 : (byte) 0);
@@ -326,14 +368,28 @@ public class TileEntityDetector extends TileEnergyBase implements IActivatableTi
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Interfaces
+    // region Interfaces
 
     @Override
-    public boolean onBlockActivated(IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            IBlockState state,
+            EntityPlayer player,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         if (!world.isRemote) {
-            FMLNetworkHandler.openGui(player, DraconicEvolution.instance, GuiHandler.GUIID_ENTITY_DETECTOR, world, pos.getX(), pos.getY(), pos.getZ());
+            FMLNetworkHandler.openGui(
+                    player,
+                    DraconicEvolution.instance,
+                    GuiHandler.GUIID_ENTITY_DETECTOR,
+                    world,
+                    pos.getX(),
+                    pos.getY(),
+                    pos.getZ());
 
             MinecraftServer server = BrandonsCore.proxy.getMCServer();
             if (server != null) {
@@ -343,7 +399,10 @@ public class TileEntityDetector extends TileEnergyBase implements IActivatableTi
                 }
                 NBTTagCompound compound = new NBTTagCompound();
                 compound.setTag("List", list);
-                sendPacketToClient((EntityPlayerMP) player, output -> output.writeNBTTagCompound(compound), 16);
+                sendPacketToClient(
+                        (EntityPlayerMP) player,
+                        output -> output.writeNBTTagCompound(compound),
+                        16);
             }
         }
         return true;
@@ -359,9 +418,9 @@ public class TileEntityDetector extends TileEnergyBase implements IActivatableTi
         return OUTPUT_STRENGTH.value;
     }
 
-    //endregion
+    // endregion
 
-    //region Misc
+    // region Misc
 
     @Override
     public void receivePacketFromServer(MCDataInput data, int id) {
@@ -420,7 +479,7 @@ public class TileEntityDetector extends TileEnergyBase implements IActivatableTi
         entityFilter.readFromNBT(tileCompound);
     }
 
-    //endregion
+    // endregion
 
     private AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
 

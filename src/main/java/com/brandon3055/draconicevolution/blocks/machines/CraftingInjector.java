@@ -10,6 +10,8 @@ import com.brandon3055.draconicevolution.api.IHudDisplay;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileCraftingInjector;
 import com.brandon3055.draconicevolution.client.render.tile.RenderTileCraftingInjector;
 import com.brandon3055.draconicevolution.lib.PropertyStringTemp;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -34,20 +36,21 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.List;
+/** Created by brandon3055 on 10/06/2016. */
+public class CraftingInjector extends BlockBCore
+        implements ITileEntityProvider, IRenderOverride, IHudDisplay {
 
-/**
- * Created by brandon3055 on 10/06/2016.
- */
-public class CraftingInjector extends BlockBCore implements ITileEntityProvider, IRenderOverride, IHudDisplay {
-
-    public static final PropertyStringTemp TIER = new PropertyStringTemp("tier", "basic", "wyvern", "draconic", "chaotic");
+    public static final PropertyStringTemp TIER =
+            new PropertyStringTemp("tier", "basic", "wyvern", "draconic", "chaotic");
     public static final PropertyDirection FACING = BlockDirectional.FACING;
 
     public CraftingInjector() {
         super(Material.IRON);
-        this.setDefaultState(blockState.getBaseState().withProperty(TIER, "basic").withProperty(FACING, EnumFacing.UP));
+        this.setDefaultState(
+                blockState
+                        .getBaseState()
+                        .withProperty(TIER, "basic")
+                        .withProperty(FACING, EnumFacing.UP));
         this.addName(0, "crafting_injector_basic");
         this.addName(1, "crafting_injector_wyvern");
         this.addName(2, "crafting_injector_draconic");
@@ -59,7 +62,7 @@ public class CraftingInjector extends BlockBCore implements ITileEntityProvider,
         return false;
     }
 
-    //region BlockState
+    // region BlockState
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, TIER, FACING);
@@ -70,7 +73,8 @@ public class CraftingInjector extends BlockBCore implements ITileEntityProvider,
         TileEntity tile = worldIn.getTileEntity(pos);
 
         if (tile instanceof TileCraftingInjector) {
-            return state.withProperty(FACING, EnumFacing.getFront(((TileCraftingInjector) tile).facing.value));
+            return state.withProperty(
+                    FACING, EnumFacing.getFront(((TileCraftingInjector) tile).facing.value));
         }
 
         return state;
@@ -95,20 +99,26 @@ public class CraftingInjector extends BlockBCore implements ITileEntityProvider,
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    public void onBlockPlacedBy(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityLivingBase placer,
+            ItemStack stack) {
         world.setBlockState(pos, state.withProperty(TIER, TIER.fromMeta(stack.getItemDamage())));
         super.onBlockPlacedBy(world, pos, state, placer, stack);
 
         TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileCraftingInjector) {
-            ((TileCraftingInjector) tile).facing.value = (byte) EnumFacing.getDirectionFromEntityLiving(pos, placer).getIndex();
+            ((TileCraftingInjector) tile).facing.value =
+                    (byte) EnumFacing.getDirectionFromEntityLiving(pos, placer).getIndex();
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Block
+    // region Block
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
@@ -116,7 +126,16 @@ public class CraftingInjector extends BlockBCore implements ITileEntityProvider,
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer player,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         if (world.isRemote) {
             return true;
         }
@@ -131,7 +150,12 @@ public class CraftingInjector extends BlockBCore implements ITileEntityProvider,
 
         if (player.isSneaking()) {
             craftingPedestal.singleItem.value = !craftingPedestal.singleItem.value;
-            ChatHelper.indexedTrans(player, "msg.craftingInjector.singleItem" + (craftingPedestal.singleItem.value ? "On" : "Off") + ".txt", -30553055);
+            ChatHelper.indexedTrans(
+                    player,
+                    "msg.craftingInjector.singleItem"
+                            + (craftingPedestal.singleItem.value ? "On" : "Off")
+                            + ".txt",
+                    -30553055);
             craftingPedestal.getDataManager().detectAndSendChanges();
             return true;
         }
@@ -140,13 +164,17 @@ public class CraftingInjector extends BlockBCore implements ITileEntityProvider,
             if (player.getHeldItemMainhand().isEmpty()) {
                 player.setHeldItem(EnumHand.MAIN_HAND, craftingPedestal.getStackInSlot(0));
                 craftingPedestal.setInventorySlotContents(0, ItemStack.EMPTY);
-            }
-            else {
-                world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, craftingPedestal.getStackInSlot(0)));
+            } else {
+                world.spawnEntity(
+                        new EntityItem(
+                                world,
+                                player.posX,
+                                player.posY,
+                                player.posZ,
+                                craftingPedestal.getStackInSlot(0)));
                 craftingPedestal.setInventorySlotContents(0, ItemStack.EMPTY);
             }
-        }
-        else {
+        } else {
             ItemStack stack = player.getHeldItemMainhand();
             int remainder = InventoryUtils.insertItem(craftingPedestal, stack, false);
             stack.setCount(remainder);
@@ -161,9 +189,9 @@ public class CraftingInjector extends BlockBCore implements ITileEntityProvider,
         return getMetaFromState(state);
     }
 
-    //endregion
+    // endregion
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
@@ -190,7 +218,8 @@ public class CraftingInjector extends BlockBCore implements ITileEntityProvider,
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileCraftingInjector.class, new RenderTileCraftingInjector());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileCraftingInjector.class, new RenderTileCraftingInjector());
     }
 
     @Override
@@ -200,15 +229,26 @@ public class CraftingInjector extends BlockBCore implements ITileEntityProvider,
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void addDisplayData(@Nullable ItemStack stack, World world, @Nullable BlockPos pos, List<String> displayList) {
+    public void addDisplayData(
+            @Nullable ItemStack stack,
+            World world,
+            @Nullable BlockPos pos,
+            List<String> displayList) {
         TileEntity te = world.getTileEntity(pos);
 
         if (!(te instanceof TileCraftingInjector)) {
             return;
         }
 
-        displayList.add(InfoHelper.HITC() + I18n.format("msg.craftingInjector.singleItem" + (((TileCraftingInjector) te).singleItem.value ? "On" : "Off") + ".txt"));
+        displayList.add(
+                InfoHelper.HITC()
+                        + I18n.format(
+                                "msg.craftingInjector.singleItem"
+                                        + (((TileCraftingInjector) te).singleItem.value
+                                                ? "On"
+                                                : "Off")
+                                        + ".txt"));
     }
 
-    //endregion
+    // endregion
 }

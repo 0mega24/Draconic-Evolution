@@ -13,17 +13,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 8/06/2016.
- */
+/** Created by brandon3055 on 8/06/2016. */
 public class PacketExplosionFX implements IMessage {
 
     private BlockPos pos;
     private int radius;
     private boolean update;
 
-    public PacketExplosionFX() {
-    }
+    public PacketExplosionFX() {}
 
     public PacketExplosionFX(BlockPos pos, int radius, boolean update) {
         this.pos = pos;
@@ -59,9 +56,12 @@ public class PacketExplosionFX implements IMessage {
         public void spawnFX(PacketExplosionFX message, MessageContext ctx) {
             if (message.update) {
                 FMLClientHandler.instance().reloadRenderers();
-            }
-            else {
-                ExplosionFX explosionFX = new ExplosionFX(BrandonsCore.proxy.getClientWorld(), Vec3D.getCenter(message.pos), message.radius);
+            } else {
+                ExplosionFX explosionFX =
+                        new ExplosionFX(
+                                BrandonsCore.proxy.getClientWorld(),
+                                Vec3D.getCenter(message.pos),
+                                message.radius);
                 BCEffectHandler.spawnGLParticle(ExplosionFX.FX_HANDLER, explosionFX);
             }
         }

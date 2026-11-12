@@ -28,12 +28,10 @@ public class ParticleCustom extends BCParticle {
         prevPosY = posY;
         prevPosZ = posZ;
 
-        if (particleAge++ >= particleMaxAge)
-        {
-            if (fadeAge++ >= maxFade)
-                setExpired();
+        if (particleAge++ >= particleMaxAge) {
+            if (fadeAge++ >= maxFade) setExpired();
             if (maxFade > 0)
-                setAlphaF(spawnAlpha - spawnAlpha * ((float)fadeAge / (float)maxFade));
+                setAlphaF(spawnAlpha - spawnAlpha * ((float) fadeAge / (float) maxFade));
         }
 
         motionY -= particleGravity;
@@ -48,16 +46,17 @@ public class ParticleCustom extends BCParticle {
     public static class Factory implements IBCParticleFactory {
 
         @Override
-        public Particle getEntityFX(int particleID, World world, Vec3D pos, Vec3D speed, int... args) {
+        public Particle getEntityFX(
+                int particleID, World world, Vec3D pos, Vec3D speed, int... args) {
             ParticleCustom particle = new ParticleCustom(world, pos, speed);
 
             if (args.length >= 10) {
-                particle.setColour(args[0]/255f, args[1]/255f, args[2]/255f);
-                particle.setAlphaF(args[3]/255f);
-                particle.spawnAlpha = args[3]/255f;
-                particle.setScale(args[4]/10000F);
+                particle.setColour(args[0] / 255f, args[1] / 255f, args[2] / 255f);
+                particle.setAlphaF(args[3] / 255f);
+                particle.spawnAlpha = args[3] / 255f;
+                particle.setScale(args[4] / 10000F);
                 particle.setMaxAge(args[5]);
-                particle.setGravity(args[6]/10000D);
+                particle.setGravity(args[6] / 10000D);
                 particle.maxFade = args[7];
                 particle.particleTextureIndexX = args[8] % 4;
                 particle.particleTextureIndexY = args[8] / 4;
@@ -67,5 +66,4 @@ public class ParticleCustom extends BCParticle {
             return particle;
         }
     }
-
 }
