@@ -19,5 +19,6 @@ Requires Java 8. Gradle runs through the wrapper.
 | `./gradlew checkstyleMain pmdMain` | Runs only the linters. Reports are in `build/reports/`. |
 
 - Checkstyle rules are in `config/checkstyle/checkstyle.xml`. They check code patterns, not layout: the formatter owns layout.
-- `config/checkstyle/suppressions.xml` is a baseline of the violations that existed when the linter was added. New code must comply. Remove entries when you fix a file.
+- There is no baseline: all code must pass. If code has a real reason to break a rule, put `@SuppressWarnings("checkstyle:<checkname>")` on it, with a comment that gives the reason.
+- Vendored third-party code (`src/api`, `com/intellij`, `invtweaks`) is not linted.
 - PMD rules are in `config/pmd/ruleset.xml`. PMD reports only for now; it does not fail the build.
