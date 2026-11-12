@@ -45,7 +45,8 @@ public class ContainerRecipeBuilder extends Container {
 
     public void arangeCraftingSlots(int craftingType) {
         for (Slot slot : craftingSlots) {
-            slot.xPos = slot.yPos = 1000;
+            slot.yPos = 1000;
+            slot.xPos = slot.yPos;
         }
 
         if (craftingType == 0) {

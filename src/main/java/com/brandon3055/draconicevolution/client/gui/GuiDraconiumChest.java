@@ -235,27 +235,27 @@ public class GuiDraconiumChest extends ModularGuiContainer<ContainerDraconiumChe
                                         new String[] {I18n.format("gui.draconiumChest.fMode.info")})
                                 .setHoverDelay(10)),
                 1);
+        regionEditButton =
+                (MGuiButtonToggle)
+                        new MGuiButtonToggle(
+                                        this,
+                                        "EDIT_REGIONS",
+                                        guiLeft() + 390,
+                                        guiTop() + 188,
+                                        84,
+                                        12,
+                                        I18n.format("gui.draconiumChest.ioRegions.btn"))
+                                .setToolTip(
+                                        new String[] {
+                                            I18n.format("gui.draconiumChest.ioRegions.info")
+                                        });
         //        manager.add(new MGuiSelectDialog(this, guiLeft() + 44, guiTop() + 190, 90, 12));
 
         // endregion
 
         // region Region Editor
 
-        manager.add(
-                regionEditButton =
-                        (MGuiButtonToggle)
-                                new MGuiButtonToggle(
-                                                this,
-                                                "EDIT_REGIONS",
-                                                guiLeft() + 390,
-                                                guiTop() + 188,
-                                                84,
-                                                12,
-                                                I18n.format("gui.draconiumChest.ioRegions.btn"))
-                                        .setToolTip(
-                                                new String[] {
-                                                    I18n.format("gui.draconiumChest.ioRegions.info")
-                                                }));
+        manager.add(regionEditButton);
         //        manager.add(regionEditor = (RegionEditor) new RegionEditor(this, guiLeft() + 6,
         // guiTop() + 6, tile).setEnabled(false));
 
@@ -893,8 +893,10 @@ public class GuiDraconiumChest extends ModularGuiContainer<ContainerDraconiumChe
                     tile.slotRegions[editingRegion].enabled = true;
                     return true;
                 }
-                selectStartX = selectEndX = ((mouseX - 6 - guiLeft()) / 18);
-                selectStartY = selectEndY = ((mouseY - 6 - guiTop()) / 18);
+                selectEndX = ((mouseX - 6 - guiLeft()) / 18);
+                selectStartX = selectEndX;
+                selectEndY = ((mouseY - 6 - guiTop()) / 18);
+                selectStartY = selectEndY;
                 for (TileDraconiumChest.SlotRegion region : tile.slotRegions) {
                     if (region.enabled
                             && region.getRectangle().contains(selectStartX, selectStartY)

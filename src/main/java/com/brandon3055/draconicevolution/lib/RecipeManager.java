@@ -316,9 +316,9 @@ public class RecipeManager {
         }
 
         StackReference stackReference = StackReference.fromString(entry);
-        ItemStack stack;
+        ItemStack stack = stackReference == null ? null : stackReference.createStack();
 
-        if (stackReference == null || (stack = stackReference.createStack()) == null) {
+        if (stack == null) {
             LogHelper.dev("Could not find item stack! - " + entry);
             return null;
         }

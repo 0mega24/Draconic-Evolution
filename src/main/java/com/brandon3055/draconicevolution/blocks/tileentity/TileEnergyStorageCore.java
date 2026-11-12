@@ -306,7 +306,8 @@ public class TileEnergyStorageCore extends TileBCBase
     public boolean validateStructure() {
         boolean valid = checkStabilizers();
 
-        if (!(coreValid.value = coreStructure.checkTier(tier.value))) {
+        coreValid.value = coreStructure.checkTier(tier.value);
+        if (!coreValid.value) {
             BlockPos pos = coreStructure.invalidBlock;
             invalidMessage.value =
                     "Error At: "

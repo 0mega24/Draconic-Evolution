@@ -43,7 +43,9 @@ public class ParticleFusionCrafting extends BCParticle {
         this.craftingInventory = craftingInventory;
         this.particleAlpha = 0;
         this.rotation = rand.nextInt(1000);
-        this.motionX = this.motionY = this.motionZ = 0;
+        this.motionZ = 0;
+        this.motionY = this.motionZ;
+        this.motionX = this.motionY;
         this.circlePos = rand.nextFloat() * 1000F;
         this.circleDir = rand.nextBoolean();
         this.aRandomFloat = rand.nextFloat();
@@ -78,7 +80,8 @@ public class ParticleFusionCrafting extends BCParticle {
             }
 
             particleScale = 0.7F + ((float) (distFromCore / 1.2D) * 0.3F);
-            particleGreen = particleBlue = (float) (distFromCore - 0.2);
+            particleBlue = (float) (distFromCore - 0.2);
+            particleGreen = particleBlue;
             particleRed = 1F - (float) (distFromCore - 0.2);
 
             double targetX = corePos.x + 0.5 + (Math.cos(circlePos) * distFromCore);

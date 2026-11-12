@@ -58,10 +58,11 @@ public class GuiReactor extends ModularGuiContainer<ContainerReactor>
     public void initGui() {
         super.initGui();
         manager.clear();
+        compPanel = new MGuiBorderedRect(this, guiLeft + xSize, guiTop + 125, 0, 91);
 
         // region Background Elements
 
-        manager.add(compPanel = new MGuiBorderedRect(this, guiLeft + xSize, guiTop + 125, 0, 91));
+        manager.add(compPanel);
         manager.add(
                 new MGuiBackground(
                         this,
@@ -111,8 +112,9 @@ public class GuiReactor extends ModularGuiContainer<ContainerReactor>
                                                     I18n.format("gui.reactor.coreVolume.txt")
                                                 })
                                         .setHoverDelay(2)));
+        y += 8;
         manager.add(
-                new MGuiLabel(this, guiLeft + 13, y += 8, 162, 8, "") {
+                new MGuiLabel(this, guiLeft + 13, y, 162, 8, "") {
                     @Override
                     public boolean isEnabled() {
                         return tile.reactorState.value != TileReactorCore.ReactorState.COLD
@@ -129,14 +131,10 @@ public class GuiReactor extends ModularGuiContainer<ContainerReactor>
                                 + "m^3";
                     }
                 }.setAlignment(EnumAlignment.LEFT).setShadow(false).setTextColour(0xB0B0B0));
+        y += 11;
         manager.add(
                 new MGuiLabel(
-                        this,
-                        guiLeft + 10,
-                        y += 11,
-                        162,
-                        8,
-                        I18n.format("gui.reactor.genRate.info")) {
+                        this, guiLeft + 10, y, 162, 8, I18n.format("gui.reactor.genRate.info")) {
                     @Override
                     public boolean isEnabled() {
                         return tile.reactorState.value != TileReactorCore.ReactorState.COLD
@@ -153,8 +151,9 @@ public class GuiReactor extends ModularGuiContainer<ContainerReactor>
                                                     I18n.format("gui.reactor.genRate.txt")
                                                 })
                                         .setHoverDelay(2)));
+        y += 8;
         manager.add(
-                new MGuiLabel(this, guiLeft + 13, y += 8, 162, 8, "") {
+                new MGuiLabel(this, guiLeft + 13, y, 162, 8, "") {
                     @Override
                     public boolean isEnabled() {
                         return tile.reactorState.value != TileReactorCore.ReactorState.COLD
@@ -167,11 +166,12 @@ public class GuiReactor extends ModularGuiContainer<ContainerReactor>
                         return Utils.addCommas((int) tile.generationRate.value) + " RF/t";
                     }
                 }.setAlignment(EnumAlignment.LEFT).setShadow(false).setTextColour(0xB0B0B0));
+        y += 11;
         manager.add(
                 new MGuiLabel(
                         this,
                         guiLeft + 10,
-                        y += 11,
+                        y,
                         162,
                         8,
                         I18n.format("gui.reactor.fieldInputRate.info")) {
@@ -191,8 +191,9 @@ public class GuiReactor extends ModularGuiContainer<ContainerReactor>
                                                     I18n.format("gui.reactor.inputRate.txt")
                                                 })
                                         .setHoverDelay(2)));
+        y += 8;
         manager.add(
-                new MGuiLabel(this, guiLeft + 13, y += 8, 162, 8, "") {
+                new MGuiLabel(this, guiLeft + 13, y, 162, 8, "") {
                     @Override
                     public boolean isEnabled() {
                         return tile.reactorState.value != TileReactorCore.ReactorState.COLD
@@ -211,11 +212,12 @@ public class GuiReactor extends ModularGuiContainer<ContainerReactor>
                                 + "RF/t";
                     }
                 }.setAlignment(EnumAlignment.LEFT).setShadow(false).setTextColour(0xB0B0B0));
+        y += 11;
         manager.add(
                 new MGuiLabel(
                         this,
                         guiLeft + 10,
-                        y += 11,
+                        y,
                         162,
                         8,
                         I18n.format("gui.reactor.fuelConversionRate.info")) {
@@ -235,8 +237,9 @@ public class GuiReactor extends ModularGuiContainer<ContainerReactor>
                                                     I18n.format("gui.reactor.conversionRate.txt")
                                                 })
                                         .setHoverDelay(2)));
+        y += 8;
         manager.add(
-                new MGuiLabel(this, guiLeft + 13, y += 8, 162, 8, "") {
+                new MGuiLabel(this, guiLeft + 13, y, 162, 8, "") {
                     @Override
                     public boolean isEnabled() {
                         return tile.reactorState.value != TileReactorCore.ReactorState.COLD

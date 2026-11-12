@@ -90,58 +90,56 @@ public class GuiCelestialManipulator extends ModularGuiContainer<ContainerDummy>
                                 true);
                     }
                 });
-        manager.add(
-                effectRenderer =
-                        new MGuiEffectRenderer(this)
-                                .setParticleTexture(DEParticles.DE_SHEET.toString()));
-        manager.add(
-                weatherMode =
-                        new MGuiButtonSolid(
-                                this,
-                                "WEATHER_MODE",
-                                guiLeft + 5,
-                                guiTop + 1,
-                                50,
-                                12,
-                                I18n.format("gui.de.celMod.weather")) {
-                            @Override
-                            public int getTextColour(boolean hovered, boolean disabled) {
-                                return disabled ? 0x90600000 : hovered ? 0x9080FFFF : 0x9060FF60;
-                            }
+        effectRenderer =
+                new MGuiEffectRenderer(this).setParticleTexture(DEParticles.DE_SHEET.toString());
+        manager.add(effectRenderer);
+        weatherMode =
+                new MGuiButtonSolid(
+                        this,
+                        "WEATHER_MODE",
+                        guiLeft + 5,
+                        guiTop + 1,
+                        50,
+                        12,
+                        I18n.format("gui.de.celMod.weather")) {
+                    @Override
+                    public int getTextColour(boolean hovered, boolean disabled) {
+                        return disabled ? 0x90600000 : hovered ? 0x9080FFFF : 0x9060FF60;
+                    }
 
-                            @Override
-                            public int getBorderColour(boolean hovering, boolean disabled) {
-                                return disabled ? 0x9000FF00 : hovering ? 0x9000FF00 : 0x9000FFFF;
-                            }
-                        }.setColours(0x90000000, 0x90111111, 0x90222222));
-        manager.add(
-                sunMode =
-                        new MGuiButtonSolid(
-                                this,
-                                "SUN_MODE",
-                                guiLeft + xSize - 55,
-                                guiTop + 1,
-                                50,
-                                12,
-                                I18n.format("gui.de.celMod.time")) {
-                            @Override
-                            public int getTextColour(boolean hovered, boolean disabled) {
-                                return disabled ? 0x90600000 : hovered ? 0x9080FFFF : 0x9060FF60;
-                            }
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return disabled ? 0x9000FF00 : hovering ? 0x9000FF00 : 0x9000FFFF;
+                    }
+                }.setColours(0x90000000, 0x90111111, 0x90222222);
+        manager.add(weatherMode);
+        sunMode =
+                new MGuiButtonSolid(
+                        this,
+                        "SUN_MODE",
+                        guiLeft + xSize - 55,
+                        guiTop + 1,
+                        50,
+                        12,
+                        I18n.format("gui.de.celMod.time")) {
+                    @Override
+                    public int getTextColour(boolean hovered, boolean disabled) {
+                        return disabled ? 0x90600000 : hovered ? 0x9080FFFF : 0x9060FF60;
+                    }
 
-                            @Override
-                            public int getBorderColour(boolean hovering, boolean disabled) {
-                                return disabled ? 0x9000FF00 : hovering ? 0x9000FF00 : 0x9000FFFF;
-                            }
-                        }.setColours(0x90000000, 0x90111111, 0x90222222));
-        manager.add(
-                energyBar =
-                        new MGuiEnergyBar(this, guiLeft + 9, guiTop + 102, xSize - 18, 14)
-                                .setEnergy(
-                                        tile.getEnergyStored(EnumFacing.UP),
-                                        tile.getMaxEnergyStored(EnumFacing.UP))
-                                .setHorizontal(true),
-                4);
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return disabled ? 0x9000FF00 : hovering ? 0x9000FF00 : 0x9000FFFF;
+                    }
+                }.setColours(0x90000000, 0x90111111, 0x90222222);
+        manager.add(sunMode);
+        energyBar =
+                new MGuiEnergyBar(this, guiLeft + 9, guiTop + 102, xSize - 18, 14)
+                        .setEnergy(
+                                tile.getEnergyStored(EnumFacing.UP),
+                                tile.getMaxEnergyStored(EnumFacing.UP))
+                        .setHorizontal(true);
+        manager.add(energyBar, 4);
         manager.add(
                 new MGuiBorderedRect(this, guiLeft + 2, guiTop - 1, xSize - 4, ySize - 102)
                         .setFillColour(0x40000000)
@@ -157,21 +155,23 @@ public class GuiCelestialManipulator extends ModularGuiContainer<ContainerDummy>
                         xSize - 8,
                         14,
                         I18n.format("gui.de.celMod.stopRain")));
+        i += 22;
         weatherControls.add(
                 new MGuiButtonSolid(
                         this,
                         "START_RAIN",
                         guiLeft + 4,
-                        guiTop + (i += 22),
+                        guiTop + (i),
                         xSize - 8,
                         14,
                         I18n.format("gui.de.celMod.startRain")));
+        i += 22;
         weatherControls.add(
                 new MGuiButtonSolid(
                         this,
                         "START_STORM",
                         guiLeft + 4,
-                        guiTop + (i += 22),
+                        guiTop + (i),
                         xSize - 8,
                         14,
                         I18n.format("gui.de.celMod.startStorm")));
@@ -257,11 +257,11 @@ public class GuiCelestialManipulator extends ModularGuiContainer<ContainerDummy>
                         I18n.format("gui.de.celMod.stop")));
 
         updateControls();
+        rsBackGround =
+                new MGuiBorderedRect(this, guiLeft + xSize, guiTop + 97, 18, 18)
+                        .setBorderColour(0xFF505050);
 
-        manager.add(
-                rsBackGround =
-                        new MGuiBorderedRect(this, guiLeft + xSize, guiTop + 97, 18, 18)
-                                .setBorderColour(0xFF505050));
+        manager.add(rsBackGround);
         rsBackGround.addChild(
                 new MGuiStackIcon(
                                 this,
@@ -286,17 +286,17 @@ public class GuiCelestialManipulator extends ModularGuiContainer<ContainerDummy>
 
         RawColumns builder = new RawColumns(rsBackGround.xPos, rsBackGround.yPos + 18, 3, 18, 3);
         for (int b = 0; b < rsControlButtons.length; b++) {
-            builder.add(
-                    rsControlButtons[b] =
-                            new MGuiBackground(
-                                    this,
-                                    1,
-                                    1,
-                                    36,
-                                    40 + b * 18,
-                                    18,
-                                    18,
-                                    "draconicevolution:textures/gui/widgets.png"));
+            rsControlButtons[b] =
+                    new MGuiBackground(
+                            this,
+                            1,
+                            1,
+                            36,
+                            40 + b * 18,
+                            18,
+                            18,
+                            "draconicevolution:textures/gui/widgets.png");
+            builder.add(rsControlButtons[b]);
             rsControlButtons[b].addChild(
                     new MGuiButtonSolid(
                             this,
@@ -414,10 +414,10 @@ public class GuiCelestialManipulator extends ModularGuiContainer<ContainerDummy>
                 elementBase.setEnabled(
                         elementBase.xPos < animRect.x + animRect.width - 18
                                 && elementBase.yPos < animRect.y + animRect.height - 18);
-                MGuiElementBase e;
                 if (elementBase.childElements.size() > 0
-                        && (e = elementBase.childElements.get(0)) instanceof MGuiButton) {
-                    ((MGuiButton) e).disabled = tile.rsMode.value == ((MGuiButton) e).buttonId;
+                        && elementBase.childElements.get(0) instanceof MGuiButton) {
+                    MGuiButton button = (MGuiButton) elementBase.childElements.get(0);
+                    button.disabled = tile.rsMode.value == button.buttonId;
                 }
             }
         }

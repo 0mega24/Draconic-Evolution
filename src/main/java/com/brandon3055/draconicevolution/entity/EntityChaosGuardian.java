@@ -495,10 +495,14 @@ public class EntityChaosGuardian extends EntityDragonOld {
         }
 
         this.renderYawOffset = this.rotationYaw;
-        this.dragonPartHead.width = this.dragonPartHead.height = 3.0F;
-        this.dragonPartTail1.width = this.dragonPartTail1.height = 2.0F;
-        this.dragonPartTail2.width = this.dragonPartTail2.height = 2.0F;
-        this.dragonPartTail3.width = this.dragonPartTail3.height = 2.0F;
+        this.dragonPartHead.height = 3.0F;
+        this.dragonPartHead.width = this.dragonPartHead.height;
+        this.dragonPartTail1.height = 2.0F;
+        this.dragonPartTail1.width = this.dragonPartTail1.height;
+        this.dragonPartTail2.height = 2.0F;
+        this.dragonPartTail2.width = this.dragonPartTail2.height;
+        this.dragonPartTail3.height = 2.0F;
+        this.dragonPartTail3.width = this.dragonPartTail3.height;
         this.dragonPartBody.height = 3.0F;
         this.dragonPartBody.width = 5.0F;
         this.dragonPartWing1.height = 2.0F;

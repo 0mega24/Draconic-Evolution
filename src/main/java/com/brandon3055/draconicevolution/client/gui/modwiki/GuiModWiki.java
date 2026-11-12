@@ -37,10 +37,13 @@ public class GuiModWiki extends ModularGuiScreen implements IMGuiListener {
         wikiDataTree = new GuiDocTree(this);
         buttonList.clear();
         manager.clear();
+        wikiMenu = new WikiMenu(this);
 
-        manager.add(wikiMenu = new WikiMenu(this));
-        manager.add(wikiList = new WikiContentList(this));
-        manager.add(contentWindow = new WikiContentWindow(this));
+        manager.add(wikiMenu);
+        wikiList = new WikiContentList(this);
+        manager.add(wikiList);
+        contentWindow = new WikiContentWindow(this);
+        manager.add(contentWindow);
         contentWindow.activeBranch = wikiDataTree.getActiveBranch();
         updateWindowPositions();
         manager.initElements();

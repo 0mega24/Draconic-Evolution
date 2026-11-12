@@ -250,7 +250,8 @@ public class TileReactorCore extends TileBCBase implements ITickable {
             checkPlayerCollision();
             coreAnimation += shaderAnimationState.value;
             if (maxShieldCharge.value == 0) {
-                shaderAnimationState.value = shieldAnimation = 0;
+                shieldAnimation = 0;
+                shaderAnimationState.value = shieldAnimation;
             } else {
                 shieldAnimationState =
                         MathHelper.clip(

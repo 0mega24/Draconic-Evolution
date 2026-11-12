@@ -74,11 +74,11 @@ public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
             ItemStack heldStack = inventory.getItemStack();
 
             if (!heldStack.isEmpty()) {
-                int value;
                 ItemStack copy = heldStack.copy();
                 copy.setCount(1);
 
-                if ((value = getFuelValue(copy)) > 0) {
+                int value = getFuelValue(copy);
+                if (value > 0) {
                     int maxInsert = free / value;
                     int insert =
                             Math.min(
@@ -86,14 +86,17 @@ public class ContainerReactor extends ContainerBCBase<TileReactorCore> {
                                     dragType == 1 ? 1 : 64);
                     tile.reactableFuel.value += insert * value;
                     heldStack.shrink(insert);
-                } else if ((value = getChaosValue(copy)) > 0) {
-                    int maxInsert = free / value;
-                    int insert =
-                            Math.min(
-                                    Math.min(heldStack.getCount(), maxInsert),
-                                    dragType == 1 ? 1 : 64);
-                    tile.convertedFuel.value += insert * value;
-                    heldStack.shrink(insert);
+                } else {
+                    int chaosValue = getChaosValue(copy);
+                    if (chaosValue > 0) {
+                        int maxInsert = free / chaosValue;
+                        int insert =
+                                Math.min(
+                                        Math.min(heldStack.getCount(), maxInsert),
+                                        dragType == 1 ? 1 : 64);
+                        tile.convertedFuel.value += insert * chaosValue;
+                        heldStack.shrink(insert);
+                    }
                 }
                 //                else if ((value = getChaosValue(copy)) > 0) {
                 //                    int maxInsert = free / value;

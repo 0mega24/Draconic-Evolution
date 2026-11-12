@@ -82,15 +82,10 @@ public class GuiFlowGate extends ModularGuiContainer implements IMGuiListener {
                             .setTextColour(0xff0000)
                             .setShadow(false)
                             .setAlignment(EnumAlignment.LEFT));
-            manager.add(
-                    maxField =
-                            new MGuiTextField(
-                                    this,
-                                    guiLeft() + 4,
-                                    guiTop() + 26,
-                                    xSize - 44,
-                                    16,
-                                    fontRenderer));
+            maxField =
+                    new MGuiTextField(
+                            this, guiLeft() + 4, guiTop() + 26, xSize - 44, 16, fontRenderer);
+            manager.add(maxField);
             manager.add(
                     new MGuiButton(
                             this,
@@ -112,15 +107,10 @@ public class GuiFlowGate extends ModularGuiContainer implements IMGuiListener {
                             .setTextColour(0x660000)
                             .setShadow(false)
                             .setAlignment(EnumAlignment.LEFT));
-            manager.add(
-                    minField =
-                            new MGuiTextField(
-                                    this,
-                                    guiLeft() + 4,
-                                    guiTop() + 54,
-                                    xSize - 44,
-                                    16,
-                                    fontRenderer));
+            minField =
+                    new MGuiTextField(
+                            this, guiLeft() + 4, guiTop() + 54, xSize - 44, 16, fontRenderer);
+            manager.add(minField);
             manager.add(
                     new MGuiButton(
                             this,

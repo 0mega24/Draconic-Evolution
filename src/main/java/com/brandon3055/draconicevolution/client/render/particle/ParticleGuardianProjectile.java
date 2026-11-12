@@ -20,7 +20,9 @@ public class ParticleGuardianProjectile extends BCParticle {
     public ParticleGuardianProjectile(World worldIn, Vec3D pos, Vec3D speed) {
         super(worldIn, pos, speed);
         this.particleMaxAge = 50;
-        this.particleRed = this.particleGreen = this.particleBlue = 1.0f;
+        this.particleBlue = 1.0f;
+        this.particleGreen = this.particleBlue;
+        this.particleRed = this.particleGreen;
         double m = 0.4D;
         this.motionX = (worldIn.rand.nextDouble() - 0.5) * m;
         this.motionY = (worldIn.rand.nextDouble() - 0.5) * m;

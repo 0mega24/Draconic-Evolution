@@ -44,28 +44,28 @@ public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter
     public void initGui() {
         super.initGui();
         manager.clear();
+        background =
+                new MGuiBackground(
+                        this,
+                        guiLeft,
+                        guiTop,
+                        0,
+                        0,
+                        xSize,
+                        ySize,
+                        "draconicevolution:textures/gui/diss_enchanter.png");
 
-        manager.add(
-                background =
-                        new MGuiBackground(
-                                this,
-                                guiLeft,
-                                guiTop,
-                                0,
-                                0,
-                                xSize,
-                                ySize,
-                                "draconicevolution:textures/gui/diss_enchanter.png"));
-        manager.add(
-                extractButton =
-                        new MGuiButton(
-                                this,
-                                0,
-                                guiLeft + (xSize / 2) - 30,
-                                guiTop + 42,
-                                60,
-                                15,
-                                I18n.format("gui.de.button.extract")));
+        manager.add(background);
+        extractButton =
+                new MGuiButton(
+                        this,
+                        0,
+                        guiLeft + (xSize / 2) - 30,
+                        guiTop + 42,
+                        60,
+                        15,
+                        I18n.format("gui.de.button.extract"));
+        manager.add(extractButton);
         manager.add(
                 new MGuiLabel(
                                 this,

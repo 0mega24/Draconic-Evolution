@@ -53,8 +53,10 @@ public class DCStack extends DisplayComponentBase {
     public void setXSize(int xSize) {
         super.setXSize(xSize);
         int size = Math.min(xSize - 4, (int) ((scale / 100D) * 18D));
-        stackIcon.ySize = stackIcon.xSize = size;
-        iconBackground.ySize = iconBackground.xSize = size;
+        stackIcon.xSize = size;
+        stackIcon.ySize = stackIcon.xSize;
+        iconBackground.xSize = size;
+        iconBackground.ySize = iconBackground.xSize;
         iconBackground.setEnabled(renderSlot);
         iconBackground.yPos = stackIcon.yPos;
 

@@ -56,8 +56,11 @@ public class CrystalFXWireless extends CrystalGLFXBase<TileCrystalWirelessIO> {
         if (ticksTillDeath-- <= 0) {
             setExpired();
         }
+        particleAlpha = 1;
+        particleBlue = particleAlpha;
+        particleGreen = particleBlue;
+        particleRed = particleGreen;
 
-        particleRed = particleGreen = particleBlue = particleAlpha = 1;
         powerLevel = (float) MathHelper.approachExp(powerLevel, fxState, 0.05);
 
         Iterator<PTracker> i = trackers.iterator();

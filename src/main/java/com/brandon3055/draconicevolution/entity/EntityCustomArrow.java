@@ -90,10 +90,10 @@ public class EntityCustomArrow extends EntityArrow {
         this.motionY = par3;
         this.motionZ = par5;
         float f3 = MathHelper.sqrt(par1 * par1 + par5 * par5);
-        this.prevRotationYaw =
-                this.rotationYaw = (float) (Math.atan2(par1, par5) * 180.0D / Math.PI);
-        this.prevRotationPitch =
-                this.rotationPitch = (float) (Math.atan2(par3, f3) * 180.0D / Math.PI);
+        this.rotationYaw = (float) (Math.atan2(par1, par5) * 180.0D / Math.PI);
+        this.prevRotationYaw = this.rotationYaw;
+        this.rotationPitch = (float) (Math.atan2(par3, f3) * 180.0D / Math.PI);
+        this.prevRotationPitch = this.rotationPitch;
         this.ticksInGround = 0;
     }
 

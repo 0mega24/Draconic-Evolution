@@ -96,7 +96,8 @@ public class FusionRecipeCategory extends BlankRecipeCategory { // TODO Fix anim
                         new MGuiBorderedRect(
                                         null, list.xPos, list.yPos - 1, list.xSize, list.ySize + 2)
                                 .setBorderColour(0xFFAA00FF));
-                list.topPadding = list.bottomPadding = 0;
+                list.bottomPadding = 0;
+                list.topPadding = list.bottomPadding;
                 iColumns.add(list);
             }
 

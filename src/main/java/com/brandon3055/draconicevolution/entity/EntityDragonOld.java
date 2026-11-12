@@ -77,15 +77,22 @@ public class EntityDragonOld extends EntityLiving implements IEntityMultiPart, I
 
     public EntityDragonOld(World p_i1700_1_) {
         super(p_i1700_1_);
+        this.dragonPartHead = new MultiPartEntityPart(this, "head", 6.0F, 6.0F);
+        this.dragonPartBody = new MultiPartEntityPart(this, "body", 8.0F, 8.0F);
+        this.dragonPartTail1 = new MultiPartEntityPart(this, "tail", 4.0F, 4.0F);
+        this.dragonPartTail2 = new MultiPartEntityPart(this, "tail", 4.0F, 4.0F);
+        this.dragonPartTail3 = new MultiPartEntityPart(this, "tail", 4.0F, 4.0F);
+        this.dragonPartWing1 = new MultiPartEntityPart(this, "wing", 4.0F, 4.0F);
+        this.dragonPartWing2 = new MultiPartEntityPart(this, "wing", 4.0F, 4.0F);
         this.dragonPartArray =
                 new MultiPartEntityPart[] {
-                    this.dragonPartHead = new MultiPartEntityPart(this, "head", 6.0F, 6.0F),
-                    this.dragonPartBody = new MultiPartEntityPart(this, "body", 8.0F, 8.0F),
-                    this.dragonPartTail1 = new MultiPartEntityPart(this, "tail", 4.0F, 4.0F),
-                    this.dragonPartTail2 = new MultiPartEntityPart(this, "tail", 4.0F, 4.0F),
-                    this.dragonPartTail3 = new MultiPartEntityPart(this, "tail", 4.0F, 4.0F),
-                    this.dragonPartWing1 = new MultiPartEntityPart(this, "wing", 4.0F, 4.0F),
-                    this.dragonPartWing2 = new MultiPartEntityPart(this, "wing", 4.0F, 4.0F)
+                    this.dragonPartHead,
+                    this.dragonPartBody,
+                    this.dragonPartTail1,
+                    this.dragonPartTail2,
+                    this.dragonPartTail3,
+                    this.dragonPartWing1,
+                    this.dragonPartWing2
                 };
         this.setHealth(this.getMaxHealth());
         this.setSize(16.0F, 8.0F);
@@ -638,7 +645,8 @@ public class EntityDragonOld extends EntityLiving implements IEntityMultiPart, I
         }
 
         this.move(MoverType.SELF, 0.0D, 0.10000000149011612D, 0.0D);
-        this.renderYawOffset = this.rotationYaw += 20.0F;
+        this.rotationYaw += 20.0F;
+        this.renderYawOffset = this.rotationYaw;
 
         if (this.deathTicks == 200 && !this.world.isRemote) {
             i = 2000;

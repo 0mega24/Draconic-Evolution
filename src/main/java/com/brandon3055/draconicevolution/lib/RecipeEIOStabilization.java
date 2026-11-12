@@ -45,10 +45,12 @@ public class RecipeEIOStabilization implements IRecipe {
                     boolean flag = false;
 
                     if (itemstack.getItem() instanceof ItemCore && !foundCore) {
-                        foundCore = flag = true;
+                        flag = true;
+                        foundCore = flag;
                         foundCoreItem = itemstack.getItem();
                     } else if (itemstack.getItem() == brokenSpawner && !foundSpawner) {
-                        foundSpawner = flag = true;
+                        flag = true;
+                        foundSpawner = flag;
                     }
 
                     if (!flag) {

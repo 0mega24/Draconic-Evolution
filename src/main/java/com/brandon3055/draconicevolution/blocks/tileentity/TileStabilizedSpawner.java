@@ -211,7 +211,8 @@ public class TileStabilizedSpawner extends TileBCBase
         ItemStack stack = player.getHeldItem(hand);
         if (stack.getItem() == DEFeatures.mobSoul) {
             if (!world.isRemote) {
-                (mobSoul.value = stack.copy()).setCount(1);
+                mobSoul.value = stack.copy();
+                (mobSoul.value).setCount(1);
                 if (!player.isCreative()) {
                     InventoryUtils.consumeHeldItem(player, stack, hand);
                 }

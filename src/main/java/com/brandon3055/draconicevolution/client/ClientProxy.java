@@ -92,7 +92,8 @@ public class ClientProxy extends CommonProxy {
 
         for (RenderPlayer renderPlayer :
                 Minecraft.getMinecraft().getRenderManager().getSkinMap().values()) {
-            renderPlayer.addLayer(layerWings = new LayerContributorPerkRenderer(renderPlayer));
+            layerWings = new LayerContributorPerkRenderer(renderPlayer);
+            renderPlayer.addLayer(layerWings);
         }
     }
 

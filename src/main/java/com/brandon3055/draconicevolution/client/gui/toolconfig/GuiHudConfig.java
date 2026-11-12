@@ -97,8 +97,8 @@ public class GuiHudConfig extends GuiScreen {
                         c1,
                         c2,
                         c3));
-        buttonList.add(
-                buttonHudFade = new ButtonColourRect(3, "", x - 81, y - 20, 163, 15, c1, c2, c3));
+        buttonHudFade = new ButtonColourRect(3, "", x - 81, y - 20, 163, 15, c1, c2, c3);
+        buttonList.add(buttonHudFade);
         buttonList.add(
                 new ButtonColourRect(
                         9,
@@ -133,11 +133,10 @@ public class GuiHudConfig extends GuiScreen {
                         c1,
                         c2,
                         c3));
-        buttonList.add(
-                buttonArmorFade = new ButtonColourRect(6, "", x - 81, y + 42, 163, 15, c1, c2, c3));
-        buttonList.add(
-                buttonArmorNumeric =
-                        new ButtonColourRect(7, "", x + 2, y + 59, 80, 15, c1, c2, c3));
+        buttonArmorFade = new ButtonColourRect(6, "", x - 81, y + 42, 163, 15, c1, c2, c3);
+        buttonList.add(buttonArmorFade);
+        buttonArmorNumeric = new ButtonColourRect(7, "", x + 2, y + 59, 80, 15, c1, c2, c3);
+        buttonList.add(buttonArmorNumeric);
         buttonList.add(
                 new ButtonColourRect(
                         8,
@@ -378,7 +377,8 @@ public class GuiHudConfig extends GuiScreen {
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
-        draggingHud = draggingArmor = false;
+        draggingArmor = false;
+        draggingHud = draggingArmor;
 
         Property property =
                 ModConfigParser.findUnwrappedProperty(

@@ -39,8 +39,9 @@ public class ParticleChaosImplosion extends BCParticle {
         super(worldIn, pos, new Vec3D(0, 0, 0));
         this.texturesPerRow = 8F;
         this.target = target;
-
-        this.motionX = this.motionY = this.motionZ = 0;
+        this.motionZ = 0;
+        this.motionY = this.motionZ;
+        this.motionX = this.motionY;
 
         if (model == null) {
             Map<String, CCModel> map =

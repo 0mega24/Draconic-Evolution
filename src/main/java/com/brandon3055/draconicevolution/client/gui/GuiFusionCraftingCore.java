@@ -69,15 +69,10 @@ public class GuiFusionCraftingCore extends ModularGuiContainer<ContainerFusionCr
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(
-                startCrafting =
-                        new StartButton(
-                                0,
-                                width / 2 - 40,
-                                guiTop + 93,
-                                80,
-                                14,
-                                I18n.format("gui.de.button.start")));
+        startCrafting =
+                new StartButton(
+                        0, width / 2 - 40, guiTop + 93, 80, 14, I18n.format("gui.de.button.start"));
+        buttonList.add(startCrafting);
         startCrafting.visible = false;
         initRecipeComponents();
     }
@@ -101,7 +96,8 @@ public class GuiFusionCraftingCore extends ModularGuiContainer<ContainerFusionCr
                     new MGuiBorderedRect(this, list.xPos, list.yPos - 1, list.xSize, list.ySize + 2)
                             .setBorderColour(0xFFAA00FF)
                             .setFillColour(0));
-            list.topPadding = list.bottomPadding = 0;
+            list.bottomPadding = 0;
+            list.topPadding = list.bottomPadding;
             iColumns.add((MGuiList) addElement(list));
         }
 
@@ -268,13 +264,12 @@ public class GuiFusionCraftingCore extends ModularGuiContainer<ContainerFusionCr
         } else if (!hasNoRecipe) {
             manager.removeByGroup("RECIPE_ELEMENTS");
         }
-
-        startCrafting.enabled =
-                startCrafting.visible =
-                        currentRecipe != null
-                                && canCraft != null
-                                && "true".equals(canCraft)
-                                && !tile.craftingInProgress();
+        startCrafting.visible =
+                currentRecipe != null
+                        && canCraft != null
+                        && "true".equals(canCraft)
+                        && !tile.craftingInProgress();
+        startCrafting.enabled = startCrafting.visible;
 
         // region Spawn Particles
 
@@ -392,7 +387,8 @@ public class GuiFusionCraftingCore extends ModularGuiContainer<ContainerFusionCr
             this.xTarget = xTarget;
             this.yTarget = yTarget;
             this.type = type;
-            motionX = motionY = 0;
+            motionY = 0;
+            motionX = motionY;
             particleMaxAge = 12;
             particleScale = 1F;
             particleTextureIndexY = 1;
