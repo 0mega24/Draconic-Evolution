@@ -26,6 +26,10 @@ public final class Visuals {
             "Energy crystal and energy network colours and animation speeds. Client side only."
                     + " Lists have one entry per tier: basic, wyvern, draconic."
         },
+        {
+            EffectVisuals.CATEGORY,
+            "Colours of the other effects in the mod. Client side only. Colours are #RRGGBB."
+        },
     };
 
     private Visuals() {}
@@ -35,5 +39,6 @@ public final class Visuals {
         EnergyCoreVisuals.load();
         ReactorVisuals.load();
         EnergyCrystalVisuals.load();
+        EffectVisuals.load();
     }
 }

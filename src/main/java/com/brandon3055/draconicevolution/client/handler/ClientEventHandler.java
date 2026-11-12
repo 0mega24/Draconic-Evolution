@@ -20,6 +20,7 @@ import com.brandon3055.draconicevolution.api.ICrystalBinder;
 import com.brandon3055.draconicevolution.api.itemconfig.ToolConfigHelper;
 import com.brandon3055.draconicevolution.client.render.shaders.DEShaders;
 import com.brandon3055.draconicevolution.config.ClientConfig;
+import com.brandon3055.draconicevolution.config.visuals.EffectVisuals;
 import com.brandon3055.draconicevolution.handlers.BinderHandler;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.items.tools.CreativeExchanger;
@@ -188,7 +189,21 @@ public class ClientEventHandler {
 
             ModelUtils.renderQuadsARGB(
                     shieldModel.getQuads(null, null, 0),
-                    new ColourRGBA(1D - p, 0D, p, i / 5D).argb());
+                    new ColourRGBA(
+                                    blend(
+                                            EffectVisuals.shieldEmptyRGB[0],
+                                            EffectVisuals.shieldFullRGB[0],
+                                            p),
+                                    blend(
+                                            EffectVisuals.shieldEmptyRGB[1],
+                                            EffectVisuals.shieldFullRGB[1],
+                                            p),
+                                    blend(
+                                            EffectVisuals.shieldEmptyRGB[2],
+                                            EffectVisuals.shieldFullRGB[2],
+                                            p),
+                                    i / 5D)
+                            .argb());
 
             GlStateManager.enableCull();
             GlStateManager.enableAlpha();
@@ -391,9 +406,9 @@ public class ClientEventHandler {
                 alpha = 0.15F;
             }
 
-            float r = 0F;
-            float g = 1F;
-            float b = 1F;
+            float r = EffectVisuals.miningOutlineRGB[0];
+            float g = EffectVisuals.miningOutlineRGB[1];
+            float b = EffectVisuals.miningOutlineRGB[2];
 
             buffer.pos(box.minX, box.minY, box.minZ)
                     .color(r * colour, g * colour, b * colour, alpha)
@@ -532,5 +547,9 @@ public class ClientEventHandler {
 
             explosionShader.releaseShader();
         }
+    }
+
+    private static double blend(float from, float to, double progress) {
+        return from + (to - from) * progress;
     }
 }

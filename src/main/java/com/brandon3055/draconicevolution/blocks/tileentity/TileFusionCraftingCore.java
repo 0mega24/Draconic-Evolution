@@ -14,6 +14,7 @@ import com.brandon3055.draconicevolution.api.fusioncrafting.IFusionRecipe;
 import com.brandon3055.draconicevolution.client.DEParticles;
 import com.brandon3055.draconicevolution.client.render.effect.EffectTrackerFusionCrafting;
 import com.brandon3055.draconicevolution.client.sound.FusionRotationSound;
+import com.brandon3055.draconicevolution.config.visuals.EffectVisuals;
 import com.brandon3055.draconicevolution.handlers.DEEventHandler;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
@@ -453,8 +454,13 @@ public class TileFusionCraftingCore extends TileInventoryBase
 
             if (isMoving) {
                 effect.scale = 0.7F + ((float) (distFromCore / 1.2D) * 0.3F);
-                effect.green = effect.blue = (float) (distFromCore - 0.2);
-                effect.red = 1F - (float) (distFromCore - 0.2);
+                // Blend from the finish colour (at the core) to the orbit colour.
+                float blend = (float) (distFromCore - 0.2);
+                float[] from = EffectVisuals.fusionFinishRGB;
+                float[] to = EffectVisuals.fusionOrbitRGB;
+                effect.red = from[0] + (to[0] - from[0]) * blend;
+                effect.green = from[1] + (to[1] - from[1]) * blend;
+                effect.blue = from[2] + (to[2] - from[2]) * blend;
             }
 
             double indexPos = (double) index / (double) count;

@@ -13,6 +13,7 @@ import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.api.fusioncrafting.IFusionCraftingInventory;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileCraftingInjector;
 import com.brandon3055.draconicevolution.client.DEParticles;
+import com.brandon3055.draconicevolution.config.visuals.EffectVisuals;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
 import java.util.Random;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -49,9 +50,9 @@ public class EffectTrackerFusionCrafting {
 
     public float alpha = 0F;
     public float scale = 1F;
-    public float red = 0F;
-    public float green = 1F;
-    public float blue = 1F;
+    public float red = EffectVisuals.fusionOrbitRGB[0];
+    public float green = EffectVisuals.fusionOrbitRGB[1];
+    public float blue = EffectVisuals.fusionOrbitRGB[2];
 
     public EffectTrackerFusionCrafting(
             World world,
@@ -261,7 +262,9 @@ public class EffectTrackerFusionCrafting {
             this.particleScale = 1F;
             this.particleTextureIndexY = 1;
 
-            this.particleRed = 0;
+            this.particleRed = EffectVisuals.fusionSparkRGB[0];
+            this.particleGreen = EffectVisuals.fusionSparkRGB[1];
+            this.particleBlue = EffectVisuals.fusionSparkRGB[2];
         }
 
         @Override

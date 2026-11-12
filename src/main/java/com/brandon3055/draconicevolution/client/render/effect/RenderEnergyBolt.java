@@ -2,6 +2,7 @@ package com.brandon3055.draconicevolution.client.render.effect;
 
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.utils.Utils;
+import com.brandon3055.draconicevolution.config.visuals.EffectVisuals;
 import java.util.Random;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -191,6 +192,7 @@ public class RenderEnergyBolt {
         GlStateManager.rotate(rotPitch, 1.0F, 0.0F, 0.0F);
 
         buffer.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
+        float[] boltRGB = EffectVisuals.energyBoltRGB;
         for (int i = 0; i <= 9; i++) {
             float f = (i + 1F) / 9F;
             float verX =
@@ -198,8 +200,10 @@ public class RenderEnergyBolt {
             float verZ =
                     MathHelper.cos((float) (i % 3) * (float) Math.PI * 2F / (float) 3) * f * scale;
 
-            buffer.pos(verX, dist, verZ).color(0.35F, 0.65F, 0.9F, 0.3F).endVertex();
-            buffer.pos(verX, 0, verZ).color(0.35F, 0.65F, 0.9F, 0.3F).endVertex();
+            buffer.pos(verX, dist, verZ)
+                    .color(boltRGB[0], boltRGB[1], boltRGB[2], 0.3F)
+                    .endVertex();
+            buffer.pos(verX, 0, verZ).color(boltRGB[0], boltRGB[1], boltRGB[2], 0.3F).endVertex();
         }
         tessellator.draw();
 
