@@ -15,7 +15,7 @@ import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.common.Optional;
 
 /** Created by brandon3055 on 21/09/2016. */
-public class JeiHelper {
+public final class JeiHelper {
 
     private JeiHelper() {}
     // TODO This Is Now Borked

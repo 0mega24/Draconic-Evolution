@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 /** Created by brandon3055 on 1/09/2016. */
-public class ToolTransforms {
+public final class ToolTransforms {
 
     private ToolTransforms() {}
 

@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 /** Created by brandon3055 on 6/10/18. */
-public class AE2Compat {
+public final class AE2Compat {
 
     private AE2Compat() {}
 

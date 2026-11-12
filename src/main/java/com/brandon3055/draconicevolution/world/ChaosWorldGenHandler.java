@@ -19,7 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /** Created by brandon3055 on 9/9/2015. */
-public class ChaosWorldGenHandler {
+public final class ChaosWorldGenHandler {
 
     private ChaosWorldGenHandler() {}
 

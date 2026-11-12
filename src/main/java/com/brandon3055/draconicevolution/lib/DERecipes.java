@@ -119,7 +119,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /** Created by brandon3055 on 23/07/2016. */
-public class DERecipes {
+public final class DERecipes {
 
     private DERecipes() {}
 

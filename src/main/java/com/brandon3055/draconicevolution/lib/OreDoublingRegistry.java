@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
 /** Created by brandon3055 on 9/06/2017. */
-public class OreDoublingRegistry {
+public final class OreDoublingRegistry {
 
     private OreDoublingRegistry() {}
 

@@ -14,7 +14,7 @@ import java.util.List;
  * <p>Created by covers1624 on 21/06/2017.
  */
 // TODO Remove this when CCL3 drops.
-public class ModelHelper {
+public final class ModelHelper {
 
     private ModelHelper() {}
 

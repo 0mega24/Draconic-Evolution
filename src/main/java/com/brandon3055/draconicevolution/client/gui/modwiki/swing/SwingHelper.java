@@ -4,7 +4,7 @@ import java.awt.Window;
 import org.lwjgl.opengl.Display;
 
 /** Created by brandon3055 on 8/09/2016. */
-public class SwingHelper {
+public final class SwingHelper {
 
     private SwingHelper() {}
 

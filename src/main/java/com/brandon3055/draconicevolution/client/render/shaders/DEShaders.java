@@ -11,7 +11,7 @@ import java.io.IOException;
 import net.minecraft.client.renderer.OpenGlHelper;
 
 /** Created by brandon3055 on 6/11/2016. */
-public class DEShaders {
+public final class DEShaders {
 
     private DEShaders() {}
 

@@ -29,7 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 /** Created by brandon3055 on 26/11/2016. */
-public class BinderHandler {
+public final class BinderHandler {
 
     private BinderHandler() {}
 

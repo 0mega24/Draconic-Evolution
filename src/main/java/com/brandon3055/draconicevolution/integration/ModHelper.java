@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 
 /** Created by brandon3055 on 29/9/2015. */
-public class ModHelper {
+public final class ModHelper {
 
     private ModHelper() {}
 

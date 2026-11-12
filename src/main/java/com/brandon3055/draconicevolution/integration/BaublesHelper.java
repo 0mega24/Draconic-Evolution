@@ -13,7 +13,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.fml.common.Optional;
 
 /** Created by brandon3055 on 27/05/19. */
-public class BaublesHelper {
+public final class BaublesHelper {
 
     private BaublesHelper() {}
 

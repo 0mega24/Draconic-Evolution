@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Created by brandon3055 on 11/06/2016. This API allows you to register custom IFusionRecipe's */
-public class FusionRecipeAPI {
+public final class FusionRecipeAPI {
 
     private FusionRecipeAPI() {}
 
