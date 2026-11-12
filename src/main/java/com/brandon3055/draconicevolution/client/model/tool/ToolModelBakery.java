@@ -23,7 +23,7 @@ import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 /** Created by brandon3055 on 21/06/2017. */
-public class ToolModelBakery {
+public final class ToolModelBakery {
 
     private ToolModelBakery() {}
 

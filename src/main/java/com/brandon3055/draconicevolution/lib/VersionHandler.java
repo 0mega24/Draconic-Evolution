@@ -1,7 +1,7 @@
 package com.brandon3055.draconicevolution.lib;
 
 /** Created by Brandon on 24/02/2015. */
-public class VersionHandler {
+public final class VersionHandler {
 
     private VersionHandler() {}
 

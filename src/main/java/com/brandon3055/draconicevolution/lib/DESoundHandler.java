@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 /** Created by brandon3055 on 25/3/2016. This stores all sound events for Brandon's Core */
-public class DESoundHandler {
+public final class DESoundHandler {
 
     private DESoundHandler() {}
 

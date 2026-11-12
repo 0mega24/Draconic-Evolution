@@ -3,7 +3,7 @@ package com.brandon3055.draconicevolution.network.ccnetwork;
 import codechicken.lib.packet.PacketCustom;
 
 /** Created by brandon3055 on 12/06/2017. */
-public class PacketDispatcher {
+public final class PacketDispatcher {
 
     private PacketDispatcher() {}
 

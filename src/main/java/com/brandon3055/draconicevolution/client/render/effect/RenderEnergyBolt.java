@@ -13,7 +13,7 @@ import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 /** Created by brandon3055 on 22/06/2016. */
-public class RenderEnergyBolt {
+public final class RenderEnergyBolt {
 
     private RenderEnergyBolt() {}
 

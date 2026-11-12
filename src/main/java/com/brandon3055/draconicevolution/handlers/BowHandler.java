@@ -24,7 +24,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
-public class BowHandler {
+public final class BowHandler {
 
     private BowHandler() {}
 

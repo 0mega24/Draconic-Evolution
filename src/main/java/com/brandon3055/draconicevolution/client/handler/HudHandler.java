@@ -24,7 +24,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 /** Created by brandon3055 on 4/07/2016. */
-public class HudHandler {
+public final class HudHandler {
 
     private HudHandler() {}
 

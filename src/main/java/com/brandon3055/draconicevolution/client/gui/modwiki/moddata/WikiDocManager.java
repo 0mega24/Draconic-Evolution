@@ -33,7 +33,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /** Created by brandon3055 on 29/08/2016. */
-public class WikiDocManager {
+public final class WikiDocManager {
 
     private WikiDocManager() {}
 

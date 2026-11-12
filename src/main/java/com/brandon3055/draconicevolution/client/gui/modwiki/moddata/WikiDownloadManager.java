@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /** Created by brandon3055 on 20/09/2016. */
-public class WikiDownloadManager {
+public final class WikiDownloadManager {
 
     private WikiDownloadManager() {}
 

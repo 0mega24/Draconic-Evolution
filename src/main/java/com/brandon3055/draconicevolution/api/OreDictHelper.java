@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 
 /** Created by brandon3055 on 21/06/2016. */
-public class OreDictHelper {
+public final class OreDictHelper {
 
     private OreDictHelper() {}
 

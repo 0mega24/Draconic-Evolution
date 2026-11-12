@@ -17,7 +17,7 @@ import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import net.minecraft.util.ResourceLocation;
 
 /** Created by brandon3055 on 23/4/2016. A list of all of DE's particles */
-public class DEParticles {
+public final class DEParticles {
 
     private DEParticles() {}
 

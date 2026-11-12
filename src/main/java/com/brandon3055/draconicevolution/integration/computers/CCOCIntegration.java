@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 
 /** Created by brandon3055 on 21/9/2015. */
-public class CCOCIntegration {
+public final class CCOCIntegration {
 
     private CCOCIntegration() {}
 
