@@ -826,7 +826,7 @@ public class RecipeManager {
         return list;
     }
 
-    public static enum RecipeDifficulty {
+    public enum RecipeDifficulty {
         ALL,
         NORMAL,
         HARD;

@@ -92,7 +92,7 @@ public class OreDoublingRegistry {
             return stackToStackRecipes.get(stack);
         }
 
-        int ids[] = OreDictionary.getOreIDs(stack);
+        int[] ids = OreDictionary.getOreIDs(stack);
         for (int id : ids) {
             String sid = OreDictionary.getOreName(id);
             if (oreRecipes.containsKey(sid)) {

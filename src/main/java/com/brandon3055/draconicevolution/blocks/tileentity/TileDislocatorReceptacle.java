@@ -770,7 +770,7 @@ public class TileDislocatorReceptacle extends TileInventoryBase
         public Entity entity;
         public LinkedList<PassengerHelper> passengers = new LinkedList<>();
 
-        public PassengerHelper(Entity entity) {
+        PassengerHelper(Entity entity) {
             this.entity = entity;
             for (Entity passenger : entity.getPassengers()) {
                 passengers.add(new PassengerHelper(passenger));

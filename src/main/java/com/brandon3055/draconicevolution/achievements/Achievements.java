@@ -224,7 +224,7 @@ public class Achievements {
         private final String name;
         public final String condition;
 
-        public AchievementCondition(String name, String condition) {
+        AchievementCondition(String name, String condition) {
             this.name = name;
             this.condition = condition;
         }

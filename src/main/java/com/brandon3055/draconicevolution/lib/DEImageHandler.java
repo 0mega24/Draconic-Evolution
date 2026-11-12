@@ -88,7 +88,9 @@ public class DEImageHandler {
 
             for (String s : imageURLs) {
                 if (!checkExistence(s)) {
-                    if (downloadImage(s)) reloadRequired = true;
+                    if (downloadImage(s)) {
+                        reloadRequired = true;
+                    }
                 }
                 if (checkExistence(s)) {
                     try {

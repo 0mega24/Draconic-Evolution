@@ -278,7 +278,7 @@ public class WikiDownloadManager {
         private DownloadThread targetThread;
         private double lastCheckProgress = 0;
 
-        public DLWatcher(DownloadThread targetThread) {
+        DLWatcher(DownloadThread targetThread) {
             this.targetThread = targetThread;
         }
 

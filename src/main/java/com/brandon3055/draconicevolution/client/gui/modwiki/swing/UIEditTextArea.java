@@ -241,7 +241,7 @@ public class UIEditTextArea extends JFrame implements ActionListener {
     }
 
     private class CustomCellRenderer extends JButton implements ListCellRenderer {
-        public CustomCellRenderer() {
+        CustomCellRenderer() {
             setOpaque(true);
         }
 

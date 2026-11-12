@@ -279,7 +279,7 @@ public class GuiRecipeBuilder extends GuiContainer {
                 Toolkit.getDefaultToolkit()
                         .getSystemClipboard()
                         .setContents(stringselection, (ClipboardOwner) null);
-            } catch (Exception var2) {;
+            } catch (Exception var2) {
             }
         } else if (button.id == 100) {
             //            RecipeManager.loadRecipes();

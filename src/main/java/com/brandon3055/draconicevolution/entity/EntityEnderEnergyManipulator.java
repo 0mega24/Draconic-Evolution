@@ -94,8 +94,7 @@ public class EntityEnderEnergyManipulator extends EntityLivingBase {
             for (exitPortalLocation = new BlockPos(0, 100, 0);
                     world.getBlockState(this.exitPortalLocation).getBlock() != Blocks.BEDROCK
                             && exitPortalLocation.getY() > 30;
-                    this.exitPortalLocation = this.exitPortalLocation.down()) {;
-            }
+                    this.exitPortalLocation = this.exitPortalLocation.down()) {}
             if (exitPortalLocation.getY() <= 30) {
                 cancel();
                 return;
