@@ -157,7 +157,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
             targetZ = homeZ;
             homeSet = true;
         }
-        if (crystals == null) updateCrystals();
+        if (crystals == null) {
+            updateCrystals();
+        }
 
         float f;
         float f1;
@@ -613,7 +615,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
     }
 
     public void onCrystalTargeted(EntityPlayer player, boolean destroyed) {
-        if (behaviour == EnumBehaviour.DEAD) return;
+        if (behaviour == EnumBehaviour.DEAD) {
+            return;
+        }
 
         target = player;
         ForgeHooks.onLivingSetAttackTarget(this, player);
@@ -645,7 +649,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
     }
 
     public void updateCrystals() {
-        if (crystals == null) crystals = new ArrayList<EntityGuardianCrystal>();
+        if (crystals == null) {
+            crystals = new ArrayList<EntityGuardianCrystal>();
+        }
         List<EntityGuardianCrystal> list =
                 world.getEntitiesWithinAABB(
                         EntityGuardianCrystal.class,
@@ -653,15 +659,20 @@ public class EntityChaosGuardian extends EntityDragonOld {
                                 .grow(200, 200, 200));
         activeCrystals = 0;
         for (EntityGuardianCrystal crystal : list) {
-            if (!crystals.contains(crystal)) crystals.add(crystal);
-            if (crystal.isAlive()) activeCrystals++;
+            if (!crystals.contains(crystal)) {
+                crystals.add(crystal);
+            }
+            if (crystal.isAlive()) {
+                activeCrystals++;
+            }
         }
     }
 
     private void customAIUpdate() {
 
-        if (getHealth() > 0 && getHealth() < getMaxHealth() * 0.2F)
+        if (getHealth() > 0 && getHealth() < getMaxHealth() * 0.2F) {
             behaviour = EnumBehaviour.LOW_HEALTH_STRATEGY;
+        }
 
         if (ticksExisted % 200 == 0) {
             crystals = null;
@@ -675,26 +686,31 @@ public class EntityChaosGuardian extends EntityDragonOld {
 
         switch (behaviour) {
             case ROAMING:
-                if (Utils.getClosestPlayer(world, homeX, homeY, homeZ, 200, true) != null)
+                if (Utils.getClosestPlayer(world, homeX, homeY, homeZ, 200, true) != null) {
                     selectNewBehaviour();
+                }
                 break;
 
             case GO_HOME:
-                if (Utils.getDistanceAtoB(posX, posZ, homeX, homeZ) < 70) selectNewBehaviour();
+                if (Utils.getDistanceAtoB(posX, posZ, homeX, homeZ) < 70) {
+                    selectNewBehaviour();
+                }
                 break;
 
             case GUARDING:
                 break;
 
             case CHARGING:
-                if (Utils.getDistanceAtoB(posX, posZ, homeX, homeZ) > 300)
+                if (Utils.getDistanceAtoB(posX, posZ, homeX, homeZ) > 300) {
                     behaviour = EnumBehaviour.GO_HOME;
+                }
                 break;
 
             case CIRCLE_PLAYER:
                 circlePosition += (0.02F * circleDirection);
-                if (Utils.getDistanceAtoB(posX, posZ, homeX, homeZ) > 300 || posY > 250)
+                if (Utils.getDistanceAtoB(posX, posZ, homeX, homeZ) > 300 || posY > 250) {
                     behaviour = EnumBehaviour.GO_HOME;
+                }
                 break;
 
             case LOW_HEALTH_STRATEGY:
@@ -726,9 +742,13 @@ public class EntityChaosGuardian extends EntityDragonOld {
         }
         // ignitionChargeTimer = 10;
 
-        if (behaviour == EnumBehaviour.DEAD) return;
+        if (behaviour == EnumBehaviour.DEAD) {
+            return;
+        }
 
-        if (ticksExisted % 1000 == 0 && rand.nextBoolean()) selectNewBehaviour();
+        if (ticksExisted % 1000 == 0 && rand.nextBoolean()) {
+            selectNewBehaviour();
+        }
 
         if (ignitionChargeTimer > 1
                 || (ignitionChargeTimer == 1 && ticksExisted % 20 == 0)
@@ -774,7 +794,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
     }
 
     private void updateAttack() {
-        if (world.isRemote || behaviour == EnumBehaviour.DEAD) return;
+        if (world.isRemote || behaviour == EnumBehaviour.DEAD) {
+            return;
+        }
 
         if (behaviour == EnumBehaviour.FIREBOMB
                 && Utils.getDistanceAtoB(posX, posY, posZ, homeX, homeY + 30, homeZ) <= 3) {
@@ -785,7 +807,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
                 double distance =
                         Utils.getDistanceAtoB(
                                 target.posX, target.posZ, dragonPartHead.posX, dragonPartHead.posZ);
-                if (Utils.getDistanceAtoB(target.posX, target.posZ, posX, posZ) < 5) distance *= -1;
+                if (Utils.getDistanceAtoB(target.posX, target.posZ, posX, posZ) < 5) {
+                    distance *= -1;
+                }
                 float anglePitch =
                         (float)
                                         Math.toDegrees(
@@ -825,8 +849,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
                 }
             }
 
-        } else if (nextAttackTimer > 0) nextAttackTimer--;
-        else if (nextAttackTimer == 0) {
+        } else if (nextAttackTimer > 0) {
+            nextAttackTimer--;
+        } else if (nextAttackTimer == 0) {
 
             Entity attackTarget = target;
             @SuppressWarnings("unchecked")
@@ -842,9 +867,12 @@ public class EntityChaosGuardian extends EntityDragonOld {
                 targets.removeIf(player -> player.capabilities.isCreativeMode);
             }
 
-            if (attackTarget == null && targets.size() > 0)
+            if (attackTarget == null && targets.size() > 0) {
                 attackTarget = targets.get(rand.nextInt(targets.size()));
-            if (attackTarget == null) return;
+            }
+            if (attackTarget == null) {
+                return;
+            }
 
             // Select an attack
             if (attackInProgress == -1) {
@@ -918,7 +946,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
                                                                 distance))
                                         * -1F;
 
-                    } else attackTimer = 0;
+                    } else {
+                        attackTimer = 0;
+                    }
                     break;
                 case ATTACK_FIREBALL_CHASER:
                     if (attackTimer % 10 == 0) {
@@ -1017,21 +1047,26 @@ public class EntityChaosGuardian extends EntityDragonOld {
                                                                 distance))
                                         * -1F;
 
-                    } else attackTimer = 0;
+                    } else {
+                        attackTimer = 0;
+                    }
                     break;
             }
 
             attackTimer--;
             if (attackTimer <= -1) {
-                if (attackInProgress == ATTACK_FIREBALL_CHARGE) behaviour = previousBehaviour;
+                if (attackInProgress == ATTACK_FIREBALL_CHARGE) {
+                    behaviour = previousBehaviour;
+                }
                 attackInProgress = -1;
                 nextAttackTimer = -1;
             }
-        } else
+        } else {
             nextAttackTimer =
                     behaviour == EnumBehaviour.LOW_HEALTH_STRATEGY
                             ? 10 + rand.nextInt(50)
                             : 60 + rand.nextInt(200);
+        }
     }
 
     private static final List<WeightedAttack> weightedAttacks =
@@ -1057,7 +1092,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
                     new WeightedBehaviour(20, EnumBehaviour.CIRCLE_PLAYER));
 
     private void selectNewAttack() {
-        if (behaviour == EnumBehaviour.DEAD) return;
+        if (behaviour == EnumBehaviour.DEAD) {
+            return;
+        }
         if (behaviour == EnumBehaviour.LOW_HEALTH_STRATEGY) {
             attackInProgress =
                     ((WeightedAttack) WeightedRandom.getRandomItem(rand, weightedLowHealthAttaxks))
@@ -1071,10 +1108,13 @@ public class EntityChaosGuardian extends EntityDragonOld {
     }
 
     private void selectNewBehaviour() {
-        if (world.isRemote || behaviour == EnumBehaviour.DEAD) return;
+        if (world.isRemote || behaviour == EnumBehaviour.DEAD) {
+            return;
+        }
         EnumBehaviour newBehaviour = behaviour;
-        while (newBehaviour == behaviour)
+        while (newBehaviour == behaviour) {
             newBehaviour = WeightedRandom.getRandomItem(rand, weightedBehaviours).randomBehaviour;
+        }
         behaviour = newBehaviour;
         previousBehaviour = behaviour;
     }
@@ -1169,7 +1209,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
                             == null) {
                         target = potentialTarget;
                         ForgeHooks.onLivingSetAttackTarget(this, (EntityLivingBase) target);
-                    } else targets.remove(potentialTarget);
+                    } else {
+                        targets.remove(potentialTarget);
+                    }
                 }
 
                 break;
@@ -1181,13 +1223,17 @@ public class EntityChaosGuardian extends EntityDragonOld {
     @Override
     public boolean attackEntityFromPart(
             MultiPartEntityPart part, DamageSource damageSource, float dmg) {
-        if (behaviour == EnumBehaviour.DEAD) return false;
+        if (behaviour == EnumBehaviour.DEAD) {
+            return false;
+        }
 
         if (part != this.dragonPartHead) {
             dmg = dmg / 4.0F + 1.0F;
         }
 
-        if (dmg > 50) dmg -= ((dmg - 50) * 0.7);
+        if (dmg > 50) {
+            dmg -= ((dmg - 50) * 0.7);
+        }
 
         switch (behaviour) {
             case ROAMING:
@@ -1195,14 +1241,19 @@ public class EntityChaosGuardian extends EntityDragonOld {
             case GO_HOME:
                 break;
             case GUARDING:
-                if (rand.nextInt(5) == 0) selectNewBehaviour();
+                if (rand.nextInt(5) == 0) {
+                    selectNewBehaviour();
+                }
                 break;
             case CHARGING:
-                if (rand.nextInt(6) == 0) selectNewBehaviour();
+                if (rand.nextInt(6) == 0) {
+                    selectNewBehaviour();
+                }
                 break;
             case CIRCLE_PLAYER:
-                if (rand.nextInt(6) == 0) selectNewBehaviour();
-                else if (rand.nextInt(4) == 0) {
+                if (rand.nextInt(6) == 0) {
+                    selectNewBehaviour();
+                } else if (rand.nextInt(4) == 0) {
                     circleDirection *= -1;
                 }
 
@@ -1321,7 +1372,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
                 boolean breac = false;
                 for (int x = homeX - 100; x < homeX + 100; x++) {
                     for (int y = homeY - 100; y < homeY + 100; y++) {
-                        if (y < 0 || y > 255) continue;
+                        if (y < 0 || y > 255) {
+                            continue;
+                        }
                         for (int z = homeZ - 100; z < homeZ + 100; z++) {
                             tile = world.getTileEntity(new BlockPos(x, y, z));
                             if (tile instanceof TileChaosCrystal) {
@@ -1393,7 +1446,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
 
             // spawnEgg();
             updateCrystals();
-            for (EntityGuardianCrystal crystal : crystals) crystal.setDeathTimer();
+            for (EntityGuardianCrystal crystal : crystals) {
+                crystal.setDeathTimer();
+            }
             setDead();
         }
     }
@@ -1438,7 +1493,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
                 }
             }
 
-            if (hasAttacked && rand.nextInt(2) == 0) behaviour = EnumBehaviour.GUARDING;
+            if (hasAttacked && rand.nextInt(2) == 0) {
+                behaviour = EnumBehaviour.GUARDING;
+            }
         }
     }
 
@@ -1491,10 +1548,12 @@ public class EntityChaosGuardian extends EntityDragonOld {
 
         if (this.rand.nextInt(10) == 0) {
             EntityGuardianCrystal closest = null;
-            for (EntityGuardianCrystal crystal : crystals)
+            for (EntityGuardianCrystal crystal : crystals) {
                 if (crystal.isAlive()
-                        && (closest == null || getDistance(crystal) < getDistance(closest)))
+                        && (closest == null || getDistance(crystal) < getDistance(closest))) {
                     closest = crystal;
+                }
+            }
             healingChaosCrystal = closest;
             if (healingChaosCrystal != null) {
                 //				connectedCrystalID = healingChaosCrystal.getEntityId();
@@ -1676,8 +1735,9 @@ public class EntityChaosGuardian extends EntityDragonOld {
         homeX = compound.getInteger("HomeXCoord");
         homeY = compound.getInteger("HomeYCoord");
         homeZ = compound.getInteger("HomeZCoord");
-        if (compound.hasKey("Behaviour"))
+        if (compound.hasKey("Behaviour")) {
             behaviour = EnumBehaviour.valueOf(compound.getString("Behaviour"));
+        }
         homeSet = compound.getBoolean("HomeSet");
         targetX = homeX;
         targetZ = homeZ;

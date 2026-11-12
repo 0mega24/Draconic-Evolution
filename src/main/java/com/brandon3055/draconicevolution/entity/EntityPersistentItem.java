@@ -153,8 +153,11 @@ public class EntityPersistentItem extends EntityItem {
 
             if (!this.world.isRemote && this.age >= lifespan) {
                 int hook = net.minecraftforge.event.ForgeEventFactory.onItemExpire(this, item);
-                if (hook < 0) this.setDead();
-                else this.lifespan += hook;
+                if (hook < 0) {
+                    this.setDead();
+                } else {
+                    this.lifespan += hook;
+                }
             }
             if (!item.isEmpty() && item.getCount() <= 0) {
                 this.setDead();

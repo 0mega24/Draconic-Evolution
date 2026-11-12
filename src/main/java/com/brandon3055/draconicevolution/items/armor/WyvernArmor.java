@@ -225,13 +225,15 @@ public class WyvernArmor extends ItemArmor
         }
 
         if (model == null) {
-            if (armorType == EntityEquipmentSlot.HEAD)
+            if (armorType == EntityEquipmentSlot.HEAD) {
                 model = new ModelWyvernArmor(0.5F, true, false, false, false);
-            else if (armorType == EntityEquipmentSlot.CHEST)
+            } else if (armorType == EntityEquipmentSlot.CHEST) {
                 model = new ModelWyvernArmor(1.5F, false, true, false, false);
-            else if (armorType == EntityEquipmentSlot.LEGS)
+            } else if (armorType == EntityEquipmentSlot.LEGS) {
                 model = new ModelWyvernArmor(1.5F, false, false, true, false);
-            else model = new ModelWyvernArmor(1F, false, false, false, true);
+            } else {
+                model = new ModelWyvernArmor(1F, false, false, false, true);
+            }
             this.model.bipedHead.showModel = (armorType == EntityEquipmentSlot.HEAD);
             this.model.bipedHeadwear.showModel = (armorType == EntityEquipmentSlot.HEAD);
             this.model.bipedBody.showModel =

@@ -268,7 +268,9 @@ public class Magnet extends ItemBCore implements IBauble {
     @Override
     @Optional.Method(modid = "baubles")
     public void onWornTick(ItemStack itemstack, EntityLivingBase player) {
-        if (!(player instanceof EntityPlayer)) return;
+        if (!(player instanceof EntityPlayer)) {
+            return;
+        }
         updateMagnet(itemstack, player);
     }
 }

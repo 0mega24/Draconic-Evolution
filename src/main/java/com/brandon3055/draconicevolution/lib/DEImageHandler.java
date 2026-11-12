@@ -40,7 +40,9 @@ public class DEImageHandler {
     @SubscribeEvent
     public void tick(TickEvent.ClientTickEvent event) {
         if (downloadThread != null && downloadThread.isFinished) {
-            if (downloadThread.isReloadRequired()) LogHelperBC.info("Image Download Finished");
+            if (downloadThread.isReloadRequired()) {
+                LogHelperBC.info("Image Download Finished");
+            }
             downloadStatus = downloadThread.wasSuccessful ? 1 : 2;
             MinecraftForge.EVENT_BUS.unregister(this);
             addRSPack(event != null);
@@ -51,10 +53,11 @@ public class DEImageHandler {
     public static void init(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(instance);
 
-        if (event != null)
+        if (event != null) {
             savePath =
                     event.getModConfigurationDirectory().getParentFile().getAbsolutePath()
                             + "/config/draconicevolution";
+        }
         //		GUIManual.loadPages();
 
         //		downloadThread = new DownloadThread(GUIManual.imageURLs);
@@ -75,7 +78,9 @@ public class DEImageHandler {
         public void run() {
 
             for (String s : imageURLs) {
-                if (!checkExistence(s)) if (downloadImage(s)) reloadRequired = true;
+                if (!checkExistence(s)) {
+                    if (downloadImage(s)) reloadRequired = true;
+                }
                 if (checkExistence(s)) {
                     try {
                         URL url = new URL(s);
@@ -158,7 +163,9 @@ public class DEImageHandler {
 
     private static void addRSPack(boolean refreash) {
         File rspack = new File(getConfigFolder(), "/resources");
-        if (!rspack.exists()) return;
+        if (!rspack.exists()) {
+            return;
+        }
 
         if (!Arrays.asList(rspack.list()).contains("pack.mcmeta")) {
             try {
@@ -196,7 +203,9 @@ public class DEImageHandler {
         if (saveFolder == null) {
             saveFolder = new File(savePath);
         }
-        if (!saveFolder.exists()) saveFolder.mkdir();
+        if (!saveFolder.exists()) {
+            saveFolder.mkdir();
+        }
 
         return saveFolder;
     }
@@ -208,7 +217,9 @@ public class DEImageHandler {
                             getConfigFolder(),
                             "/resources/assets/draconicevolution/textures/gui/manualimages");
         }
-        if (!imagesFolder.exists()) imagesFolder.mkdirs();
+        if (!imagesFolder.exists()) {
+            imagesFolder.mkdirs();
+        }
 
         return imagesFolder;
     }

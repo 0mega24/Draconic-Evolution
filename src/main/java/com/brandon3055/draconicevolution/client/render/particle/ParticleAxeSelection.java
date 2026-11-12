@@ -106,10 +106,11 @@ public class ParticleAxeSelection extends BCParticle {
         GlStateManager.scale(particleScale, particleScale, particleScale);
         GlStateManager.translate(-0.5, -0.5, -0.5);
 
-        for (EnumFacing facing : EnumFacing.VALUES)
+        for (EnumFacing facing : EnumFacing.VALUES) {
             ModelUtils.renderQuadsARGB(
                     model.getQuads(state, facing, 0),
                     new ColourARGB((int) (particleAlpha * 255), 255, 255, 255).argb());
+        }
 
         //        GlStateManager.depthMask(true);
         GlStateManager.enableDepth();

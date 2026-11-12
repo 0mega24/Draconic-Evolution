@@ -276,10 +276,14 @@ public class DislocatorBound extends Dislocator implements IRenderOverride {
         LinkData data = DislocatorLinkHandler.getLink(stack, world);
         if (isPlayer(stack)) {
             MinecraftServer server = world.getMinecraftServer();
-            if (server == null) return null;
+            if (server == null) {
+                return null;
+            }
             EntityPlayer player =
                     server.getPlayerList().getPlayerByUUID(UUID.fromString(getPlayerID(stack)));
-            if (player == null) return null;
+            if (player == null) {
+                return null;
+            }
             return new TeleportLocation(
                     player.posX, player.posY + 0.2, player.posZ, player.dimension);
         }

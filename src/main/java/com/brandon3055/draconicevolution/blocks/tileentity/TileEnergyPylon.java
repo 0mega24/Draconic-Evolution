@@ -264,7 +264,9 @@ public class TileEnergyPylon extends TileBCBase
     // region Rendering
 
     private void drawParticleBeam() {
-        if (getCore() == null) return;
+        if (getCore() == null) {
+            return;
+        }
 
         BlockPos thisPos = pos.add(0, sphereOnTop.value ? 1 : -1, 0);
         Vec3D coreVec =
@@ -303,8 +305,12 @@ public class TileEnergyPylon extends TileBCBase
     @SideOnly(Side.CLIENT)
     private void spawnParticles() {
         Random rand = world.rand;
-        if (getCore() == null || particleRate.value <= 0) return;
-        if (particleRate.value > 20) particleRate.value = 20;
+        if (getCore() == null || particleRate.value <= 0) {
+            return;
+        }
+        if (particleRate.value > 20) {
+            particleRate.value = 20;
+        }
 
         Vec3D spawn;
         Vec3D dest;

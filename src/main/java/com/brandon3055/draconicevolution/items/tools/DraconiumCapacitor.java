@@ -330,7 +330,9 @@ public class DraconiumCapacitor extends ItemEnergyBase
     @Override
     @Optional.Method(modid = "baubles")
     public void onWornTick(ItemStack itemstack, EntityLivingBase player) {
-        if (!(player instanceof EntityPlayer)) return;
+        if (!(player instanceof EntityPlayer)) {
+            return;
+        }
         updateEnergy(itemstack, (EntityPlayer) player, getBaubles((EntityPlayer) player));
     }
 

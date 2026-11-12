@@ -240,7 +240,9 @@ public class GuiToolConfig extends GuiScreen {
         if (ContributorHandler.contributors.containsKey(player.getName())) {
             ContributorHandler.Contributor contributor =
                     ContributorHandler.contributors.get(player.getName());
-            if (!contributor.isUserValid(player)) return;
+            if (!contributor.isUserValid(player)) {
+                return;
+            }
 
             if (button.id == 44) {
                 contributor.contributorWingsEnabled = !contributor.contributorWingsEnabled;

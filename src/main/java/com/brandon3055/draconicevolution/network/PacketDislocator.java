@@ -67,7 +67,9 @@ public class PacketDislocator implements IMessage { // TODO Re Write this mess!!
             bytes.writeFloat(location.getYaw());
             ByteBufUtils.writeUTF8String(bytes, location.getName());
             // ByteBufUtils.writeUTF8String(bytes, location.getDimensionName());
-            if (function == UPDATEDESTINATION) bytes.writeInt(data);
+            if (function == UPDATEDESTINATION) {
+                bytes.writeInt(data);
+            }
         }
 
         if (function == UPDATELOCK || function == MOVELOCATION) {
@@ -106,7 +108,9 @@ public class PacketDislocator implements IMessage { // TODO Re Write this mess!!
             location.setYaw(bytes.readFloat());
             location.setName(ByteBufUtils.readUTF8String(bytes));
             // location.setDimentionName(ByteBufUtils.readUTF8String(bytes));
-            if (function == UPDATEDESTINATION) data = bytes.readInt();
+            if (function == UPDATEDESTINATION) {
+                data = bytes.readInt();
+            }
         }
 
         if (function == UPDATELOCK || function == MOVELOCATION) {
@@ -231,8 +235,9 @@ public class PacketDislocator implements IMessage { // TODO Re Write this mess!!
 
             if (message.function == TELEPORT) {
                 int fuel = ItemNBTHelper.getInteger(teleporter, "Fuel", 0);
-                if (!ctx.getServerHandler().player.capabilities.isCreativeMode)
+                if (!ctx.getServerHandler().player.capabilities.isCreativeMode) {
                     ItemNBTHelper.setInteger(teleporter, "Fuel", fuel - 1);
+                }
                 TeleportLocation destination = new TeleportLocation();
                 destination.readFromNBT(list.getCompoundTagAt(message.data));
 
@@ -321,7 +326,9 @@ public class PacketDislocator implements IMessage { // TODO Re Write this mess!!
                                 .inventory
                                 .clearMatchingItems(Items.ENDER_PEARL, 0, 1, null);
                         count++;
-                    } else break;
+                    } else {
+                        break;
+                    }
                 }
                 ItemNBTHelper.setInteger(
                         teleporter, "Fuel", fuel + (TweaksConfig.dislocatorUsesPerPearl * count));

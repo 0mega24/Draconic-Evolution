@@ -194,7 +194,9 @@ public class EntityGuardianProjectile extends Entity {
         if (isChaser && !world.isRemote) {
             double tDist =
                     Utils.getDistanceAtoB(target.posX, target.posY, target.posZ, posX, posY, posZ);
-            if (tDist <= 0) tDist = 0.1;
+            if (tDist <= 0) {
+                tDist = 0.1;
+            }
 
             double x = (target.posX - posX) / tDist;
             double y = (target.posY - posY - -1) / tDist;
@@ -475,7 +477,9 @@ public class EntityGuardianProjectile extends Entity {
     }
 
     private void damageEntitiesInRadius(DamageSource source, double radius, float damage) {
-        if (world.isRemote) return;
+        if (world.isRemote) {
+            return;
+        }
         @SuppressWarnings("unchecked")
         List<EntityLivingBase> entities =
                 world.getEntitiesWithinAABB(

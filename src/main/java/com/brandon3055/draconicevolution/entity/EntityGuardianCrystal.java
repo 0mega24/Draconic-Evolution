@@ -110,10 +110,16 @@ public class EntityGuardianCrystal extends EntityLivingBase {
                 world.setBlockState(pos, Blocks.FIRE.getDefaultState());
             }
 
-        } else if (deathAnimation > 0) deathAnimation -= 0.1F;
+        } else if (deathAnimation > 0) {
+            deathAnimation -= 0.1F;
+        }
 
-        if (guardian != null && guardian.isDead) setDeathTimer();
-        if (timeTillDeath > 0) timeTillDeath--;
+        if (guardian != null && guardian.isDead) {
+            setDeathTimer();
+        }
+        if (timeTillDeath > 0) {
+            timeTillDeath--;
+        }
         if (timeTillDeath == 0 && !world.isRemote) {
             world.addWeatherEffect(new EntityLightningBolt(world, posX, posY, posZ, false));
             world.createExplosion(this, posX, posY + 2, posZ, 20, true);
@@ -179,7 +185,9 @@ public class EntityGuardianCrystal extends EntityLivingBase {
     }
 
     public void setDeathTimer() {
-        if (timeTillDeath > 0) return;
+        if (timeTillDeath > 0) {
+            return;
+        }
         timeTillDeath = rand.nextInt(400);
     }
 
@@ -245,7 +253,9 @@ public class EntityGuardianCrystal extends EntityLivingBase {
                             EntityChaosGuardian.class,
                             new AxisAlignedBB(posX, posY, posZ, posX, posY, posZ)
                                     .grow(512, 512, 512));
-            if (list.size() > 0) guardian = list.get(0);
+            if (list.size() > 0) {
+                guardian = list.get(0);
+            }
             if (guardian != null
                     && guardian.crystals != null
                     && !guardian.crystals.contains(this)) {
@@ -260,7 +270,9 @@ public class EntityGuardianCrystal extends EntityLivingBase {
         setHealth(getMaxHealth());
         shieldTime = 50;
         world.createExplosion(null, this.posX, this.posY, this.posZ, 6.0F, false);
-        if (getGuardian() != null) getGuardian().updateCrystals();
+        if (getGuardian() != null) {
+            getGuardian().updateCrystals();
+        }
     }
 
     public boolean isAlive() {

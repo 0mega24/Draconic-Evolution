@@ -87,7 +87,9 @@ public class EntityChaosImplosion extends Entity {
 
     private void shakeScreen() {
         double intensity = (ticksExisted - 130) / 100D;
-        if (intensity > 1D) intensity = 1D;
+        if (intensity > 1D) {
+            intensity = 1D;
+        }
 
         @SuppressWarnings("unchecked")
         List<EntityPlayer> players =

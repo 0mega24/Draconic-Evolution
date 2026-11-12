@@ -186,27 +186,45 @@ public class GuiHudConfig extends GuiScreen {
         } else if (button.id == 2 && ClientConfig.hudSettings[4] > 30) {
             ClientConfig.hudSettings[4] -= 10;
         } else if (button.id == 3) {
-            if (ClientConfig.hudSettings[6] < 4) ClientConfig.hudSettings[6]++;
-            else ClientConfig.hudSettings[6] = 0;
+            if (ClientConfig.hudSettings[6] < 4) {
+                ClientConfig.hudSettings[6]++;
+            } else {
+                ClientConfig.hudSettings[6] = 0;
+            }
         } else if (button.id == 4 && ClientConfig.hudSettings[5] < 300) {
             ClientConfig.hudSettings[5] += 10;
         } else if (button.id == 5 && ClientConfig.hudSettings[5] > 30) {
             ClientConfig.hudSettings[5] -= 10;
         } else if (button.id == 6) {
-            if (ClientConfig.hudSettings[7] < 4) ClientConfig.hudSettings[7]++;
-            else ClientConfig.hudSettings[7] = 0;
+            if (ClientConfig.hudSettings[7] < 4) {
+                ClientConfig.hudSettings[7]++;
+            } else {
+                ClientConfig.hudSettings[7] = 0;
+            }
         } else if (button.id == 7) {
-            if (ClientConfig.hudSettings[9] == 0) ClientConfig.hudSettings[9] = 1;
-            else ClientConfig.hudSettings[9] = 0;
+            if (ClientConfig.hudSettings[9] == 0) {
+                ClientConfig.hudSettings[9] = 1;
+            } else {
+                ClientConfig.hudSettings[9] = 0;
+            }
         } else if (button.id == 8) {
-            if (ClientConfig.hudSettings[8] == 0) ClientConfig.hudSettings[8] = 1;
-            else ClientConfig.hudSettings[8] = 0;
+            if (ClientConfig.hudSettings[8] == 0) {
+                ClientConfig.hudSettings[8] = 1;
+            } else {
+                ClientConfig.hudSettings[8] = 0;
+            }
         } else if (button.id == 9) {
-            if (ClientConfig.hudSettings[10] == 0) ClientConfig.hudSettings[10] = 1;
-            else ClientConfig.hudSettings[10] = 0;
+            if (ClientConfig.hudSettings[10] == 0) {
+                ClientConfig.hudSettings[10] = 1;
+            } else {
+                ClientConfig.hudSettings[10] = 0;
+            }
         } else if (button.id == 10) {
-            if (ClientConfig.hudSettings[11] == 0) ClientConfig.hudSettings[11] = 1;
-            else ClientConfig.hudSettings[11] = 0;
+            if (ClientConfig.hudSettings[11] == 0) {
+                ClientConfig.hudSettings[11] = 1;
+            } else {
+                ClientConfig.hudSettings[11] = 0;
+            }
         }
 
         Property property =

@@ -48,7 +48,9 @@ public class RenderItemMobSoul implements IItemRenderer {
     @Override
     public void renderItem(ItemStack item, ItemCameraTransforms.TransformType transformType) {
         Entity mob = DEFeatures.mobSoul.getRenderEntity(item);
-        if (brokenMobs.contains(mob)) return;
+        if (brokenMobs.contains(mob)) {
+            return;
+        }
 
         try {
             GlStateManager.pushMatrix();

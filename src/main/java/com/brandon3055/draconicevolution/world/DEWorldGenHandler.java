@@ -132,7 +132,9 @@ public class DEWorldGenHandler implements IWorldGenerator {
                 break;
             default:
                 for (Integer i : WorldConfig.oreGenDimentionBlacklist) {
-                    if (i == world.provider.getDimension()) return;
+                    if (i == world.provider.getDimension()) {
+                        return;
+                    }
                 }
                 addOreSpawn(
                         DEFeatures.draconiumOre

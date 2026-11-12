@@ -355,17 +355,23 @@ public abstract class TileReactorComponent extends TileEnergyBase
             if (reactor.canCharge()) {
                 reactor.chargeReactor();
                 return new Object[] {true};
-            } else return new Object[] {false};
+            } else {
+                return new Object[] {false};
+            }
         } else if (method.equals("activateReactor")) {
             if (reactor.canActivate()) {
                 reactor.activateReactor();
                 return new Object[] {true};
-            } else return new Object[] {false};
+            } else {
+                return new Object[] {false};
+            }
         } else if (method.equals("stopReactor")) {
             if (reactor.canStop()) {
                 reactor.shutdownReactor();
                 return new Object[] {true};
-            } else return new Object[] {false};
+            } else {
+                return new Object[] {false};
+            }
         } else if (method.equals("setFailSafe")) {
             reactor.failSafeMode.value = args.checkBoolean(0);
             return new Object[] {true};

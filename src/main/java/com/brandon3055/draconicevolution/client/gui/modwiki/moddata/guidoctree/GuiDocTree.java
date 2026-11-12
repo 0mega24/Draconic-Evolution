@@ -75,7 +75,9 @@ public class GuiDocTree {
             return activeBranch.subBranches;
         } else if (activeBranch.subBranches.size() == 0 && activeBranch.parent != null) {
             return activeBranch.parent.subBranches;
-        } else return new ArrayList<TreeBranchRoot>();
+        } else {
+            return new ArrayList<TreeBranchRoot>();
+        }
     }
 
     public void setActiveBranch(TreeBranchRoot activeBranch) {

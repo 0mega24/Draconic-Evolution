@@ -89,7 +89,9 @@ public class CCOCIntegration {
             TileEntity tile = world.getTileEntity(pos);
             if (tile instanceof IDEPeripheral) {
                 return new CCAdapter((IDEPeripheral) tile);
-            } else return null;
+            } else {
+                return null;
+            }
         }
     }
 }

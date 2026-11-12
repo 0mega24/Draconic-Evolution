@@ -55,7 +55,9 @@ public class GuiJunkFilter extends ModularGuiContainer<ContainerJunkFilter> {
         for (int i = 0; i < itemHandler.getSlots(); i++) {
             int x = i % 9 * 18;
             int y = i / 9 * 18;
-            if (i / 9 == 3) y += 4;
+            if (i / 9 == 3) {
+                y += 4;
+            }
             manager.add(
                     new MGuiBorderedRect(this, guiLeft() + x + 7, guiTop() + y + 20, 18, 18)
                             .setFillColour(0xFF8b8b8b)
@@ -65,7 +67,9 @@ public class GuiJunkFilter extends ModularGuiContainer<ContainerJunkFilter> {
         for (int i = 0; i < 36; i++) {
             int x = i % 9 * 18;
             int y = i / 9 * 18;
-            if (i / 9 == 3) y += 4;
+            if (i / 9 == 3) {
+                y += 4;
+            }
             manager.add(
                     new MGuiBorderedRect(
                                     this, guiLeft() + x + 7, (guiTop() + ySize() - 84) + y, 18, 18)
