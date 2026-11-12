@@ -13,8 +13,8 @@ public final class Visuals {
     public static final String[][] COMMENTS = {
         {
             EnergyCoreVisuals.CATEGORY,
-            "Energy core colours. Client side only. Colours are #RRGGBB, ratios are R:G:B"
-                    + " multipliers."
+            "Energy core, stabilizer and pylon colours and animation speeds. Client side only."
+                    + " Colours are #RRGGBB, ratios are R:G:B multipliers, speeds are multipliers."
         },
         {
             ReactorVisuals.CATEGORY,

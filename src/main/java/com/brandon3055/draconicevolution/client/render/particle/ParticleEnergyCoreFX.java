@@ -6,6 +6,7 @@ import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.utils.BCProfiler;
 import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCoreVisuals;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.entity.Entity;
@@ -165,6 +166,8 @@ public class ParticleEnergyCoreFX extends BCParticle {
             particle.startRotation = args.length >= 2 ? args[1] : 0;
             particle.isLargeStabilizer = args.length >= 3 && args[2] == 1;
             particle.multipleParticleScaleBy(particle.isLargeStabilizer ? 2 : 1);
+            float[] rgb = EnergyCoreVisuals.stabilizerParticleRGB;
+            particle.setRBGColorF(rgb[0], rgb[1], rgb[2]);
             return particle;
         }
     }
