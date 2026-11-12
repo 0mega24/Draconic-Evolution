@@ -5,6 +5,7 @@ uniform float power;
 uniform float fade;
 uniform float startup;
 uniform sampler2D texture;
+uniform vec3 tint; // channel weights / 4, stock (1.0, 0.075, 0.025)
 #define M_PI 3.1415926535897932384626433832795
 
 
@@ -43,9 +44,9 @@ void main() {
     color -= (1 - tcoord.y) * (1 - tcoord.y) * 1.5 * (1 - fade);// + 60.5;
 
     float co = abs(1 - (color * 2));
-	float r = 4;
-    float g = 0.3 * color;
-    float b = 0.1 * color;
+	float r = 4 * tint.r;
+    float g = 4 * tint.g * color;
+    float b = 4 * tint.b * color;
     vec4 c = vec4(co * r, pow(co, 2.0) * g, pow(co ,3.0) * b, max((color - 0.25) * 1.5, 0.2 * tcoord.y * (1 - fade)));//0.05
     c *= startup;
 

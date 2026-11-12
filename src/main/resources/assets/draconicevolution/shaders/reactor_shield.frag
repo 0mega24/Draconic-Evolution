@@ -3,6 +3,7 @@
 uniform float time;
 uniform float intensity;// In this case field power
 uniform sampler2D texture;
+uniform vec3 tint; // multiplier, stock (1, 1, 1)
 #define M_PI 3.1415926535897932384626433832795
 
 
@@ -45,7 +46,7 @@ void main() {
     float g = power + yModifier * 0.5;
     float b = (power * 2) + yModifier * 0.5;
 
-    vec4 colour = vec4(po * r, pow(po, 2.0) * g, pow(po ,3.0) * b, max(0.1, 2 - brightness));
+    vec4 colour = vec4(po * r * tint.r, pow(po, 2.0) * g * tint.g, pow(po ,3.0) * b * tint.b, max(0.1, 2 - brightness));
 
 	gl_FragColor = colour;
 }
