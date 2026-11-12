@@ -55,7 +55,10 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
         // endregion
 
         // region Do Calculations
-        float rotation = (ClientEventHandler.elapsedTicks + partialTicks) / 2F;
+        float rotation =
+                (ClientEventHandler.elapsedTicks + partialTicks)
+                        / 2F
+                        * (float) EnergyCoreVisuals.coreRotationSpeed;
         float brightness =
                 (float) Math.abs(Math.sin((float) ClientEventHandler.elapsedTicks / 100f) * 100f);
         double scale = SCALES[te.tier.value - 1];
@@ -208,10 +211,21 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
         GlStateManager.bindTexture(Minecraft.getMinecraft().getTextureMapBlocks().getGlTextureId());
         if (!renderStage) {
             GlStateManager.scale(0.9F, 0.9F, 0.9F);
-            GlStateManager.rotate(ClientEventHandler.elapsedTicks + partialTick, 0, -1, 0);
+            GlStateManager.rotate(
+                    (ClientEventHandler.elapsedTicks + partialTick)
+                            * (float) EnergyCoreVisuals.stabilizerSpeed,
+                    0,
+                    -1,
+                    0);
             ModelUtils.renderQuadsARGB(listQuads, 0xFF000000 | rgb);
         } else {
-            GlStateManager.rotate((ClientEventHandler.elapsedTicks + partialTick) * 0.5F, 0, 1, 0);
+            GlStateManager.rotate(
+                    (ClientEventHandler.elapsedTicks + partialTick)
+                            * 0.5F
+                            * (float) EnergyCoreVisuals.stabilizerSpeed,
+                    0,
+                    1,
+                    0);
             GlStateManager.scale(1.1F, 1.1F, 1.1F);
             ModelUtils.renderQuadsARGB(listQuads, 0x50000000 | rgb);
         }
@@ -233,7 +247,9 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
         GlStateManager.rotate(180, 0, 0, 1);
 
         double beamLength = Math.abs(vec.x + vec.y + vec.z) - 0.5;
-        float time = ClientEventHandler.elapsedTicks + partialTick;
+        float time =
+                (ClientEventHandler.elapsedTicks + partialTick)
+                        * (float) EnergyCoreVisuals.stabilizerSpeed;
         double rotation = (double) time * 0.025D * -1.5D;
         float beamMotion = -time * 0.2F - (float) MathHelper.floor(-time * 0.1F);
 
@@ -326,7 +342,12 @@ public class RenderTileEnergyStorageCore extends TESRBase<TileEnergyStorageCore>
                 sides = 12;
                 enlarge = 0.5F + ((te.tier.value - 5) * 0.1F);
                 GlStateManager.rotate(
-                        (ClientEventHandler.elapsedTicks + partialTick) * 0.6F, 0, 0, -1);
+                        (ClientEventHandler.elapsedTicks + partialTick)
+                                * 0.6F
+                                * (float) EnergyCoreVisuals.stabilizerSpeed,
+                        0,
+                        0,
+                        -1);
                 GlStateManager.scale(3.5, 3.5, 1);
             }
 

@@ -13,6 +13,7 @@ import com.brandon3055.brandonscore.client.render.TESRBase;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyPylon;
 import com.brandon3055.draconicevolution.client.DETextureCache;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCoreVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import java.util.Map;
 import net.minecraft.client.renderer.GlStateManager;
@@ -55,17 +56,31 @@ public class RenderTileEnergyPylon extends TESRBase<TileEnergyPylon> {
         Vector3 translateVector =
                 new Vector3(x + 0.5, y + (te.sphereOnTop.value ? 1.5 : -0.5), z + 0.5);
         translateVector.translation().glApply();
+        int rgb = EnergyCoreVisuals.pylonRGB;
         IconTransformation iconTransform =
-                new IconTransformation(DETextureCache.getDETexture("models/pylon_sphere_texture"));
+                new IconTransformation(
+                        DETextureCache.getDETexture(
+                                rgb < 0
+                                        ? "models/pylon_sphere_texture"
+                                        : "models/pylon_sphere_tint"));
+        if (rgb < 0) {
+            rgb = 0xFFFFFF;
+        }
         setLighting(200F);
+        float red = (rgb >> 16 & 0xFF) / 255F;
+        float green = (rgb >> 8 & 0xFF) / 255F;
+        float blue = (rgb & 0xFF) / 255F;
 
         if (MinecraftForgeClient.getRenderPass() == 0) {
             GlStateManager.disableCull();
 
+            GlStateManager.color(red, green, blue, 1F);
             ccrs.startDrawing(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX_NORMAL);
             Rotation rotY =
                     new Rotation(
-                            ((ClientEventHandler.elapsedTicks + partialTicks) * 2F)
+                            ((ClientEventHandler.elapsedTicks + partialTicks)
+                                            * 2F
+                                            * (float) EnergyCoreVisuals.pylonRotationSpeed)
                                     * MathHelper.torad,
                             new Vector3(0, 1, 0.5).normalize());
             model.render(ccrs, iconTransform, rotY);
@@ -74,7 +89,11 @@ public class RenderTileEnergyPylon extends TESRBase<TileEnergyPylon> {
             GlStateManager.enableCull();
 
         } else {
-            float f = ((ClientEventHandler.elapsedTicks + partialTicks) % 30F) / 30F;
+            float f =
+                    (((ClientEventHandler.elapsedTicks + partialTicks)
+                                            * (float) EnergyCoreVisuals.pylonPulseSpeed)
+                                    % 30F)
+                            / 30F;
 
             if (te.isOutputMode.value) {
                 f = 1F - f;
@@ -87,7 +106,7 @@ public class RenderTileEnergyPylon extends TESRBase<TileEnergyPylon> {
                     GlStateManager.SourceFactor.ONE,
                     GlStateManager.DestFactor.ZERO);
             GlStateManager.alphaFunc(GL11.GL_GREATER, 0F);
-            GlStateManager.color(1F, 1F, 1F, 1F - f);
+            GlStateManager.color(red, green, blue, 1F - f);
             GlStateManager.enableBlend();
 
             ccrs.startDrawing(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX_NORMAL);
@@ -98,6 +117,7 @@ public class RenderTileEnergyPylon extends TESRBase<TileEnergyPylon> {
             GlStateManager.disableBlend();
         }
 
+        GlStateManager.color(1F, 1F, 1F, 1F);
         GlStateManager.popMatrix();
     }
 }

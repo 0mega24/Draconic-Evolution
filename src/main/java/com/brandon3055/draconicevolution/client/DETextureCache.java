@@ -20,6 +20,8 @@ public class DETextureCache implements IIconRegister {
         locations.add(
                 new ResourceLocation(DraconicEvolution.MOD_PREFIX + "models/pylon_sphere_texture"));
         locations.add(
+                new ResourceLocation(DraconicEvolution.MOD_PREFIX + "models/pylon_sphere_tint"));
+        locations.add(
                 new ResourceLocation(
                         DraconicEvolution.MOD_PREFIX + "items/tools/obj/arrow_common"));
     }
