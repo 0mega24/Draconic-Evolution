@@ -360,6 +360,8 @@ public class TileEntityDetector extends TileEnergyBase
                 case 8:
                     PULSE_RS_MODE.value = !PULSE_RS_MODE.value;
                     break;
+                default:
+                    break;
             }
         }
 

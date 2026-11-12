@@ -210,6 +210,8 @@ public class CraftingInjector extends BlockBCore
                 return new AxisAlignedBB(0.375, 0.0625, 0.0625, 1, 0.9375, 0.9375);
             case EAST:
                 return new AxisAlignedBB(0, 0.0625, 0.0625, 0.625, 0.9375, 0.9375);
+            default:
+                break;
         }
 
         return super.getBoundingBox(state, source, pos);

@@ -365,6 +365,8 @@ public class TileDraconiumChest extends TileEnergyInventoryBase
                                 stacksInserted = true;
                             }
                             break;
+                        default:
+                            break;
                     }
 
                     stackInFernace = getStackInSlot(f);
@@ -1013,6 +1015,8 @@ public class TileDraconiumChest extends TileEnergyInventoryBase
                     return (nsweIO >> 2) & 3;
                 case EAST:
                     return nsweIO & 3;
+                default:
+                    break;
             }
             return 0;
         }
@@ -1044,6 +1048,8 @@ public class TileDraconiumChest extends TileEnergyInventoryBase
                     return;
                 case EAST:
                     nsweIO = (byte) ((nsweIO & 0xFC) | io);
+                default:
+                    break;
             }
         }
 

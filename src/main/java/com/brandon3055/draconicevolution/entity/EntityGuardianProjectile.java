@@ -428,6 +428,8 @@ public class EntityGuardianProjectile extends Entity {
                     setDead();
                 }
                 break;
+            default:
+                break;
         }
 
         lastTickTargetDistance = targetDistance;
@@ -585,6 +587,8 @@ public class EntityGuardianProjectile extends Entity {
                 return new int[] {0x44, 0, 0};
             case IGNITION_CHARGE:
                 return new int[] {0xFF, 0xFF, 0xFF};
+            default:
+                break;
         }
         return new int[] {0, 0, 0};
     }

@@ -18,6 +18,8 @@ public class ClientPacketHandler implements ICustomPacketHandler.IClientPacketHa
                     ((TileDislocatorReceptacle) tile).setHidden();
                 }
                 break;
+            default:
+                break;
         }
     }
 }

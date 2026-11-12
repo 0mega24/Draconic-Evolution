@@ -409,6 +409,8 @@ public class GuiConfigureTool extends GuiScreen
                         buttonList.add(
                                 new Button(8, x + width / 2 - 159, y + 1, 318, 16, "", TOGGLE));
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -522,6 +524,8 @@ public class GuiConfigureTool extends GuiScreen
                     break;
                 case TOGGLE:
                     break;
+                default:
+                    break;
             }
 
             if (dropDownPos > 0) {
@@ -555,6 +559,8 @@ public class GuiConfigureTool extends GuiScreen
                             y + 5,
                             0xFFFFFF,
                             false);
+                    break;
+                default:
                     break;
             }
         }
@@ -634,6 +640,8 @@ public class GuiConfigureTool extends GuiScreen
                         super.playPressSound(mc.getSoundHandler());
                     }
                     break;
+                default:
+                    break;
             }
 
             return super.mousePressed(mc, mouseX, mouseY);
@@ -653,6 +661,8 @@ public class GuiConfigureTool extends GuiScreen
                 case SLIDER:
                     break;
                 case SELECTIONS:
+                    break;
+                default:
                     break;
             }
         }
@@ -681,6 +691,8 @@ public class GuiConfigureTool extends GuiScreen
                         }
                         break;
                     case SELECTIONS:
+                        break;
+                    default:
                         break;
                 }
             }

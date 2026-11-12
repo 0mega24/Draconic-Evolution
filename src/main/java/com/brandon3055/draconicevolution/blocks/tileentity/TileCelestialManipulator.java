@@ -275,6 +275,8 @@ public class TileCelestialManipulator extends TileEnergyBase
                 startTimeWarp(world.getWorldTime() + 24000);
                 LogHelper.info("Skipped one day! Cause: " + pos);
                 break;
+            default:
+                break;
         }
     }
 

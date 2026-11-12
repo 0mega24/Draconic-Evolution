@@ -114,6 +114,8 @@ public class DraconiumCapacitor extends ItemEnergyBase
                         + (upgrade * (TweaksConfig.draconicFluxCapBaseCap / 2));
             case 2:
                 return Integer.MAX_VALUE;
+            default:
+                break;
         }
 
         return 0;
@@ -130,6 +132,8 @@ public class DraconiumCapacitor extends ItemEnergyBase
                 return draconicTransfer;
             case 2:
                 return Integer.MAX_VALUE;
+            default:
+                break;
         }
 
         return 0;
@@ -146,6 +150,8 @@ public class DraconiumCapacitor extends ItemEnergyBase
                 return draconicTransfer;
             case 2:
                 return Integer.MAX_VALUE;
+            default:
+                break;
         }
 
         return 0;

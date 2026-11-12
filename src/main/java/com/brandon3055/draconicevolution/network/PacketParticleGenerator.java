@@ -129,6 +129,8 @@ public class PacketParticleGenerator implements IMessage {
                     case 16:
                         gen.DELAY.value = message.value;
                         break;
+                    default:
+                        break;
                 }
             }
             return null;

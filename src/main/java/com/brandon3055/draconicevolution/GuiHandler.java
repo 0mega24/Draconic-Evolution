@@ -180,6 +180,8 @@ public class GuiHandler implements IGuiHandler {
                 {
                     return new ContainerRecipeBuilder(player);
                 }
+            default:
+                break;
         }
 
         return null;
@@ -291,6 +293,8 @@ public class GuiHandler implements IGuiHandler {
                 {
                     return new GuiRecipeBuilder(player);
                 }
+            default:
+                break;
         }
 
         return null;

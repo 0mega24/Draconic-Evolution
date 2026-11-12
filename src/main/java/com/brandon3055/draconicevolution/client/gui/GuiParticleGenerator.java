@@ -281,6 +281,8 @@ public class GuiParticleGenerator extends GuiScreen {
                 page++;
                 requiresInit = true;
                 break;
+            default:
+                break;
         }
     }
 

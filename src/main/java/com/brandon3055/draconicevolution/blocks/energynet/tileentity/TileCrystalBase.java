@@ -363,6 +363,8 @@ public abstract class TileCrystalBase extends TileBCBase
                 return 64;
             case 2:
                 return 127;
+            default:
+                break;
         }
         return 0;
     }
@@ -410,6 +412,8 @@ public abstract class TileCrystalBase extends TileBCBase
                 return 16000000;
             case 2:
                 return 64000000;
+            default:
+                break;
         }
         return 0;
     }
