@@ -17,9 +17,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by Brandon on 14/08/2014.
- */
+/** Created by Brandon on 14/08/2014. */
 public class KeyInputHandler {
 
     @SideOnly(Side.CLIENT)
@@ -32,7 +30,6 @@ public class KeyInputHandler {
 
         onInput(player);
     }
-
 
     private void handlePlaceItemKey() {
         RayTraceResult mop = Minecraft.getMinecraft().objectMouseOver;
@@ -57,27 +54,25 @@ public class KeyInputHandler {
         ItemStack item = player.inventory.getStackInSlot(player.inventory.currentItem);
         if (item.getItem() == DEFeatures.dislocatorAdvanced) {
             event.setCanceled(true);
-            DraconicEvolution.network.sendToServer(new PacketDislocator(PacketDislocator.SCROLL, change < 0 ? -1 : 1, false));
+            DraconicEvolution.network.sendToServer(
+                    new PacketDislocator(PacketDislocator.SCROLL, change < 0 ? -1 : 1, false));
         }
     }
 
     private void onInput(EntityPlayer player) {
         if (KeyBindings.placeItem.isPressed()) {
             handlePlaceItemKey();
-        }
-        else if (KeyBindings.toolConfig.isPressed()) {
+        } else if (KeyBindings.toolConfig.isPressed()) {
             Minecraft.getMinecraft().displayGuiScreen(new GuiToolConfig(player));
-        }
-        else if (KeyBindings.toolProfileChange.isPressed() && HandHelper.getMainFirst(player) != null) {
+        } else if (KeyBindings.toolProfileChange.isPressed()
+                && HandHelper.getMainFirst(player) != null) {
             PacketDispatcher.dispatchToolProfileChange(false);
-        }
-        else if (KeyBindings.toggleFlight.isPressed()) {
+        } else if (KeyBindings.toggleFlight.isPressed()) {
             if (player.capabilities.allowFlying) {
                 if (player.capabilities.isFlying) {
                     player.capabilities.isFlying = false;
                     player.sendPlayerAbilities();
-                }
-                else {
+                } else {
                     player.capabilities.isFlying = true;
                     if (player.onGround) {
                         player.setPosition(player.posX, player.posY + 0.05D, player.posZ);
@@ -86,20 +81,15 @@ public class KeyInputHandler {
                     player.sendPlayerAbilities();
                 }
             }
-        }
-        else if (KeyBindings.toggleDislocator.isPressed()) {
+        } else if (KeyBindings.toggleDislocator.isPressed()) {
             PacketDispatcher.dispatchToggleDislocators();
-        }
-        else if (KeyBindings.armorProfileChange.isPressed()) {
+        } else if (KeyBindings.armorProfileChange.isPressed()) {
             PacketDispatcher.dispatchToolProfileChange(true);
-        }
-        else if (KeyBindings.cycleDigAOE.isPressed()) {
+        } else if (KeyBindings.cycleDigAOE.isPressed()) {
             PacketDispatcher.dispatchCycleDigAOE(player.isSneaking());
-        }
-        else if (KeyBindings.cycleAttackAOE.isPressed()) {
+        } else if (KeyBindings.cycleAttackAOE.isPressed()) {
             PacketDispatcher.dispatchCycleAttackAOE(player.isSneaking());
-        }
-        else if (KeyBindings.toggleShields.isPressed()) {
+        } else if (KeyBindings.toggleShields.isPressed()) {
             PacketDispatcher.dispatchToggleShields();
         }
     }

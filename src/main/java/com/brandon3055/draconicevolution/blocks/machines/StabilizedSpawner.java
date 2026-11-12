@@ -29,10 +29,9 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 25/09/2016.
- */
-public class StabilizedSpawner extends BlockMobSafe implements ITileEntityProvider, IRenderOverride {
+/** Created by brandon3055 on 25/09/2016. */
+public class StabilizedSpawner extends BlockMobSafe
+        implements ITileEntityProvider, IRenderOverride {
 
     public StabilizedSpawner() {
         super(Material.ROCK);
@@ -56,13 +55,22 @@ public class StabilizedSpawner extends BlockMobSafe implements ITileEntityProvid
     @Override
     @SideOnly(Side.CLIENT)
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileStabilizedSpawner.class, new RenderTileStabilizedSpawner());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileStabilizedSpawner.class, new RenderTileStabilizedSpawner());
 
-        ModelResourceLocation modelLocation = new ModelResourceLocation(DraconicEvolution.MOD_PREFIX + feature.getName() + "#inventory");
+        ModelResourceLocation modelLocation =
+                new ModelResourceLocation(
+                        DraconicEvolution.MOD_PREFIX + feature.getName() + "#inventory");
         ModelLoader.registerItemVariants(Item.getItemFromBlock(this), modelLocation);
-        IBakedModel bakedModel = new RenderItemStabilizedSpawner(iBakedModels -> iBakedModels.getObject(new ModelResourceLocation(DraconicEvolution.MOD_PREFIX + feature.getName())));
+        IBakedModel bakedModel =
+                new RenderItemStabilizedSpawner(
+                        iBakedModels ->
+                                iBakedModels.getObject(
+                                        new ModelResourceLocation(
+                                                DraconicEvolution.MOD_PREFIX + feature.getName())));
         ModelRegistryHelper.register(modelLocation, bakedModel);
-        ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(this), (ItemStack stack) -> modelLocation);
+        ModelLoader.setCustomMeshDefinition(
+                Item.getItemFromBlock(this), (ItemStack stack) -> modelLocation);
     }
 
     @Override
@@ -75,13 +83,15 @@ public class StabilizedSpawner extends BlockMobSafe implements ITileEntityProvid
         super.breakBlock(worldIn, pos, state);
     }
 
-    public void setStackData(ItemStack stack, String entityString, TileStabilizedSpawner.SpawnerTier tier) {
+    public void setStackData(
+            ItemStack stack, String entityString, TileStabilizedSpawner.SpawnerTier tier) {
         setStackDataTier(stack, tier);
         setStackDataEntity(stack, entityString);
     }
 
     public void setStackDataTier(ItemStack stack, TileStabilizedSpawner.SpawnerTier tier) {
-        NBTTagCompound managedData = stack.getOrCreateSubCompound("BCTileData").getCompoundTag("BCManagedData");
+        NBTTagCompound managedData =
+                stack.getOrCreateSubCompound("BCTileData").getCompoundTag("BCManagedData");
         managedData.setByte("spawnerTier", (byte) tier.ordinal());
         stack.getOrCreateSubCompound("BCTileData").setTag("BCManagedData", managedData);
     }
@@ -90,7 +100,8 @@ public class StabilizedSpawner extends BlockMobSafe implements ITileEntityProvid
         if (entityString != null) {
             ItemStack soul = new ItemStack(DEFeatures.mobSoul);
             DEFeatures.mobSoul.setEntity(MobSoul.getCachedRegName(entityString), soul);
-            NBTTagCompound managedData = stack.getOrCreateSubCompound("BCTileData").getCompoundTag("BCManagedData");
+            NBTTagCompound managedData =
+                    stack.getOrCreateSubCompound("BCTileData").getCompoundTag("BCManagedData");
             stack.getOrCreateSubCompound("BCTileData").getCompoundTag("BCManagedData");
             managedData.setTag("mobSoul", soul.serializeNBT());
             stack.getOrCreateSubCompound("BCTileData").setTag("BCManagedData", managedData);
@@ -98,12 +109,14 @@ public class StabilizedSpawner extends BlockMobSafe implements ITileEntityProvid
     }
 
     @Override
-    public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+    public boolean isSideSolid(
+            IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
         return true;
     }
 
     @Override
-    public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+    public boolean canConnectRedstone(
+            IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
         return true;
     }
 }

@@ -6,9 +6,7 @@ import net.minecraft.client.audio.ITickableSound;
 import net.minecraft.client.audio.PositionedSound;
 import net.minecraft.util.SoundCategory;
 
-/**
- * Created by brandon3055 on 24/06/2016.
- */
+/** Created by brandon3055 on 24/06/2016. */
 public class FusionRotationSound extends PositionedSound implements ITickableSound {
     private TileFusionCraftingCore tile;
 

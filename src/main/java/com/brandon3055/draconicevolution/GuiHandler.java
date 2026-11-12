@@ -51,7 +51,8 @@ public class GuiHandler implements IGuiHandler {
     }
 
     @Override
-    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+    public Object getServerGuiElement(
+            int ID, EntityPlayer player, World world, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
         TileEntity tile = world.getTileEntity(pos);
         switch (ID) {
@@ -96,13 +97,15 @@ public class GuiHandler implements IGuiHandler {
                 }
                 break;
             case GUIID_UPGRADE_MODIFIER:
-//                if (tile instanceof TileUpgradeModifier) {
-//                    return new ContainerUpgradeModifier(player, (TileUpgradeModifier) tile);
-//                }
+                //                if (tile instanceof TileUpgradeModifier) {
+                //                    return new ContainerUpgradeModifier(player,
+                // (TileUpgradeModifier) tile);
+                //                }
                 break;
             case GUIID_ENERGY_CORE:
                 if (tile instanceof TileEnergyStorageCore) {
-                    return new ContainerBCBase<>(player, (TileEnergyStorageCore) tile).addPlayerSlots(10, 116);
+                    return new ContainerBCBase<>(player, (TileEnergyStorageCore) tile)
+                            .addPlayerSlots(10, 116);
                 }
                 break;
             case GUIID_FUSION_CRAFTING:
@@ -123,29 +126,35 @@ public class GuiHandler implements IGuiHandler {
             case GUIID_JUNK_FILTER:
                 PlayerSlot slot = PlayerSlot.fromIndexes(x, y);
                 ItemStack stack = slot.getStackInSlot(player);
-                if (stack.getItem() instanceof MiningToolBase && stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
-                    IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+                if (stack.getItem() instanceof MiningToolBase
+                        && stack.hasCapability(
+                                CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+                    IItemHandler handler =
+                            stack.getCapability(
+                                    CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
                     return new ContainerJunkFilter(player, slot, handler);
                 }
                 break;
 
-//			case GUIID_CONTAINER_TEMPLATE:
-//				if (containerTemp != null && containerTemp instanceof TileContainerTemplate) {
-//					return new ContainerTemplate(player.inventory, (TileContainerTemplate) containerTemp);
-//				}
-//				break;
+                //			case GUIID_CONTAINER_TEMPLATE:
+                //				if (containerTemp != null && containerTemp instanceof TileContainerTemplate) {
+                //					return new ContainerTemplate(player.inventory, (TileContainerTemplate)
+                // containerTemp);
+                //				}
+                //				break;
 
-
-            case 2016: {
-                return new ContainerRecipeBuilder(player);
-            }
+            case 2016:
+                {
+                    return new ContainerRecipeBuilder(player);
+                }
         }
 
         return null;
     }
 
     @Override
-    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+    public Object getClientGuiElement(
+            int ID, EntityPlayer player, World world, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
         TileEntity tile = world.getTileEntity(pos);
         switch (ID) {
@@ -182,12 +191,16 @@ public class GuiHandler implements IGuiHandler {
                 break;
             case GUIID_DISSENCHANTER:
                 if (tile instanceof TileDissEnchanter) {
-                    return new GuiDissEnchanter(player, new ContainerDissEnchanter(player.inventory, (TileDissEnchanter) tile));
+                    return new GuiDissEnchanter(
+                            player,
+                            new ContainerDissEnchanter(player.inventory, (TileDissEnchanter) tile));
                 }
                 break;
             case GUIID_DRACONIUM_CHEST:
                 if (tile instanceof TileDraconiumChest) {
-                    return new GuiDraconiumChest((TileDraconiumChest) tile, new ContainerDraconiumChest(player, (TileDraconiumChest) tile));
+                    return new GuiDraconiumChest(
+                            (TileDraconiumChest) tile,
+                            new ContainerDraconiumChest(player, (TileDraconiumChest) tile));
                 }
                 break;
             case GUIID_REACTOR:
@@ -201,9 +214,10 @@ public class GuiHandler implements IGuiHandler {
                 }
                 break;
             case GUIID_UPGRADE_MODIFIER:
-//                if (tile instanceof TileUpgradeModifier) {
-//                    return new GuiUpgradeModifier(player, (TileUpgradeModifier) tile, new ContainerUpgradeModifier(player, (TileUpgradeModifier) tile));
-//                }
+                //                if (tile instanceof TileUpgradeModifier) {
+                //                    return new GuiUpgradeModifier(player, (TileUpgradeModifier)
+                // tile, new ContainerUpgradeModifier(player, (TileUpgradeModifier) tile));
+                //                }
                 break;
             case GUIID_ENERGY_CORE:
                 if (tile instanceof TileEnergyStorageCore) {
@@ -223,26 +237,29 @@ public class GuiHandler implements IGuiHandler {
             case GUIID_JUNK_FILTER:
                 PlayerSlot slot = PlayerSlot.fromIndexes(x, y);
                 ItemStack stack = slot.getStackInSlot(player);
-                if (stack.getItem() instanceof MiningToolBase && stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
-                    IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+                if (stack.getItem() instanceof MiningToolBase
+                        && stack.hasCapability(
+                                CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+                    IItemHandler handler =
+                            stack.getCapability(
+                                    CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
                     return new GuiJunkFilter(player, slot, handler);
                 }
                 break;
 
+                //			case GUIID_CONTAINER_TEMPLATE:
+                //				if (containerTemp != null && containerTemp instanceof TileContainerTemplate) {
+                //					return new GUIContainerTemplate(player.inventory, (TileContainerTemplate)
+                // containerTemp);
+                //				}
+                //				break;
 
-//			case GUIID_CONTAINER_TEMPLATE:
-//				if (containerTemp != null && containerTemp instanceof TileContainerTemplate) {
-//					return new GUIContainerTemplate(player.inventory, (TileContainerTemplate) containerTemp);
-//				}
-//				break;
-
-
-            case 2016: {
-                return new GuiRecipeBuilder(player);
-            }
+            case 2016:
+                {
+                    return new GuiRecipeBuilder(player);
+                }
         }
 
         return null;
     }
-
 }

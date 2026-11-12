@@ -13,16 +13,13 @@ import net.minecraft.util.SoundCategory;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-/**
- * Created by brandon3055 on 15/2/2016.
- */
+/** Created by brandon3055 on 15/2/2016. */
 public class PacketShieldHit implements IMessage {
     public int playerID;
     public byte shieldPowerB;
     public float shieldPowerF;
 
-    public PacketShieldHit() {
-    }
+    public PacketShieldHit() {}
 
     public PacketShieldHit(EntityPlayer playerHit, float shieldPower) {
         this.playerID = playerHit.getEntityId();
@@ -48,9 +45,21 @@ public class PacketShieldHit implements IMessage {
         public IMessage handleMessage(PacketShieldHit message, MessageContext ctx) {
             Entity entity = BrandonsCore.proxy.getClientWorld().getEntityByID(message.playerID);
             if (entity instanceof EntityPlayer) {
-                ClientEventHandler.playerShieldStatus.put((EntityPlayer) entity, new PairKV<>(message.shieldPowerF, ClientEventHandler.elapsedTicks));
-                if (!DEConfig.disableShieldHitSound){
-                    entity.world.playSound(entity.posX + 0.5D, entity.posY + 0.5D, entity.posZ + 0.5D, DESoundHandler.shieldStrike, SoundCategory.PLAYERS, 0.9F, entity.world.rand.nextFloat() * 0.1F + 0.5F + (0.3F * message.shieldPowerF), false);
+                ClientEventHandler.playerShieldStatus.put(
+                        (EntityPlayer) entity,
+                        new PairKV<>(message.shieldPowerF, ClientEventHandler.elapsedTicks));
+                if (!DEConfig.disableShieldHitSound) {
+                    entity.world.playSound(
+                            entity.posX + 0.5D,
+                            entity.posY + 0.5D,
+                            entity.posZ + 0.5D,
+                            DESoundHandler.shieldStrike,
+                            SoundCategory.PLAYERS,
+                            0.9F,
+                            entity.world.rand.nextFloat() * 0.1F
+                                    + 0.5F
+                                    + (0.3F * message.shieldPowerF),
+                            false);
                 }
             }
             return null;

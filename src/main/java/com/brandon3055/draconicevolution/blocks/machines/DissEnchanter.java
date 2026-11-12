@@ -21,21 +21,19 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 25/09/2016.
- */
+/** Created by brandon3055 on 25/09/2016. */
 public class DissEnchanter extends BlockBCore implements ITileEntityProvider, IRenderOverride {
-    protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D);
+    protected static final AxisAlignedBB AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D);
 
-    public DissEnchanter() {
-    }
+    public DissEnchanter() {}
 
     @Override
     public boolean uberIsBlockFullCube() {
         return false;
     }
 
-    //region Block
+    // region Block
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
@@ -48,19 +46,35 @@ public class DissEnchanter extends BlockBCore implements ITileEntityProvider, IR
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World worldIn,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer playerIn,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         if (!worldIn.isRemote) {
-            playerIn.openGui(DraconicEvolution.instance, GuiHandler.GUIID_DISSENCHANTER, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            playerIn.openGui(
+                    DraconicEvolution.instance,
+                    GuiHandler.GUIID_DISSENCHANTER,
+                    worldIn,
+                    pos.getX(),
+                    pos.getY(),
+                    pos.getZ());
         }
         return true;
     }
 
-    //endregion
+    // endregion
 
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileDissEnchanter.class, new RenderTileDissEnchanter());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileDissEnchanter.class, new RenderTileDissEnchanter());
     }
 
     @Override

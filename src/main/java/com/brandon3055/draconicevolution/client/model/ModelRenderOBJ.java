@@ -15,9 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Created by brandon3055 on 16/9/2015.
- */
+/** Created by brandon3055 on 16/9/2015. */
 public class ModelRenderOBJ extends ModelRenderer {
     private ResourceLocation customModel;
     //    private CCModel model;
@@ -27,21 +25,27 @@ public class ModelRenderOBJ extends ModelRenderer {
     private IBakedModel objModel;
     public float scale = 0;
 
-    public ModelRenderOBJ(ModelBase baseModel, ResourceLocation customModel, ResourceLocation texture) {
+    public ModelRenderOBJ(
+            ModelBase baseModel, ResourceLocation customModel, ResourceLocation texture) {
         super(baseModel);
         this.customModel = customModel;
 
         try {
-            objModel = OBJLoader.INSTANCE.loadModel(customModel).bake(TransformUtils.DEFAULT_TOOL, DefaultVertexFormats.ITEM, TextureUtils.bakedTextureGetter);
-        }
-        catch (Exception e) {
+            objModel =
+                    OBJLoader.INSTANCE
+                            .loadModel(customModel)
+                            .bake(
+                                    TransformUtils.DEFAULT_TOOL,
+                                    DefaultVertexFormats.ITEM,
+                                    TextureUtils.bakedTextureGetter);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-//        if (model == null) {
-//            Map<String, CCModel> map = CCModel.parseObjModels(customModel);
-//            model = CCModel.combine(map.values());
-//        }
+        //        if (model == null) {
+        //            Map<String, CCModel> map = CCModel.parseObjModels(customModel);
+        //            model = CCModel.combine(map.values());
+        //        }
 
         this.texture = texture;
     }
@@ -55,19 +59,30 @@ public class ModelRenderOBJ extends ModelRenderer {
 
             GlStateManager.translate(this.offsetX, this.offsetY, this.offsetZ);
 
-            if (this.rotateAngleX == 0.0F && this.rotateAngleY == 0.0F && this.rotateAngleZ == 0.0F) {
-                if (this.rotationPointX == 0.0F && this.rotationPointY == 0.0F && this.rotationPointZ == 0.0F) {
+            if (this.rotateAngleX == 0.0F
+                    && this.rotateAngleY == 0.0F
+                    && this.rotateAngleZ == 0.0F) {
+                if (this.rotationPointX == 0.0F
+                        && this.rotationPointY == 0.0F
+                        && this.rotationPointZ == 0.0F) {
                     GlStateManager.callList(this.displayList);
-                }
-                else {
-                    GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+                } else {
+                    GlStateManager.translate(
+                            this.rotationPointX * scale,
+                            this.rotationPointY * scale,
+                            this.rotationPointZ * scale);
                     GlStateManager.callList(this.displayList);
-                    GlStateManager.translate(-this.rotationPointX * scale, -this.rotationPointY * scale, -this.rotationPointZ * scale);
+                    GlStateManager.translate(
+                            -this.rotationPointX * scale,
+                            -this.rotationPointY * scale,
+                            -this.rotationPointZ * scale);
                 }
-            }
-            else {
+            } else {
                 GlStateManager.pushMatrix();
-                GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+                GlStateManager.translate(
+                        this.rotationPointX * scale,
+                        this.rotationPointY * scale,
+                        this.rotationPointZ * scale);
                 if (this.rotateAngleZ != 0.0F) {
                     GlStateManager.rotate(this.rotateAngleZ * 57.295776F, 0.0F, 0.0F, 1.0F);
                 }
@@ -95,7 +110,8 @@ public class ModelRenderOBJ extends ModelRenderer {
 
         if (objModel == null) {
             compiled = true;
-            LogHelper.bigError("Armor Model Display List could not be compiled!!! Armor model is broken!");
+            LogHelper.bigError(
+                    "Armor Model Display List could not be compiled!!! Armor model is broken!");
             return;
         }
 
@@ -124,7 +140,10 @@ public class ModelRenderOBJ extends ModelRenderer {
             }
 
             GlStateManager.pushMatrix();
-            GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+            GlStateManager.translate(
+                    this.rotationPointX * scale,
+                    this.rotationPointY * scale,
+                    this.rotationPointZ * scale);
             if (this.rotateAngleY != 0.0F) {
                 GlStateManager.rotate(this.rotateAngleY * 57.295776F, 0.0F, 1.0F, 0.0F);
             }
@@ -140,23 +159,31 @@ public class ModelRenderOBJ extends ModelRenderer {
             GlStateManager.callList(this.displayList);
             GlStateManager.popMatrix();
         }
-
     }
 
     @Override
     public void postRender(float scale) {
         if (!this.isHidden && this.showModel) {
-//			if(!this.compiled) {
-//				this.compileDisplayList(scale);
-//			}
+            //			if(!this.compiled) {
+            //				this.compileDisplayList(scale);
+            //			}
 
-            if (this.rotateAngleX == 0.0F && this.rotateAngleY == 0.0F && this.rotateAngleZ == 0.0F) {
-                if (this.rotationPointX != 0.0F || this.rotationPointY != 0.0F || this.rotationPointZ != 0.0F) {
-                    GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+            if (this.rotateAngleX == 0.0F
+                    && this.rotateAngleY == 0.0F
+                    && this.rotateAngleZ == 0.0F) {
+                if (this.rotationPointX != 0.0F
+                        || this.rotationPointY != 0.0F
+                        || this.rotationPointZ != 0.0F) {
+                    GlStateManager.translate(
+                            this.rotationPointX * scale,
+                            this.rotationPointY * scale,
+                            this.rotationPointZ * scale);
                 }
-            }
-            else {
-                GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+            } else {
+                GlStateManager.translate(
+                        this.rotationPointX * scale,
+                        this.rotationPointY * scale,
+                        this.rotationPointZ * scale);
                 if (this.rotateAngleZ != 0.0F) {
                     GlStateManager.rotate(this.rotateAngleZ * 57.295776F, 0.0F, 0.0F, 1.0F);
                 }
@@ -170,6 +197,5 @@ public class ModelRenderOBJ extends ModelRenderer {
                 }
             }
         }
-
     }
 }

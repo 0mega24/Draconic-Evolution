@@ -55,7 +55,15 @@ public class ParticleStarSpark extends BCParticle {
     }
 
     @Override
-    public void renderParticle(BufferBuilder vertexbuffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+    public void renderParticle(
+            BufferBuilder vertexbuffer,
+            Entity entityIn,
+            float partialTicks,
+            float rotationX,
+            float rotationZ,
+            float rotationYZ,
+            float rotationXY,
+            float rotationXZ) {
         if (particleAge == 0) {
             return;
         }
@@ -65,15 +73,59 @@ public class ParticleStarSpark extends BCParticle {
         float maxV = minV + 0.125F;
         float scale = 0.1F * this.particleScale;
 
-        float renderX = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) partialTicks - interpPosX);
-        float renderY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) partialTicks - interpPosY);
-        float renderZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) partialTicks - interpPosZ);
+        float renderX =
+                (float)
+                        (this.prevPosX
+                                + (this.posX - this.prevPosX) * (double) partialTicks
+                                - interpPosX);
+        float renderY =
+                (float)
+                        (this.prevPosY
+                                + (this.posY - this.prevPosY) * (double) partialTicks
+                                - interpPosY);
+        float renderZ =
+                (float)
+                        (this.prevPosZ
+                                + (this.posZ - this.prevPosZ) * (double) partialTicks
+                                - interpPosZ);
         int brightnessForRender = this.getBrightnessForRender(partialTicks);
         int j = brightnessForRender >> 16 & 65535;
         int k = brightnessForRender & 65535;
-        vertexbuffer.pos((double) (renderX - rotationX * scale - rotationXY * scale), (double) (renderY - rotationZ * scale), (double) (renderZ - rotationYZ * scale - rotationXZ * scale)).tex((double) maxU, (double) maxV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        vertexbuffer.pos((double) (renderX - rotationX * scale + rotationXY * scale), (double) (renderY + rotationZ * scale), (double) (renderZ - rotationYZ * scale + rotationXZ * scale)).tex((double) maxU, (double) minV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        vertexbuffer.pos((double) (renderX + rotationX * scale + rotationXY * scale), (double) (renderY + rotationZ * scale), (double) (renderZ + rotationYZ * scale + rotationXZ * scale)).tex((double) minU, (double) minV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        vertexbuffer.pos((double) (renderX + rotationX * scale - rotationXY * scale), (double) (renderY - rotationZ * scale), (double) (renderZ + rotationYZ * scale - rotationXZ * scale)).tex((double) minU, (double) maxV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+        vertexbuffer
+                .pos(
+                        (double) (renderX - rotationX * scale - rotationXY * scale),
+                        (double) (renderY - rotationZ * scale),
+                        (double) (renderZ - rotationYZ * scale - rotationXZ * scale))
+                .tex((double) maxU, (double) maxV)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(j, k)
+                .endVertex();
+        vertexbuffer
+                .pos(
+                        (double) (renderX - rotationX * scale + rotationXY * scale),
+                        (double) (renderY + rotationZ * scale),
+                        (double) (renderZ - rotationYZ * scale + rotationXZ * scale))
+                .tex((double) maxU, (double) minV)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(j, k)
+                .endVertex();
+        vertexbuffer
+                .pos(
+                        (double) (renderX + rotationX * scale + rotationXY * scale),
+                        (double) (renderY + rotationZ * scale),
+                        (double) (renderZ + rotationYZ * scale + rotationXZ * scale))
+                .tex((double) minU, (double) minV)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(j, k)
+                .endVertex();
+        vertexbuffer
+                .pos(
+                        (double) (renderX + rotationX * scale - rotationXY * scale),
+                        (double) (renderY - rotationZ * scale),
+                        (double) (renderZ + rotationYZ * scale - rotationXZ * scale))
+                .tex((double) minU, (double) maxV)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(j, k)
+                .endVertex();
     }
 }

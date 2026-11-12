@@ -7,6 +7,7 @@ import com.brandon3055.brandonscore.utils.ItemNBTHelper;
 import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.entity.EntityLootCore;
+import java.util.List;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -30,11 +31,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
-
-/**
- * Created by brandon3055 on 9/3/2016.
- */
+/** Created by brandon3055 on 9/3/2016. */
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "baubles")
 public class Magnet extends ItemBCore implements IBauble {
 
@@ -42,7 +39,6 @@ public class Magnet extends ItemBCore implements IBauble {
         this.setMaxStackSize(1);
         this.setHasSubtypes(true);
     }
-
 
     @SideOnly(Side.CLIENT)
     @SuppressWarnings("unchecked")
@@ -62,7 +58,8 @@ public class Magnet extends ItemBCore implements IBauble {
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        return super.getUnlocalizedName(stack) + (stack.getItemDamage() == 0 ? ".basic" : ".advanced");
+        return super.getUnlocalizedName(stack)
+                + (stack.getItemDamage() == 0 ? ".basic" : ".advanced");
     }
 
     @SuppressWarnings("unchecked")
@@ -72,11 +69,24 @@ public class Magnet extends ItemBCore implements IBauble {
     }
 
     private void updateMagnet(ItemStack stack, Entity entity) {
-        if (!entity.isSneaking() && entity.ticksExisted % 10 == 0 && isEnabled(stack) && entity instanceof EntityPlayer) {
+        if (!entity.isSneaking()
+                && entity.ticksExisted % 10 == 0
+                && isEnabled(stack)
+                && entity instanceof EntityPlayer) {
             World world = entity.getEntityWorld();
             int range = stack.getItemDamage() == 0 ? 8 : 32;
 
-            List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(entity.posX, entity.posY, entity.posZ, entity.posX, entity.posY, entity.posZ).grow(range, range, range));
+            List<EntityItem> items =
+                    world.getEntitiesWithinAABB(
+                            EntityItem.class,
+                            new AxisAlignedBB(
+                                            entity.posX,
+                                            entity.posY,
+                                            entity.posZ,
+                                            entity.posX,
+                                            entity.posY,
+                                            entity.posZ)
+                                    .grow(range, range, range));
 
             boolean flag = false;
 
@@ -84,7 +94,11 @@ public class Magnet extends ItemBCore implements IBauble {
                 ItemStack item = itemEntity.getItem();
 
                 String name = item.getItem().getRegistryName().toString();
-                if (itemEntity.isDead || (DEConfig.itemDislocatorBlacklistMap.containsKey(name) && (DEConfig.itemDislocatorBlacklistMap.get(name) == -1 || DEConfig.itemDislocatorBlacklistMap.get(name) == item.getItemDamage()))) {
+                if (itemEntity.isDead
+                        || (DEConfig.itemDislocatorBlacklistMap.containsKey(name)
+                                && (DEConfig.itemDislocatorBlacklistMap.get(name) == -1
+                                        || DEConfig.itemDislocatorBlacklistMap.get(name)
+                                                == item.getItemDamage()))) {
                     continue;
                 }
 
@@ -93,7 +107,9 @@ public class Magnet extends ItemBCore implements IBauble {
                     continue;
                 }
 
-                if (itemEntity.getThrower() != null && itemEntity.getThrower().equals(entity.getName()) && itemEntity.pickupDelay > 0) {
+                if (itemEntity.getThrower() != null
+                        && itemEntity.getThrower().equals(entity.getName())
+                        && itemEntity.pickupDelay > 0) {
                     continue;
                 }
 
@@ -104,8 +120,10 @@ public class Magnet extends ItemBCore implements IBauble {
 
                 BlockPos pos = new BlockPos(itemEntity);
                 boolean blocked = false;
-                for (BlockPos checkPos : BlockPos.getAllInBox(pos.add(-5, -5, -5), pos.add(5, 5, 5))) {
-                    if (world.getBlockState(checkPos).getBlock() == DEFeatures.itemDislocationInhibitor) {
+                for (BlockPos checkPos :
+                        BlockPos.getAllInBox(pos.add(-5, -5, -5), pos.add(5, 5, 5))) {
+                    if (world.getBlockState(checkPos).getBlock()
+                            == DEFeatures.itemDislocationInhibitor) {
                         blocked = true;
                         break;
                     }
@@ -122,11 +140,24 @@ public class Magnet extends ItemBCore implements IBauble {
                         itemEntity.pickupDelay = 0;
                     }
                     itemEntity.motionX = itemEntity.motionY = itemEntity.motionZ = 0;
-                    itemEntity.setPosition(entity.posX - 0.2 + (world.rand.nextDouble() * 0.4), entity.posY - 0.6, entity.posZ - 0.2 + (world.rand.nextDouble() * 0.4));
+                    itemEntity.setPosition(
+                            entity.posX - 0.2 + (world.rand.nextDouble() * 0.4),
+                            entity.posY - 0.6,
+                            entity.posZ - 0.2 + (world.rand.nextDouble() * 0.4));
                 }
             }
 
-            List<EntityLootCore> cores = world.getEntitiesWithinAABB(EntityLootCore.class, new AxisAlignedBB(entity.posX, entity.posY, entity.posZ, entity.posX, entity.posY, entity.posZ).grow(range, range, range));
+            List<EntityLootCore> cores =
+                    world.getEntitiesWithinAABB(
+                            EntityLootCore.class,
+                            new AxisAlignedBB(
+                                            entity.posX,
+                                            entity.posY,
+                                            entity.posZ,
+                                            entity.posX,
+                                            entity.posY,
+                                            entity.posZ)
+                                    .grow(range, range, range));
             for (EntityLootCore core : cores) {
                 EntityPlayer closest = world.getClosestPlayerToEntity(core, 4);
                 if (closest != null && closest != entity) {
@@ -136,15 +167,36 @@ public class Magnet extends ItemBCore implements IBauble {
                 flag = true;
 
                 if (!world.isRemote) {
-                    core.setPosition(entity.posX - 0.2 + (world.rand.nextDouble() * 0.4), entity.posY - 0.6, entity.posZ - 0.2 + (world.rand.nextDouble() * 0.4));
+                    core.setPosition(
+                            entity.posX - 0.2 + (world.rand.nextDouble() * 0.4),
+                            entity.posY - 0.6,
+                            entity.posZ - 0.2 + (world.rand.nextDouble() * 0.4));
                 }
             }
 
             if (flag && !DEConfig.disableDislocatorSound) {
-                world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, 0.5F * ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 2F));
+                world.playSound(
+                        null,
+                        entity.posX,
+                        entity.posY,
+                        entity.posZ,
+                        SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP,
+                        SoundCategory.PLAYERS,
+                        0.1F,
+                        0.5F * ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 2F));
             }
 
-            List<EntityXPOrb> xp = world.getEntitiesWithinAABB(EntityXPOrb.class, new AxisAlignedBB(entity.posX, entity.posY, entity.posZ, entity.posX, entity.posY, entity.posZ).grow(4, 4, 4));
+            List<EntityXPOrb> xp =
+                    world.getEntitiesWithinAABB(
+                            EntityXPOrb.class,
+                            new AxisAlignedBB(
+                                            entity.posX,
+                                            entity.posY,
+                                            entity.posZ,
+                                            entity.posX,
+                                            entity.posY,
+                                            entity.posZ)
+                                    .grow(4, 4, 4));
 
             EntityPlayer player = (EntityPlayer) entity;
 
@@ -155,7 +207,18 @@ public class Magnet extends ItemBCore implements IBauble {
                             continue;
                         }
                         if (!DEConfig.disableDislocatorSound) {
-                            world.playSound((EntityPlayer) null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, 0.5F * ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 1.8F));
+                            world.playSound(
+                                    (EntityPlayer) null,
+                                    entity.posX,
+                                    entity.posY,
+                                    entity.posZ,
+                                    SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP,
+                                    SoundCategory.PLAYERS,
+                                    0.1F,
+                                    0.5F
+                                            * ((world.rand.nextFloat() - world.rand.nextFloat())
+                                                            * 0.7F
+                                                    + 1.8F));
                         }
                         player.onItemPickup(orb, 1);
                         player.addExperience(orb.xpValue);
@@ -167,7 +230,8 @@ public class Magnet extends ItemBCore implements IBauble {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(
+            World world, EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (player.isSneaking()) {
             toggleEnabled(stack);
@@ -178,10 +242,12 @@ public class Magnet extends ItemBCore implements IBauble {
     @SideOnly(Side.CLIENT)
     @SuppressWarnings("unchecked")
     @Override
-    public void addInformation(ItemStack stack, World p_77624_2_, List list, ITooltipFlag p_77624_4_) {
-//        list.add(StatCollector.translateToLocal("info.de.shiftRightClickToActivate.txt"));
-//        int range = stack.getItemDamage() == 0 ? 8 : 32;
-//        list.add(InfoHelper.HITC() + range + InfoHelper.ITC() + " " + StatCollector.translateToLocal("info.de.blockRange.txt"));
+    public void addInformation(
+            ItemStack stack, World p_77624_2_, List list, ITooltipFlag p_77624_4_) {
+        //        list.add(StatCollector.translateToLocal("info.de.shiftRightClickToActivate.txt"));
+        //        int range = stack.getItemDamage() == 0 ? 8 : 32;
+        //        list.add(InfoHelper.HITC() + range + InfoHelper.ITC() + " " +
+        // StatCollector.translateToLocal("info.de.blockRange.txt"));
     }
 
     public static boolean isEnabled(ItemStack stack) {

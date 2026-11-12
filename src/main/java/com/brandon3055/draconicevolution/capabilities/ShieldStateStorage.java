@@ -6,18 +6,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 
-/**
- * Created by FoxMcloud5655 on 26/08/2019.
- */
+/** Created by FoxMcloud5655 on 26/08/2019. */
 public class ShieldStateStorage implements IStorage<IShieldState> {
 
-	@Override
-	public NBTBase writeNBT(Capability capability, IShieldState instance, EnumFacing side) {
-		return new NBTTagByte((byte)(instance.getShieldState() ? 1 : 0));
-	}
+    @Override
+    public NBTBase writeNBT(Capability capability, IShieldState instance, EnumFacing side) {
+        return new NBTTagByte((byte) (instance.getShieldState() ? 1 : 0));
+    }
 
-	@Override
-	public void readNBT(Capability capability, IShieldState instance, EnumFacing side, NBTBase nbt) {
-		instance.setShieldState(((NBTTagByte)nbt).getByte() > 0);
-	}
+    @Override
+    public void readNBT(
+            Capability capability, IShieldState instance, EnumFacing side, NBTBase nbt) {
+        instance.setShieldState(((NBTTagByte) nbt).getByte() > 0);
+    }
 }

@@ -11,9 +11,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 22/09/2016.
- */
+/** Created by brandon3055 on 22/09/2016. */
 public class ReactorPart extends ItemBCore implements IRenderOverride {
 
     public ReactorPart() {

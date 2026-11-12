@@ -20,8 +20,7 @@ public class PacketDislocatorUpdateRequest implements IMessage {
     private LinkData data;
     private boolean isRequest;
 
-    public PacketDislocatorUpdateRequest() {
-    }
+    public PacketDislocatorUpdateRequest() {}
 
     public PacketDislocatorUpdateRequest(String linkID) {
         this.linkID = linkID;
@@ -42,8 +41,7 @@ public class PacketDislocatorUpdateRequest implements IMessage {
             NBTTagCompound compound = ByteBufUtils.readTag(buf);
             if (compound == null || compound.hasNoTags()) {
                 data = null;
-            }
-            else {
+            } else {
                 data = new LinkData(null).fromNBT(compound);
             }
         }
@@ -54,11 +52,13 @@ public class PacketDislocatorUpdateRequest implements IMessage {
         buf.writeBoolean(isRequest);
         ByteBufUtils.writeUTF8String(buf, linkID);
         if (!isRequest) {
-            ByteBufUtils.writeTag(buf, data == null ? new NBTTagCompound() : data.toNBT(new NBTTagCompound()));
+            ByteBufUtils.writeTag(
+                    buf, data == null ? new NBTTagCompound() : data.toNBT(new NBTTagCompound()));
         }
     }
 
-    public static class Handler extends MessageHandlerWrapper<PacketDislocatorUpdateRequest, IMessage> {
+    public static class Handler
+            extends MessageHandlerWrapper<PacketDislocatorUpdateRequest, IMessage> {
 
         @Override
         public IMessage handleMessage(PacketDislocatorUpdateRequest message, MessageContext ctx) {
@@ -66,20 +66,21 @@ public class PacketDislocatorUpdateRequest implements IMessage {
                 EntityPlayerMP player = ctx.getServerHandler().player;
                 DislocatorLinkHandler data = DislocatorLinkHandler.getDataInstance(player.world);
                 LinkData reply = null;
-                if (data != null && DislocatorLinkHandler.getLinkPos(player.world, message.linkID) != null) {
+                if (data != null
+                        && DislocatorLinkHandler.getLinkPos(player.world, message.linkID) != null) {
                     reply = data.linkDataMap.get(message.linkID);
                     LogHelper.dev("Reply: " + reply.isPlayer);
                 }
 
-                DraconicEvolution.network.sendTo(new PacketDislocatorUpdateRequest(message.linkID, reply), player);
-            }
-            else {
-                DislocatorLinkHandler data = DislocatorLinkHandler.getDataInstance(BrandonsCore.proxy.getClientWorld());
+                DraconicEvolution.network.sendTo(
+                        new PacketDislocatorUpdateRequest(message.linkID, reply), player);
+            } else {
+                DislocatorLinkHandler data =
+                        DislocatorLinkHandler.getDataInstance(BrandonsCore.proxy.getClientWorld());
                 if (data != null) {
                     if (message.data == null) {
                         data.linkDataMap.remove(message.linkID);
-                    }
-                    else {
+                    } else {
                         data.linkDataMap.put(message.linkID, message.data);
                     }
                 }
@@ -87,6 +88,5 @@ public class PacketDislocatorUpdateRequest implements IMessage {
 
             return null;
         }
-
     }
 }

@@ -8,6 +8,9 @@ import com.brandon3055.brandonscore.lib.ChatHelper;
 import com.brandon3055.brandonscore.utils.ItemNBTHelper;
 import com.brandon3055.draconicevolution.api.ICrystalBinder;
 import com.brandon3055.draconicevolution.api.ICrystalLink;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -25,47 +28,52 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Created by brandon3055 on 26/11/2016.
- */
+/** Created by brandon3055 on 26/11/2016. */
 public class BinderHandler {
 
     /**
-     * Handles binding and un-binding an ICrystalLink to the tool.
-     * Also passes the click through to the bound ICrystalLink#binderUsed method when appropriate.
+     * Handles binding and un-binding an ICrystalLink to the tool. Also passes the click through to
+     * the bound ICrystalLink#binderUsed method when appropriate.
      *
      * @return true if an operation occurred (Cancels the right click event)
      */
-    public static boolean onBinderUse(EntityPlayer player, EnumHand hand, World world, BlockPos blockClicked, @Nonnull ItemStack binder, EnumFacing sideClicked) {
+    public static boolean onBinderUse(
+            EntityPlayer player,
+            EnumHand hand,
+            World world,
+            BlockPos blockClicked,
+            @Nonnull ItemStack binder,
+            EnumFacing sideClicked) {
         TileEntity tile = world.getTileEntity(blockClicked);
         boolean isBound = isBound(binder);
 
-        //If the tile is linkable and the player is sneaking bind the tile to the tool.
+        // If the tile is linkable and the player is sneaking bind the tile to the tool.
         if (tile instanceof ICrystalLink && player.isSneaking()) {
             bind(binder, blockClicked);
             if (world.isRemote) {
-                ChatHelper.indexedTrans(player, "eNet.de.posSavedToTool.info", TextFormatting.GREEN, -442611624);
+                ChatHelper.indexedTrans(
+                        player, "eNet.de.posSavedToTool.info", TextFormatting.GREEN, -442611624);
                 player.swingArm(hand);
             }
             return true;
         }
 
-        //If the tool is not bound but the player clicked on a linkable block then give them a hint.
-        //Note: We don't want to do this if they did not click on a linkable block because that would break other mods that implement ICrystalBinder in their tools.
+        // If the tool is not bound but the player clicked on a linkable block then give them a
+        // hint.
+        // Note: We don't want to do this if they did not click on a linkable block because that
+        // would break other mods that implement ICrystalBinder in their tools.
         if (tile instanceof ICrystalLink && !isBound) {
-            ChatHelper.indexedTrans(player, "eNet.de.toolNotBound.info", TextFormatting.RED, -442611624);
+            ChatHelper.indexedTrans(
+                    player, "eNet.de.toolNotBound.info", TextFormatting.RED, -442611624);
             return true;
         }
 
-        //If the tool is bound then we now want to bass the call onto the bound ICrystalLink tile.
+        // If the tool is bound then we now want to bass the call onto the bound ICrystalLink tile.
         if (isBound) {
             BlockPos boundLinkable = getBound(binder);
             if (boundLinkable.equals(blockClicked)) {
-                ChatHelper.indexedTrans(player, "eNet.de.linkToSelf.info", TextFormatting.RED, -442611624);
+                ChatHelper.indexedTrans(
+                        player, "eNet.de.linkToSelf.info", TextFormatting.RED, -442611624);
                 return true;
             }
             TileEntity boundTile = world.getTileEntity(boundLinkable);
@@ -73,9 +81,9 @@ public class BinderHandler {
                 if (((ICrystalLink) boundTile).binderUsed(player, blockClicked, sideClicked)) {
                     player.swingArm(hand);
                 }
-            }
-            else {
-                ChatHelper.indexedTrans(player, "eNet.de.boundToInvalid.info", TextFormatting.RED, -442611624);
+            } else {
+                ChatHelper.indexedTrans(
+                        player, "eNet.de.boundToInvalid.info", TextFormatting.RED, -442611624);
             }
             return true;
         }
@@ -84,11 +92,14 @@ public class BinderHandler {
     }
 
     private static boolean isBound(ItemStack stack) {
-        return stack.hasTagCompound() && stack.getTagCompound().hasKey(ICrystalBinder.BINDER_TAG, 11);
+        return stack.hasTagCompound()
+                && stack.getTagCompound().hasKey(ICrystalBinder.BINDER_TAG, 11);
     }
 
     private static void bind(ItemStack stack, BlockPos pos) {
-        ItemNBTHelper.getCompound(stack).setIntArray(ICrystalBinder.BINDER_TAG, new int[]{pos.getX(), pos.getY(), pos.getZ()});
+        ItemNBTHelper.getCompound(stack)
+                .setIntArray(
+                        ICrystalBinder.BINDER_TAG, new int[] {pos.getX(), pos.getY(), pos.getZ()});
     }
 
     private static BlockPos getBound(ItemStack stack) {
@@ -99,7 +110,8 @@ public class BinderHandler {
     public static boolean clearBinder(EntityPlayer player, @Nonnull ItemStack stack) {
         if (stack.hasTagCompound() && stack.getTagCompound().hasKey(ICrystalBinder.BINDER_TAG)) {
             stack.getTagCompound().removeTag(ICrystalBinder.BINDER_TAG);
-            ChatHelper.indexedTrans(player, "eNet.de.posCleared.info", TextFormatting.GREEN, -442611624);
+            ChatHelper.indexedTrans(
+                    player, "eNet.de.posCleared.info", TextFormatting.GREEN, -442611624);
             return true;
         }
         return false;
@@ -108,7 +120,8 @@ public class BinderHandler {
     public static Map<AxisAlignedBB, CCModel> modelCache = new HashMap<>();
 
     @SideOnly(Side.CLIENT)
-    public static void renderWorldOverlay(EntityPlayerSP player, World world, ItemStack stack, Minecraft mc, float partialTicks) {
+    public static void renderWorldOverlay(
+            EntityPlayerSP player, World world, ItemStack stack, Minecraft mc, float partialTicks) {
         if (!isBound(stack)) {
             return;
         }
@@ -127,7 +140,9 @@ public class BinderHandler {
         GlStateManager.translate(pos.getX() - offsetX, pos.getY() - offsetY, pos.getZ() - offsetZ);
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.color(valid ? 0 : 1, valid ? 1 : 0, 0, 0.5F);
         GlStateManager.disableDepth();
 
@@ -142,7 +157,8 @@ public class BinderHandler {
 
     private static CCModel modelForAABB(AxisAlignedBB aabb) {
         if (!modelCache.containsKey(aabb)) {
-            modelCache.put(aabb, CCModel.newModel(GL11.GL_QUADS, 24).generateBlock(0, new Cuboid6(aabb)));
+            modelCache.put(
+                    aabb, CCModel.newModel(GL11.GL_QUADS, 24).generateBlock(0, new Cuboid6(aabb)));
         }
 
         return modelCache.get(aabb);

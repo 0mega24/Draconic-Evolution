@@ -15,6 +15,8 @@ import com.brandon3055.draconicevolution.handlers.CustomArmorHandler.ArmorSummer
 import com.brandon3055.draconicevolution.items.tools.IAOEWeapon;
 import com.brandon3055.draconicevolution.items.tools.Magnet;
 import com.brandon3055.draconicevolution.items.tools.MiningToolBase;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -22,12 +24,10 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentTranslation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ServerPacketHandler implements ICustomPacketHandler.IServerPacketHandler {
     @Override
-    public void handlePacket(PacketCustom packet, EntityPlayerMP sender, INetHandlerPlayServer handler) {
+    public void handlePacket(
+            PacketCustom packet, EntityPlayerMP sender, INetHandlerPlayServer handler) {
         switch (packet.getType()) {
             case 1:
                 toggleDislocators(sender);
@@ -75,7 +75,10 @@ public class ServerPacketHandler implements ICustomPacketHandler.IServerPacketHa
         for (ItemStack dislocator : dislocators) {
             Magnet.toggleEnabled(dislocator);
             boolean enabled = Magnet.isEnabled(dislocator);
-            ChatHelper.indexedTrans(player, "chat.item_dislocator_" + (enabled ? "activate" : "deactivate") + ".msg", -30553055);
+            ChatHelper.indexedTrans(
+                    player,
+                    "chat.item_dislocator_" + (enabled ? "activate" : "deactivate") + ".msg",
+                    -30553055);
         }
     }
 
@@ -89,12 +92,17 @@ public class ServerPacketHandler implements ICustomPacketHandler.IServerPacketHa
                     ToolConfigHelper.incrementProfile(stack);
                     int newProfile = ToolConfigHelper.getProfile(stack);
                     String name = ToolConfigHelper.getProfileName(stack, newProfile);
-                    ChatHelper.indexedTrans(player, new TextComponentTranslation("config.de.armor_profile_" + i + ".msg").getFormattedText() + " " + name, -30553045 + i);
+                    ChatHelper.indexedTrans(
+                            player,
+                            new TextComponentTranslation("config.de.armor_profile_" + i + ".msg")
+                                            .getFormattedText()
+                                    + " "
+                                    + name,
+                            -30553045 + i);
                 }
                 i++;
             }
-        }
-        else {
+        } else {
             ItemStack stack = HandHelper.getMainFirst(player);
             if (!stack.isEmpty() && stack.getItem() instanceof IConfigurableItem) {
                 ToolConfigHelper.incrementProfile(stack);
@@ -117,8 +125,7 @@ public class ServerPacketHandler implements ICustomPacketHandler.IServerPacketHa
 
             if (depth) {
                 tool.setMiningDepth(stack, value);
-            }
-            else {
+            } else {
                 tool.setMiningAOE(stack, value);
             }
         }
@@ -137,8 +144,7 @@ public class ServerPacketHandler implements ICustomPacketHandler.IServerPacketHa
                 if (value < 0) {
                     value = maxValue;
                 }
-            }
-            else {
+            } else {
                 value += 0.5;
                 if (value > maxValue) {
                     value = 0;
@@ -147,15 +153,19 @@ public class ServerPacketHandler implements ICustomPacketHandler.IServerPacketHa
 
             weapon.setWeaponAOE(stack, value);
         }
-
     }
 
     private void toggleShields(EntityPlayer player) {
-    	ArmorSummery summery = new ArmorSummery().getSummery(player);
-    	if (summery != null) {
-    		IShieldState shieldToggle = player.getCapability(ShieldStateProvider.PLAYER_CAP, null);
-    		shieldToggle.setShieldState(!shieldToggle.getShieldState());
-            ChatHelper.indexedTrans(player, "chat.shields_" + (shieldToggle.getShieldState() ? "activated" : "deactivated") + ".msg", -30553055);
+        ArmorSummery summery = new ArmorSummery().getSummery(player);
+        if (summery != null) {
+            IShieldState shieldToggle = player.getCapability(ShieldStateProvider.PLAYER_CAP, null);
+            shieldToggle.setShieldState(!shieldToggle.getShieldState());
+            ChatHelper.indexedTrans(
+                    player,
+                    "chat.shields_"
+                            + (shieldToggle.getShieldState() ? "activated" : "deactivated")
+                            + ".msg",
+                    -30553055);
         }
     }
 }

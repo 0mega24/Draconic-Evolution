@@ -4,6 +4,7 @@ import com.brandon3055.brandonscore.client.particle.BCEffectHandler;
 import com.brandon3055.brandonscore.handlers.ProcessHandler;
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.draconicevolution.client.DEParticles;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,14 +14,11 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 
-import java.util.List;
-
-/**
- * Created by brandon3055 on 3/10/2015.
- */
+/** Created by brandon3055 on 3/10/2015. */
 public class EntityChaosImplosion extends Entity {
-    protected static final DataParameter<Integer> TICKS = EntityDataManager.<Integer>createKey(EntityChaosImplosion.class, DataSerializers.VARINT);
-
+    protected static final DataParameter<Integer> TICKS =
+            EntityDataManager.<Integer>createKey(
+                    EntityChaosImplosion.class, DataSerializers.VARINT);
 
     public EntityChaosImplosion(World world) {
         super(world);
@@ -48,11 +46,13 @@ public class EntityChaosImplosion extends Entity {
 
         if (ticksExisted < 30 && ticksExisted % 5 == 0 && world.isRemote) {
             BCEffectHandler.spawnFX(DEParticles.CHAOS_IMPLOSION, world, pos, pos, 1024D, 1);
-//            DraconicEvolution.proxy.spawnParticle(new Particles.ChaosExpansionParticle(world, posX, posY, posZ, false), 512);
+            //            DraconicEvolution.proxy.spawnParticle(new
+            // Particles.ChaosExpansionParticle(world, posX, posY, posZ, false), 512);
         }
         if (ticksExisted >= 100 && ticksExisted < 130 && ticksExisted % 5 == 0 && world.isRemote) {
             BCEffectHandler.spawnFX(DEParticles.CHAOS_IMPLOSION, world, pos, pos, 1024D, 2);
-//            DraconicEvolution.proxy.spawnParticle(new Particles.ChaosExpansionParticle(world, posX, posY, posZ, true), 512);
+            //            DraconicEvolution.proxy.spawnParticle(new
+            // Particles.ChaosExpansionParticle(world, posX, posY, posZ, true), 512);
         }
         if (ticksExisted < 100) {
             return;
@@ -64,7 +64,8 @@ public class EntityChaosImplosion extends Entity {
                 double y = posY - 8 + rand.nextDouble() * 16;
                 double z = posZ - 18 + rand.nextDouble() * 36;
                 if (world.isRemote) {
-                    BCEffectHandler.spawnFX(DEParticles.CHAOS_IMPLOSION, world, new Vec3D(x, y, z), pos, 512D, 0);
+                    BCEffectHandler.spawnFX(
+                            DEParticles.CHAOS_IMPLOSION, world, new Vec3D(x, y, z), pos, 512D, 0);
                 }
             }
 
@@ -75,7 +76,8 @@ public class EntityChaosImplosion extends Entity {
 
         if (ticksExisted == 700 && !world.isRemote) {
             BCEffectHandler.spawnFX(DEParticles.CHAOS_IMPLOSION, world, pos, pos, 1024D, 5);
-            ProcessHandler.addProcess(new ProcessChaosImplosion(world, (int) posX, (int) posY, (int) posZ));
+            ProcessHandler.addProcess(
+                    new ProcessChaosImplosion(world, (int) posX, (int) posY, (int) posZ));
         }
 
         if (ticksExisted > 720) {
@@ -83,12 +85,14 @@ public class EntityChaosImplosion extends Entity {
         }
     }
 
-
     private void shakeScreen() {
         double intensity = (ticksExisted - 130) / 100D;
         if (intensity > 1D) intensity = 1D;
 
-        @SuppressWarnings("unchecked") List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getEntityBoundingBox().grow(200, 200, 200));
+        @SuppressWarnings("unchecked")
+        List<EntityPlayer> players =
+                world.getEntitiesWithinAABB(
+                        EntityPlayer.class, getEntityBoundingBox().grow(200, 200, 200));
 
         for (EntityPlayer player : players) {
             double x = (rand.nextDouble() - 0.5) * 2 * intensity;
@@ -100,12 +104,8 @@ public class EntityChaosImplosion extends Entity {
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-
-    }
+    protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {}
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-
-    }
+    protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {}
 }

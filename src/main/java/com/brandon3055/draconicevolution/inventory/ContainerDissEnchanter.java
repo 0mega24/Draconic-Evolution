@@ -9,9 +9,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-/**
- * Created by brandon3055 on 30/3/2016.
- */
+/** Created by brandon3055 on 30/3/2016. */
 public class ContainerDissEnchanter extends ContainerBCBase<TileDissEnchanter> {
 
     public ContainerDissEnchanter(InventoryPlayer invPlayer, TileDissEnchanter tile) {
@@ -22,7 +20,6 @@ public class ContainerDissEnchanter extends ContainerBCBase<TileDissEnchanter> {
         addSlotToContainer(new SlotCheckValid(tile, 0, 27, 23));
         addSlotToContainer(new SlotCheckValid(tile, 1, 76, 23));
         addSlotToContainer(new SlotCheckValid(tile, 2, 134, 23));
-
     }
 
     @Override
@@ -42,22 +39,20 @@ public class ContainerDissEnchanter extends ContainerBCBase<TileDissEnchanter> {
                 if (!mergeItemStack(stack, 0, 36, false)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else {
+            } else {
                 if (stack.getItem() == Items.BOOK) {
                     if (!mergeItemStack(stack, 36, 36 + 2, false)) {
                         return ItemStack.EMPTY;
                     }
-                }
-                else if (!tile.isItemValidForSlot(0, stack) || !mergeItemStack(stack, 36, 36 + tile.getSizeInventory(), false)) {
+                } else if (!tile.isItemValidForSlot(0, stack)
+                        || !mergeItemStack(stack, 36, 36 + tile.getSizeInventory(), false)) {
                     return ItemStack.EMPTY;
                 }
             }
 
             if (stack.getCount() == 0) {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else {
+            } else {
                 slot.onSlotChanged();
             }
 

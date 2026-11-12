@@ -27,9 +27,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 30/3/2016.
- */
+/** Created by brandon3055 on 30/3/2016. */
 public class EnergyStorageCore extends BlockBCore implements ITileEntityProvider, IRenderOverride {
 
     public static final PropertyInteger RENDER_TYPE = PropertyInteger.create("modelrender", 0, 2);
@@ -37,7 +35,8 @@ public class EnergyStorageCore extends BlockBCore implements ITileEntityProvider
 
     public EnergyStorageCore() {
         super(Material.IRON);
-        this.setDefaultState(blockState.getBaseState().withProperty(RENDER_TYPE, 0).withProperty(ACTIVE, false));
+        this.setDefaultState(
+                blockState.getBaseState().withProperty(RENDER_TYPE, 0).withProperty(ACTIVE, false));
     }
 
     @Override
@@ -45,7 +44,7 @@ public class EnergyStorageCore extends BlockBCore implements ITileEntityProvider
         return false;
     }
 
-    //region BlockState
+    // region BlockState
 
     @Override
     protected BlockStateContainer createBlockState() {
@@ -65,30 +64,45 @@ public class EnergyStorageCore extends BlockBCore implements ITileEntityProvider
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity core = worldIn.getTileEntity(pos);
-        return state.withProperty(RENDER_TYPE, 0).withProperty(ACTIVE, core instanceof TileEnergyStorageCore && ((TileEnergyStorageCore) core).active.value);
+        return state.withProperty(RENDER_TYPE, 0)
+                .withProperty(
+                        ACTIVE,
+                        core instanceof TileEnergyStorageCore
+                                && ((TileEnergyStorageCore) core).active.value);
     }
 
-    //endregion
+    // endregion
 
-
-    //region Render Stuff
-
+    // region Render Stuff
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return getActualState(state, worldIn, pos).getValue(ACTIVE) ? new AxisAlignedBB(0, 0, 0, 0, 0, 0) : super.getCollisionBoundingBox(state, worldIn, pos);
+    public AxisAlignedBB getCollisionBoundingBox(
+            IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+        return getActualState(state, worldIn, pos).getValue(ACTIVE)
+                ? new AxisAlignedBB(0, 0, 0, 0, 0, 0)
+                : super.getCollisionBoundingBox(state, worldIn, pos);
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(
+            IBlockState state, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return !state.getValue(ACTIVE);
     }
 
-    //endregion
+    // endregion
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer playerIn,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         TileEntity core = world.getTileEntity(pos);
 
         if (core instanceof TileEnergyStorageCore && !world.isRemote) {
@@ -98,7 +112,7 @@ public class EnergyStorageCore extends BlockBCore implements ITileEntityProvider
         return true;
     }
 
-    //region Interfaces
+    // region Interfaces
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
@@ -109,9 +123,14 @@ public class EnergyStorageCore extends BlockBCore implements ITileEntityProvider
     @Override
     public void registerRenderer(Feature feature) {
         Item item = Item.getItemFromBlock(this);
-        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(ResourceHelperDE.RESOURCE_PREFIX + feature.getName(), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(
+                item,
+                0,
+                new ModelResourceLocation(
+                        ResourceHelperDE.RESOURCE_PREFIX + feature.getName(), "inventory"));
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEnergyStorageCore.class, new RenderTileEnergyStorageCore());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileEnergyStorageCore.class, new RenderTileEnergyStorageCore());
     }
 
     @Override
@@ -119,5 +138,5 @@ public class EnergyStorageCore extends BlockBCore implements ITileEntityProvider
         return false;
     }
 
-    //endregion
+    // endregion
 }

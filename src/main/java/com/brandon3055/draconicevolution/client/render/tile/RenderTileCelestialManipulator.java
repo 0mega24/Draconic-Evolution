@@ -8,14 +8,24 @@ import net.minecraft.client.entity.EntityPlayerSP;
 
 public class RenderTileCelestialManipulator extends TESRBase<TileCelestialManipulator> {
     @Override
-    public void render(TileCelestialManipulator te, double x, double y, double z, float partialTicks, int destroyStage, float a) {
+    public void render(
+            TileCelestialManipulator te,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            int destroyStage,
+            float a) {
         EntityPlayerSP player = Minecraft.getMinecraft().player;
         if (player == null) {
             return;
         }
-        EffectTrackerCelestialManipulator.interpPosX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
-        EffectTrackerCelestialManipulator.interpPosY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
-        EffectTrackerCelestialManipulator.interpPosZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
+        EffectTrackerCelestialManipulator.interpPosX =
+                player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
+        EffectTrackerCelestialManipulator.interpPosY =
+                player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
+        EffectTrackerCelestialManipulator.interpPosZ =
+                player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
 
         te.renderEffects(partialTicks);
     }

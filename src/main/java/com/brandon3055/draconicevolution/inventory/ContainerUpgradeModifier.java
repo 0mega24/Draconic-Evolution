@@ -1,10 +1,10 @@
 package com.brandon3055.draconicevolution.inventory;
 
 //
-///**
+/// **
 // * Created by brandon3055 on 31/05/2016.
 // */
-//public class ContainerUpgradeModifier extends ContainerBCBase<TileUpgradeModifier> {
+// public class ContainerUpgradeModifier extends ContainerBCBase<TileUpgradeModifier> {
 //
 //    private boolean slotsActive = true;
 //
@@ -17,7 +17,8 @@ package com.brandon3055.draconicevolution.inventory;
 //
 //        for (int y = 0; y < 3; y++) {
 //            for (int x = 0; x < 9; x++) {
-//                addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, 8 + 18 * x, 111 + y * 18));
+//                addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, 8 + 18 * x, 111 + y *
+// 18));
 //            }
 //        }
 //
@@ -44,15 +45,19 @@ package com.brandon3055.draconicevolution.inventory;
 //    }
 //
 //    private void updateSlotState(){
-//        if (tile.getStackInSlot(0) != null && tile.getStackInSlot(0).getItem() instanceof IUpgradableItem && slotsActive) {
+//        if (tile.getStackInSlot(0) != null && tile.getStackInSlot(0).getItem() instanceof
+// IUpgradableItem && slotsActive) {
 //            for (Object o : inventorySlots) {
-//                if (o instanceof Slot && !(o instanceof SlotUpgradable)) ((Slot)o).xDisplayPosition += 1000;
+//                if (o instanceof Slot && !(o instanceof SlotUpgradable))
+// ((Slot)o).xDisplayPosition += 1000;
 //            }
 //            slotsActive = false;
 //        }
-//        else if ((tile.getStackInSlot(0) == null || !(tile.getStackInSlot(0).getItem() instanceof IUpgradableItem)) && !slotsActive) {
+//        else if ((tile.getStackInSlot(0) == null || !(tile.getStackInSlot(0).getItem() instanceof
+// IUpgradableItem)) && !slotsActive) {
 //            for (Object o : inventorySlots) {
-//                if (o instanceof Slot && !(o instanceof SlotUpgradable)) ((Slot)o).xDisplayPosition -= 1000;
+//                if (o instanceof Slot && !(o instanceof SlotUpgradable))
+// ((Slot)o).xDisplayPosition -= 1000;
 //            }
 //            slotsActive = true;
 //        }
@@ -106,4 +111,4 @@ package com.brandon3055.draconicevolution.inventory;
 //            return super.isItemValid(stack);
 //        }
 //    }
-//}
+// }

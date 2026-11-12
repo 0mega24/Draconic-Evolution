@@ -8,16 +8,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 19/11/2016.
- */
+/** Created by brandon3055 on 19/11/2016. */
 public class TileCrystalRelay extends TileCrystalBase {
 
     public TileCrystalRelay() {
         super();
     }
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public EnergyCrystal.CrystalType getType() {
@@ -40,8 +38,7 @@ public class TileCrystalRelay extends TileCrystalBase {
         if (dist == 0) {
             if (pos.getY() > linkTo.getY()) {
                 return thisVec.subtract(0, 0.4, 0);
-            }
-            else {
+            } else {
                 return thisVec.subtract(0, -0.4, 0);
             }
         }
@@ -59,6 +56,6 @@ public class TileCrystalRelay extends TileCrystalBase {
         return true;
     }
 
-    //endregion
+    // endregion
 
 }

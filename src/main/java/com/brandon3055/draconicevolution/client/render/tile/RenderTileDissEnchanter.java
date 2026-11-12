@@ -8,14 +8,22 @@ import net.minecraft.item.ItemStack;
 
 public class RenderTileDissEnchanter extends TESRBase<TileDissEnchanter> {
     @Override
-    public void render(TileDissEnchanter te, double x, double y, double z, float partialTicks, int destroyStage, float a) {
+    public void render(
+            TileDissEnchanter te,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            int destroyStage,
+            float a) {
         ItemStack input = te.getStackInSlot(0);
 
         if (!input.isEmpty()) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(x + 0.5, y + 0.75 + 0.3, z + 0.5);
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            GlStateManager.rotate((ClientEventHandler.elapsedTicks + partialTicks) * 0.8F, 0F, -1F, 0F);
+            GlStateManager.rotate(
+                    (ClientEventHandler.elapsedTicks + partialTicks) * 0.8F, 0F, -1F, 0F);
             renderItem(input);
             GlStateManager.popMatrix();
         }

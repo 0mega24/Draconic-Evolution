@@ -11,20 +11,17 @@ import com.brandon3055.brandonscore.client.particle.BCParticle;
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.client.DEParticles;
+import java.util.Random;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Random;
-
-/**
- * Created by brandon3055 on 23/06/2016.
- */
+/** Created by brandon3055 on 23/06/2016. */
 public class EffectTrackerCelestialManipulator {
     public static double interpPosX = 0;
     public static double interpPosY = 0;
@@ -73,7 +70,8 @@ public class EffectTrackerCelestialManipulator {
 
         renderBolt = 1;
         boltSeed = rand.nextLong();
-        BCEffectHandler.spawnFXDirect(DEParticles.DE_SHEET, new SubParticle(world, effectFocus), 128, true);
+        BCEffectHandler.spawnFXDirect(
+                DEParticles.DE_SHEET, new SubParticle(world, effectFocus), 128, true);
 
         rotationSpeed = -1F;
         rotation += rotationSpeed;
@@ -82,47 +80,84 @@ public class EffectTrackerCelestialManipulator {
     public void renderEffect(Tessellator tessellator, float partialTicks) {
         BufferBuilder vertexbuffer = tessellator.getBuffer();
         CCRenderState ccrs = CCRenderState.instance();
-        //region Icosahedron
+        // region Icosahedron
 
-        float relativeX = (float) (this.prevPos.x + (this.pos.x - this.prevPos.x) * (double) partialTicks - interpPosX);
-        float relativeY = (float) (this.prevPos.y + (this.pos.y - this.prevPos.y) * (double) partialTicks - interpPosY);
-        float relativeZ = (float) (this.prevPos.z + (this.pos.z - this.prevPos.z) * (double) partialTicks - interpPosZ);
-        float correctX = (float) (this.prevPos.x + (this.pos.x - this.prevPos.x) * (double) partialTicks);
-        float correctY = (float) (this.prevPos.y + (this.pos.y - this.prevPos.y) * (double) partialTicks);
-        float correctZ = (float) (this.prevPos.z + (this.pos.z - this.prevPos.z) * (double) partialTicks);
+        float relativeX =
+                (float)
+                        (this.prevPos.x
+                                + (this.pos.x - this.prevPos.x) * (double) partialTicks
+                                - interpPosX);
+        float relativeY =
+                (float)
+                        (this.prevPos.y
+                                + (this.pos.y - this.prevPos.y) * (double) partialTicks
+                                - interpPosY);
+        float relativeZ =
+                (float)
+                        (this.prevPos.z
+                                + (this.pos.z - this.prevPos.z) * (double) partialTicks
+                                - interpPosZ);
+        float correctX =
+                (float) (this.prevPos.x + (this.pos.x - this.prevPos.x) * (double) partialTicks);
+        float correctY =
+                (float) (this.prevPos.y + (this.pos.y - this.prevPos.y) * (double) partialTicks);
+        float correctZ =
+                (float) (this.prevPos.z + (this.pos.z - this.prevPos.z) * (double) partialTicks);
 
         GlStateManager.pushMatrix();
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 200, 200);
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.color(red, green, blue, alpha);
         GlStateManager.translate(relativeX, relativeY, relativeZ);
         GlStateManager.rotate(rotation + (partialTicks * rotationSpeed), 0F, 1F, 0F);
         GlStateManager.translate(-relativeX, -relativeY, -relativeZ);
         ccrs.reset();
         ccrs.startDrawing(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL, vertexbuffer);
-        Matrix4 pearlMat = RenderUtils.getMatrix(new Vector3(relativeX, relativeY, relativeZ), new Rotation(0F, new Vector3(0, 0, 0)), 0.15 * scale);
+        Matrix4 pearlMat =
+                RenderUtils.getMatrix(
+                        new Vector3(relativeX, relativeY, relativeZ),
+                        new Rotation(0F, new Vector3(0, 0, 0)),
+                        0.15 * scale);
         ccrs.bind(vertexbuffer);
         CCModelLibrary.icosahedron7.render(ccrs, pearlMat);
         tessellator.draw();
         GlStateManager.popMatrix();
         GlStateManager.color(1F, 1F, 1F, 1F);
 
-        //endregion
+        // endregion
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(relativeX, relativeY, relativeZ);
 
         int segments = Math.max(4, (int) (8 * scale));
         if (renderBolt > 0 && scale > 0 && renderBolts) {
-            RenderEnergyBolt.renderBoltBetween(new Vec3D(), effectFocus.copy().subtract(correctX, correctY, correctZ), 0.05 * scale, scale * 0.5, segments, boltSeed, false);
+            RenderEnergyBolt.renderBoltBetween(
+                    new Vec3D(),
+                    effectFocus.copy().subtract(correctX, correctY, correctZ),
+                    0.05 * scale,
+                    scale * 0.5,
+                    segments,
+                    boltSeed,
+                    false);
         }
 
         if (linkPos != null && scale > 0) {
-            RenderEnergyBolt.renderBoltBetween(new Vec3D(), linkPos.copy().subtract(correctX, correctY, correctZ), 0.05 * scale, scale * 0.5, segments, boltSeed, false);
+            RenderEnergyBolt.renderBoltBetween(
+                    new Vec3D(),
+                    linkPos.copy().subtract(correctX, correctY, correctZ),
+                    0.05 * scale,
+                    scale * 0.5,
+                    segments,
+                    boltSeed,
+                    false);
         }
 
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.disableLighting();
         GlStateManager.popMatrix();
     }
@@ -180,7 +215,15 @@ public class EffectTrackerCelestialManipulator {
         }
 
         @Override
-        public void renderParticle(BufferBuilder vertexbuffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+        public void renderParticle(
+                BufferBuilder vertexbuffer,
+                Entity entityIn,
+                float partialTicks,
+                float rotationX,
+                float rotationZ,
+                float rotationYZ,
+                float rotationXY,
+                float rotationXZ) {
             if (particleAge == 0) {
                 return;
             }
@@ -190,16 +233,76 @@ public class EffectTrackerCelestialManipulator {
             float maxV = minV + 0.125F;
             float scale = 0.1F * this.particleScale;
 
-            float renderX = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) partialTicks - interpPosX);
-            float renderY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) partialTicks - interpPosY);
-            float renderZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) partialTicks - interpPosZ);
+            float renderX =
+                    (float)
+                            (this.prevPosX
+                                    + (this.posX - this.prevPosX) * (double) partialTicks
+                                    - interpPosX);
+            float renderY =
+                    (float)
+                            (this.prevPosY
+                                    + (this.posY - this.prevPosY) * (double) partialTicks
+                                    - interpPosY);
+            float renderZ =
+                    (float)
+                            (this.prevPosZ
+                                    + (this.posZ - this.prevPosZ) * (double) partialTicks
+                                    - interpPosZ);
             int brightnessForRender = this.getBrightnessForRender(partialTicks);
             int j = brightnessForRender >> 16 & 65535;
             int k = brightnessForRender & 65535;
-            vertexbuffer.pos((double) (renderX - rotationX * scale - rotationXY * scale), (double) (renderY - rotationZ * scale), (double) (renderZ - rotationYZ * scale - rotationXZ * scale)).tex((double) maxU, (double) maxV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            vertexbuffer.pos((double) (renderX - rotationX * scale + rotationXY * scale), (double) (renderY + rotationZ * scale), (double) (renderZ - rotationYZ * scale + rotationXZ * scale)).tex((double) maxU, (double) minV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            vertexbuffer.pos((double) (renderX + rotationX * scale + rotationXY * scale), (double) (renderY + rotationZ * scale), (double) (renderZ + rotationYZ * scale + rotationXZ * scale)).tex((double) minU, (double) minV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            vertexbuffer.pos((double) (renderX + rotationX * scale - rotationXY * scale), (double) (renderY - rotationZ * scale), (double) (renderZ + rotationYZ * scale - rotationXZ * scale)).tex((double) minU, (double) maxV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX - rotationX * scale - rotationXY * scale),
+                            (double) (renderY - rotationZ * scale),
+                            (double) (renderZ - rotationYZ * scale - rotationXZ * scale))
+                    .tex((double) maxU, (double) maxV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX - rotationX * scale + rotationXY * scale),
+                            (double) (renderY + rotationZ * scale),
+                            (double) (renderZ - rotationYZ * scale + rotationXZ * scale))
+                    .tex((double) maxU, (double) minV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX + rotationX * scale + rotationXY * scale),
+                            (double) (renderY + rotationZ * scale),
+                            (double) (renderZ + rotationYZ * scale + rotationXZ * scale))
+                    .tex((double) minU, (double) minV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX + rotationX * scale - rotationXY * scale),
+                            (double) (renderY - rotationZ * scale),
+                            (double) (renderZ + rotationYZ * scale - rotationXZ * scale))
+                    .tex((double) minU, (double) maxV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
         }
     }
 
@@ -242,8 +345,8 @@ public class EffectTrackerCelestialManipulator {
 
         @Override
         public void onUpdate() {
-//            float b = 1F - (world.getSunBrightness(0) - 0.2F) * 1.2F;
-//            particleGreen = particleBlue = b;
+            //            float b = 1F - (world.getSunBrightness(0) - 0.2F) * 1.2F;
+            //            particleGreen = particleBlue = b;
 
             this.prevPosX = this.posX;
             this.prevPosY = this.posY;
@@ -290,7 +393,15 @@ public class EffectTrackerCelestialManipulator {
         }
 
         @Override
-        public void renderParticle(BufferBuilder vertexbuffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+        public void renderParticle(
+                BufferBuilder vertexbuffer,
+                Entity entityIn,
+                float partialTicks,
+                float rotationX,
+                float rotationZ,
+                float rotationYZ,
+                float rotationXY,
+                float rotationXZ) {
             if (particleAge == 0) {
                 return;
             }
@@ -300,16 +411,76 @@ public class EffectTrackerCelestialManipulator {
             float maxV = minV + 0.125F;
             float scale = 0.1F * this.particleScale;
 
-            float renderX = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) partialTicks - interpPosX);
-            float renderY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) partialTicks - interpPosY);
-            float renderZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) partialTicks - interpPosZ);
+            float renderX =
+                    (float)
+                            (this.prevPosX
+                                    + (this.posX - this.prevPosX) * (double) partialTicks
+                                    - interpPosX);
+            float renderY =
+                    (float)
+                            (this.prevPosY
+                                    + (this.posY - this.prevPosY) * (double) partialTicks
+                                    - interpPosY);
+            float renderZ =
+                    (float)
+                            (this.prevPosZ
+                                    + (this.posZ - this.prevPosZ) * (double) partialTicks
+                                    - interpPosZ);
             int brightnessForRender = this.getBrightnessForRender(partialTicks);
             int j = brightnessForRender >> 16 & 65535;
             int k = brightnessForRender & 65535;
-            vertexbuffer.pos((double) (renderX - rotationX * scale - rotationXY * scale), (double) (renderY - rotationZ * scale), (double) (renderZ - rotationYZ * scale - rotationXZ * scale)).tex((double) maxU, (double) maxV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            vertexbuffer.pos((double) (renderX - rotationX * scale + rotationXY * scale), (double) (renderY + rotationZ * scale), (double) (renderZ - rotationYZ * scale + rotationXZ * scale)).tex((double) maxU, (double) minV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            vertexbuffer.pos((double) (renderX + rotationX * scale + rotationXY * scale), (double) (renderY + rotationZ * scale), (double) (renderZ + rotationYZ * scale + rotationXZ * scale)).tex((double) minU, (double) minV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            vertexbuffer.pos((double) (renderX + rotationX * scale - rotationXY * scale), (double) (renderY - rotationZ * scale), (double) (renderZ + rotationYZ * scale - rotationXZ * scale)).tex((double) minU, (double) maxV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX - rotationX * scale - rotationXY * scale),
+                            (double) (renderY - rotationZ * scale),
+                            (double) (renderZ - rotationYZ * scale - rotationXZ * scale))
+                    .tex((double) maxU, (double) maxV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX - rotationX * scale + rotationXY * scale),
+                            (double) (renderY + rotationZ * scale),
+                            (double) (renderZ - rotationYZ * scale + rotationXZ * scale))
+                    .tex((double) maxU, (double) minV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX + rotationX * scale + rotationXY * scale),
+                            (double) (renderY + rotationZ * scale),
+                            (double) (renderZ + rotationYZ * scale + rotationXZ * scale))
+                    .tex((double) minU, (double) minV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX + rotationX * scale - rotationXY * scale),
+                            (double) (renderY - rotationZ * scale),
+                            (double) (renderZ + rotationYZ * scale - rotationXZ * scale))
+                    .tex((double) minU, (double) maxV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
         }
     }
 }

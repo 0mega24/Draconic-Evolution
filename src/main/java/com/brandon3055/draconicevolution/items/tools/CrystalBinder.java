@@ -11,9 +11,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-/**
- * Created by brandon3055 on 25/11/2016.
- */
+/** Created by brandon3055 on 25/11/2016. */
 public class CrystalBinder extends ItemBCore implements ICrystalBinder {
 
     public CrystalBinder() {
@@ -26,7 +24,15 @@ public class CrystalBinder extends ItemBCore implements ICrystalBinder {
     }
 
     @Override
-    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+    public EnumActionResult onItemUseFirst(
+            EntityPlayer player,
+            World world,
+            BlockPos pos,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            EnumHand hand) {
         IBlockState state = world.getBlockState(pos);
 
         if (state.getBlock().rotateBlock(world, pos, side)) {

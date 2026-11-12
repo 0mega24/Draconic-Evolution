@@ -6,10 +6,9 @@ import com.brandon3055.draconicevolution.integration.funkylocomotion.IMovableStr
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 
-/**
- * Created by brandon3055 on 18/01/2017.
- */
-public class TileReactorStabilizer extends TileReactorComponent implements IEnergyProvider, IMovableStructure {
+/** Created by brandon3055 on 18/01/2017. */
+public class TileReactorStabilizer extends TileReactorComponent
+        implements IEnergyProvider, IMovableStructure {
 
     @Override
     public void update() {
@@ -24,7 +23,9 @@ public class TileReactorStabilizer extends TileReactorComponent implements IEner
         if (tile != null && tile.reactorState.value == TileReactorCore.ReactorState.RUNNING) {
             TileEntity output = world.getTileEntity(pos.offset(facing.value.getOpposite()));
             if (output != null && EnergyHelper.canReceiveEnergy(output, facing.value)) {
-                int sent = EnergyHelper.insertEnergy(output, tile.saturation.value, facing.value, false);
+                int sent =
+                        EnergyHelper.insertEnergy(
+                                output, tile.saturation.value, facing.value, false);
                 tile.saturation.value -= sent;
             }
         }

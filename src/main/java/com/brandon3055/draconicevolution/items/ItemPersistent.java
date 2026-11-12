@@ -6,9 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-/**
- * Created by brandon3055 on 20/07/2016.
- */
+/** Created by brandon3055 on 20/07/2016. */
 public class ItemPersistent extends ItemBCore {
 
     @Override

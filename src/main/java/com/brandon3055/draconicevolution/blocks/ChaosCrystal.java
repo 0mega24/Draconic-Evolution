@@ -6,6 +6,9 @@ import com.brandon3055.brandonscore.registry.IRenderOverride;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileChaosCrystal;
 import com.brandon3055.draconicevolution.client.render.tile.RenderTileChaosCrystal;
+import java.util.List;
+import java.util.Random;
+import javax.annotation.Nullable;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -27,13 +30,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Random;
-
-/**
- * Created by brandon3055 on 24/9/2015.
- */
+/** Created by brandon3055 on 24/9/2015. */
 public class ChaosCrystal extends BlockBCore implements ITileEntityProvider, IRenderOverride {
 
     public ChaosCrystal() {
@@ -49,7 +46,10 @@ public class ChaosCrystal extends BlockBCore implements ITileEntityProvider, IRe
 
     @Override
     public float getBlockHardness(IBlockState blockState, World world, BlockPos pos) {
-        TileChaosCrystal tile = world.getTileEntity(pos) instanceof TileChaosCrystal ? (TileChaosCrystal) world.getTileEntity(pos) : null;
+        TileChaosCrystal tile =
+                world.getTileEntity(pos) instanceof TileChaosCrystal
+                        ? (TileChaosCrystal) world.getTileEntity(pos)
+                        : null;
         if (tile != null) return tile.guardianDefeated.value ? 100F : -1F;
         return super.getBlockHardness(blockState, world, pos);
     }
@@ -74,13 +74,13 @@ public class ChaosCrystal extends BlockBCore implements ITileEntityProvider, IRe
     }
 
     @Override
-    public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
+    public boolean canEntityDestroy(
+            IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
         return false;
     }
 
     @Override
-    public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn) {
-    }
+    public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn) {}
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
@@ -92,25 +92,37 @@ public class ChaosCrystal extends BlockBCore implements ITileEntityProvider, IRe
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    public void onBlockPlacedBy(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityLivingBase placer,
+            ItemStack stack) {
         if (placer instanceof EntityPlayer && ((EntityPlayer) placer).capabilities.isCreativeMode) {
             TileEntity tile = world.getTileEntity(pos);
             if (!world.isRemote && tile instanceof TileChaosCrystal) {
                 ((TileChaosCrystal) tile).setLockPos();
                 ((TileChaosCrystal) tile).guardianDefeated.value = true;
             }
-        }
-        else {
+        } else {
             placer.attackEntityFrom(punishment, Float.MAX_VALUE);
         }
     }
 
-    private static String[] naughtyList = new String[]{"item.blockMover", "tile.CardboardBox", "item.WandCasting"};
-    private static DamageSource punishment = new DamageSource("chrystalMoved").setDamageAllowedInCreativeMode().setDamageBypassesArmor().setDamageIsAbsolute();
+    private static String[] naughtyList =
+            new String[] {"item.blockMover", "tile.CardboardBox", "item.WandCasting"};
+    private static DamageSource punishment =
+            new DamageSource("chrystalMoved")
+                    .setDamageAllowedInCreativeMode()
+                    .setDamageBypassesArmor()
+                    .setDamageIsAbsolute();
 
     @Override
     public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-        List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(15, 15, 15));
+        List<EntityPlayer> players =
+                world.getEntitiesWithinAABB(
+                        EntityPlayer.class,
+                        new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(15, 15, 15));
 
         for (EntityPlayer player : players) {
             if (player.capabilities.isCreativeMode) {
@@ -133,8 +145,7 @@ public class ChaosCrystal extends BlockBCore implements ITileEntityProvider, IRe
         }
     }
 
-    //region Rendering
-
+    // region Rendering
 
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
@@ -144,7 +155,8 @@ public class ChaosCrystal extends BlockBCore implements ITileEntityProvider, IRe
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileChaosCrystal.class, new RenderTileChaosCrystal());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileChaosCrystal.class, new RenderTileChaosCrystal());
     }
 
     @Override
@@ -152,5 +164,5 @@ public class ChaosCrystal extends BlockBCore implements ITileEntityProvider, IRe
         return false;
     }
 
-    //endregion
+    // endregion
 }

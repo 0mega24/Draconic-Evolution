@@ -13,12 +13,27 @@ public class RenderTileDraconiumChest extends TESRBase<TileDraconiumChest> {
     public static ModelChest modelChest = new ModelChest();
 
     @Override
-    public void render(TileDraconiumChest te, double x, double y, double z, float partialTicks, int destroyStage, float a) {
+    public void render(
+            TileDraconiumChest te,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            int destroyStage,
+            float a) {
         float lidAngle = te.prevLidAngle + (te.lidAngle - te.prevLidAngle) * partialTicks;
         render(te.facing.value, te.colour.value, x, y, z, partialTicks, lidAngle, destroyStage);
     }
 
-    public static void render(EnumFacing facing, int colour, double x, double y, double z, float partialTicks, float lidAngle, int destroyStage) {
+    public static void render(
+            EnumFacing facing,
+            int colour,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            float lidAngle,
+            int destroyStage) {
         float red = (float) (50 + ((colour >> 16) & 0xFF)) / 255f;
         float green = (float) (50 + ((colour >> 8) & 0xFF)) / 255f;
         float blue = (float) (50 + (colour & 0xFF)) / 255f;
@@ -35,11 +50,9 @@ public class RenderTileDraconiumChest extends TESRBase<TileDraconiumChest> {
             GlStateManager.scale(4.0F, 4.0F, 1.0F);
             GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
             GlStateManager.matrixMode(5888);
-        }
-        else {
+        } else {
             ResourceHelperDE.bindTexture(DETextures.DRACONIUM_CHEST);
         }
-
 
         GlStateManager.pushMatrix();
         GlStateManager.enableRescaleNormal();
@@ -55,14 +68,11 @@ public class RenderTileDraconiumChest extends TESRBase<TileDraconiumChest> {
 
         if (i == 2) {
             j = 180;
-        }
-        else if (i == 3) {
+        } else if (i == 3) {
             j = 0;
-        }
-        else if (i == 4) {
+        } else if (i == 4) {
             j = 90;
-        }
-        else if (i == 5) {
+        } else if (i == 5) {
             j = -90;
         }
 

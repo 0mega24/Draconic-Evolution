@@ -7,9 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-/**
- * Created by brandon3055 on 31/05/2016.
- */
+/** Created by brandon3055 on 31/05/2016. */
 public class ContainerEnergyInfuser extends ContainerBCBase<TileEnergyInfuser> {
 
     public ContainerEnergyInfuser(EntityPlayer player, TileEnergyInfuser tile) {
@@ -35,15 +33,13 @@ public class ContainerEnergyInfuser extends ContainerBCBase<TileEnergyInfuser> {
                 if (!mergeItemStack(stack, 0, 36, false)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (!mergeItemStack(stack, 36, 36 + tile.getSizeInventory(), false)) {
+            } else if (!mergeItemStack(stack, 36, 36 + tile.getSizeInventory(), false)) {
                 return ItemStack.EMPTY;
             }
 
             if (stack.getCount() == 0) {
                 slot.putStack(ItemStack.EMPTY);
-            }
-            else {
+            } else {
                 slot.onSlotChanged();
             }
 

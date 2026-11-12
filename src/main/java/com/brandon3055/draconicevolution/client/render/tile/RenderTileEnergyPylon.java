@@ -14,52 +14,66 @@ import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyPylon;
 import com.brandon3055.draconicevolution.client.DETextureCache;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
+import java.util.Map;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.client.MinecraftForgeClient;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Map;
-
-/**
- * Created by brandon3055 on 20/05/2016.
- */
+/** Created by brandon3055 on 20/05/2016. */
 public class RenderTileEnergyPylon extends TESRBase<TileEnergyPylon> {
 
     private static CCModel model;
 
     public RenderTileEnergyPylon() {
-        Map<String, CCModel> map = OBJParser.parseModels(ResourceHelperDE.getResource("models/pylon_sphere.obj")); //Note dont generate the model evey render frame move this to constructor
+        Map<String, CCModel> map =
+                OBJParser.parseModels(
+                        ResourceHelperDE.getResource(
+                                "models/pylon_sphere.obj")); // Note dont generate the model evey
+        // render frame move this to
+        // constructor
         model = CCModel.combine(map.values());
         model.apply(new Scale(0.35, 0.35, 0.35));
         model.computeNormals();
     }
 
     @Override
-    public void render(TileEnergyPylon te, double x, double y, double z, float partialTicks, int destroyStage, float a) {
+    public void render(
+            TileEnergyPylon te,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            int destroyStage,
+            float a) {
         if (!te.structureValid.value) {
             return;
         }
         CCRenderState ccrs = CCRenderState.instance();
         TextureUtils.bindBlockTexture();
         GlStateManager.pushMatrix();
-        Vector3 translateVector = new Vector3(x + 0.5, y + (te.sphereOnTop.value ? 1.5 : -0.5), z + 0.5);
+        Vector3 translateVector =
+                new Vector3(x + 0.5, y + (te.sphereOnTop.value ? 1.5 : -0.5), z + 0.5);
         translateVector.translation().glApply();
-        IconTransformation iconTransform = new IconTransformation(DETextureCache.getDETexture("models/pylon_sphere_texture"));
+        IconTransformation iconTransform =
+                new IconTransformation(DETextureCache.getDETexture("models/pylon_sphere_texture"));
         setLighting(200F);
 
         if (MinecraftForgeClient.getRenderPass() == 0) {
             GlStateManager.disableCull();
 
             ccrs.startDrawing(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX_NORMAL);
-            Rotation rotY = new Rotation(((ClientEventHandler.elapsedTicks + partialTicks) * 2F) * MathHelper.torad, new Vector3(0, 1, 0.5).normalize());
+            Rotation rotY =
+                    new Rotation(
+                            ((ClientEventHandler.elapsedTicks + partialTicks) * 2F)
+                                    * MathHelper.torad,
+                            new Vector3(0, 1, 0.5).normalize());
             model.render(ccrs, iconTransform, rotY);
             ccrs.draw();
 
             GlStateManager.enableCull();
 
-        }
-        else {
+        } else {
             float f = ((ClientEventHandler.elapsedTicks + partialTicks) % 30F) / 30F;
 
             if (te.isOutputMode.value) {
@@ -67,7 +81,11 @@ public class RenderTileEnergyPylon extends TESRBase<TileEnergyPylon> {
             }
 
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.tryBlendFuncSeparate(
+                    GlStateManager.SourceFactor.SRC_ALPHA,
+                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                    GlStateManager.SourceFactor.ONE,
+                    GlStateManager.DestFactor.ZERO);
             GlStateManager.alphaFunc(GL11.GL_GREATER, 0F);
             GlStateManager.color(1F, 1F, 1F, 1F - f);
             GlStateManager.enableBlend();

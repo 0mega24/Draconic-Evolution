@@ -10,6 +10,7 @@ import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileDislocatorPedestal;
 import com.brandon3055.draconicevolution.items.tools.Dislocator;
 import com.brandon3055.draconicevolution.items.tools.DislocatorAdvanced;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -22,19 +23,26 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.RayTraceResult;
 import org.lwjgl.opengl.GL11;
 
-import java.util.List;
-
-/**
- * Created by brandon3055 on 27/09/2016.
- */
+/** Created by brandon3055 on 27/09/2016. */
 public class RenderTileDislocatorPedestal extends TESRBase<TileDislocatorPedestal> {
 
     public static List<BakedQuad> modelQuads = null;
 
     @Override
-    public void render(TileDislocatorPedestal te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+    public void render(
+            TileDislocatorPedestal te,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            int destroyStage,
+            float alpha) {
         if (modelQuads == null) {
-            modelQuads = Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(DEFeatures.dislocatorPedestal.getDefaultState()).getQuads(DEFeatures.dislocatorPedestal.getDefaultState(), null, 0);
+            modelQuads =
+                    Minecraft.getMinecraft()
+                            .getBlockRendererDispatcher()
+                            .getModelForState(DEFeatures.dislocatorPedestal.getDefaultState())
+                            .getQuads(DEFeatures.dislocatorPedestal.getDefaultState(), null, 0);
         }
 
         GlStateManager.pushMatrix();
@@ -47,13 +55,11 @@ public class RenderTileDislocatorPedestal extends TESRBase<TileDislocatorPedesta
             GlStateManager.popMatrix();
         }
 
-
         GlStateManager.rotate(-te.rotation.value * 22.5F, 0, 1, 0);
         GlStateManager.translate(-0.5, 0, -0.5);
 
         TextureUtils.bindBlockTexture();
         ModelUtils.renderQuads(modelQuads);
-
 
         if (!te.getStackInSlot(0).isEmpty()) {
             GlStateManager.translate(0.5, 0.79, 0.52);
@@ -64,13 +70,17 @@ public class RenderTileDislocatorPedestal extends TESRBase<TileDislocatorPedesta
 
         GlStateManager.popMatrix();
 
-        //TODO render destination name. After i fix the advanced dislocator mess...
+        // TODO render destination name. After i fix the advanced dislocator mess...
     }
 
-    private void drawNameString(ItemStack item, float rotation, TileDislocatorPedestal te, float f) {
+    private void drawNameString(
+            ItemStack item, float rotation, TileDislocatorPedestal te, float f) {
         EntityPlayerSP player = Minecraft.getMinecraft().player;
         RayTraceResult mop = player.rayTrace(10, f);
-        boolean isCursorOver = mop != null && mop.typeOfHit == RayTraceResult.Type.BLOCK && mop.getBlockPos().equals(te.getPos());
+        boolean isCursorOver =
+                mop != null
+                        && mop.typeOfHit == RayTraceResult.Type.BLOCK
+                        && mop.getBlockPos().equals(te.getPos());
         boolean isSneaking = player.isSneaking();
 
         if (!isCursorOver && (isSneaking != DEConfig.invertDPDSB)) {
@@ -79,7 +89,8 @@ public class RenderTileDislocatorPedestal extends TESRBase<TileDislocatorPedesta
 
         String s = item.hasDisplayName() ? item.getDisplayName() : "";
         if (item.getItem() instanceof DislocatorAdvanced) {
-            Teleporter.TeleportLocation location = ((Dislocator) item.getItem()).getLocation(item, te.getWorld());
+            Teleporter.TeleportLocation location =
+                    ((Dislocator) item.getItem()).getLocation(item, te.getWorld());
             if (location != null) {
                 s = location.getName();
             }
@@ -87,7 +98,6 @@ public class RenderTileDislocatorPedestal extends TESRBase<TileDislocatorPedesta
         if (s.isEmpty()) {
             return;
         }
-
 
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
         Tessellator tess = Tessellator.getInstance();
@@ -101,7 +111,17 @@ public class RenderTileDislocatorPedestal extends TESRBase<TileDislocatorPedesta
         double yDiff = (player.posY + player.eyeHeight) - (te.getPos().getY() + 0.5);
         double zDiff = player.posZ - (te.getPos().getZ() + 0.5);
         double yawAngle = Math.toDegrees(Math.atan2(zDiff, xDiff));
-        double pitchAngle = Math.toDegrees(Math.atan2(yDiff, Utils.getDistanceAtoB(player.posX, player.posY, player.posZ, te.getPos().getX() + 0.5, te.getPos().getY() + 0.5, te.getPos().getZ() + 0.5)));
+        double pitchAngle =
+                Math.toDegrees(
+                        Math.atan2(
+                                yDiff,
+                                Utils.getDistanceAtoB(
+                                        player.posX,
+                                        player.posY,
+                                        player.posZ,
+                                        te.getPos().getX() + 0.5,
+                                        te.getPos().getY() + 0.5,
+                                        te.getPos().getZ() + 0.5)));
 
         GlStateManager.rotate((float) yawAngle + 90 - rotation, 0, 1, 0);
         GlStateManager.rotate((float) -pitchAngle, 1, 0, 0);
@@ -134,6 +154,5 @@ public class RenderTileDislocatorPedestal extends TESRBase<TileDislocatorPedesta
 
         GlStateManager.enableLighting();
         GlStateManager.popMatrix();
-
     }
 }

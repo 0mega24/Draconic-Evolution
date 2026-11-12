@@ -12,6 +12,7 @@ import com.brandon3055.draconicevolution.client.model.tool.ToolOverrideList;
 import com.brandon3055.draconicevolution.client.model.tool.ToolTransforms;
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
 import com.brandon3055.draconicevolution.utils.DETextures;
+import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -28,20 +29,16 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
-
-/**
- * Created by brandon3055 on 2/06/2016.
- */
+/** Created by brandon3055 on 2/06/2016. */
 public class WyvernSword extends ToolBase implements IAOEWeapon, IReaperItem {
 
-//    public WyvernSword(double attackDamage, double attackSpeed) {
-//        super(attackDamage, attackSpeed);
-//    }
+    //    public WyvernSword(double attackDamage, double attackSpeed) {
+    //        super(attackDamage, attackSpeed);
+    //    }
 
     public WyvernSword() {
-//        super(ToolStats.WYV_SWORD_ATTACK_DAMAGE, ToolStats.WYV_SWORD_ATTACK_SPEED);
-//        setEnergyStats(ToolStats.WYVERN_BASE_CAPACITY, 512000, 0);
+        //        super(ToolStats.WYV_SWORD_ATTACK_DAMAGE, ToolStats.WYV_SWORD_ATTACK_SPEED);
+        //        setEnergyStats(ToolStats.WYVERN_BASE_CAPACITY, 512000, 0);
     }
 
     @Override
@@ -67,7 +64,12 @@ public class WyvernSword extends ToolBase implements IAOEWeapon, IReaperItem {
     @Override
     public boolean canHarvestBlock(IBlockState state, ItemStack stack) {
         Material mat = state.getMaterial();
-        return mat.isReplaceable() || mat == Material.WEB || mat == Material.CLOTH || mat == Material.CARPET || mat == Material.LEAVES || mat == Material.PLANTS;
+        return mat.isReplaceable()
+                || mat == Material.WEB
+                || mat == Material.CLOTH
+                || mat == Material.CARPET
+                || mat == Material.LEAVES
+                || mat == Material.PLANTS;
     }
 
     @Override
@@ -88,7 +90,8 @@ public class WyvernSword extends ToolBase implements IAOEWeapon, IReaperItem {
         if (getDisabledEnchants(stack).containsKey(enchantment)) {
             return false;
         }
-        return enchantment.type == EnumEnchantmentType.WEAPON || enchantment.type == EnumEnchantmentType.ALL;
+        return enchantment.type == EnumEnchantmentType.WEAPON
+                || enchantment.type == EnumEnchantmentType.ALL;
     }
 
     @Override
@@ -98,20 +101,31 @@ public class WyvernSword extends ToolBase implements IAOEWeapon, IReaperItem {
 
     @Override
     public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, EntityPlayer player) {
-        boolean cancel = super.onBlockStartBreak(itemstack, pos, player) || player.capabilities.isCreativeMode;
+        boolean cancel =
+                super.onBlockStartBreak(itemstack, pos, player)
+                        || player.capabilities.isCreativeMode;
 
         if (cancel && player instanceof EntityPlayerMP) {
-            ((EntityPlayerMP) player).connection.sendPacket(new SPacketBlockChange(player.world, pos));
+            ((EntityPlayerMP) player)
+                    .connection.sendPacket(new SPacketBlockChange(player.world, pos));
         }
 
         return cancel;
     }
 
-    //region Attack Stats
+    // region Attack Stats
 
     @Override
     public ItemConfigFieldRegistry getFields(ItemStack stack, ItemConfigFieldRegistry registry) {
-        registry.register(stack, new DoubleConfigField("attackAOE", getMaxWeaponAOE(stack), 0, getMaxWeaponAOE(stack), "config.field.attackAOE.description", IItemConfigField.EnumControlType.SLIDER));
+        registry.register(
+                stack,
+                new DoubleConfigField(
+                        "attackAOE",
+                        getMaxWeaponAOE(stack),
+                        0,
+                        getMaxWeaponAOE(stack),
+                        "config.field.attackAOE.description",
+                        IItemConfigField.EnumControlType.SLIDER));
         addEnchantConfig(stack, registry);
         return registry;
     }
@@ -142,9 +156,9 @@ public class WyvernSword extends ToolBase implements IAOEWeapon, IReaperItem {
         return 1;
     }
 
-    //endregion
+    // endregion
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public void registerRenderer(Feature feature) {
@@ -152,16 +166,21 @@ public class WyvernSword extends ToolBase implements IAOEWeapon, IReaperItem {
         ToolOverrideList.putOverride(this, WyvernSword::handleTransforms);
     }
 
-    @SideOnly(Side.CLIENT)//Avoids synthetic lambda creation booping the classloader on the server.
+    @SideOnly(
+            Side.CLIENT) // Avoids synthetic lambda creation booping the classloader on the server.
     private static IModelState handleTransforms(TransformType transformType, IModelState state) {
-        return transformType == TransformType.FIXED || transformType == TransformType.GROUND ? ToolTransforms.WY_SWORD_STATE : state;
+        return transformType == TransformType.FIXED || transformType == TransformType.GROUND
+                ? ToolTransforms.WY_SWORD_STATE
+                : state;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public PairKV<TextureAtlasSprite, ResourceLocation> getModels(ItemStack stack) {
-        return new PairKV<>(DETextures.WYVERN_SWORD, new ResourceLocation("draconicevolution", "models/item/tools/wyvern_sword.obj"));
+        return new PairKV<>(
+                DETextures.WYVERN_SWORD,
+                new ResourceLocation("draconicevolution", "models/item/tools/wyvern_sword.obj"));
     }
 
-    //endregion
+    // endregion
 }

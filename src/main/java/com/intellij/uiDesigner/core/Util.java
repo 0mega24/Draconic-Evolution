@@ -8,41 +8,41 @@ public final class Util {
     private static final Dimension MAX_SIZE = new Dimension(2147483647, 2147483647);
     public static final int DEFAULT_INDENT = 10;
 
-    public static Dimension getMinimumSize(Component component, GridConstraints constraints, boolean addIndent) {
+    public static Dimension getMinimumSize(
+            Component component, GridConstraints constraints, boolean addIndent) {
         try {
             Dimension size = getSize(constraints.myMinimumSize, component.getMinimumSize());
             if (addIndent) {
                 size.width += 10 * constraints.getIndent();
             }
             return size;
-        }
-        catch (NullPointerException npe) {
+        } catch (NullPointerException npe) {
         }
         return new Dimension(0, 0);
     }
 
-    public static Dimension getMaximumSize(Component component, GridConstraints constraints, boolean addIndent) {
+    public static Dimension getMaximumSize(
+            Component component, GridConstraints constraints, boolean addIndent) {
         try {
             Dimension size = getSize(constraints.myMaximumSize, MAX_SIZE);
             if ((addIndent) && (size.width < MAX_SIZE.width)) {
                 size.width += 10 * constraints.getIndent();
             }
             return size;
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
         }
         return new Dimension(0, 0);
     }
 
-    public static Dimension getPreferredSize(Component component, GridConstraints constraints, boolean addIndent) {
+    public static Dimension getPreferredSize(
+            Component component, GridConstraints constraints, boolean addIndent) {
         try {
             Dimension size = getSize(constraints.myPreferredSize, component.getPreferredSize());
             if (addIndent) {
                 size.width += 10 * constraints.getIndent();
             }
             return size;
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
         }
         return new Dimension(0, 0);
     }
@@ -53,7 +53,8 @@ public final class Util {
         return new Dimension(overridenWidth, overridenHeight);
     }
 
-    public static void adjustSize(Component component, GridConstraints constraints, Dimension size) {
+    public static void adjustSize(
+            Component component, GridConstraints constraints, Dimension size) {
         Dimension minimumSize = getMinimumSize(component, constraints, false);
         Dimension maximumSize = getMaximumSize(component, constraints, false);
 
@@ -92,7 +93,8 @@ public final class Util {
                     elimitated.add(new Integer(cell));
                 }
                 for (int i = 0; i < size; i++) {
-                    boolean decreaseSpan = (cellIndices[i] <= cell) && (cell < cellIndices[i] + spans[i]);
+                    boolean decreaseSpan =
+                            (cellIndices[i] <= cell) && (cell < cellIndices[i] + spans[i]);
                     boolean decreaseIndex = cellIndices[i] > cell;
                     if (decreaseSpan) {
                         spans[i] -= 1;

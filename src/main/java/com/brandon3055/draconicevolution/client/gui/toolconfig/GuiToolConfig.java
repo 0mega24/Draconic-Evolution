@@ -1,5 +1,7 @@
 package com.brandon3055.draconicevolution.client.gui.toolconfig;
 
+import static com.brandon3055.brandonscore.inventory.PlayerSlot.EnumInvCategory.*;
+
 import com.brandon3055.brandonscore.client.gui.ButtonColourRect;
 import com.brandon3055.brandonscore.client.utils.GuiHelper;
 import com.brandon3055.brandonscore.inventory.PlayerSlot;
@@ -7,6 +9,9 @@ import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.api.itemconfig.IConfigurableItem;
 import com.brandon3055.draconicevolution.handlers.ContributorHandler;
 import com.brandon3055.draconicevolution.network.PacketContributor;
+import java.io.IOException;
+import java.util.Arrays;
+import javax.annotation.Nonnull;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.GuiButton;
@@ -20,15 +25,7 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 
-import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.util.Arrays;
-
-import static com.brandon3055.brandonscore.inventory.PlayerSlot.EnumInvCategory.*;
-
-/**
- * Created by brandon3055 on 2/06/2016.
- */
+/** Created by brandon3055 on 2/06/2016. */
 public class GuiToolConfig extends GuiScreen {
     private EntityPlayer player;
     private ToolButton[] armor;
@@ -53,9 +50,10 @@ public class GuiToolConfig extends GuiScreen {
 
         for (int i = 0; i < player.inventory.armorInventory.size(); i++) {
             ItemStack stack = player.inventory.armorInventory.get(i);
-            int x = -81 + centerX;// + i % 2 * 80;
+            int x = -81 + centerX; // + i % 2 * 80;
             int y = -52 + centerY - i * 18;
-            buttonList.add(armor[i] = new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, ARMOR)));
+            buttonList.add(
+                    armor[i] = new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, ARMOR)));
             id++;
         }
 
@@ -65,11 +63,12 @@ public class GuiToolConfig extends GuiScreen {
             int y;
             if (i < 9) {
                 y = centerY + 31;
-            }
-            else {
+            } else {
                 y = (centerY - 24) + ((i / 9) - 1) * 18;
             }
-            buttonList.add(inventory[i] = new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, MAIN)));
+            buttonList.add(
+                    inventory[i] =
+                            new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, MAIN)));
             id++;
         }
 
@@ -77,31 +76,82 @@ public class GuiToolConfig extends GuiScreen {
             ItemStack stack = player.inventory.offHandInventory.get(i);
             int x = +24 + centerX;
             int y = -52 + centerY + i * 18;
-            buttonList.add(offHand[i] = new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, OFF_HAND)));
+            buttonList.add(
+                    offHand[i] =
+                            new ToolButton(id, x, y, 18, 18, stack, new PlayerSlot(i, OFF_HAND)));
             id++;
         }
 
-        buttonList.add(configButton = new ButtonColourRect(id, I18n.format("gui.de.toolConfig.hud.txt"), centerX + 23, centerY - 107, 59, 16, 0x88000000, 0xFF440066, 0xFF009900));
+        buttonList.add(
+                configButton =
+                        new ButtonColourRect(
+                                id,
+                                I18n.format("gui.de.toolConfig.hud.txt"),
+                                centerX + 23,
+                                centerY - 107,
+                                59,
+                                16,
+                                0x88000000,
+                                0xFF440066,
+                                0xFF009900));
 
         if (ContributorHandler.contributors.containsKey(player.getName())) {
-            ContributorHandler.Contributor contributor = ContributorHandler.contributors.get(player.getName());
+            ContributorHandler.Contributor contributor =
+                    ContributorHandler.contributors.get(player.getName());
             if (!contributor.isUserValid(player)) {
                 return;
             }
 
             if (contributor.hasWings) {
-                buttonList.add(new ButtonColourRect(44, "Contributor Wings: " + (contributor.contributorWingsEnabled ? "Enabled" : "Disabled"), centerX - 240, centerY - 100, 150, 20, 0x88000000, 0xFF440066, 0xFF009900));
+                buttonList.add(
+                        new ButtonColourRect(
+                                44,
+                                "Contributor Wings: "
+                                        + (contributor.contributorWingsEnabled
+                                                ? "Enabled"
+                                                : "Disabled"),
+                                centerX - 240,
+                                centerY - 100,
+                                150,
+                                20,
+                                0x88000000,
+                                0xFF440066,
+                                0xFF009900));
             }
             if (contributor.isPatreonSupporter) {
-                buttonList.add(new ButtonColourRect(45, "Patreon Badge: " + (contributor.patreonBadgeEnabled ? "Enabled" : "Disabled"), centerX - 240, centerY + 22 - 100, 150, 20, 0x88000000, 0xFF440066, 0xFF009900));
+                buttonList.add(
+                        new ButtonColourRect(
+                                45,
+                                "Patreon Badge: "
+                                        + (contributor.patreonBadgeEnabled
+                                                ? "Enabled"
+                                                : "Disabled"),
+                                centerX - 240,
+                                centerY + 22 - 100,
+                                150,
+                                20,
+                                0x88000000,
+                                0xFF440066,
+                                0xFF009900));
             }
             if (contributor.isLolnetContributor) {
-                buttonList.add(new ButtonColourRect(46, "Lolnet Badge: " + (contributor.lolnetBadgeEnabled ? "Enabled" : "Disabled"), centerX - 240, centerY + 44 - 100, 150, 20, 0x88000000, 0xFF440066, 0xFF009900));
+                buttonList.add(
+                        new ButtonColourRect(
+                                46,
+                                "Lolnet Badge: "
+                                        + (contributor.lolnetBadgeEnabled ? "Enabled" : "Disabled"),
+                                centerX - 240,
+                                centerY + 44 - 100,
+                                150,
+                                20,
+                                0x88000000,
+                                0xFF440066,
+                                0xFF009900));
             }
         }
     }
 
-    //region Draw
+    // region Draw
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -109,7 +159,7 @@ public class GuiToolConfig extends GuiScreen {
         int centerY = 40 + height / 2;
         drawDefaultBackground();
 
-        //region Draw Inventory Back
+        // region Draw Inventory Back
 
         GuiHelper.drawColouredRect(centerX - 90, centerY - 115, 180, 173, 0xAF000000);
         int border = 0xFF005555;
@@ -118,36 +168,39 @@ public class GuiToolConfig extends GuiScreen {
         GuiHelper.drawColouredRect(centerX - 90, centerY - 117, 2, 175, border);
         GuiHelper.drawColouredRect(centerX + 88, centerY - 117, 2, 175, border);
 
-        //Draw Main Inventory //TODO Replace all "drawGradientRect" with GuiHelper.drawColouredRect
+        // Draw Main Inventory //TODO Replace all "drawGradientRect" with GuiHelper.drawColouredRect
         int posX = centerX - 81;
         int posY = centerY - 24;
         this.drawGradientRect(posX - 1, posY - 1, posX + 163, posY + 74, 0xFF00FFFF, 0xFF00FFFF);
         this.drawGradientRect(posX, posY, posX + 162, posY + 73, 0xFF000000, 0xFF000000);
         posY = centerY + 30;
         this.drawGradientRect(posX - 1, posY, posX + 163, posY + 1, 0xFF00FFFF, 0xFF00FFFF);
-        //Draw Off Hand
+        // Draw Off Hand
         posX = centerX + 24;
         posY = centerY - 52;
         this.drawGradientRect(posX - 1, posY - 1, posX + 19, posY + 19, 0xFF00FFFF, 0xFF00FFFF);
         this.drawGradientRect(posX, posY, posX + 18, posY + 18, 0xFF000000, 0xFF000000);
-        //Draw Armor
+        // Draw Armor
         posX = centerX - 81;
         posY = centerY - 106;
         this.drawGradientRect(posX - 1, posY - 1, posX + 19, posY + 73, 0xFF00FFFF, 0xFF00FFFF);
         this.drawGradientRect(posX, posY, posX + 18, posY + 72, 0xFF000000, 0xFF000000);
 
-        //endregion
+        // endregion
 
-        //region Draw Player
+        // region Draw Player
 
         int playerX = centerX;
         int playerY = centerY - 42;
 
-        this.drawGradientRect(playerX - 21, playerY - 65, playerX + 21, playerY + 9, 0xFF00FFFF, 0xFF00FFFF);
-        this.drawGradientRect(playerX - 20, playerY - 64, playerX + 20, playerY + 8, 0xFF000000, 0xFF000000);
+        this.drawGradientRect(
+                playerX - 21, playerY - 65, playerX + 21, playerY + 9, 0xFF00FFFF, 0xFF00FFFF);
+        this.drawGradientRect(
+                playerX - 20, playerY - 64, playerX + 20, playerY + 8, 0xFF000000, 0xFF000000);
 
-        GuiInventory.drawEntityOnScreen(playerX, playerY, 30, playerX - mouseX, playerY - 50 - mouseY, player);
-        //endregion
+        GuiInventory.drawEntityOnScreen(
+                playerX, playerY, 30, playerX - mouseX, playerY - 50 - mouseY, player);
+        // endregion
 
         super.drawScreen(mouseX, mouseY, partialTicks);
 
@@ -158,42 +211,60 @@ public class GuiToolConfig extends GuiScreen {
         }
 
         if (GuiHelper.isInRect(centerX + 23, centerY - 107, 59, 16, mouseX, mouseY)) {
-            drawHoveringText(Arrays.asList(I18n.format("gui.de.toolConfig.hudDesc.txt")), mouseX, mouseY);
+            drawHoveringText(
+                    Arrays.asList(I18n.format("gui.de.toolConfig.hudDesc.txt")), mouseX, mouseY);
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Interaction
+    // region Interaction
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button.id == configButton.id) {
             Minecraft.getMinecraft().displayGuiScreen(new GuiHudConfig(this));
-        }
-        else if (button instanceof ToolButton) {
+        } else if (button instanceof ToolButton) {
             ToolButton toolButton = (ToolButton) button;
 
-            if (!toolButton.stack.isEmpty() && toolButton.stack.getItem() instanceof IConfigurableItem) {
-                mc.displayGuiScreen(new GuiConfigureTool(this, player, ((ToolButton) button).stack, ((ToolButton) button).slot));
+            if (!toolButton.stack.isEmpty()
+                    && toolButton.stack.getItem() instanceof IConfigurableItem) {
+                mc.displayGuiScreen(
+                        new GuiConfigureTool(
+                                this,
+                                player,
+                                ((ToolButton) button).stack,
+                                ((ToolButton) button).slot));
             }
         }
         if (ContributorHandler.contributors.containsKey(player.getName())) {
-            ContributorHandler.Contributor contributor = ContributorHandler.contributors.get(player.getName());
+            ContributorHandler.Contributor contributor =
+                    ContributorHandler.contributors.get(player.getName());
             if (!contributor.isUserValid(player)) return;
 
             if (button.id == 44) {
                 contributor.contributorWingsEnabled = !contributor.contributorWingsEnabled;
-                button.displayString = "Contributor Wings: " + (contributor.contributorWingsEnabled ? "Enabled" : "Disabled");
+                button.displayString =
+                        "Contributor Wings: "
+                                + (contributor.contributorWingsEnabled ? "Enabled" : "Disabled");
             } else if (button.id == 45) {
                 contributor.patreonBadgeEnabled = !contributor.patreonBadgeEnabled;
-                button.displayString = "Patreon Badge: " + (contributor.patreonBadgeEnabled ? "Enabled" : "Disabled");
-            }else if (button.id == 46) {
+                button.displayString =
+                        "Patreon Badge: "
+                                + (contributor.patreonBadgeEnabled ? "Enabled" : "Disabled");
+            } else if (button.id == 46) {
                 contributor.lolnetBadgeEnabled = !contributor.lolnetBadgeEnabled;
-                button.displayString = "Lolnet Badge: " + (contributor.lolnetBadgeEnabled ? "Enabled" : "Disabled");
+                button.displayString =
+                        "Lolnet Badge: "
+                                + (contributor.lolnetBadgeEnabled ? "Enabled" : "Disabled");
             }
 
-            DraconicEvolution.network.sendToServer(new PacketContributor(player.getName(), contributor.contributorWingsEnabled, contributor.patreonBadgeEnabled, contributor.lolnetBadgeEnabled));
+            DraconicEvolution.network.sendToServer(
+                    new PacketContributor(
+                            player.getName(),
+                            contributor.contributorWingsEnabled,
+                            contributor.patreonBadgeEnabled,
+                            contributor.lolnetBadgeEnabled));
         }
     }
 
@@ -208,21 +279,28 @@ public class GuiToolConfig extends GuiScreen {
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Helpers
+    // region Helpers
 
     public boolean isItemValid(ItemStack stack) {
         return stack.getItem() instanceof IConfigurableItem;
     }
 
-    //endregion
+    // endregion
 
     public class ToolButton extends GuiButton {
         public ItemStack stack = ItemStack.EMPTY;
         public final PlayerSlot slot;
 
-        public ToolButton(int buttonId, int x, int y, int widthIn, int heightIn, @Nonnull ItemStack stack, PlayerSlot slot) {
+        public ToolButton(
+                int buttonId,
+                int x,
+                int y,
+                int widthIn,
+                int heightIn,
+                @Nonnull ItemStack stack,
+                PlayerSlot slot) {
             super(buttonId, x, y, widthIn, heightIn, "");
             this.stack = stack;
             this.slot = slot;
@@ -230,7 +308,11 @@ public class GuiToolConfig extends GuiScreen {
 
         @Override
         public void drawButton(Minecraft mc, int mouseX, int mouseY, float pt) {
-            this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+            this.hovered =
+                    mouseX >= this.x
+                            && mouseY >= this.y
+                            && mouseX < this.x + this.width
+                            && mouseY < this.y + this.height;
             // super.drawButton(mc, mouseX, mouseY);
 
             if (!stack.isEmpty()) {
@@ -247,7 +329,13 @@ public class GuiToolConfig extends GuiScreen {
                 }
 
                 mc.getRenderItem().renderItemAndEffectIntoGUI(mc.player, stack, x + 1, y + 1);
-                mc.getRenderItem().renderItemOverlayIntoGUI(mc.fontRenderer, stack, x + 1, y + 1, stack.getCount() > 1 ? String.valueOf(stack.getCount()) : "");
+                mc.getRenderItem()
+                        .renderItemOverlayIntoGUI(
+                                mc.fontRenderer,
+                                stack,
+                                x + 1,
+                                y + 1,
+                                stack.getCount() > 1 ? String.valueOf(stack.getCount()) : "");
             }
 
             GlStateManager.disableLighting();
@@ -259,8 +347,7 @@ public class GuiToolConfig extends GuiScreen {
                 GuiHelper.drawColouredRect(x + 16, y + 1, 1, 16, 0x55FF0000);
                 GuiHelper.drawColouredRect(x + 2, y + 1, 14, 1, 0x55FF0000);
                 GuiHelper.drawColouredRect(x + 2, y + 16, 14, 1, 0x55FF0000);
-            }
-            else {
+            } else {
                 GuiHelper.drawColouredRect(x, y, 1, 18, 0x8800FF00);
                 GuiHelper.drawColouredRect(x + 17, y, 1, 18, 0x8800FF00);
                 GuiHelper.drawColouredRect(x + 1, y, 16, 1, 0x8800FF00);
@@ -269,7 +356,6 @@ public class GuiToolConfig extends GuiScreen {
             GlStateManager.colorMask(true, true, true, true);
             GlStateManager.enableLighting();
             GlStateManager.enableDepth();
-
         }
 
         public void drawToolTips(Minecraft mc, int mouseX, int mouseY) {
@@ -282,9 +368,10 @@ public class GuiToolConfig extends GuiScreen {
         public void playPressSound(SoundHandler soundHandlerIn) {
             if (!stack.isEmpty() && stack.getItem() instanceof IConfigurableItem) {
                 super.playPressSound(soundHandlerIn);
-            }
-            else if (!stack.isEmpty()) {
-                mc.player.sendMessage(new TextComponentTranslation("chat.toolConfig.thatItemNotConfigurable.msg").setStyle(new Style().setColor(TextFormatting.DARK_RED)));
+            } else if (!stack.isEmpty()) {
+                mc.player.sendMessage(
+                        new TextComponentTranslation("chat.toolConfig.thatItemNotConfigurable.msg")
+                                .setStyle(new Style().setColor(TextFormatting.DARK_RED)));
             }
         }
     }

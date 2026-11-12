@@ -20,6 +20,9 @@ import com.brandon3055.draconicevolution.lib.DESoundHandler;
 import com.brandon3055.draconicevolution.lib.RecipeManager;
 import com.brandon3055.draconicevolution.utils.DETextures;
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -37,26 +40,27 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 11/06/2016.
- */
-public class TileFusionCraftingCore extends TileInventoryBase implements IFusionCraftingInventory, ITickable, ISidedInventory {
+/** Created by brandon3055 on 11/06/2016. */
+public class TileFusionCraftingCore extends TileInventoryBase
+        implements IFusionCraftingInventory, ITickable, ISidedInventory {
 
     public List<ICraftingInjector> pedestals = new ArrayList<ICraftingInjector>();
-    public final ManagedBool isCrafting = register("isCrafting", new ManagedBool(false)).saveToTile().syncViaTile().trigerUpdate().finish();
+    public final ManagedBool isCrafting =
+            register("isCrafting", new ManagedBool(false))
+                    .saveToTile()
+                    .syncViaTile()
+                    .trigerUpdate()
+                    .finish();
     /**
      * 0 = Not crafting<br>
      * 1 -> 1000 = Charge percentage<br>
      * 1000 -> 2000 = Crafting progress
      */
-    public final ManagedShort craftingStage = register("craftingStage", new ManagedShort(0)).syncViaTile().saveToTile().finish();
+    public final ManagedShort craftingStage =
+            register("craftingStage", new ManagedShort(0)).syncViaTile().saveToTile().finish();
+
     public IFusionRecipe activeRecipe = null;
     private int craftingSpeedBoost = 0;
-
 
     @SideOnly(Side.CLIENT)
     public LinkedList<EffectTrackerFusionCrafting> effects;
@@ -66,19 +70,19 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
         setShouldRefreshOnBlockChange();
     }
 
-    //region Logic
+    // region Logic
 
     @Override
     public void update() {
         super.update();
-        //LogHelper.info("- " + isCrafting);
+        // LogHelper.info("- " + isCrafting);
 
         if (world.isRemote) {
             updateEffects();
             return;
         }
 
-        //Update Crafting
+        // Update Crafting
         if (isCrafting.value) {
             if (DEEventHandler.serverTicks % 10 == 0) {
                 world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
@@ -91,7 +95,10 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
                 }
             }
 
-            if (activeRecipe == null || !activeRecipe.matches(this, world, pos) || activeRecipe.canCraft(this, world, pos) == null || !activeRecipe.canCraft(this, world, pos).equals("true")) {
+            if (activeRecipe == null
+                    || !activeRecipe.matches(this, world, pos)
+                    || activeRecipe.canCraft(this, world, pos) == null
+                    || !activeRecipe.canCraft(this, world, pos).equals("true")) {
                 invalidateCrafting();
                 return;
             }
@@ -140,10 +147,14 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
         if (activeRecipe != null && activeRecipe.canCraft(this, world, pos).equals("true")) {
             int minTier = 3;
             for (ICraftingInjector pedestal : pedestals) {
-                if (!pedestal.getStackInPedestal().isEmpty() && pedestal.getPedestalTier() < minTier) {
+                if (!pedestal.getStackInPedestal().isEmpty()
+                        && pedestal.getPedestalTier() < minTier) {
                     minTier = pedestal.getPedestalTier();
                 }
-                craftingSpeedBoost = minTier == 0 ? 0 : minTier == 1 ? 1 : minTier == 2 ? 3 : minTier == 3 ? 5 : 0;
+                craftingSpeedBoost =
+                        minTier == 0
+                                ? 0
+                                : minTier == 1 ? 1 : minTier == 2 ? 3 : minTier == 3 ? 5 : 0;
             }
             isCrafting.value = true;
         } else {
@@ -162,9 +173,7 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
         world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
     }
 
-    /**
-     * Clears the pedestal list and then re acquires all valid pedestals.
-     */
+    /** Clears the pedestal list and then re acquires all valid pedestals. */
     public void updateInjectors() {
         if (isCrafting.value) {
             return;
@@ -174,12 +183,18 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
         int range = 16;
 
         List<BlockPos> positions = new ArrayList<BlockPos>();
-        //X
-        positions.addAll(Lists.newArrayList(BlockPos.getAllInBox(pos.add(-range, -1, -1), pos.add(range, 1, 1))));
-        //Y
-        positions.addAll(Lists.newArrayList(BlockPos.getAllInBox(pos.add(-1, -range, -1), pos.add(1, range, 1))));
-        //Z
-        positions.addAll(Lists.newArrayList(BlockPos.getAllInBox(pos.add(-1, -1, -range), pos.add(1, 1, range))));
+        // X
+        positions.addAll(
+                Lists.newArrayList(
+                        BlockPos.getAllInBox(pos.add(-range, -1, -1), pos.add(range, 1, 1))));
+        // Y
+        positions.addAll(
+                Lists.newArrayList(
+                        BlockPos.getAllInBox(pos.add(-1, -range, -1), pos.add(1, range, 1))));
+        // Z
+        positions.addAll(
+                Lists.newArrayList(
+                        BlockPos.getAllInBox(pos.add(-1, -1, -range), pos.add(1, 1, range))));
 
         for (BlockPos checkPos : positions) {
             TileEntity tile = world.getTileEntity(checkPos);
@@ -189,14 +204,28 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
                 Vec3D dirVec = new Vec3D(tile.getPos()).subtract(pos);
                 double dist = Utils.getDistanceAtoB(new Vec3D(tile.getPos()), new Vec3D(pos));
 
-                if (dist >= 2 && EnumFacing.getFacingFromVector((int) dirVec.x, (int) dirVec.y, (int) dirVec.z) == pedestal.getDirection().getOpposite() && pedestal.setCraftingInventory(this)) {
+                if (dist >= 2
+                        && EnumFacing.getFacingFromVector(
+                                        (int) dirVec.x, (int) dirVec.y, (int) dirVec.z)
+                                == pedestal.getDirection().getOpposite()
+                        && pedestal.setCraftingInventory(this)) {
                     BlockPos pPos = tile.getPos();
                     EnumFacing facing = pedestal.getDirection();
-                    List<BlockPos> checkList = Lists.newArrayList(BlockPos.getAllInBox(pPos.offset(facing), pPos.offset(facing, FacingUtils.destanceInDirection(pPos, pos, facing) - 1)));
+                    List<BlockPos> checkList =
+                            Lists.newArrayList(
+                                    BlockPos.getAllInBox(
+                                            pPos.offset(facing),
+                                            pPos.offset(
+                                                    facing,
+                                                    FacingUtils.destanceInDirection(
+                                                                    pPos, pos, facing)
+                                                            - 1)));
 
                     boolean obstructed = false;
                     for (BlockPos bp : checkList) {
-                        if (!world.isAirBlock(bp) && (world.getBlockState(bp).isFullCube() || world.getTileEntity(bp) instanceof ICraftingInjector)) {
+                        if (!world.isAirBlock(bp)
+                                && (world.getBlockState(bp).isFullCube()
+                                        || world.getTileEntity(bp) instanceof ICraftingInjector)) {
                             obstructed = true;
                             break;
                         }
@@ -236,9 +265,9 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
         return craftingStage.value;
     }
 
-    //endregion
+    // endregion
 
-    //region Inventory
+    // region Inventory
 
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
@@ -270,7 +299,7 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
-        return new int[]{0, 1};
+        return new int[] {0, 1};
     }
 
     @Override
@@ -283,9 +312,9 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
         return index == 1;
     }
 
-    //endregion
+    // endregion
 
-    //region Effects
+    // region Effects
 
     @SideOnly(Side.CLIENT)
     public void initializeEffects() {
@@ -293,12 +322,18 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
         int range = 16;
 
         List<BlockPos> positions = new ArrayList<BlockPos>();
-        //X
-        positions.addAll(Lists.newArrayList(BlockPos.getAllInBox(pos.add(-range, -1, -1), pos.add(range, 1, 1))));
-        //Y
-        positions.addAll(Lists.newArrayList(BlockPos.getAllInBox(pos.add(-1, -range, -1), pos.add(1, range, 1))));
-        //Z
-        positions.addAll(Lists.newArrayList(BlockPos.getAllInBox(pos.add(-1, -1, -range), pos.add(1, 1, range))));
+        // X
+        positions.addAll(
+                Lists.newArrayList(
+                        BlockPos.getAllInBox(pos.add(-range, -1, -1), pos.add(range, 1, 1))));
+        // Y
+        positions.addAll(
+                Lists.newArrayList(
+                        BlockPos.getAllInBox(pos.add(-1, -range, -1), pos.add(1, range, 1))));
+        // Z
+        positions.addAll(
+                Lists.newArrayList(
+                        BlockPos.getAllInBox(pos.add(-1, -1, -range), pos.add(1, 1, range))));
 
         for (BlockPos checkPos : positions) {
             TileEntity tile = world.getTileEntity(checkPos);
@@ -308,14 +343,28 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
                 Vec3D dirVec = new Vec3D(tile.getPos()).subtract(pos);
                 double dist = Utils.getDistanceAtoB(new Vec3D(tile.getPos()), new Vec3D(pos));
 
-                if (dist >= 2 && EnumFacing.getFacingFromVector((int) dirVec.x, (int) dirVec.y, (int) dirVec.z) == pedestal.getDirection().getOpposite() && pedestal.setCraftingInventory(this)) {
+                if (dist >= 2
+                        && EnumFacing.getFacingFromVector(
+                                        (int) dirVec.x, (int) dirVec.y, (int) dirVec.z)
+                                == pedestal.getDirection().getOpposite()
+                        && pedestal.setCraftingInventory(this)) {
                     BlockPos pPos = tile.getPos();
                     EnumFacing facing = pedestal.getDirection();
-                    List<BlockPos> checkList = Lists.newArrayList(BlockPos.getAllInBox(pPos.offset(facing), pPos.offset(facing, FacingUtils.destanceInDirection(pPos, pos, facing) - 1)));
+                    List<BlockPos> checkList =
+                            Lists.newArrayList(
+                                    BlockPos.getAllInBox(
+                                            pPos.offset(facing),
+                                            pPos.offset(
+                                                    facing,
+                                                    FacingUtils.destanceInDirection(
+                                                                    pPos, pos, facing)
+                                                            - 1)));
 
                     boolean obstructed = false;
                     for (BlockPos bp : checkList) {
-                        if (!world.isAirBlock(bp) && (world.getBlockState(bp).isFullCube() || world.getTileEntity(bp) instanceof ICraftingInjector)) {
+                        if (!world.isAirBlock(bp)
+                                && (world.getBlockState(bp).isFullCube()
+                                        || world.getTileEntity(bp) instanceof ICraftingInjector)) {
                             obstructed = true;
                             break;
                         }
@@ -346,9 +395,19 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
 
             pedestal.setCraftingInventory(this);
             Vec3D spawn = new Vec3D(((TileEntity) pedestal).getPos());
-            spawn.add(0.5 + pedestal.getDirection().getFrontOffsetX() * 0.45, 0.5 + pedestal.getDirection().getFrontOffsetY() * 0.45, 0.5 + pedestal.getDirection().getFrontOffsetZ() * 0.45);
-            effects.add(new EffectTrackerFusionCrafting(world, spawn, new Vec3D(pos), this, activeRecipe.getRecipeIngredients().size()));
-//            BCEffectHandler.effectRenderer.addEffect(ResourceHelperDE.getResource("textures/blocks/fusion_crafting/fusion_particle.png"), new ParticleFusionCrafting(world, spawn, new Vec3D(pos), this));
+            spawn.add(
+                    0.5 + pedestal.getDirection().getFrontOffsetX() * 0.45,
+                    0.5 + pedestal.getDirection().getFrontOffsetY() * 0.45,
+                    0.5 + pedestal.getDirection().getFrontOffsetZ() * 0.45);
+            effects.add(
+                    new EffectTrackerFusionCrafting(
+                            world,
+                            spawn,
+                            new Vec3D(pos),
+                            this,
+                            activeRecipe.getRecipeIngredients().size()));
+            //
+            // BCEffectHandler.effectRenderer.addEffect(ResourceHelperDE.getResource("textures/blocks/fusion_crafting/fusion_particle.png"), new ParticleFusionCrafting(world, spawn, new Vec3D(pos), this));
         }
     }
 
@@ -367,10 +426,9 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
             return;
         }
 
-//        craftingStage.value = 1500;
+        //        craftingStage.value = 1500;
 
-
-        //region Calculate Distance
+        // region Calculate Distance
         double distFromCore = 1.2;
         if (getCraftingStage() > 1600) {
             distFromCore *= 1.0D - (getCraftingStage() - 1600) / 400D;
@@ -381,7 +439,6 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
             if (effectRotation > 0) {
                 effectRotation = 0;
             }
-
         }
 
         int index = 0;
@@ -411,22 +468,27 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
 
             double offsetY = (xAdditive + zAdditive) * 0.2 * (distFromCore / 1.2);
 
-            effect.circlePosition.set(pos.getX() + 0.5 + offsetX, pos.getY() + 0.5 + offsetY, pos.getZ() + 0.5 + offsetZ);
+            effect.circlePosition.set(
+                    pos.getX() + 0.5 + offsetX,
+                    pos.getY() + 0.5 + offsetY,
+                    pos.getZ() + 0.5 + offsetZ);
             index++;
         }
 
-        //LogHelper.info(Math.sin(effectRotation));
-//        double rotationPos = Math.sin(effectRotation * 2);
-//        float pitch = 0.1F + (((getCraftingStage() - 1000) / 1000F) * 1.9F);
-//
-//        if (rotationPos > 0 && !halfCycle){
-//            halfCycle = true;
-//            world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, DESoundHandler.fusionRotation, SoundCategory.BLOCKS, 1F, pitch, false);
-//        }
-//        else if (rotationPos < 0 && halfCycle) {
-//            halfCycle = false;
-//            world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, DESoundHandler.fusionRotation, SoundCategory.BLOCKS, 1F, pitch, false);
-//        }
+        // LogHelper.info(Math.sin(effectRotation));
+        //        double rotationPos = Math.sin(effectRotation * 2);
+        //        float pitch = 0.1F + (((getCraftingStage() - 1000) / 1000F) * 1.9F);
+        //
+        //        if (rotationPos > 0 && !halfCycle){
+        //            halfCycle = true;
+        //            world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+        // DESoundHandler.fusionRotation, SoundCategory.BLOCKS, 1F, pitch, false);
+        //        }
+        //        else if (rotationPos < 0 && halfCycle) {
+        //            halfCycle = false;
+        //            world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+        // DESoundHandler.fusionRotation, SoundCategory.BLOCKS, 1F, pitch, false);
+        //        }
 
         SoundHandler soundManager = FMLClientHandler.instance().getClient().getSoundHandler();
         if (!allLocked && flag) {
@@ -437,10 +499,21 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
 
         if (!isCrafting.value) {
             for (int i = 0; i < 100; i++) {
-                BCEffectHandler.spawnFXDirect(DEParticles.DE_SHEET, new EffectTrackerFusionCrafting.SubParticle(world, new Vec3D(pos).add(0.5, 0.5, 0.5)));
+                BCEffectHandler.spawnFXDirect(
+                        DEParticles.DE_SHEET,
+                        new EffectTrackerFusionCrafting.SubParticle(
+                                world, new Vec3D(pos).add(0.5, 0.5, 0.5)));
             }
 
-            world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, DESoundHandler.fusionComplete, SoundCategory.BLOCKS, 2F, 1F, false);
+            world.playSound(
+                    pos.getX() + 0.5,
+                    pos.getY() + 0.5,
+                    pos.getZ() + 0.5,
+                    DESoundHandler.fusionComplete,
+                    SoundCategory.BLOCKS,
+                    2F,
+                    1F,
+                    false);
             effects = null;
         }
     }
@@ -452,7 +525,7 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
             ResourceHelperDE.bindTexture(DETextures.FUSION_PARTICLE);
             Tessellator tessellator = Tessellator.getInstance();
 
-            //Pre-Render
+            // Pre-Render
             GlStateManager.enableBlend();
             GlStateManager.disableLighting();
             GlStateManager.depthMask(true);
@@ -462,7 +535,7 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
                 effect.renderEffect(tessellator, partialTicks);
             }
 
-            //Post-Render
+            // Post-Render
             GlStateManager.disableBlend();
             GlStateManager.enableLighting();
             GlStateManager.depthMask(true);
@@ -480,7 +553,7 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
         return true;
     }
 
-    //endregion
+    // endregion
 
     public int getComparatorOutput() {
         updateInjectors();
@@ -493,15 +566,14 @@ public class TileFusionCraftingCore extends TileInventoryBase implements IFusion
             if (recipe != null && recipe.canCraft(this, world, pos).equals("true")) {
                 return 1;
             }
-            
+
             return 0;
         }
-
     }
 
-//    @Override
-//    protected <T> T getItemHandler(Capability<T> capability, EnumFacing facing) {
-//        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemHandlers[facing.getIndex()]);
-//    }
+    //    @Override
+    //    protected <T> T getItemHandler(Capability<T> capability, EnumFacing facing) {
+    //        return
+    // CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemHandlers[facing.getIndex()]);
+    //    }
 }
-

@@ -7,10 +7,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.GL11;
 
-/**
- * ModelReactorPowerInjector - brandon3055
- * Created using Tabula 5.0.0
- */
+/** ModelReactorPowerInjector - brandon3055 Created using Tabula 5.0.0 */
 public class ModelReactorEnergyInjector extends ModelBase {
     public ModelRenderer BasePlate;
     public ModelRenderer shape14;
@@ -156,11 +153,18 @@ public class ModelReactorEnergyInjector extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float brightness, float invRender, float f2, float f3, float f4, float f5) {
+    public void render(
+            Entity entity,
+            float brightness,
+            float invRender,
+            float f2,
+            float f3,
+            float f4,
+            float f5) {
         GlStateManager.rotate(90, 1, 0, 0);
         this.support1.render(f5);
         this.BasePlate.render(f5);
-        //this.coreSupports.render(f5);
+        // this.coreSupports.render(f5);
 
         float lastBrightnessX = OpenGlHelper.lastBrightnessX;
         float lastBrightnessY = OpenGlHelper.lastBrightnessY;
@@ -172,20 +176,22 @@ public class ModelReactorEnergyInjector extends ModelBase {
             GL11.glDisable(GL11.GL_LIGHTING);
         }
 
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, Math.min(200F, lastBrightnessX + b), Math.min(200F, lastBrightnessY + b));
+        OpenGlHelper.setLightmapTextureCoords(
+                OpenGlHelper.lightmapTexUnit,
+                Math.min(200F, lastBrightnessX + b),
+                Math.min(200F, lastBrightnessY + b));
         GL11.glColor4f(colour, colour, colour, 1F);
         this.element1.render(f5);
         GL11.glColor4f(1F, 1F, 1F, 1F);
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
+        OpenGlHelper.setLightmapTextureCoords(
+                OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
 
         if (brightness > 0F && invRender == 0) {
             GL11.glEnable(GL11.GL_LIGHTING);
         }
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
+    /** This is a helper function from Tabula to set the rotation of model parts */
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

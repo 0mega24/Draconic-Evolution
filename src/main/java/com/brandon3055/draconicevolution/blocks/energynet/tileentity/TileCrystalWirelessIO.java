@@ -15,6 +15,7 @@ import com.brandon3055.draconicevolution.blocks.energynet.rendering.ENetFXHandle
 import com.brandon3055.draconicevolution.client.render.effect.CrystalFXRing;
 import com.brandon3055.draconicevolution.client.render.effect.CrystalGLFXBase;
 import com.brandon3055.draconicevolution.handlers.DEEventHandler;
+import java.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,11 +32,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.*;
-
-/**
- * Created by brandon3055 on 19/11/2016.
- */
+/** Created by brandon3055 on 19/11/2016. */
 public class TileCrystalWirelessIO extends TileCrystalBase {
 
     protected Map<Vec3B, EnumFacing> receiverSideMap = new HashMap<>();
@@ -46,13 +43,24 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
     protected List<LinkedDevice> slowList = new ArrayList<>();
     public LinkedList<int[]> receiverTransferRates = new LinkedList<>();
     public LinkedList<Byte> receiverFlowRates = new LinkedList<>();
-    public final ManagedBool useUpdateOptimisation = dataManager.register("transportState", new ManagedBool(true)).syncViaContainer().saveToTile().saveToItem().finish();
-    public final ManagedBool inputMode = dataManager.register("inputMode", new ManagedBool(false)).syncViaTile().saveToTile().saveToItem().finish();
-
+    public final ManagedBool useUpdateOptimisation =
+            dataManager
+                    .register("transportState", new ManagedBool(true))
+                    .syncViaContainer()
+                    .saveToTile()
+                    .saveToItem()
+                    .finish();
+    public final ManagedBool inputMode =
+            dataManager
+                    .register("inputMode", new ManagedBool(false))
+                    .syncViaTile()
+                    .saveToTile()
+                    .saveToItem()
+                    .finish();
 
     public TileCrystalWirelessIO() {}
 
-    //region Energy Update
+    // region Energy Update
 
     @Override
     public void update() {
@@ -68,7 +76,7 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
             rebuildReceiverTransferList();
         }
 
-        getReceiversFaces();//Called to update caches if caches need to be updated.
+        getReceiversFaces(); // Called to update caches if caches need to be updated.
 
         List<LinkedDevice> moveToSlow = new ArrayList<>();
         for (LinkedDevice receiver : fastList) {
@@ -115,7 +123,14 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
     }
 
     @Override
-    public boolean onBlockActivated(IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            IBlockState state,
+            EntityPlayer player,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         if (player.isSneaking()) {
             inputMode.value = !inputMode.value;
             return true;
@@ -136,8 +151,7 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         if (tile == null) {
             if (receiver.timeOut < 40) {
                 receiver.timeOut = 40;
-            }
-            else {
+            } else {
                 receiver.timeOut++;
             }
             return true;
@@ -145,18 +159,26 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
 
         int transfered;
         if (inputMode.value) {
-            transfered = EnergyHelper.extractEnergy(tile, energyStorage.receiveEnergy(getMaxWirelessTransfer(), true), receiver.side, false);
+            transfered =
+                    EnergyHelper.extractEnergy(
+                            tile,
+                            energyStorage.receiveEnergy(getMaxWirelessTransfer(), true),
+                            receiver.side,
+                            false);
             energyStorage.receiveEnergy(transfered, false);
-        }
-        else {
-            transfered = EnergyHelper.insertEnergy(tile, energyStorage.extractEnergy(getMaxWirelessTransfer(), true), receiver.side, false);
+        } else {
+            transfered =
+                    EnergyHelper.insertEnergy(
+                            tile,
+                            energyStorage.extractEnergy(getMaxWirelessTransfer(), true),
+                            receiver.side,
+                            false);
             energyStorage.extractEnergy(transfered, false);
         }
 
         if (transfered > 0) {
             receiver.timeOut = 0;
-        }
-        else {
+        } else {
             receiver.timeOut++;
         }
 
@@ -175,7 +197,11 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
     }
 
     public int getMaxWirelessTransfer() {
-        return getTier() == 0 ? DEConfig.basicWirelessMaxTransfer : getTier() == 1 ? DEConfig.wyvernWirelessMaxTransfer : DEConfig.draconicWirelessMaxTransfer;
+        return getTier() == 0
+                ? DEConfig.basicWirelessMaxTransfer
+                : getTier() == 1
+                        ? DEConfig.wyvernWirelessMaxTransfer
+                        : DEConfig.draconicWirelessMaxTransfer;
     }
 
     public int receiverTransfer(int index) {
@@ -187,13 +213,14 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
     }
 
     public byte flowConversion(int transferRate) {
-        double d = (double) transferRate / ((getMaxWirelessTransfer() * 0.01) + (double) transferRate);
+        double d =
+                (double) transferRate / ((getMaxWirelessTransfer() * 0.01) + (double) transferRate);
         return (byte) (d * 255);
     }
 
-    //endregion
+    // endregion
 
-    //region Linking
+    // region Linking
 
     @Override
     public boolean binderUsed(EntityPlayer player, BlockPos linkTarget, EnumFacing sideClicked) {
@@ -213,16 +240,17 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         if (inputMode.value) {
             if (!EnergyHelper.canExtractEnergy(tile, sideClicked)) {
                 if (EnergyHelper.isEnergyTile(tile)) {
-                    ChatHelper.indexedTrans(player, "eNet.de.sideCanNotExtract.info", TextFormatting.RED);
+                    ChatHelper.indexedTrans(
+                            player, "eNet.de.sideCanNotExtract.info", TextFormatting.RED);
                     return false;
                 }
                 return super.binderUsed(player, linkTarget, sideClicked);
             }
-        }
-        else {
+        } else {
             if (!EnergyHelper.canReceiveEnergy(tile, sideClicked)) {
                 if (EnergyHelper.isEnergyTile(tile)) {
-                    ChatHelper.indexedTrans(player, "eNet.de.sideCanNotReceive.info", TextFormatting.RED);
+                    ChatHelper.indexedTrans(
+                            player, "eNet.de.sideCanNotReceive.info", TextFormatting.RED);
                     return false;
                 }
                 return super.binderUsed(player, linkTarget, sideClicked);
@@ -248,7 +276,10 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
     }
 
     public Map<BlockPos, EnumFacing> getReceiversFaces() {
-        if (receiverCache == null || receiverCache.size() != linkedReceivers.size() || receiverFaceCache == null || receiverFaceCache.size() != linkedReceivers.size()) {
+        if (receiverCache == null
+                || receiverCache.size() != linkedReceivers.size()
+                || receiverFaceCache == null
+                || receiverFaceCache.size() != linkedReceivers.size()) {
             reCachePositions();
         }
         return receiverFaceCache;
@@ -266,15 +297,19 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         for (Vec3B offset : linkedReceivers) {
             receiverCache.add(fromOffset(offset));
             receiverFaceCache.put(fromOffset(offset), receiverSideMap.get(offset));
-            fastList.add(new LinkedDevice(linkedReceivers.indexOf(offset), fromOffset(offset), receiverSideMap.get(offset)));
+            fastList.add(
+                    new LinkedDevice(
+                            linkedReceivers.indexOf(offset),
+                            fromOffset(offset),
+                            receiverSideMap.get(offset)));
         }
 
         updateBlock();
     }
 
-    //endregion
+    // endregion
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public EnergyCrystal.CrystalType getType() {
@@ -297,8 +332,7 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         if (dist == 0) {
             if (pos.getY() > linkTo.getY()) {
                 return thisVec.subtract(0, 0.4, 0);
-            }
-            else {
+            } else {
                 return thisVec.subtract(0, -0.4, 0);
             }
         }
@@ -331,14 +365,20 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
     @SideOnly(Side.CLIENT)
     public void addDisplayData(List<String> displayList) {
         super.addDisplayData(displayList);
-        displayList.add(TextFormatting.GREEN + I18n.format("eNet.de.hudWirelessLinks.info") + ": " + getReceivers().size() + " / " + getMaxReceivers());
+        displayList.add(
+                TextFormatting.GREEN
+                        + I18n.format("eNet.de.hudWirelessLinks.info")
+                        + ": "
+                        + getReceivers().size()
+                        + " / "
+                        + getMaxReceivers());
         TextFormatting colour = !inputMode.value ? TextFormatting.GOLD : TextFormatting.DARK_AQUA;
         displayList.add(I18n.format("eNet.de.IOOutput_" + !inputMode.value + ".info", colour));
     }
 
-    //endregion
+    // endregion
 
-    //region sync/save
+    // region sync/save
 
     public void addReceiver(BlockPos pos, EnumFacing side) {
         Vec3B offset = getOffset(pos);
@@ -362,7 +402,7 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         NBTTagList list = new NBTTagList();
         for (Vec3B vec : linkedReceivers) {
             NBTTagCompound receiver = new NBTTagCompound();
-            receiver.setByteArray("Offset", new byte[]{vec.x, vec.y, vec.z});
+            receiver.setByteArray("Offset", new byte[] {vec.x, vec.y, vec.z});
             receiver.setByte("Side", (byte) receiverSideMap.get(vec).getIndex());
             list.appendTag(receiver);
         }
@@ -386,12 +426,12 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         receiverCache = null;
     }
 
-    //endregion
+    // endregion
 
-    //region Container
+    // region Container
 
     public Map<Integer, Integer> containerReceiverFlow = new HashMap<>();
-//    public Map<Integer, String> tileNamesMap = new HashMap<>();
+    //    public Map<Integer, String> tileNamesMap = new HashMap<>();
 
     @Override
     public void detectAndSendContainerChanges(List<IContainerListener> listeners) {
@@ -406,7 +446,8 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         for (BlockPos lPos : positions) {
             int index = positions.indexOf(lPos);
 
-            if (!containerReceiverFlow.containsKey(index) || containerReceiverFlow.get(index) != receiverTransfer(index)) {
+            if (!containerReceiverFlow.containsKey(index)
+                    || containerReceiverFlow.get(index) != receiverTransfer(index)) {
                 containerReceiverFlow.put(index, receiverTransfer(index));
                 NBTTagCompound data = new NBTTagCompound();
                 data.setByte("I", (byte) index);
@@ -418,11 +459,14 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         NBTTagCompound compound = new NBTTagCompound();
         if (!list.hasNoTags()) {
             compound.setTag("L", list);
-            sendUpdateToListeners(listeners, sendPacketToClient(output -> output.writeNBTTagCompound(compound), 1));
-        }
-        else if (containerReceiverFlow.size() > linkedReceivers.size()) {
+            sendUpdateToListeners(
+                    listeners,
+                    sendPacketToClient(output -> output.writeNBTTagCompound(compound), 1));
+        } else if (containerReceiverFlow.size() > linkedReceivers.size()) {
             containerReceiverFlow.clear();
-            sendUpdateToListeners(listeners, sendPacketToClient(output -> output.writeNBTTagCompound(compound), 1));
+            sendUpdateToListeners(
+                    listeners,
+                    sendPacketToClient(output -> output.writeNBTTagCompound(compound), 1));
         }
     }
 
@@ -451,8 +495,7 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
                 BlockPos target = getReceivers().get(intValue);
                 removeReceiver(target);
             }
-        }
-        else if (id == 21) {
+        } else if (id == 21) {
             List<BlockPos> links = new ArrayList<>(getReceivers());
             for (BlockPos target : links) {
                 removeReceiver(target);
@@ -460,9 +503,9 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Subs
+    // region Subs
 
     private class LinkedDevice {
         public final int index;
@@ -481,20 +524,19 @@ public class TileCrystalWirelessIO extends TileCrystalBase {
         public boolean isLinkValid(World world) {
             tileCache = world.getTileEntity(pos);
 
-            if ((tileCache == null || !EnergyHelper.isEnergyTile(tileCache, side)) && world.getChunkFromBlockCoords(pos).isLoaded()) {
+            if ((tileCache == null || !EnergyHelper.isEnergyTile(tileCache, side))
+                    && world.getChunkFromBlockCoords(pos).isLoaded()) {
                 return false;
             }
 
             return true;
         }
 
-        /**
-         * Must be called immediately after isLinkValid
-         */
+        /** Must be called immediately after isLinkValid */
         public TileEntity getCachedTile() {
             return tileCache;
         }
     }
 
-    //endregion
+    // endregion
 }

@@ -11,19 +11,40 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 
-public class TileGenerator extends TileEnergyInventoryBase implements IEnergyProvider, ITickable, IChangeListener {
+public class TileGenerator extends TileEnergyInventoryBase
+        implements IEnergyProvider, ITickable, IChangeListener {
 
     private int burnSpeed = 6;
-    /**
-     * Energy per burn tick
-     */
+    /** Energy per burn tick */
     private int EPBT = 14;
 
-    //Synced Fields
-    public final ManagedInt burnTime = register("burnTime", new ManagedInt(1)).saveToTile().saveToItem().syncViaContainer().finish();
-    public final ManagedInt burnTimeRemaining = register("burnTimeRemaining", new ManagedInt(0)).saveToTile().saveToItem().syncViaContainer().finish();
-    public final ManagedBool active = register("active", new ManagedBool(false)).saveToTile().saveToItem().syncViaTile().trigerUpdate().finish();
-    public final ManagedBool powered = register("powered", new ManagedBool(false)).saveToTile().saveToItem().syncViaTile().trigerUpdate().finish();
+    // Synced Fields
+    public final ManagedInt burnTime =
+            register("burnTime", new ManagedInt(1))
+                    .saveToTile()
+                    .saveToItem()
+                    .syncViaContainer()
+                    .finish();
+    public final ManagedInt burnTimeRemaining =
+            register("burnTimeRemaining", new ManagedInt(0))
+                    .saveToTile()
+                    .saveToItem()
+                    .syncViaContainer()
+                    .finish();
+    public final ManagedBool active =
+            register("active", new ManagedBool(false))
+                    .saveToTile()
+                    .saveToItem()
+                    .syncViaTile()
+                    .trigerUpdate()
+                    .finish();
+    public final ManagedBool powered =
+            register("powered", new ManagedBool(false))
+                    .saveToTile()
+                    .saveToItem()
+                    .syncViaTile()
+                    .trigerUpdate()
+                    .finish();
 
     public TileGenerator() {
         setInventorySize(1);
@@ -33,7 +54,7 @@ public class TileGenerator extends TileEnergyInventoryBase implements IEnergyPro
     }
 
     @Override
-    public void update() {//TODO Give this a good re write!
+    public void update() { // TODO Give this a good re write!
         super.update();
         if (world.isRemote) {
             return;
@@ -46,7 +67,9 @@ public class TileGenerator extends TileEnergyInventoryBase implements IEnergyPro
             energyStorage.modifyEnergyStored(burnSpeed * EPBT);
         }
 
-        if (burnTimeRemaining.value <= 0 && getEnergyStored() < getMaxEnergyStored() && !powered.value) {
+        if (burnTimeRemaining.value <= 0
+                && getEnergyStored() < getMaxEnergyStored()
+                && !powered.value) {
             tryRefuel();
         }
 
@@ -62,8 +85,7 @@ public class TileGenerator extends TileEnergyInventoryBase implements IEnergyPro
             if (itemBurnTime > 0) {
                 if (stack.getCount() == 1) {
                     stack = stack.getItem().getContainerItem(stack);
-                }
-                else {
+                } else {
                     stack.shrink(1);
                 }
                 setInventorySlotContents(0, stack);
@@ -73,7 +95,7 @@ public class TileGenerator extends TileEnergyInventoryBase implements IEnergyPro
         }
     }
 
-    //region IEnergyProvider
+    // region IEnergyProvider
     @Override
     public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
         return super.extractEnergy(from, maxExtract, simulate);
@@ -93,7 +115,7 @@ public class TileGenerator extends TileEnergyInventoryBase implements IEnergyPro
     public boolean canConnectEnergy(EnumFacing from) {
         return true;
     }
-    //endregion
+    // endregion
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {

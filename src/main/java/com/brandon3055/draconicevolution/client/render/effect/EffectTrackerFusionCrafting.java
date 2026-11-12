@@ -14,10 +14,11 @@ import com.brandon3055.draconicevolution.api.fusioncrafting.IFusionCraftingInven
 import com.brandon3055.draconicevolution.blocks.tileentity.TileCraftingInjector;
 import com.brandon3055.draconicevolution.client.DEParticles;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
+import java.util.Random;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -25,11 +26,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Random;
-
-/**
- * Created by brandon3055 on 23/06/2016.
- */
+/** Created by brandon3055 on 23/06/2016. */
 public class EffectTrackerFusionCrafting {
     public static double interpPosX = 0;
     public static double interpPosY = 0;
@@ -56,7 +53,12 @@ public class EffectTrackerFusionCrafting {
     public float green = 1F;
     public float blue = 1F;
 
-    public EffectTrackerFusionCrafting(World world, Vec3D pos, Vec3D corePos, IFusionCraftingInventory craftingInventory, int effectCount) {
+    public EffectTrackerFusionCrafting(
+            World world,
+            Vec3D pos,
+            Vec3D corePos,
+            IFusionCraftingInventory craftingInventory,
+            int effectCount) {
         this.world = world;
         this.corePos = corePos;
         this.craftingInventory = craftingInventory;
@@ -71,10 +73,18 @@ public class EffectTrackerFusionCrafting {
     public void onUpdate(boolean isMoving) {
         prevPos.set(pos);
 
-        //region Movement
+        // region Movement
         if (isMoving) {
             if (pos.equals(startPos)) {
-                world.playSound(pos.x, pos.y, pos.z, DESoundHandler.fusionComplete, SoundCategory.BLOCKS, 0.5F, 0.5F, false);
+                world.playSound(
+                        pos.x,
+                        pos.y,
+                        pos.z,
+                        DESoundHandler.fusionComplete,
+                        SoundCategory.BLOCKS,
+                        0.5F,
+                        0.5F,
+                        false);
             }
 
             double distance = Utils.getDistanceAtoB(circlePosition, pos);
@@ -87,22 +97,28 @@ public class EffectTrackerFusionCrafting {
                 double speed = 0.1D + (aRandomFloat * 0.1D);
                 dir.multiply(speed, speed, speed);
                 pos.add(dir.x, dir.y, dir.z);
-            }
-            else {
+            } else {
                 if (!positionLocked) {
-                    world.playSound(pos.x, pos.y, pos.z, DESoundHandler.fusionComplete, SoundCategory.BLOCKS, 2F, 0.5F, false);
+                    world.playSound(
+                            pos.x,
+                            pos.y,
+                            pos.z,
+                            DESoundHandler.fusionComplete,
+                            SoundCategory.BLOCKS,
+                            2F,
+                            0.5F,
+                            false);
                 }
                 positionLocked = true;
                 pos.set(circlePosition);
             }
-        }
-        else {
+        } else {
             scale = 1.5F;
         }
 
-        //endregion
+        // endregion
 
-        //region Render Logic
+        // region Render Logic
 
         int chance = 22 - (int) ((craftingInventory.getCraftingStage() / 2000D) * 22);
         if (chance < 1) {
@@ -122,20 +138,31 @@ public class EffectTrackerFusionCrafting {
             boltSeed = rand.nextLong();
             Vec3D pos = corePos.copy().add(0.5, 0.5, 0.5);
             BCEffectHandler.spawnFXDirect(DEParticles.DE_SHEET, new SubParticle(world, pos));
-            world.playSound(pos.x, pos.y, pos.z, DESoundHandler.energyBolt, SoundCategory.BLOCKS, 1F, 0.9F + rand.nextFloat() * 0.2F, false);
+            world.playSound(
+                    pos.x,
+                    pos.y,
+                    pos.z,
+                    DESoundHandler.energyBolt,
+                    SoundCategory.BLOCKS,
+                    1F,
+                    0.9F + rand.nextFloat() * 0.2F,
+                    false);
         }
 
         if (craftingInventory.getCraftingStage() < 1000) {
             TileEntity tile = world.getTileEntity(pos.getPos());
-            if (tile instanceof TileCraftingInjector && craftingInventory.getIngredientEnergyCost() > 0) {
-                alpha = (float) (((TileCraftingInjector) tile).getInjectorCharge() / (double) craftingInventory.getIngredientEnergyCost());
+            if (tile instanceof TileCraftingInjector
+                    && craftingInventory.getIngredientEnergyCost() > 0) {
+                alpha =
+                        (float)
+                                (((TileCraftingInjector) tile).getInjectorCharge()
+                                        / (double) craftingInventory.getIngredientEnergyCost());
             }
-        }
-        else {
+        } else {
             alpha = 1;
         }
-//
-//        alpha = craftingInventory.getCraftingStage() / 1000F;
+        //
+        //        alpha = craftingInventory.getCraftingStage() / 1000F;
 
         rotationSpeed = 1 + (craftingInventory.getCraftingStage() / 1000F) * 10;
         if (alpha > 1) {
@@ -144,48 +171,78 @@ public class EffectTrackerFusionCrafting {
 
         rotation += rotationSpeed;
 
-        //endregion
+        // endregion
     }
 
     public void renderEffect(Tessellator tessellator, float partialTicks) {
         BufferBuilder vertexbuffer = tessellator.getBuffer();
         CCRenderState ccrs = CCRenderState.instance();
-        //region Icosahedron
+        // region Icosahedron
 
-        float relativeX = (float) (this.prevPos.x + (this.pos.x - this.prevPos.x) * (double) partialTicks - interpPosX);
-        float relativeY = (float) (this.prevPos.y + (this.pos.y - this.prevPos.y) * (double) partialTicks - interpPosY);
-        float relativeZ = (float) (this.prevPos.z + (this.pos.z - this.prevPos.z) * (double) partialTicks - interpPosZ);
-        float correctX = (float) (this.prevPos.x + (this.pos.x - this.prevPos.x) * (double) partialTicks);
-        float correctY = (float) (this.prevPos.y + (this.pos.y - this.prevPos.y) * (double) partialTicks);
-        float correctZ = (float) (this.prevPos.z + (this.pos.z - this.prevPos.z) * (double) partialTicks);
+        float relativeX =
+                (float)
+                        (this.prevPos.x
+                                + (this.pos.x - this.prevPos.x) * (double) partialTicks
+                                - interpPosX);
+        float relativeY =
+                (float)
+                        (this.prevPos.y
+                                + (this.pos.y - this.prevPos.y) * (double) partialTicks
+                                - interpPosY);
+        float relativeZ =
+                (float)
+                        (this.prevPos.z
+                                + (this.pos.z - this.prevPos.z) * (double) partialTicks
+                                - interpPosZ);
+        float correctX =
+                (float) (this.prevPos.x + (this.pos.x - this.prevPos.x) * (double) partialTicks);
+        float correctY =
+                (float) (this.prevPos.y + (this.pos.y - this.prevPos.y) * (double) partialTicks);
+        float correctZ =
+                (float) (this.prevPos.z + (this.pos.z - this.prevPos.z) * (double) partialTicks);
 
         GlStateManager.pushMatrix();
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 200, 200);
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.color(red, green, blue, alpha);
         GlStateManager.translate(relativeX, relativeY, relativeZ);
         GlStateManager.rotate(rotation + (partialTicks * rotationSpeed), 0F, 1F, 0F);
         GlStateManager.translate(-relativeX, -relativeY, -relativeZ);
         ccrs.reset();
         ccrs.startDrawing(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL, vertexbuffer);
-        Matrix4 pearlMat = RenderUtils.getMatrix(new Vector3(relativeX, relativeY, relativeZ), new Rotation(0F, new Vector3(0, 0, 0)), 0.15 * scale);
+        Matrix4 pearlMat =
+                RenderUtils.getMatrix(
+                        new Vector3(relativeX, relativeY, relativeZ),
+                        new Rotation(0F, new Vector3(0, 0, 0)),
+                        0.15 * scale);
         ccrs.bind(vertexbuffer);
         CCModelLibrary.icosahedron7.render(ccrs, pearlMat);
         tessellator.draw();
         GlStateManager.popMatrix();
         GlStateManager.color(1F, 1F, 1F, 1F);
 
-        //endregion
+        // endregion
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(relativeX, relativeY, relativeZ);
 
         if (renderBolt > 0) {
-            RenderEnergyBolt.renderBoltBetween(new Vec3D(), corePos.copy().subtract(correctX - 0.5, correctY - 0.5, correctZ - 0.5), 0.05, 1, 10, boltSeed, true);
+            RenderEnergyBolt.renderBoltBetween(
+                    new Vec3D(),
+                    corePos.copy().subtract(correctX - 0.5, correctY - 0.5, correctZ - 0.5),
+                    0.05,
+                    1,
+                    10,
+                    boltSeed,
+                    true);
         }
 
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.disableLighting();
         GlStateManager.popMatrix();
     }
@@ -232,23 +289,91 @@ public class EffectTrackerFusionCrafting {
         }
 
         @Override
-        public void renderParticle(BufferBuilder vertexbuffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+        public void renderParticle(
+                BufferBuilder vertexbuffer,
+                Entity entityIn,
+                float partialTicks,
+                float rotationX,
+                float rotationZ,
+                float rotationYZ,
+                float rotationXY,
+                float rotationXZ) {
             float minU = (float) this.particleTextureIndexX / 8.0F;
             float maxU = minU + 0.125F;
             float minV = (float) this.particleTextureIndexY / 8.0F;
             float maxV = minV + 0.125F;
             float scale = 0.1F * this.particleScale;
 
-            float renderX = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) partialTicks - interpPosX);
-            float renderY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) partialTicks - interpPosY);
-            float renderZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) partialTicks - interpPosZ);
+            float renderX =
+                    (float)
+                            (this.prevPosX
+                                    + (this.posX - this.prevPosX) * (double) partialTicks
+                                    - interpPosX);
+            float renderY =
+                    (float)
+                            (this.prevPosY
+                                    + (this.posY - this.prevPosY) * (double) partialTicks
+                                    - interpPosY);
+            float renderZ =
+                    (float)
+                            (this.prevPosZ
+                                    + (this.posZ - this.prevPosZ) * (double) partialTicks
+                                    - interpPosZ);
             int brightnessForRender = this.getBrightnessForRender(partialTicks);
             int j = brightnessForRender >> 16 & 65535;
             int k = brightnessForRender & 65535;
-            vertexbuffer.pos((double) (renderX - rotationX * scale - rotationXY * scale), (double) (renderY - rotationZ * scale), (double) (renderZ - rotationYZ * scale - rotationXZ * scale)).tex((double) maxU, (double) maxV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            vertexbuffer.pos((double) (renderX - rotationX * scale + rotationXY * scale), (double) (renderY + rotationZ * scale), (double) (renderZ - rotationYZ * scale + rotationXZ * scale)).tex((double) maxU, (double) minV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            vertexbuffer.pos((double) (renderX + rotationX * scale + rotationXY * scale), (double) (renderY + rotationZ * scale), (double) (renderZ + rotationYZ * scale + rotationXZ * scale)).tex((double) minU, (double) minV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            vertexbuffer.pos((double) (renderX + rotationX * scale - rotationXY * scale), (double) (renderY - rotationZ * scale), (double) (renderZ + rotationYZ * scale - rotationXZ * scale)).tex((double) minU, (double) maxV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX - rotationX * scale - rotationXY * scale),
+                            (double) (renderY - rotationZ * scale),
+                            (double) (renderZ - rotationYZ * scale - rotationXZ * scale))
+                    .tex((double) maxU, (double) maxV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX - rotationX * scale + rotationXY * scale),
+                            (double) (renderY + rotationZ * scale),
+                            (double) (renderZ - rotationYZ * scale + rotationXZ * scale))
+                    .tex((double) maxU, (double) minV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX + rotationX * scale + rotationXY * scale),
+                            (double) (renderY + rotationZ * scale),
+                            (double) (renderZ + rotationYZ * scale + rotationXZ * scale))
+                    .tex((double) minU, (double) minV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
+            vertexbuffer
+                    .pos(
+                            (double) (renderX + rotationX * scale - rotationXY * scale),
+                            (double) (renderY - rotationZ * scale),
+                            (double) (renderZ + rotationYZ * scale - rotationXZ * scale))
+                    .tex((double) minU, (double) maxV)
+                    .color(
+                            this.particleRed,
+                            this.particleGreen,
+                            this.particleBlue,
+                            this.particleAlpha)
+                    .lightmap(j, k)
+                    .endVertex();
         }
     }
 }

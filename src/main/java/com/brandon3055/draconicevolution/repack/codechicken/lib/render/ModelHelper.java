@@ -3,7 +3,6 @@ package com.brandon3055.draconicevolution.repack.codechicken.lib.render;
 import codechicken.lib.render.CCModel;
 import codechicken.lib.vec.Vector3;
 import codechicken.lib.vec.Vertex5;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -11,22 +10,22 @@ import java.util.List;
 
 /**
  * Various helpers for CCModels
- * <p>
- * Created by covers1624 on 21/06/2017.
+ *
+ * <p>Created by covers1624 on 21/06/2017.
  */
-//TODO Remove this when CCL3 drops.
+// TODO Remove this when CCL3 drops.
 public class ModelHelper {
 
     /**
-     * Quadulates a CCModel.
-     * Only Position and UV data is copied.
+     * Quadulates a CCModel. Only Position and UV data is copied.
      *
      * @param inModel The in model.
      * @return The new model.
      */
     public static CCModel quadulate(CCModel inModel) {
         if (inModel.vertexMode == 7) {
-            throw new IllegalArgumentException("Cannot quadulate a quad model. Check if the model is triangles before calling this");
+            throw new IllegalArgumentException(
+                    "Cannot quadulate a quad model. Check if the model is triangles before calling this");
         }
         LinkedList<Vertex5> inVerts = new LinkedList<>();
         Collections.addAll(inVerts, inModel.getVertices());
@@ -44,11 +43,9 @@ public class ModelHelper {
         return outModel;
     }
 
-
     /**
-     * Attempts to combine square faces.
-     * A NEW model is returned with combined faces.
-     * You WILL need to copy / compute normals yourself.
+     * Attempts to combine square faces. A NEW model is returned with combined faces. You WILL need
+     * to copy / compute normals yourself.
      *
      * @param model Input.
      * @return New model with combined faces.
@@ -61,7 +58,6 @@ public class ModelHelper {
         outModel.verts = combinedVerts.toArray(new Vertex5[0]);
         return outModel;
     }
-
 
     /**
      * Attempts to combine square faces.
@@ -131,7 +127,7 @@ public class ModelHelper {
 
         public Face reverse() {
 
-            verts = new Vertex5[]{verts[3], verts[2], verts[1], verts[0]};
+            verts = new Vertex5[] {verts[3], verts[2], verts[1], verts[0]};
             return this;
         }
 
@@ -175,8 +171,12 @@ public class ModelHelper {
                         Vector3 l1 = (vec(i - 1).vec.copy().subtract(vec(i).vec)).normalize();
                         Vector3 l2 = (vec(i + 2).vec.copy().subtract(vec(i + 1).vec)).normalize();
 
-                        Vector3 l3 = (other.vec(j).vec.copy().subtract(other.vec(j + 1).vec)).normalize();
-                        Vector3 l4 = (other.vec(j - 1).vec.copy().subtract(other.vec(j - 2).vec)).normalize();
+                        Vector3 l3 =
+                                (other.vec(j).vec.copy().subtract(other.vec(j + 1).vec))
+                                        .normalize();
+                        Vector3 l4 =
+                                (other.vec(j - 1).vec.copy().subtract(other.vec(j - 2).vec))
+                                        .normalize();
 
                         if (l1.equalsT(l3) && l2.equalsT(l4)) {
                             setVec(i, other.vec(j + 1));

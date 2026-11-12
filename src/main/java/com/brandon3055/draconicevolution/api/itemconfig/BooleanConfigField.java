@@ -6,8 +6,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * Created by brandon3055 on 1/06/2016.
- * A simple boolean config field based on the integer config field
+ * Created by brandon3055 on 1/06/2016. A simple boolean config field based on the integer config
+ * field
  */
 public class BooleanConfigField extends IntegerConfigField {
 

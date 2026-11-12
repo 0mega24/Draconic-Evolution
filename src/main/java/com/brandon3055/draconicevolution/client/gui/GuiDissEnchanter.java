@@ -8,6 +8,8 @@ import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
 import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileDissEnchanter;
 import com.brandon3055.draconicevolution.inventory.ContainerDissEnchanter;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,13 +21,9 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 1/10/2016.
- */
-public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter> implements IMGuiListener {
+/** Created by brandon3055 on 1/10/2016. */
+public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter>
+        implements IMGuiListener {
     private final EntityPlayer player;
     private MGuiBackground background;
     private MGuiButton extractButton;
@@ -43,9 +41,36 @@ public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter
         super.initGui();
         manager.clear();
 
-        manager.add(background = new MGuiBackground(this, guiLeft, guiTop, 0, 0, xSize, ySize, "draconicevolution:textures/gui/diss_enchanter.png"));
-        manager.add(extractButton = new MGuiButton(this, 0, guiLeft + (xSize / 2) - 30, guiTop + 42, 60, 15, I18n.format("gui.de.button.extract")));
-        manager.add(new MGuiLabel(this, guiLeft + (xSize / 2), guiTop + 3, 0, 12, I18n.format("gui.de.dissEnchanter.name")).setTextColour(0x00FFFF));
+        manager.add(
+                background =
+                        new MGuiBackground(
+                                this,
+                                guiLeft,
+                                guiTop,
+                                0,
+                                0,
+                                xSize,
+                                ySize,
+                                "draconicevolution:textures/gui/diss_enchanter.png"));
+        manager.add(
+                extractButton =
+                        new MGuiButton(
+                                this,
+                                0,
+                                guiLeft + (xSize / 2) - 30,
+                                guiTop + 42,
+                                60,
+                                15,
+                                I18n.format("gui.de.button.extract")));
+        manager.add(
+                new MGuiLabel(
+                                this,
+                                guiLeft + (xSize / 2),
+                                guiTop + 3,
+                                0,
+                                12,
+                                I18n.format("gui.de.dissEnchanter.name"))
+                        .setTextColour(0x00FFFF));
     }
 
     @Override
@@ -54,7 +79,9 @@ public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter
         ItemStack slot0 = tile.getStackInSlot(0);
 
         if (eventElement == extractButton) {
-            if (slot0 == null || !slot0.isItemEnchanted() || slot0.getEnchantmentTagList() == null) {
+            if (slot0 == null
+                    || !slot0.isItemEnchanted()
+                    || slot0.getEnchantmentTagList() == null) {
                 return;
             }
 
@@ -95,21 +122,50 @@ public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter
                 int lvl = compound.getShort("lvl");
                 Enchantment e = Enchantment.getEnchantmentByID(id);
 
-
                 if (e == null) {
                     continue;
                 }
 
                 String s = e.getTranslatedName(lvl);
-                int cost = (int) ((((double) lvl / (double) e.getMaxLevel()) * 20) * DEConfig.disenchnaterCostMultiplyer);
-                String xp = (player.experienceLevel >= cost ? TextFormatting.GREEN : TextFormatting.RED) + "" + cost;
+                int cost =
+                        (int)
+                                ((((double) lvl / (double) e.getMaxLevel()) * 20)
+                                        * DEConfig.disenchnaterCostMultiplyer);
+                String xp =
+                        (player.experienceLevel >= cost ? TextFormatting.GREEN : TextFormatting.RED)
+                                + ""
+                                + cost;
 
-                MGuiLabel label = new MGuiLabel(this, 0, 0, width, 12, xp).setAlignment(EnumAlignment.RIGHT);
+                MGuiLabel label =
+                        new MGuiLabel(this, 0, 0, width, 12, xp).setAlignment(EnumAlignment.RIGHT);
                 label.linkedObject = id;
-                label.addChild(new MGuiButtonSolid(this, "PICK", 0, 0, fontRenderer.getStringWidth(s) + 4 + 15, 12, s).setColours(0xFF707070, 0xFF707070, 0xFF707070).setAlignment(EnumAlignment.LEFT));
+                label.addChild(
+                        new MGuiButtonSolid(
+                                        this,
+                                        "PICK",
+                                        0,
+                                        0,
+                                        fontRenderer.getStringWidth(s) + 4 + 15,
+                                        12,
+                                        s)
+                                .setColours(0xFF707070, 0xFF707070, 0xFF707070)
+                                .setAlignment(EnumAlignment.LEFT));
 
-                MGuiButtonSolid option = (MGuiButtonSolid) new MGuiButtonSolid(this, "PICK", 0, 0, fontRenderer.getStringWidth(s) + 4 + 15, 12, s).setColours(0xFF707070, 0xFF707070, 0xFF707070).setAlignment(EnumAlignment.LEFT);
-                option.addChild(new MGuiLabel(this, 0, 0, option.xSize, option.ySize, "Test").setAlignment(EnumAlignment.RIGHT));
+                MGuiButtonSolid option =
+                        (MGuiButtonSolid)
+                                new MGuiButtonSolid(
+                                                this,
+                                                "PICK",
+                                                0,
+                                                0,
+                                                fontRenderer.getStringWidth(s) + 4 + 15,
+                                                12,
+                                                s)
+                                        .setColours(0xFF707070, 0xFF707070, 0xFF707070)
+                                        .setAlignment(EnumAlignment.LEFT);
+                option.addChild(
+                        new MGuiLabel(this, 0, 0, option.xSize, option.ySize, "Test")
+                                .setAlignment(EnumAlignment.RIGHT));
                 selector.ySize += label.ySize;
                 optionList.add(label);
             }
@@ -126,14 +182,16 @@ public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter
             manager.add(selector, 0);
 
             return;
-        }
-        else if (eventString.equals("SELECTOR_PICK")) {
+        } else if (eventString.equals("SELECTOR_PICK")) {
             if (!(eventElement.linkedObject instanceof Integer)) {
-                player.sendMessage(new TextComponentString("[ERROR]").setStyle(new Style().setColor(TextFormatting.RED)));
+                player.sendMessage(
+                        new TextComponentString("[ERROR]")
+                                .setStyle(new Style().setColor(TextFormatting.RED)));
                 return;
             }
 
-            tile.sendPacketToServer(output -> output.writeInt((Integer) eventElement.linkedObject), 0);
+            tile.sendPacketToServer(
+                    output -> output.writeInt((Integer) eventElement.linkedObject), 0);
         }
     }
 
@@ -143,7 +201,13 @@ public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter
         ItemStack slot0 = tile.getStackInSlot(0);
         ItemStack slot1 = tile.getStackInSlot(1);
         ItemStack slot2 = tile.getStackInSlot(2);
-        extractButton.disabled = !(!slot0.isEmpty() && slot0.isItemEnchanted() && !slot1.isEmpty() && slot1.getCount() > 0 && slot1.getItem() == Items.BOOK && slot2.isEmpty());
+        extractButton.disabled =
+                !(!slot0.isEmpty()
+                        && slot0.isItemEnchanted()
+                        && !slot1.isEmpty()
+                        && slot1.getCount() > 0
+                        && slot1.getItem() == Items.BOOK
+                        && slot2.isEmpty());
 
         if (extractButton.disabled && selector != null) {
             manager.remove(selector);

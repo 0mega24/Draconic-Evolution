@@ -2,9 +2,7 @@ package com.brandon3055.draconicevolution.integration.jei;
 
 import net.minecraft.client.Minecraft;
 
-/**
- * Created by brandon3055 on 21/09/2016.
- */
+/** Created by brandon3055 on 21/09/2016. */
 public interface IRecipeRenderer {
 
     int getWidth();

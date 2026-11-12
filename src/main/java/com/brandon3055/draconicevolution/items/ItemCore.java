@@ -17,18 +17,25 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-/**
- * Created by brandon3055 on 2/06/2017.
- */
+/** Created by brandon3055 on 2/06/2017. */
 public class ItemCore extends ItemBCore {
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer playerIn, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(
+            EntityPlayer playerIn,
+            World world,
+            BlockPos pos,
+            EnumHand hand,
+            EnumFacing facing,
+            float hitX,
+            float hitY,
+            float hitZ) {
         TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileEntityMobSpawner) {
             if (!world.isRemote) {
-                ResourceLocation name = ((TileEntityMobSpawner) tile).getSpawnerBaseLogic().getEntityId();
+                ResourceLocation name =
+                        ((TileEntityMobSpawner) tile).getSpawnerBaseLogic().getEntityId();
                 ItemStack soul = new ItemStack(DEFeatures.mobSoul);
                 DEFeatures.mobSoul.setEntity(name, soul);
                 SpawnerTier tier = SpawnerTier.getTierFromCore(this);
@@ -40,7 +47,13 @@ public class ItemCore extends ItemBCore {
                 managedData.setByte("spawnerTier", (byte) tier.ordinal());
 
                 world.setBlockToAir(pos);
-                world.spawnEntity(new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, spawner));
+                world.spawnEntity(
+                        new EntityItem(
+                                world,
+                                pos.getX() + 0.5,
+                                pos.getY() + 0.5,
+                                pos.getZ() + 0.5,
+                                spawner));
                 InventoryUtils.consumeHeldItem(playerIn, playerIn.getHeldItem(hand), hand);
             }
             return EnumActionResult.SUCCESS;

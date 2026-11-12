@@ -6,10 +6,9 @@
 
 package dan200.computercraft.api.turtle;
 
-import net.minecraft.util.EnumFacing;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import net.minecraft.util.EnumFacing;
 
 /**
  * Used to indicate the result of executing a turtle command.
@@ -17,10 +16,10 @@ import javax.annotation.Nullable;
  * @see ITurtleCommand#execute(ITurtleAccess)
  * @see ITurtleUpgrade#useTool(ITurtleAccess, TurtleSide, TurtleVerb, EnumFacing)
  */
-public final class TurtleCommandResult
-{
-    private static final TurtleCommandResult s_success = new TurtleCommandResult( true, null, null );
-    private static final TurtleCommandResult s_emptyFailure = new TurtleCommandResult( false, null, null );
+public final class TurtleCommandResult {
+    private static final TurtleCommandResult s_success = new TurtleCommandResult(true, null, null);
+    private static final TurtleCommandResult s_emptyFailure =
+            new TurtleCommandResult(false, null, null);
 
     /**
      * Create a successful command result with no result.
@@ -28,9 +27,8 @@ public final class TurtleCommandResult
      * @return A successful command result with no values.
      */
     @Nonnull
-    public static TurtleCommandResult success()
-    {
-        return success( null );
+    public static TurtleCommandResult success() {
+        return success(null);
     }
 
     /**
@@ -40,15 +38,11 @@ public final class TurtleCommandResult
      * @return A successful command result with the given values.
      */
     @Nonnull
-    public static TurtleCommandResult success( @Nullable Object[] results )
-    {
-        if( results == null || results.length == 0 )
-        {
+    public static TurtleCommandResult success(@Nullable Object[] results) {
+        if (results == null || results.length == 0) {
             return s_success;
-        }
-        else
-        {
-            return new TurtleCommandResult( true, null, results );
+        } else {
+            return new TurtleCommandResult(true, null, results);
         }
     }
 
@@ -58,9 +52,8 @@ public final class TurtleCommandResult
      * @return A failed command result with no message.
      */
     @Nonnull
-    public static TurtleCommandResult failure()
-    {
-        return failure( null );
+    public static TurtleCommandResult failure() {
+        return failure(null);
     }
 
     /**
@@ -70,15 +63,11 @@ public final class TurtleCommandResult
      * @return A failed command result with a message.
      */
     @Nonnull
-    public static TurtleCommandResult failure( @Nullable String errorMessage )
-    {
-        if( errorMessage == null )
-        {
+    public static TurtleCommandResult failure(@Nullable String errorMessage) {
+        if (errorMessage == null) {
             return s_emptyFailure;
-        }
-        else
-        {
-            return new TurtleCommandResult( false, errorMessage, null );
+        } else {
+            return new TurtleCommandResult(false, errorMessage, null);
         }
     }
 
@@ -86,8 +75,7 @@ public final class TurtleCommandResult
     private final String m_errorMessage;
     private final Object[] m_results;
 
-    private TurtleCommandResult( boolean success, String errorMessage, Object[] results )
-    {
+    private TurtleCommandResult(boolean success, String errorMessage, Object[] results) {
         m_success = success;
         m_errorMessage = errorMessage;
         m_results = results;
@@ -98,8 +86,7 @@ public final class TurtleCommandResult
      *
      * @return If the command was successful.
      */
-    public boolean isSuccess()
-    {
+    public boolean isSuccess() {
         return m_success;
     }
 
@@ -109,8 +96,7 @@ public final class TurtleCommandResult
      * @return The command's error message, or {@code null} if it was a success.
      */
     @Nullable
-    public String getErrorMessage()
-    {
+    public String getErrorMessage() {
         return m_errorMessage;
     }
 
@@ -120,8 +106,7 @@ public final class TurtleCommandResult
      * @return The command's result, or {@code null} if it was a failure.
      */
     @Nullable
-    public Object[] getResults()
-    {
+    public Object[] getResults() {
         return m_results;
     }
 }

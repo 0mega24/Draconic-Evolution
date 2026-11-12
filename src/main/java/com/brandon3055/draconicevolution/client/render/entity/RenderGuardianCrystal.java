@@ -16,9 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Created by brandon3055 on 30/8/2015.
- */
+/** Created by brandon3055 on 30/8/2015. */
 public class RenderGuardianCrystal extends Render<EntityGuardianCrystal> {
     private ModelBase model;
 
@@ -29,14 +27,27 @@ public class RenderGuardianCrystal extends Render<EntityGuardianCrystal> {
     }
 
     @Override
-    public void doRender(EntityGuardianCrystal crystal, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(
+            EntityGuardianCrystal crystal,
+            double x,
+            double y,
+            double z,
+            float entityYaw,
+            float partialTicks) {
         float rotation = (float) crystal.innerRotation + (crystal.health > 0 ? partialTicks : 0);
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         ResourceHelperDE.bindTexture(DETextures.CHAOS_GUARDIAN_CRYSTAL);
         float r2 = MathHelper.sin(rotation * 0.2F) / 2.0F + 0.5F;
         r2 += r2 * r2;
-        this.model.render(crystal, 0.0F, rotation * 3.0F, r2 * 0.2F, crystal.deathAnimation, crystal.health, 0.0625F);
+        this.model.render(
+                crystal,
+                0.0F,
+                rotation * 3.0F,
+                r2 * 0.2F,
+                crystal.deathAnimation,
+                crystal.health,
+                0.0625F);
 
         GL11.glPopMatrix();
 
@@ -45,7 +56,8 @@ public class RenderGuardianCrystal extends Render<EntityGuardianCrystal> {
             GlStateManager.translate(-0.5, -1.5, -0.5);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder buffer = tessellator.getBuffer();
-            ResourceHelperDE.bindTexture(ResourceHelperDE.getResourceRAW("textures/entity/beacon_beam.png"));
+            ResourceHelperDE.bindTexture(
+                    ResourceHelperDE.getResourceRAW("textures/entity/beacon_beam.png"));
             GlStateManager.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
             GlStateManager.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497.0F);
             GlStateManager.disableLighting();
@@ -100,5 +112,4 @@ public class RenderGuardianCrystal extends Render<EntityGuardianCrystal> {
     protected ResourceLocation getEntityTexture(EntityGuardianCrystal entity) {
         return ResourceHelperDE.getResource(DETextures.CHAOS_GUARDIAN_CRYSTAL);
     }
-
 }

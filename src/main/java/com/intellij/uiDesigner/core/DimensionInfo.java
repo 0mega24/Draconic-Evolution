@@ -143,7 +143,9 @@ public abstract class DimensionInfo {
                 }
             }
         }
-        return (canShrink ? 1 : 0) | ((canGrow) || ((countOfBelongingComponents > 0) && (weakCanGrow)) ? 2 : 0) | ((wantGrow) || ((countOfBelongingComponents > 0) && (weakWantGrow)) ? 4 : 0);
+        return (canShrink ? 1 : 0)
+                | ((canGrow) || ((countOfBelongingComponents > 0) && (weakCanGrow)) ? 2 : 0)
+                | ((wantGrow) || ((countOfBelongingComponents > 0) && (weakWantGrow)) ? 4 : 0);
     }
 
     private int getCellSizePolicyFromInheriting(int cellIndex) {
@@ -161,12 +163,12 @@ public abstract class DimensionInfo {
                     int policy = info.calcCellSizePolicy(cellIndex - getOriginalCell(c));
                     if (policyFromInheriting == -1) {
                         policyFromInheriting = policy;
-                    }
-                    else {
+                    } else {
                         policyFromInheriting |= policy;
                     }
-                }
-                else if ((getOriginalCell(c) == cellIndex) && (getOriginalSpan(c) == 1) && (!(child instanceof Spacer))) {
+                } else if ((getOriginalCell(c) == cellIndex)
+                        && (getOriginalSpan(c) == 1)
+                        && (!(child instanceof Spacer))) {
                     nonInheritingComponentsInCell++;
                 }
             }
@@ -183,7 +185,8 @@ public abstract class DimensionInfo {
             if ((container.getLayout() instanceof GridLayoutManager)) {
                 return container;
             }
-            if ((container.getComponentCount() == 1) && ((container.getComponent(0) instanceof Container))) {
+            if ((container.getComponentCount() == 1)
+                    && ((container.getComponent(0) instanceof Container))) {
                 Container childContainer = (Container) container.getComponent(0);
                 if ((childContainer.getLayout() instanceof GridLayoutManager)) {
                     return childContainer;
@@ -196,7 +199,11 @@ public abstract class DimensionInfo {
     protected final Dimension getPreferredSize(int componentIndex) {
         Dimension size = this.myLayoutState.myPreferredSizes[componentIndex];
         if (size == null) {
-            size = Util.getPreferredSize(this.myLayoutState.getComponent(componentIndex), this.myLayoutState.getConstraints(componentIndex), true);
+            size =
+                    Util.getPreferredSize(
+                            this.myLayoutState.getComponent(componentIndex),
+                            this.myLayoutState.getConstraints(componentIndex),
+                            true);
             this.myLayoutState.myPreferredSizes[componentIndex] = size;
         }
         return size;
@@ -205,7 +212,11 @@ public abstract class DimensionInfo {
     protected final Dimension getMinimumSize(int componentIndex) {
         Dimension size = this.myLayoutState.myMinimumSizes[componentIndex];
         if (size == null) {
-            size = Util.getMinimumSize(this.myLayoutState.getComponent(componentIndex), this.myLayoutState.getConstraints(componentIndex), true);
+            size =
+                    Util.getMinimumSize(
+                            this.myLayoutState.getComponent(componentIndex),
+                            this.myLayoutState.getConstraints(componentIndex),
+                            true);
             this.myLayoutState.myMinimumSizes[componentIndex] = size;
         }
         return size;

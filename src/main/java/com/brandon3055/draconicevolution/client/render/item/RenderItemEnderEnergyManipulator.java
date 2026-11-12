@@ -14,22 +14,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.model.IModelState;
 
-/**
- * Created by brandon3055 on 18/04/2017.
- */
+/** Created by brandon3055 on 18/04/2017. */
 public class RenderItemEnderEnergyManipulator implements IItemRenderer {
 
     private final ModelSkeletonHead skeletonHead = new ModelSkeletonHead(0, 0, 64, 32);
-    private static final ResourceLocation WITHER_SKELETON_TEXTURES = new ResourceLocation("textures/entity/skeleton/wither_skeleton.png");
-//    private static ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
+    private static final ResourceLocation WITHER_SKELETON_TEXTURES =
+            new ResourceLocation("textures/entity/skeleton/wither_skeleton.png");
+    //    private static ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
 
     private static ShaderProgram shaderProgram;
 
+    public RenderItemEnderEnergyManipulator() {}
 
-    public RenderItemEnderEnergyManipulator() {
-    }
-
-    //region Unused
+    // region Unused
     @Override
     public boolean isAmbientOcclusion() {
         return false;
@@ -40,7 +37,7 @@ public class RenderItemEnderEnergyManipulator implements IItemRenderer {
         return true;
     }
 
-    //endregion
+    // endregion
 
     @Override
     public void renderItem(ItemStack item, ItemCameraTransforms.TransformType transformType) {
@@ -59,15 +56,25 @@ public class RenderItemEnderEnergyManipulator implements IItemRenderer {
                 shaderProgram = new ShaderProgram();
                 shaderProgram.attachShader(DEShaders.reactorShield);
             }
-            shaderProgram.useShader(cache -> {
-                cache.glUniform1F("time", ((float) ClientEventHandler.elapsedTicks + mc.getRenderPartialTicks()) / -100F);
-                cache.glUniform1F("intensity", 0.09F);
-            });
+            shaderProgram.useShader(
+                    cache -> {
+                        cache.glUniform1F(
+                                "time",
+                                ((float) ClientEventHandler.elapsedTicks
+                                                + mc.getRenderPartialTicks())
+                                        / -100F);
+                        cache.glUniform1F("intensity", 0.09F);
+                    });
             renderSkull();
-            shaderProgram.useShader(cache -> {
-                cache.glUniform1F("time", ((float) ClientEventHandler.elapsedTicks + mc.getRenderPartialTicks()) / 100F);
-                cache.glUniform1F("intensity", 0.02F);
-            });
+            shaderProgram.useShader(
+                    cache -> {
+                        cache.glUniform1F(
+                                "time",
+                                ((float) ClientEventHandler.elapsedTicks
+                                                + mc.getRenderPartialTicks())
+                                        / 100F);
+                        cache.glUniform1F("intensity", 0.02F);
+                    });
             renderSkull();
             shaderProgram.releaseShader();
         }

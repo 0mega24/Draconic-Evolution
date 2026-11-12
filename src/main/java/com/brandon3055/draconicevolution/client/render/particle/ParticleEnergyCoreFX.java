@@ -12,10 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-/**
- * Created by brandon3055 on 2/5/2016.
- * The particle used to render the beams on the Energy Core
- */
+/** Created by brandon3055 on 2/5/2016. The particle used to render the beams on the Energy Core */
 public class ParticleEnergyCoreFX extends BCParticle {
 
     public Vec3D targetPos;
@@ -35,7 +32,9 @@ public class ParticleEnergyCoreFX extends BCParticle {
         this.particleScale = 1F;
         this.particleTextureIndexY = 1;
         Vec3D dir = Vec3D.getDirectionVec(pos, targetPos);
-        this.direction = EnumFacing.getFacingFromVector((float) dir.x, (float) dir.y, (float) dir.z).getAxis();
+        this.direction =
+                EnumFacing.getFacingFromVector((float) dir.x, (float) dir.y, (float) dir.z)
+                        .getAxis();
     }
 
     @Override
@@ -61,11 +60,9 @@ public class ParticleEnergyCoreFX extends BCParticle {
             double d = isLargeStabilizer ? 1.8 : 0.2;
             if (direction == EnumFacing.Axis.Z) {
                 tPos.add(offsetX * d, offsetY * d, 0);
-            }
-            else if (direction == EnumFacing.Axis.Y) {
+            } else if (direction == EnumFacing.Axis.Y) {
                 tPos.add(offsetX * d, 0, offsetY * d);
-            }
-            else if (direction == EnumFacing.Axis.X) {
+            } else if (direction == EnumFacing.Axis.X) {
                 tPos.add(0, offsetY * d, offsetX * d);
             }
         }
@@ -77,14 +74,23 @@ public class ParticleEnergyCoreFX extends BCParticle {
         motionZ = dir.z * speed;
         moveEntityNoClip(motionX, motionY, motionZ);
 
-        if (particleAge++ > particleMaxAge || Utils.getDistanceAtoB(posX, posY, posZ, tPos.x, tPos.y, tPos.z) < 0.2) {
+        if (particleAge++ > particleMaxAge
+                || Utils.getDistanceAtoB(posX, posY, posZ, tPos.x, tPos.y, tPos.z) < 0.2) {
             setExpired();
         }
         BCProfiler.TICK.stop();
     }
 
     @Override
-    public void renderParticle(BufferBuilder vertexbuffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+    public void renderParticle(
+            BufferBuilder vertexbuffer,
+            Entity entityIn,
+            float partialTicks,
+            float rotationX,
+            float rotationZ,
+            float rotationYZ,
+            float rotationXY,
+            float rotationXZ) {
         BCProfiler.RENDER.start("core_fx");
         float minU = (float) this.particleTextureIndexX / 8.0F;
         float maxU = minU + 0.125F;
@@ -92,23 +98,68 @@ public class ParticleEnergyCoreFX extends BCParticle {
         float maxV = minV + 0.125F;
         float scale = 0.1F * this.particleScale;
 
-        float renderX = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) partialTicks - interpPosX);
-        float renderY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) partialTicks - interpPosY);
-        float renderZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) partialTicks - interpPosZ);
+        float renderX =
+                (float)
+                        (this.prevPosX
+                                + (this.posX - this.prevPosX) * (double) partialTicks
+                                - interpPosX);
+        float renderY =
+                (float)
+                        (this.prevPosY
+                                + (this.posY - this.prevPosY) * (double) partialTicks
+                                - interpPosY);
+        float renderZ =
+                (float)
+                        (this.prevPosZ
+                                + (this.posZ - this.prevPosZ) * (double) partialTicks
+                                - interpPosZ);
         int brightnessForRender = this.getBrightnessForRender(partialTicks);
         int j = brightnessForRender >> 16 & 65535;
         int k = brightnessForRender & 65535;
-        vertexbuffer.pos((double) (renderX - rotationX * scale - rotationXY * scale), (double) (renderY - rotationZ * scale), (double) (renderZ - rotationYZ * scale - rotationXZ * scale)).tex((double) maxU, (double) maxV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        vertexbuffer.pos((double) (renderX - rotationX * scale + rotationXY * scale), (double) (renderY + rotationZ * scale), (double) (renderZ - rotationYZ * scale + rotationXZ * scale)).tex((double) maxU, (double) minV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        vertexbuffer.pos((double) (renderX + rotationX * scale + rotationXY * scale), (double) (renderY + rotationZ * scale), (double) (renderZ + rotationYZ * scale + rotationXZ * scale)).tex((double) minU, (double) minV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        vertexbuffer.pos((double) (renderX + rotationX * scale - rotationXY * scale), (double) (renderY - rotationZ * scale), (double) (renderZ + rotationYZ * scale - rotationXZ * scale)).tex((double) minU, (double) maxV).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+        vertexbuffer
+                .pos(
+                        (double) (renderX - rotationX * scale - rotationXY * scale),
+                        (double) (renderY - rotationZ * scale),
+                        (double) (renderZ - rotationYZ * scale - rotationXZ * scale))
+                .tex((double) maxU, (double) maxV)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(j, k)
+                .endVertex();
+        vertexbuffer
+                .pos(
+                        (double) (renderX - rotationX * scale + rotationXY * scale),
+                        (double) (renderY + rotationZ * scale),
+                        (double) (renderZ - rotationYZ * scale + rotationXZ * scale))
+                .tex((double) maxU, (double) minV)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(j, k)
+                .endVertex();
+        vertexbuffer
+                .pos(
+                        (double) (renderX + rotationX * scale + rotationXY * scale),
+                        (double) (renderY + rotationZ * scale),
+                        (double) (renderZ + rotationYZ * scale + rotationXZ * scale))
+                .tex((double) minU, (double) minV)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(j, k)
+                .endVertex();
+        vertexbuffer
+                .pos(
+                        (double) (renderX + rotationX * scale - rotationXY * scale),
+                        (double) (renderY - rotationZ * scale),
+                        (double) (renderZ + rotationYZ * scale - rotationXZ * scale))
+                .tex((double) minU, (double) maxV)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(j, k)
+                .endVertex();
         BCProfiler.RENDER.stop();
     }
 
     public static class Factory implements IBCParticleFactory {
 
         @Override
-        public Particle getEntityFX(int particleID, World world, Vec3D pos, Vec3D targetPos, int... args) {
+        public Particle getEntityFX(
+                int particleID, World world, Vec3D pos, Vec3D targetPos, int... args) {
             ParticleEnergyCoreFX particle = new ParticleEnergyCoreFX(world, pos, targetPos);
             particle.toCore = args.length >= 1 && args[0] == 1;
             particle.startRotation = args.length >= 2 ? args[1] : 0;

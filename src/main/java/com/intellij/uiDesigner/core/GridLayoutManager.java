@@ -1,8 +1,8 @@
 package com.intellij.uiDesigner.core;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
+import javax.swing.*;
 
 public final class GridLayoutManager extends AbstractLayout {
     private int myMinCellSize = 20;
@@ -51,7 +51,14 @@ public final class GridLayoutManager extends AbstractLayout {
         this.myMinCellSize = 0;
     }
 
-    public GridLayoutManager(int rowCount, int columnCount, Insets margin, int hGap, int vGap, boolean sameSizeHorizontally, boolean sameSizeVertically) {
+    public GridLayoutManager(
+            int rowCount,
+            int columnCount,
+            Insets margin,
+            int hGap,
+            int vGap,
+            boolean sameSizeHorizontally,
+            boolean sameSizeVertically) {
         this(rowCount, columnCount, margin, hGap, vGap);
         this.mySameSizeHorizontally = sameSizeHorizontally;
         this.mySameSizeVertically = sameSizeVertically;
@@ -66,7 +73,8 @@ public final class GridLayoutManager extends AbstractLayout {
             throw new IllegalArgumentException("wrong row: " + row);
         }
         if (row + rowSpan - 1 >= rowCount) {
-            throw new IllegalArgumentException("wrong row span: " + rowSpan + "; row=" + row + " rowCount=" + rowCount);
+            throw new IllegalArgumentException(
+                    "wrong row span: " + rowSpan + "; row=" + row + " rowCount=" + rowCount);
         }
         int column = c.getColumn();
         int colSpan = c.getColSpan();
@@ -75,7 +83,13 @@ public final class GridLayoutManager extends AbstractLayout {
             throw new IllegalArgumentException("wrong column: " + column);
         }
         if (column + colSpan - 1 >= columnCount) {
-            throw new IllegalArgumentException("wrong col span: " + colSpan + "; column=" + column + " columnCount=" + columnCount);
+            throw new IllegalArgumentException(
+                    "wrong col span: "
+                            + colSpan
+                            + "; column="
+                            + column
+                            + " columnCount="
+                            + columnCount);
         }
         super.addLayoutComponent(comp, constraints);
     }
@@ -116,7 +130,6 @@ public final class GridLayoutManager extends AbstractLayout {
 
     public Dimension minimumLayoutSize(Container container) {
         validateInfos(container);
-
 
         DimensionInfo horizontalInfo = this.myHorizontalInfo;
         DimensionInfo verticalInfo = this.myVerticalInfo;
@@ -167,7 +180,6 @@ public final class GridLayoutManager extends AbstractLayout {
     public Dimension preferredLayoutSize(Container container) {
         validateInfos(container);
 
-
         DimensionInfo horizontalInfo = this.myHorizontalInfo;
         DimensionInfo verticalInfo = this.myVerticalInfo;
 
@@ -198,13 +210,24 @@ public final class GridLayoutManager extends AbstractLayout {
 
     private Dimension getTotalGap(Container container, DimensionInfo hInfo, DimensionInfo vInfo) {
         Insets insets = getInsets(container);
-        return new Dimension(insets.left + insets.right + countGap(hInfo, 0, hInfo.getCellCount()) + this.myMargin.left + this.myMargin.right, insets.top + insets.bottom + countGap(vInfo, 0, vInfo.getCellCount()) + this.myMargin.top + this.myMargin.bottom);
+        return new Dimension(
+                insets.left
+                        + insets.right
+                        + countGap(hInfo, 0, hInfo.getCellCount())
+                        + this.myMargin.left
+                        + this.myMargin.right,
+                insets.top
+                        + insets.bottom
+                        + countGap(vInfo, 0, vInfo.getCellCount())
+                        + this.myMargin.top
+                        + this.myMargin.bottom);
     }
 
     private static int getDesignTimeInsets(Container container) {
         while (container != null) {
             if ((container instanceof JComponent)) {
-                Integer designTimeInsets = (Integer) ((JComponent) container).getClientProperty(DESIGN_TIME_INSETS);
+                Integer designTimeInsets =
+                        (Integer) ((JComponent) container).getClientProperty(DESIGN_TIME_INSETS);
                 if (designTimeInsets != null) {
                     return designTimeInsets.intValue();
                 }
@@ -218,7 +241,11 @@ public final class GridLayoutManager extends AbstractLayout {
         Insets insets = container.getInsets();
         int insetsValue = getDesignTimeInsets(container);
         if (insetsValue != 0) {
-            return new Insets(insets.top + insetsValue, insets.left + insetsValue, insets.bottom + insetsValue, insets.right + insetsValue);
+            return new Insets(
+                    insets.top + insetsValue,
+                    insets.left + insetsValue,
+                    insets.bottom + insetsValue,
+                    insets.right + insetsValue);
         }
         return insets;
     }
@@ -235,7 +262,8 @@ public final class GridLayoutManager extends AbstractLayout {
 
     private static boolean shouldAddGapAfterCell(DimensionInfo info, int cellIndex) {
         if ((cellIndex < 0) || (cellIndex >= info.getCellCount())) {
-            throw new IllegalArgumentException("wrong cellIndex: " + cellIndex + "; cellCount=" + info.getCellCount());
+            throw new IllegalArgumentException(
+                    "wrong cellIndex: " + cellIndex + "; cellCount=" + info.getCellCount());
         }
         boolean endsInThis = false;
         boolean startsInNext = false;
@@ -250,7 +278,9 @@ public final class GridLayoutManager extends AbstractLayout {
         for (int i = 0; i < info.getComponentCount(); i++) {
             Component component = info.getComponent(i);
             if (!(component instanceof Spacer)) {
-                if ((info.componentBelongsCell(i, cellIndex)) && (DimensionInfo.findAlignedChild(component, info.getConstraints(i)) != null)) {
+                if ((info.componentBelongsCell(i, cellIndex))
+                        && (DimensionInfo.findAlignedChild(component, info.getConstraints(i))
+                                != null)) {
                     return true;
                 }
                 if (info.getCell(i) == indexOfNextNotEmpty) {
@@ -266,7 +296,8 @@ public final class GridLayoutManager extends AbstractLayout {
 
     private static boolean isCellEmpty(DimensionInfo info, int cellIndex) {
         if ((cellIndex < 0) || (cellIndex >= info.getCellCount())) {
-            throw new IllegalArgumentException("wrong cellIndex: " + cellIndex + "; cellCount=" + info.getCellCount());
+            throw new IllegalArgumentException(
+                    "wrong cellIndex: " + cellIndex + "; cellCount=" + info.getCellCount());
         }
         for (int i = 0; i < info.getComponentCount(); i++) {
             Component component = info.getComponent(i);
@@ -279,7 +310,6 @@ public final class GridLayoutManager extends AbstractLayout {
 
     public void layoutContainer(Container container) {
         validateInfos(container);
-
 
         LayoutState layoutState = this.myLayoutState;
         DimensionInfo horizontalInfo = this.myHorizontalInfo;
@@ -306,12 +336,10 @@ public final class GridLayoutManager extends AbstractLayout {
             int[] heights;
             if (this.mySameSizeVertically) {
                 heights = getSameSizes(verticalInfo, Math.max(size.height, minSize.height));
-            }
-            else if (size.height < prefSize.height) {
+            } else if (size.height < prefSize.height) {
                 heights = getMinSizes(verticalInfo);
                 new_doIt(heights, 0, verticalInfo.getCellCount(), size.height, verticalInfo, true);
-            }
-            else {
+            } else {
                 heights = getPrefSizes(verticalInfo);
                 new_doIt(heights, 0, verticalInfo.getCellCount(), size.height, verticalInfo, false);
             }
@@ -329,14 +357,19 @@ public final class GridLayoutManager extends AbstractLayout {
             int[] widths;
             if (this.mySameSizeHorizontally) {
                 widths = getSameSizes(horizontalInfo, Math.max(size.width, minSize.width));
-            }
-            else if (size.width < prefSize.width) {
+            } else if (size.width < prefSize.width) {
                 widths = getMinSizes(horizontalInfo);
-                new_doIt(widths, 0, horizontalInfo.getCellCount(), size.width, horizontalInfo, true);
-            }
-            else {
+                new_doIt(
+                        widths, 0, horizontalInfo.getCellCount(), size.width, horizontalInfo, true);
+            } else {
                 widths = getPrefSizes(horizontalInfo);
-                new_doIt(widths, 0, horizontalInfo.getCellCount(), size.width, horizontalInfo, false);
+                new_doIt(
+                        widths,
+                        0,
+                        horizontalInfo.getCellCount(),
+                        size.width,
+                        horizontalInfo,
+                        false);
             }
             int x = insets.left + this.myMargin.left;
             for (int i = 0; i < widths.length; i++) {
@@ -357,15 +390,23 @@ public final class GridLayoutManager extends AbstractLayout {
             int row = verticalInfo.getCell(i);
             int rowSpan = verticalInfo.getSpan(i);
 
-            int cellWidth = this.myXs[(column + colSpan - 1)] + this.myWidths[(column + colSpan - 1)] - this.myXs[column];
-            int cellHeight = this.myYs[(row + rowSpan - 1)] + this.myHeights[(row + rowSpan - 1)] - this.myYs[row];
+            int cellWidth =
+                    this.myXs[(column + colSpan - 1)]
+                            + this.myWidths[(column + colSpan - 1)]
+                            - this.myXs[column];
+            int cellHeight =
+                    this.myYs[(row + rowSpan - 1)]
+                            + this.myHeights[(row + rowSpan - 1)]
+                            - this.myYs[row];
 
             Dimension componentSize = new Dimension(cellWidth, cellHeight);
             if ((c.getFill() & 0x1) == 0) {
-                componentSize.width = Math.min(componentSize.width, horizontalInfo.getPreferredWidth(i));
+                componentSize.width =
+                        Math.min(componentSize.width, horizontalInfo.getPreferredWidth(i));
             }
             if ((c.getFill() & 0x2) == 0) {
-                componentSize.height = Math.min(componentSize.height, verticalInfo.getPreferredWidth(i));
+                componentSize.height =
+                        Math.min(componentSize.height, verticalInfo.getPreferredWidth(i));
             }
             Util.adjustSize(component, c, componentSize);
 
@@ -373,21 +414,23 @@ public final class GridLayoutManager extends AbstractLayout {
             int dy = 0;
             if ((c.getAnchor() & 0x4) != 0) {
                 dx = cellWidth - componentSize.width;
-            }
-            else if ((c.getAnchor() & 0x8) == 0) {
+            } else if ((c.getAnchor() & 0x8) == 0) {
                 dx = (cellWidth - componentSize.width) / 2;
             }
             if ((c.getAnchor() & 0x2) != 0) {
                 dy = cellHeight - componentSize.height;
-            }
-            else if ((c.getAnchor() & 0x1) == 0) {
+            } else if ((c.getAnchor() & 0x1) == 0) {
                 dy = (cellHeight - componentSize.height) / 2;
             }
             int indent = 10 * c.getIndent();
             componentSize.width -= indent;
             dx += indent;
 
-            component.setBounds(this.myXs[column] + dx, this.myYs[row] + dy, componentSize.width, componentSize.height);
+            component.setBounds(
+                    this.myXs[column] + dx,
+                    this.myYs[row] + dy,
+                    componentSize.width,
+                    componentSize.height);
         }
     }
 
@@ -397,14 +440,12 @@ public final class GridLayoutManager extends AbstractLayout {
         GridLayoutManager parentGridLayout = null;
         GridConstraints parentGridConstraints = null;
 
-
         Container parent = container.getParent();
         if (parent != null) {
             if ((parent.getLayout() instanceof GridLayoutManager)) {
                 parentGridLayout = (GridLayoutManager) parent.getLayout();
                 parentGridConstraints = parentGridLayout.getConstraintsForComponent(container);
-            }
-            else {
+            } else {
                 Container parent2 = parent.getParent();
                 if ((parent2 != null) && ((parent2.getLayout() instanceof GridLayoutManager))) {
                     parentGridLayout = (GridLayoutManager) parent2.getLayout();
@@ -421,7 +462,8 @@ public final class GridLayoutManager extends AbstractLayout {
                     this.myYs[i] = (parentGridLayout.myYs[(i + row)] - parentGridLayout.myYs[row]);
                     this.myHeights[i] = parentGridLayout.myHeights[(i + row)];
                 }
-                this.myHeights[(this.myRowStretches.length - 1)] -= insets.bottom + this.myMargin.bottom;
+                this.myHeights[(this.myRowStretches.length - 1)] -=
+                        insets.bottom + this.myMargin.bottom;
                 skipLayout |= 0x1;
             }
             if (this.myColumnStretches.length == parentGridConstraints.getColSpan()) {
@@ -432,7 +474,8 @@ public final class GridLayoutManager extends AbstractLayout {
                     this.myXs[i] = (parentGridLayout.myXs[(i + col)] - parentGridLayout.myXs[col]);
                     this.myWidths[i] = parentGridLayout.myWidths[(i + col)];
                 }
-                this.myWidths[(this.myColumnStretches.length - 1)] -= insets.right + this.myMargin.right;
+                this.myWidths[(this.myColumnStretches.length - 1)] -=
+                        insets.right + this.myMargin.right;
                 skipLayout |= 0x2;
             }
         }
@@ -492,7 +535,10 @@ public final class GridLayoutManager extends AbstractLayout {
         }
         for (int i = info.getComponentCount() - 1; i >= 0; i--) {
             if (info.getSpan(i) == 1) {
-                int size = min ? getMin2(info, i) : Math.max(info.getMinimumWidth(i), info.getPreferredWidth(i));
+                int size =
+                        min
+                                ? getMin2(info, i)
+                                : Math.max(info.getMinimumWidth(i), info.getPreferredWidth(i));
                 int cell = info.getCell(i);
                 int gap = countGap(info, cell, info.getSpan(i));
                 size = Math.max(size - gap, 0);
@@ -502,10 +548,12 @@ public final class GridLayoutManager extends AbstractLayout {
         }
         updateSizesFromChildren(info, min, widths);
 
-
         boolean[] toProcess = new boolean[info.getCellCount()];
         for (int i = info.getComponentCount() - 1; i >= 0; i--) {
-            int size = min ? getMin2(info, i) : Math.max(info.getMinimumWidth(i), info.getPreferredWidth(i));
+            int size =
+                    min
+                            ? getMin2(info, i)
+                            : Math.max(info.getMinimumWidth(i), info.getPreferredWidth(i));
 
             int span = info.getSpan(i);
             int cell = info.getCell(i);
@@ -538,8 +586,8 @@ public final class GridLayoutManager extends AbstractLayout {
                 Container container = (Container) child;
                 if ((container.getLayout() instanceof GridLayoutManager)) {
                     updateSizesFromChild(info, min, widths, container, i);
-                }
-                else if ((container.getComponentCount() == 1) && ((container.getComponent(0) instanceof Container))) {
+                } else if ((container.getComponentCount() == 1)
+                        && ((container.getComponent(0) instanceof Container))) {
                     Container childContainer = (Container) container.getComponent(0);
                     if ((childContainer.getLayout() instanceof GridLayoutManager)) {
                         updateSizesFromChild(info, min, widths, childContainer, i);
@@ -549,12 +597,15 @@ public final class GridLayoutManager extends AbstractLayout {
         }
     }
 
-    private static void updateSizesFromChild(DimensionInfo info, boolean min, int[] widths, Container container, int childIndex) {
+    private static void updateSizesFromChild(
+            DimensionInfo info, boolean min, int[] widths, Container container, int childIndex) {
         GridLayoutManager childLayout = (GridLayoutManager) container.getLayout();
         if (info.getSpan(childIndex) == info.getChildLayoutCellCount(childLayout)) {
             childLayout.validateInfos(container);
-            DimensionInfo childInfo = (info instanceof HorizontalInfo) ? childLayout.myHorizontalInfo : childLayout.myVerticalInfo;
-
+            DimensionInfo childInfo =
+                    (info instanceof HorizontalInfo)
+                            ? childLayout.myHorizontalInfo
+                            : childLayout.myVerticalInfo;
 
             int[] sizes = childLayout.getMinOrPrefSizes(childInfo, min);
             int cell = info.getCell(childIndex);
@@ -568,14 +619,22 @@ public final class GridLayoutManager extends AbstractLayout {
         int s;
         if ((info.getSizePolicy(componentIndex) & 0x1) != 0) {
             s = info.getMinimumWidth(componentIndex);
-        }
-        else {
-            s = Math.max(info.getMinimumWidth(componentIndex), info.getPreferredWidth(componentIndex));
+        } else {
+            s =
+                    Math.max(
+                            info.getMinimumWidth(componentIndex),
+                            info.getPreferredWidth(componentIndex));
         }
         return s;
     }
 
-    private void new_doIt(int[] widths, int cell, int span, int minWidth, DimensionInfo info, boolean checkPrefs) {
+    private void new_doIt(
+            int[] widths,
+            int cell,
+            int span,
+            int minWidth,
+            DimensionInfo info,
+            boolean checkPrefs) {
         int toDistribute = minWidth;
         for (int i = cell; i < cell + span; i++) {
             toDistribute -= widths[i];
@@ -593,7 +652,8 @@ public final class GridLayoutManager extends AbstractLayout {
         distribute(higherPriorityCells, info, toDistribute, widths);
     }
 
-    private static void distribute(boolean[] higherPriorityCells, DimensionInfo info, int toDistribute, int[] widths) {
+    private static void distribute(
+            boolean[] higherPriorityCells, DimensionInfo info, int toDistribute, int[] widths) {
         int stretches = 0;
         for (int i = 0; i < info.getCellCount(); i++) {
             if (higherPriorityCells[i]) {
@@ -625,7 +685,12 @@ public final class GridLayoutManager extends AbstractLayout {
         }
     }
 
-    private void getCellsWithHigherPriorities(DimensionInfo info, boolean[] allowedCells, boolean[] higherPriorityCells, boolean checkPrefs, int[] widths) {
+    private void getCellsWithHigherPriorities(
+            DimensionInfo info,
+            boolean[] allowedCells,
+            boolean[] higherPriorityCells,
+            boolean checkPrefs,
+            int[] widths) {
         Arrays.fill(higherPriorityCells, false);
 
         int foundCells = 0;
@@ -705,7 +770,8 @@ public final class GridLayoutManager extends AbstractLayout {
         for (int i = 0; i < this.myYs.length - 1; i++) {
             result[(i + 1)] = ((this.myYs[i] + this.myHeights[i] + this.myYs[(i + 1)]) / 2);
         }
-        result[this.myYs.length] = (this.myYs[(this.myYs.length - 1)] + this.myHeights[(this.myYs.length - 1)]);
+        result[this.myYs.length] =
+                (this.myYs[(this.myYs.length - 1)] + this.myHeights[(this.myYs.length - 1)]);
         return result;
     }
 
@@ -715,7 +781,8 @@ public final class GridLayoutManager extends AbstractLayout {
         for (int i = 0; i < this.myXs.length - 1; i++) {
             result[(i + 1)] = ((this.myXs[i] + this.myWidths[i] + this.myXs[(i + 1)]) / 2);
         }
-        result[this.myXs.length] = (this.myXs[(this.myXs.length - 1)] + this.myWidths[(this.myXs.length - 1)]);
+        result[this.myXs.length] =
+                (this.myXs[(this.myXs.length - 1)] + this.myWidths[(this.myXs.length - 1)]);
         return result;
     }
 

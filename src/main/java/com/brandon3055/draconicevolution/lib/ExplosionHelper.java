@@ -7,6 +7,10 @@ import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.network.PacketExplosionFX;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import gnu.trove.set.hash.THashSet;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -24,14 +28,10 @@ import net.minecraft.world.chunk.Chunk.EnumCreateEntityType;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-
 /**
- * Created by brandon3055 on 16/03/2017.
- * Based on BlockPlacementBatcher by covers1624 which if i recall correctly was originally a collaborative effort between me and covers. (By that i mean i had the idea then covers did all the work)
+ * Created by brandon3055 on 16/03/2017. Based on BlockPlacementBatcher by covers1624 which if i
+ * recall correctly was originally a collaborative effort between me and covers. (By that i mean i
+ * had the idea then covers did all the work)
  */
 public class ExplosionHelper {
 
@@ -69,7 +69,8 @@ public class ExplosionHelper {
 
             PlayerChunkMap playerChunkMap = serverWorld.getPlayerChunkMap();
             if (playerChunkMap != null) {
-                PlayerChunkMapEntry watcher = playerChunkMap.getEntry(pos.getX() >> 4, pos.getZ() >> 4);
+                PlayerChunkMapEntry watcher =
+                        playerChunkMap.getEntry(pos.getX() >> 4, pos.getZ() >> 4);
                 if (watcher != null) {
                     watcher.sendPacket(new SPacketBlockChange(serverWorld, pos));
                 }
@@ -97,7 +98,8 @@ public class ExplosionHelper {
     private Chunk getChunk(BlockPos pos) {
         ChunkPos cp = new ChunkPos(pos);
         if (!chunkCache.containsKey(cp)) {
-            chunkCache.put(cp, serverWorld.getChunkFromChunkCoords(pos.getX() >> 4, pos.getZ() >> 4));
+            chunkCache.put(
+                    cp, serverWorld.getChunkFromChunkCoords(pos.getX() >> 4, pos.getZ() >> 4));
         }
 
         return chunkCache.get(cp);
@@ -133,9 +135,9 @@ public class ExplosionHelper {
         }
     }
 
-
     /**
-     * Call when finished removing blocks to calculate lighting and send chunk updates to the client.
+     * Call when finished removing blocks to calculate lighting and send chunk updates to the
+     * client.
      */
     public void finish() {
         LogHelper.dev("EH: finish");
@@ -170,7 +172,8 @@ public class ExplosionHelper {
         @Override
         public void updateProcess() {
             server.currentTime = MinecraftServer.getCurrentTimeMillis();
-            while (MinecraftServer.getCurrentTimeMillis() - server.currentTime < 50 && helper.toRemove.size() > 0) {
+            while (MinecraftServer.getCurrentTimeMillis() - server.currentTime < 50
+                    && helper.toRemove.size() > 0) {
                 LogHelper.dev("Processing chunks at rad: " + index);
                 HashSet<Integer> set = helper.toRemove.removeFirst();
                 for (int pos : set) {
@@ -194,10 +197,12 @@ public class ExplosionHelper {
 
             for (Chunk chunk : helper.modifiedChunks) {
                 chunk.setModified(true);
-                chunk.generateSkylightMap(); //This is where this falls short. It can calculate basic sky lighting for blocks exposed to the sky but thats it.
+                chunk.generateSkylightMap(); // This is where this falls short. It can calculate
+                // basic sky lighting for blocks exposed to the sky
+                // but thats it.
 
                 PlayerChunkMapEntry watcher = playerChunkMap.getEntry(chunk.x, chunk.z);
-                if (watcher != null) {//TODO Change chunk mask to only the sub chunks changed.
+                if (watcher != null) { // TODO Change chunk mask to only the sub chunks changed.
                     watcher.sendPacket(new SPacketChunkData(chunk, 65535));
                 }
             }
@@ -212,14 +217,23 @@ public class ExplosionHelper {
                 LogHelper.dev("Updating " + helper.blocksToUpdate.size() + " Blocks");
                 BlockFalling.fallInstantly = true;
                 for (int pos : helper.blocksToUpdate) {
-                    IBlockState state = helper.serverWorld.getBlockState(helper.shortPos.getActualPos(pos));
+                    IBlockState state =
+                            helper.serverWorld.getBlockState(helper.shortPos.getActualPos(pos));
                     if (state.getBlock() instanceof BlockFalling) {
-                        state.getBlock().updateTick(helper.serverWorld, helper.shortPos.getActualPos(pos), state, helper.serverWorld.rand);
+                        state.getBlock()
+                                .updateTick(
+                                        helper.serverWorld,
+                                        helper.shortPos.getActualPos(pos),
+                                        state,
+                                        helper.serverWorld.rand);
                     }
-                    state.neighborChanged(helper.serverWorld, helper.shortPos.getActualPos(pos), Blocks.AIR, helper.shortPos.getActualPos(pos).up());
+                    state.neighborChanged(
+                            helper.serverWorld,
+                            helper.shortPos.getActualPos(pos),
+                            Blocks.AIR,
+                            helper.shortPos.getActualPos(pos).up());
                 }
-            }
-            catch (Throwable e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
             LogHelper.stopTimer();
@@ -227,7 +241,14 @@ public class ExplosionHelper {
             BlockFalling.fallInstantly = false;
 
             PacketExplosionFX packet = new PacketExplosionFX(helper.start, 0, true);
-            DraconicEvolution.network.sendToAllAround(packet, new NetworkRegistry.TargetPoint(helper.serverWorld.provider.getDimension(), helper.start.getX(), helper.start.getY(), helper.start.getZ(), 500));
+            DraconicEvolution.network.sendToAllAround(
+                    packet,
+                    new NetworkRegistry.TargetPoint(
+                            helper.serverWorld.provider.getDimension(),
+                            helper.start.getX(),
+                            helper.start.getY(),
+                            helper.start.getZ(),
+                            500));
         }
 
         @Override

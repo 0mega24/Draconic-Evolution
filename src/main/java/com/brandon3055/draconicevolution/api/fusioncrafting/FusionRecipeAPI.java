@@ -3,10 +3,7 @@ package com.brandon3055.draconicevolution.api.fusioncrafting;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by brandon3055 on 11/06/2016.
- * This API allows you to register custom IFusionRecipe's
- */
+/** Created by brandon3055 on 11/06/2016. This API allows you to register custom IFusionRecipe's */
 public class FusionRecipeAPI {
 
     /**
@@ -27,7 +24,8 @@ public class FusionRecipeAPI {
 
     /**
      * Can be used to remove a recipe from the registry.<br>
-     * If for whatever reason you wish to remove a recipe from another mod do so in during post initialisation.
+     * If for whatever reason you wish to remove a recipe from another mod do so in during post
+     * initialisation.
      */
     public static void removeRecipe(IFusionRecipe recipe) {
         if (registry != null) {
@@ -35,9 +33,7 @@ public class FusionRecipeAPI {
         }
     }
 
-    /**
-     * @return a list of all currently registered fusion crafting recipes.
-     */
+    /** @return a list of all currently registered fusion crafting recipes. */
     public static List<IFusionRecipe> getRecipes() {
         if (registry != null) {
             return registry.getRecipes();
