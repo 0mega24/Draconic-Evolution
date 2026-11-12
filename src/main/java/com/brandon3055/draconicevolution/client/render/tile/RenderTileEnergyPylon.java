@@ -17,6 +17,7 @@ import com.brandon3055.draconicevolution.config.visuals.EnergyCoreVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import java.util.Map;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.client.MinecraftForgeClient;
 import org.lwjgl.opengl.GL11;
@@ -25,6 +26,8 @@ import org.lwjgl.opengl.GL11;
 public class RenderTileEnergyPylon extends TESRBase<TileEnergyPylon> {
 
     private static CCModel model;
+    private static TextureAtlasSprite lastSprite;
+    private static IconTransformation lastIconTransform;
 
     public RenderTileEnergyPylon() {
         Map<String, CCModel> map =
@@ -57,12 +60,14 @@ public class RenderTileEnergyPylon extends TESRBase<TileEnergyPylon> {
                 new Vector3(x + 0.5, y + (te.sphereOnTop.value ? 1.5 : -0.5), z + 0.5);
         translateVector.translation().glApply();
         int rgb = EnergyCoreVisuals.pylonRGB;
-        IconTransformation iconTransform =
-                new IconTransformation(
-                        DETextureCache.getDETexture(
-                                rgb < 0
-                                        ? "models/pylon_sphere_texture"
-                                        : "models/pylon_sphere_tint"));
+        TextureAtlasSprite sprite =
+                DETextureCache.getDETexture(
+                        rgb < 0 ? "models/pylon_sphere_texture" : "models/pylon_sphere_tint");
+        if (sprite != lastSprite) {
+            lastSprite = sprite;
+            lastIconTransform = new IconTransformation(sprite);
+        }
+        IconTransformation iconTransform = lastIconTransform;
         if (rgb < 0) {
             rgb = 0xFFFFFF;
         }

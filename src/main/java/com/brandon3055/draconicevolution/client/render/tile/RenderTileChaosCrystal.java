@@ -260,6 +260,8 @@ public class RenderTileChaosCrystal extends TESRBase<TileChaosCrystal> {
             tessellator.draw();
             GlStateManager.enableLighting();
             GlStateManager.depthMask(true);
+            GlStateManager.disableBlend();
+            GlStateManager.enableCull();
             GlStateManager.popMatrix();
         }
     }

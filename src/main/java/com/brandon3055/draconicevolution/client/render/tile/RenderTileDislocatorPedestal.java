@@ -7,6 +7,7 @@ import com.brandon3055.brandonscore.utils.Teleporter;
 import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileDislocatorPedestal;
+import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.config.ClientConfig;
 import com.brandon3055.draconicevolution.items.tools.Dislocator;
 import com.brandon3055.draconicevolution.items.tools.DislocatorAdvanced;
@@ -76,7 +77,7 @@ public class RenderTileDislocatorPedestal extends TESRBase<TileDislocatorPedesta
     private void drawNameString(
             ItemStack item, float rotation, TileDislocatorPedestal te, float f) {
         EntityPlayerSP player = Minecraft.getMinecraft().player;
-        RayTraceResult mop = player.rayTrace(10, f);
+        RayTraceResult mop = playerRayTrace(player, f);
         boolean isCursorOver =
                 mop != null
                         && mop.typeOfHit == RayTraceResult.Type.BLOCK
@@ -154,5 +155,20 @@ public class RenderTileDislocatorPedestal extends TESRBase<TileDislocatorPedesta
 
         GlStateManager.enableLighting();
         GlStateManager.popMatrix();
+    }
+
+    private static RayTraceResult lastRayTrace;
+    private static int lastRayTraceTick = -1;
+    private static float lastRayTracePartial = -1;
+
+    /** The player's 10 block ray trace, computed once per frame and shared by all pedestals. */
+    private static RayTraceResult playerRayTrace(EntityPlayerSP player, float partialTicks) {
+        if (ClientEventHandler.elapsedTicks != lastRayTraceTick
+                || partialTicks != lastRayTracePartial) {
+            lastRayTrace = player.rayTrace(10, partialTicks);
+            lastRayTraceTick = ClientEventHandler.elapsedTicks;
+            lastRayTracePartial = partialTicks;
+        }
+        return lastRayTrace;
     }
 }
