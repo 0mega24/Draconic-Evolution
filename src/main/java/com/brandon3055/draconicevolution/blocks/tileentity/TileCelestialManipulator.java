@@ -13,6 +13,7 @@ import com.brandon3055.draconicevolution.client.render.effect.EffectTrackerCeles
 import com.brandon3055.draconicevolution.client.render.effect.EffectTrackerCelestialManipulator.SubParticle;
 import com.brandon3055.draconicevolution.client.sound.CelestialModifierSound;
 import com.brandon3055.draconicevolution.config.ClientConfig;
+import com.brandon3055.draconicevolution.config.visuals.EffectVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.lib.DESoundHandler;
 import com.brandon3055.draconicevolution.utils.DETextures;
@@ -454,14 +455,14 @@ public class TileCelestialManipulator extends TileEnergyBase
                             Vec3D.getCenter(pos).add(0, 1.5, 0)));
         }
 
-        effects.get(0).red = 1F;
-        effects.get(0).green = 0.821F;
-        effects.get(0).blue = 0.174F;
+        effects.get(0).red = EffectVisuals.celestialSunRGB[0];
+        effects.get(0).green = EffectVisuals.celestialSunRGB[1];
+        effects.get(0).blue = EffectVisuals.celestialSunRGB[2];
         effects.get(0).renderBolts = false;
 
-        effects.get(1).red = 1F;
-        effects.get(1).green = 1F;
-        effects.get(1).blue = 1F;
+        effects.get(1).red = EffectVisuals.celestialSunCoreRGB[0];
+        effects.get(1).green = EffectVisuals.celestialSunCoreRGB[1];
+        effects.get(1).blue = EffectVisuals.celestialSunCoreRGB[2];
         effects.get(1).renderBolts = false;
 
         sound = new CelestialModifierSound(DESoundHandler.sunDialEffect);
@@ -530,15 +531,13 @@ public class TileCelestialManipulator extends TileEnergyBase
             effect.onUpdate();
 
             effect.pos = focus.copy().add(x, (i % 2 == 0 ? x : -x) * 0.8, z);
-            if (i % 2 == 0) {
-                effect.red = 0.9F;
-                effect.green = 0.5F;
-                effect.blue = 0.1F;
-            } else {
-                effect.red = 0.3F;
-                effect.green = 0.2F;
-                effect.blue = 1;
-            }
+            float[] rgb =
+                    i % 2 == 0
+                            ? EffectVisuals.celestialOrbitRGBA
+                            : EffectVisuals.celestialOrbitRGBB;
+            effect.red = rgb[0];
+            effect.green = rgb[1];
+            effect.blue = rgb[2];
 
             effect.effectFocus = focus;
             effect.renderBolts = false;

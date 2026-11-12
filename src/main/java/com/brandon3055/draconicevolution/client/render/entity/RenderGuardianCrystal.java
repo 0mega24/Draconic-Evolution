@@ -1,6 +1,7 @@
 package com.brandon3055.draconicevolution.client.render.entity;
 
 import com.brandon3055.draconicevolution.client.model.ModelGuardianCrystal;
+import com.brandon3055.draconicevolution.config.visuals.EffectVisuals;
 import com.brandon3055.draconicevolution.entity.EntityGuardianCrystal;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
@@ -83,23 +84,62 @@ public class RenderGuardianCrystal extends Render<EntityGuardianCrystal> {
             double d24 = (double) (-1.0F + f3);
             double d26 = (double) (256.0F) + d24;
 
+            int beamR = Math.round(EffectVisuals.chaosBeamRGB[0] * 255);
+            int beamG = Math.round(EffectVisuals.chaosBeamRGB[1] * 255);
+            int beamB = Math.round(EffectVisuals.chaosBeamRGB[2] * 255);
             buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-            buffer.pos(x + d30, y + d18, z + d4).tex(d22, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d30, y, z + d4).tex(d22, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d6, y, z + d8).tex(d20, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d6, y + d18, z + d8).tex(d20, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d14, y + d18, z + d16).tex(d22, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d14, y, z + d16).tex(d22, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d10, y, z + d12).tex(d20, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d10, y + d18, z + d12).tex(d20, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d6, y + d18, z + d8).tex(d22, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d6, y, z + d8).tex(d22, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d14, y, z + d16).tex(d20, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d14, y + d18, z + d16).tex(d20, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d10, y + d18, z + d12).tex(d22, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d10, y, z + d12).tex(d22, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d30, y, z + d4).tex(d20, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d30, y + d18, z + d4).tex(d20, d26).color(200, 0, 0, 32).endVertex();
+            buffer.pos(x + d30, y + d18, z + d4)
+                    .tex(d22, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d30, y, z + d4).tex(d22, d24).color(beamR, beamG, beamB, 32).endVertex();
+            buffer.pos(x + d6, y, z + d8).tex(d20, d24).color(beamR, beamG, beamB, 32).endVertex();
+            buffer.pos(x + d6, y + d18, z + d8)
+                    .tex(d20, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d14, y + d18, z + d16)
+                    .tex(d22, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d14, y, z + d16)
+                    .tex(d22, d24)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d10, y, z + d12)
+                    .tex(d20, d24)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d10, y + d18, z + d12)
+                    .tex(d20, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d6, y + d18, z + d8)
+                    .tex(d22, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d6, y, z + d8).tex(d22, d24).color(beamR, beamG, beamB, 32).endVertex();
+            buffer.pos(x + d14, y, z + d16)
+                    .tex(d20, d24)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d14, y + d18, z + d16)
+                    .tex(d20, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d10, y + d18, z + d12)
+                    .tex(d22, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d10, y, z + d12)
+                    .tex(d22, d24)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d30, y, z + d4).tex(d20, d24).color(beamR, beamG, beamB, 32).endVertex();
+            buffer.pos(x + d30, y + d18, z + d4)
+                    .tex(d20, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
             tessellator.draw();
             GlStateManager.enableLighting();
             GlStateManager.enableTexture2D();
