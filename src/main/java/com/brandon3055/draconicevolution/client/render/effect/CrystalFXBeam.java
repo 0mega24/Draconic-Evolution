@@ -10,6 +10,7 @@ import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.api.ICrystalLink;
 import com.brandon3055.draconicevolution.api.IENetEffectTile;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCrystalVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -98,7 +99,10 @@ public class CrystalFXBeam extends CrystalGLFXBase<IENetEffectTile> {
         planeC.multiply(scale);
         planeD.multiply(scale);
         double dist = 0.2 * Utils.getDistanceAtoB(new Vec3D(source), new Vec3D(target));
-        double anim = (ClientEventHandler.elapsedTicks + partialTicks) / -15D;
+        double anim =
+                (ClientEventHandler.elapsedTicks + partialTicks)
+                        / -15D
+                        * EnergyCrystalVisuals.beamAnimationSpeed;
 
         Vector3 p1 = source.copy().add(planeA);
         Vector3 p2 = target.copy().add(planeA);
@@ -210,18 +214,24 @@ public class CrystalFXBeam extends CrystalGLFXBase<IENetEffectTile> {
                 : tile.getTier() == 1 ? WYVERN_HANDLER : DRACONIC_HANDLER;
     }
 
-    private static final FXHandler BASIC_HANDLER = new FXHandler(DETextures.ENERGY_BEAM_BASIC);
-    private static final FXHandler WYVERN_HANDLER = new FXHandler(DETextures.ENERGY_BEAM_WYVERN);
+    private static final FXHandler BASIC_HANDLER =
+            new FXHandler(0, DETextures.ENERGY_BEAM_BASIC, DETextures.ENERGY_BEAM_BASIC_TINT);
+    private static final FXHandler WYVERN_HANDLER =
+            new FXHandler(1, DETextures.ENERGY_BEAM_WYVERN, DETextures.ENERGY_BEAM_WYVERN_TINT);
     private static final FXHandler DRACONIC_HANDLER =
-            new FXHandler(DETextures.ENERGY_BEAM_DRACONIC);
+            new FXHandler(2, DETextures.ENERGY_BEAM_DRACONIC, DETextures.ENERGY_BEAM_DRACONIC_TINT);
 
     public static class FXHandler implements IGLFXHandler {
 
-        private String texture;
-        private float green;
+        private final int tier;
+        private final String texture;
+        private final String tintTexture;
+        private final float green;
 
-        public FXHandler(String texture) {
+        public FXHandler(int tier, String texture, String tintTexture) {
+            this.tier = tier;
             this.texture = texture;
+            this.tintTexture = tintTexture;
             this.green = texture.endsWith(DETextures.ENERGY_BEAM_WYVERN) ? 0.3F : 1F;
         }
 
@@ -236,14 +246,23 @@ public class CrystalFXBeam extends CrystalGLFXBase<IENetEffectTile> {
                 float rotationYZ,
                 float rotationXY,
                 float rotationXZ) {
-            GlStateManager.color(1.0F, green, 1.0F, 1.0F);
+            int rgb = EnergyCrystalVisuals.beamRGB[tier];
+            if (rgb < 0) {
+                GlStateManager.color(1.0F, green, 1.0F, 1.0F);
+            } else {
+                GlStateManager.color(
+                        (rgb >> 16 & 0xFF) / 255F,
+                        (rgb >> 8 & 0xFF) / 255F,
+                        (rgb & 0xFF) / 255F,
+                        1F);
+            }
             GlStateTracker.pushState();
             GlStateManager.depthMask(false);
             GlStateManager.glTexParameterf(3553, 10242, 10497.0F);
             GlStateManager.glTexParameterf(3553, 10243, 10497.0F);
             GlStateManager.disableCull();
             GlStateManager.alphaFunc(GL11.GL_GREATER, 0F);
-            ResourceHelperDE.bindTexture(texture);
+            ResourceHelperDE.bindTexture(rgb < 0 ? texture : tintTexture);
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(
                     GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);

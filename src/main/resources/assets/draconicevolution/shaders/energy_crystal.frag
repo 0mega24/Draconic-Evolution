@@ -1,12 +1,11 @@
 #version 120
 
 uniform float time;
-uniform int type;
+uniform vec3 tint; // channel weights per tier, stock basic (0.0, 0.2, 0.3)
 uniform float mipmap;
 uniform vec2 angle;
 varying vec3 position;
 
-vec3 types[3] = vec3[](vec3(0.0, 0.2, 0.3), vec3(0.47, 0.0, 0.58), vec3(1.0 ,0.4 ,0.1));
 
 
 float snoise(vec3 uv, float res){
@@ -42,6 +41,6 @@ void main() {
 
     brightness = ((1 - mipmap) * brightness) + (mipmap * 1.2) ;//max(brightness, mipmap);
 
-    vec4 colour = vec4(brightness * types[type].r, pow(brightness, 2.0) * types[type].g, pow(brightness ,3.0) * types[type].b, 1.0);
+    vec4 colour = vec4(brightness * tint.r, pow(brightness, 2.0) * tint.g, pow(brightness ,3.0) * tint.b, 1.0);
 	gl_FragColor = colour;
 }

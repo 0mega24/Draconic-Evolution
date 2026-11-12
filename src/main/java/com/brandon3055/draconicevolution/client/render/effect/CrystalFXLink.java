@@ -8,6 +8,7 @@ import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.draconicevolution.blocks.energynet.tileentity.TileCrystalBase;
 import com.brandon3055.draconicevolution.blocks.energynet.tileentity.TileCrystalWirelessIO;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCrystalVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -91,7 +92,10 @@ public class CrystalFXLink extends CrystalGLFXBase<TileCrystalBase> {
                                 .subtract(target)
                                 .mag(); // Utils.getDistanceAtoB(new Vec3D(source), new
         // Vec3D(target));
-        double anim = (ClientEventHandler.elapsedTicks + partialTicks) / -15D;
+        double anim =
+                (ClientEventHandler.elapsedTicks + partialTicks)
+                        / -15D
+                        * EnergyCrystalVisuals.beamAnimationSpeed;
 
         Vector3 p1 = source.copy().add(planeA);
         Vector3 p2 = target.copy().add(planeA);
@@ -225,7 +229,9 @@ public class CrystalFXLink extends CrystalGLFXBase<TileCrystalBase> {
                     GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
             ResourceHelperDE.bindTexture(DETextures.ENERGY_BEAM_BASIC);
             //            GlStateManager.disableTexture2D();
-            GlStateManager.color(1, 0, 0, 1);
+            int rgb = EnergyCrystalVisuals.linkRGB;
+            GlStateManager.color(
+                    (rgb >> 16 & 0xFF) / 255F, (rgb >> 8 & 0xFF) / 255F, (rgb & 0xFF) / 255F, 1F);
 
             vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         }
