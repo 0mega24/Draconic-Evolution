@@ -87,7 +87,7 @@ public class MobSoul extends ItemBCore implements IRenderOverride {
     public String getItemStackDisplayName(ItemStack stack) {
         String eString = getEntityString(stack);
 
-        if (eString.equals("[Random-Display]")) {
+        if ("[Random-Display]".equals(eString)) {
             return "Mob "
                     + I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name");
         }
@@ -218,7 +218,7 @@ public class MobSoul extends ItemBCore implements IRenderOverride {
 
     @SideOnly(Side.CLIENT)
     public Entity getRenderEntity(String name) {
-        if (name.equals("[Random-Display]")) {
+        if ("[Random-Display]".equals(name)) {
             if (randomDisplayList == null) {
                 randomDisplayList = new ArrayList<>();
                 EntityList.ENTITY_EGGS.forEach(

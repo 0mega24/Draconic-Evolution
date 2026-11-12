@@ -186,7 +186,7 @@ public class GuiDissEnchanter extends ModularGuiContainer<ContainerDissEnchanter
             manager.add(selector, 0);
 
             return;
-        } else if (eventString.equals("SELECTOR_PICK")) {
+        } else if ("SELECTOR_PICK".equals(eventString)) {
             if (!(eventElement.linkedObject instanceof Integer)) {
                 player.sendMessage(
                         new TextComponentString("[ERROR]")

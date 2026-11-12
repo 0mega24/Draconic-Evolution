@@ -175,8 +175,8 @@ public class DCStack extends DisplayComponentBase {
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         super.onMGuiEvent(eventString, eventElement);
 
-        if (eventElement.id.equals("SCALE")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        if ("SCALE".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             if (StringUtils.isNullOrEmpty(((MGuiTextField) eventElement).getText())) {
                 return;
@@ -197,22 +197,22 @@ public class DCStack extends DisplayComponentBase {
             save();
 
             for (MGuiElementBase element : branch.guiWiki.contentWindow.editControls) {
-                if (element instanceof MGuiTextField && element.id.equals("SCALE")) {
+                if (element instanceof MGuiTextField && "SCALE".equals(element.id)) {
                     ((MGuiTextField) element).setFocused(true);
                     ((MGuiTextField) element).setCursorPosition(pos);
                     break;
                 }
             }
         } else if (eventElement instanceof MGuiButtonSolid
-                && ((MGuiButtonSolid) eventElement).buttonName.equals("TOGGLE_TOOLTIP")) {
+                && "TOGGLE_TOOLTIP".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             element.setAttribute(ATTRIB_TIP, String.valueOf(!toolTip));
             save();
         } else if (eventElement instanceof MGuiButtonSolid
-                && ((MGuiButtonSolid) eventElement).buttonName.equals("TOGGLE_SLOT")) {
+                && "TOGGLE_SLOT".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             element.setAttribute(ATTRIB_SLOT, String.valueOf(!renderSlot));
             save();
         } else if (eventElement instanceof MGuiButtonSolid
-                && ((MGuiButtonSolid) eventElement).buttonName.equals("SELECT_STACK")) {
+                && "SELECT_STACK".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             EntityPlayer player = Minecraft.getMinecraft().player;
             selector =
                     new StackSelector(
@@ -244,9 +244,9 @@ public class DCStack extends DisplayComponentBase {
                             .setId("CANCEL_PICK"));
             selector.initElement();
             modularGui.getManager().add(selector, 2);
-        } else if (eventElement.id.equals("CANCEL_PICK") && selector != null) {
+        } else if ("CANCEL_PICK".equals(eventElement.id) && selector != null) {
             modularGui.getManager().remove(selector);
-        } else if (eventString.equals("SELECTOR_PICK")) {
+        } else if ("SELECTOR_PICK".equals(eventString)) {
             boolean shouldSave = false;
             if (eventElement instanceof MGuiStackIcon) {
                 StackReference reference =

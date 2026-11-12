@@ -371,12 +371,12 @@ public class UIAddBranch extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
-        if (command.equals("comboBoxChanged")) {
+        if ("comboBoxChanged".equals(command)) {
             String selected = selectCategory.getSelectedItem().toString();
             categoryField.setText(selected);
         }
 
-        if (command.equals("Create")) {
+        if ("Create".equals(command)) {
             if (StringUtils.isNullOrEmpty(nameField.getText())) {
                 JOptionPane.showMessageDialog(
                         this,
@@ -429,7 +429,7 @@ public class UIAddBranch extends JFrame implements ActionListener {
             dispose();
         }
 
-        if (command.equals("Cancel")) {
+        if ("Cancel".equals(command)) {
             dispose();
         }
     }

@@ -118,17 +118,17 @@ public class ContributorHandler {
                 while (reader.hasNext()) {
                     String name = reader.nextName();
 
-                    if (name.equals("name")) {
+                    if ("name".equals(name)) {
                         contributor.name = reader.nextString();
-                    } else if (name.equals("ign")) {
+                    } else if ("ign".equals(name)) {
                         contributor.ign = reader.nextString();
-                    } else if (name.equals("contribution")) {
+                    } else if ("contribution".equals(name)) {
                         contributor.setContribution(reader.nextString());
-                    } else if (name.equals("details")) {
+                    } else if ("details".equals(name)) {
                         contributor.setDetails(reader.nextString());
-                    } else if (name.equals("website")) {
+                    } else if ("website".equals(name)) {
                         contributor.website = reader.nextString();
-                    } else if (name.equals("contributionLevel")) {
+                    } else if ("contributionLevel".equals(name)) {
                         contributor.setContributionLevel(reader.nextInt());
                     }
                 }

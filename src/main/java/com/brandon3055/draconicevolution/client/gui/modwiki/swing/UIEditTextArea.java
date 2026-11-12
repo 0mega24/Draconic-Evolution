@@ -229,10 +229,10 @@ public class UIEditTextArea extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
 
-        if (command.equals("Finish")) {
+        if ("Finish".equals(command)) {
             isFinished = true;
             dispose();
-        } else if (command.equals("Repeat Formatting") || command.equals("comboBoxChanged")) {
+        } else if ("Repeat Formatting".equals(command) || "comboBoxChanged".equals(command)) {
             textArea.insert(
                     styleSelector.getSelectedItem().toString(), textArea.getCaretPosition());
             text = textArea.getText();

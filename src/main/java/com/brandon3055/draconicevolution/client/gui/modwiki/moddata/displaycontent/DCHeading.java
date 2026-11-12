@@ -245,8 +245,8 @@ public class DCHeading extends DisplayComponentBase {
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         super.onMGuiEvent(eventString, eventElement);
 
-        if (eventElement.id.equals("TEXT")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        if ("TEXT".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             if (StringUtils.isNullOrEmpty(((MGuiTextField) eventElement).getText())) {
                 return;
@@ -267,9 +267,9 @@ public class DCHeading extends DisplayComponentBase {
             //                    break;
             //                }
             //            }
-        } else if (eventString.equals("BUTTON_PRESS")
+        } else if ("BUTTON_PRESS".equals(eventString)
                 && eventElement instanceof MGuiButtonSolid
-                && ((MGuiButtonSolid) eventElement).buttonName.equals("CYCLE_SIZE")) {
+                && "CYCLE_SIZE".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             headingSize += GuiScreen.isShiftKeyDown() ? -1 : 1;
 
             if (headingSize > 10) {
@@ -280,15 +280,15 @@ public class DCHeading extends DisplayComponentBase {
 
             element.setAttribute(SIZE_ATTRIB, String.valueOf(headingSize));
             save();
-        } else if (eventString.equals("BUTTON_PRESS")
+        } else if ("BUTTON_PRESS".equals(eventString)
                 && eventElement instanceof MGuiButtonSolid
-                && ((MGuiButtonSolid) eventElement).buttonName.equals("SHADOW")) {
+                && "SHADOW".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             shadow = !shadow;
 
             element.setAttribute(ATTRIB_SHADOW, String.valueOf(shadow));
             save();
-        } else if (eventElement.id.equals("COLOUR")
-                && eventString.equals("TEXT_FIELD_CHANGED")
+        } else if ("COLOUR".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
                 && eventElement instanceof MGuiTextField) {
             try {
                 setColour(Utils.parseHex(((MGuiTextField) eventElement).getText()));

@@ -550,13 +550,13 @@ public abstract class MiningToolBase extends ToolBase {
     // region Setters, Getters & Helpers
 
     public void setHarvestLevel(String toolClass, int level) {
-        if (toolClass.equals("pickaxe") && level >= 0) {
+        if ("pickaxe".equals(toolClass) && level >= 0) {
             effectiveBlocks.addAll(PICKAXE_OVERRIDES);
         }
-        if (toolClass.equals("shovel") && level >= 0) {
+        if ("shovel".equals(toolClass) && level >= 0) {
             effectiveBlocks.addAll(SHOVEL_OVERRIDES);
         }
-        if (toolClass.equals("axe") && level >= 0) {
+        if ("axe".equals(toolClass) && level >= 0) {
             effectiveBlocks.addAll(AXE_OVERRIDES);
         }
         super.setHarvestLevel(toolClass, level);

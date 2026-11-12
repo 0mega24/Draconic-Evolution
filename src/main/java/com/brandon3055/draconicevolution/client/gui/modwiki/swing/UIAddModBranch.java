@@ -328,12 +328,12 @@ public class UIAddModBranch extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
-        if (command.equals("comboBoxChanged")) {
+        if ("comboBoxChanged".equals(command)) {
             String selected = selectorBox.getSelectedItem().toString();
             idField.setText(selected.toLowerCase());
             nameField.setText(ModHelper.getLoadedMods().get(selected));
         }
-        if (command.equals("Create")) {
+        if ("Create".equals(command)) {
             if (WikiDocManager.modDocMap.containsKey(idField.getText())) {
                 JOptionPane.showMessageDialog(
                         this,
@@ -385,7 +385,7 @@ public class UIAddModBranch extends JFrame implements ActionListener {
                 }
             }
         }
-        if (command.equals("Cancel")) {
+        if ("Cancel".equals(command)) {
             dispose();
         }
     }

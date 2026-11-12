@@ -194,7 +194,7 @@ public class DCRecipe extends DisplayComponentBase {
         super.onMGuiEvent(eventString, eventElement);
 
         if (eventElement instanceof MGuiButtonSolid
-                && ((MGuiButtonSolid) eventElement).buttonName.equals("SELECT_STACK")) {
+                && "SELECT_STACK".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             EntityPlayer player = Minecraft.getMinecraft().player;
             selector =
                     new StackSelector(
@@ -226,9 +226,9 @@ public class DCRecipe extends DisplayComponentBase {
                             .setId("CANCEL_PICK"));
             selector.initElement();
             modularGui.getManager().add(selector, 2);
-        } else if (eventElement.id.equals("CANCEL_PICK") && selector != null) {
+        } else if ("CANCEL_PICK".equals(eventElement.id) && selector != null) {
             modularGui.getManager().remove(selector);
-        } else if (eventString.equals("SELECTOR_PICK")) {
+        } else if ("SELECTOR_PICK".equals(eventString)) {
             boolean shouldSave = false;
             if (eventElement instanceof MGuiStackIcon) {
                 StackReference reference =
