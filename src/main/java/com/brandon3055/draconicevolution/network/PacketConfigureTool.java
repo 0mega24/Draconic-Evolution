@@ -13,9 +13,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-/**
- * Created by brandon3055 on 8/06/2016.
- */
+/** Created by brandon3055 on 8/06/2016. */
 public class PacketConfigureTool implements IMessage {
 
     public PlayerSlot slot;
@@ -23,8 +21,7 @@ public class PacketConfigureTool implements IMessage {
     public int button;
     public int data;
 
-    public PacketConfigureTool() {
-    }
+    public PacketConfigureTool() {}
 
     public PacketConfigureTool(PlayerSlot slot, String field, int button, int data) {
 
@@ -61,10 +58,15 @@ public class PacketConfigureTool implements IMessage {
             }
 
             IConfigurableItem item = (IConfigurableItem) stack.getItem();
-            IItemConfigField field = item.getFields(stack, new ItemConfigFieldRegistry()).getField(message.field);
+            IItemConfigField field =
+                    item.getFields(stack, new ItemConfigFieldRegistry()).getField(message.field);
 
             if (field != null) {
-                field.handleButton(IItemConfigField.EnumButton.getButton(message.button), message.data, player, message.slot);
+                field.handleButton(
+                        IItemConfigField.EnumButton.getButton(message.button),
+                        message.data,
+                        player,
+                        message.slot);
                 field.writeToNBT(ToolConfigHelper.getFieldStorage(stack));
                 item.onFieldChanged(stack, field);
             }

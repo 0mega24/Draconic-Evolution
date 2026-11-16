@@ -6,3 +6,19 @@ Draconic Evolution adds powerful new tools, Items, weapons and Armor. The premis
 ## License / Use in Modpacks
 This mod is licensed under the [**Don't Be a Jerk License**](https://github.com/brandon3055/Draconic-Evolution/blob/master/LICENSE) created by CoFH.
 I herby grant permission to use this mod in any mod pack without the need to request permission from myself the owner (brandon3055).
+
+## Development
+
+Requires Java 8. Gradle runs through the wrapper.
+
+| Command | What it does |
+|---|---|
+| `./gradlew build` | Compiles the mod and runs Checkstyle and PMD. |
+| `./gradlew format` | Rewrites all Java sources with google-java-format 1.7 (AOSP style). |
+| `./gradlew formatCheck` | Fails if a Java source is not formatted. |
+| `./gradlew checkstyleMain pmdMain` | Runs only the linters. Reports are in `build/reports/`. |
+
+- Checkstyle rules are in `config/checkstyle/checkstyle.xml`. They check code patterns, not layout: the formatter owns layout.
+- There is no baseline: all code must pass. If code has a real reason to break a rule, put `@SuppressWarnings("checkstyle:<checkname>")` on it, with a comment that gives the reason.
+- Vendored third-party code (`src/api`, `com/intellij`, `invtweaks`) is not linted.
+- PMD rules are in `config/pmd/ruleset.xml`. PMD reports only for now; it does not fail the build.

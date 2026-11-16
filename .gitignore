@@ -14,6 +14,7 @@
 
 # Git Stuff
 !.gitignore
+!.git-blame-ignore-revs
 
 # Other Important Files
 !LICENSE
@@ -24,3 +25,7 @@
 
 # Other Important Folders
 !src/
+
+# Lint config and CI
+!config/
+!.github/

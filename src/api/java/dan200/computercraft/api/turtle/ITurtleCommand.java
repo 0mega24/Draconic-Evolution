@@ -7,20 +7,20 @@
 package dan200.computercraft.api.turtle;
 
 import dan200.computercraft.api.lua.ILuaContext;
-
 import javax.annotation.Nonnull;
 
 /**
- * An interface for objects executing custom turtle commands, used with {@link ITurtleAccess#executeCommand(ILuaContext, ITurtleCommand)}.
+ * An interface for objects executing custom turtle commands, used with {@link
+ * ITurtleAccess#executeCommand(ILuaContext, ITurtleCommand)}.
  *
  * @see ITurtleAccess#executeCommand(ILuaContext, ITurtleCommand)
  */
-public interface ITurtleCommand
-{
+public interface ITurtleCommand {
     /**
-     * Will be called by the turtle on the main thread when it is time to execute the custom command.
+     * Will be called by the turtle on the main thread when it is time to execute the custom
+     * command.
      *
-     * The handler should either perform the work of the command, and return success, or return
+     * <p>The handler should either perform the work of the command, and return success, or return
      * failure with an error message to indicate the command cannot be executed at this time.
      *
      * @param turtle Access to the turtle for whom the command was issued.
@@ -31,5 +31,5 @@ public interface ITurtleCommand
      * @see TurtleCommandResult
      */
     @Nonnull
-    TurtleCommandResult execute( @Nonnull ITurtleAccess turtle );
+    TurtleCommandResult execute(@Nonnull ITurtleAccess turtle);
 }

@@ -7,6 +7,7 @@ import com.brandon3055.brandonscore.registry.IRenderOverride;
 import com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorCore;
 import com.brandon3055.draconicevolution.client.render.item.RenderItemReactorComponent;
 import com.brandon3055.draconicevolution.client.render.tile.RenderTileReactorCore;
+import javax.annotation.Nullable;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -23,17 +24,12 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-
-/**
- * Created by brandon3055 on 6/11/2016.
- */
+/** Created by brandon3055 on 6/11/2016. */
 public class ReactorCore extends BlockBCore implements ITileEntityProvider, IRenderOverride {
 
     private static final AxisAlignedBB NO_AABB = new AxisAlignedBB(0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
 
-    public ReactorCore() {
-    }
+    public ReactorCore() {}
 
     @Override
     public boolean uberIsBlockFullCube() {
@@ -49,23 +45,28 @@ public class ReactorCore extends BlockBCore implements ITileEntityProvider, IRen
     public float getBlockHardness(IBlockState blockState, World world, BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileReactorCore) {
-            return ((TileReactorCore) tile).reactorState.value.isShieldActive() ? -1 : super.getBlockHardness(blockState, world, pos);
+            return ((TileReactorCore) tile).reactorState.value.isShieldActive()
+                    ? -1
+                    : super.getBlockHardness(blockState, world, pos);
         }
 
         return super.getBlockHardness(blockState, world, pos);
     }
 
     @Override
-    public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
+    public float getExplosionResistance(
+            World world, BlockPos pos, Entity exploder, Explosion explosion) {
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileReactorCore) {
-            return ((TileReactorCore) tile).reactorState.value.isShieldActive() ? 6000000.0F : super.getExplosionResistance(world, pos, exploder, explosion);
+            return ((TileReactorCore) tile).reactorState.value.isShieldActive()
+                    ? 6000000.0F
+                    : super.getExplosionResistance(world, pos, exploder, explosion);
         }
 
         return super.getExplosionResistance(world, pos, exploder, explosion);
     }
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
@@ -75,8 +76,10 @@ public class ReactorCore extends BlockBCore implements ITileEntityProvider, IRen
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCore.class, new RenderTileReactorCore());
-        ModelRegistryHelper.registerItemRenderer(Item.getItemFromBlock(this), new RenderItemReactorComponent());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileReactorCore.class, new RenderTileReactorCore());
+        ModelRegistryHelper.registerItemRenderer(
+                Item.getItemFromBlock(this), new RenderItemReactorComponent());
     }
 
     @Override
@@ -89,13 +92,15 @@ public class ReactorCore extends BlockBCore implements ITileEntityProvider, IRen
         return NO_AABB;
     }
 
-    //endregion
+    // endregion
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(
+            IBlockState blockState, World worldIn, BlockPos pos) {
         TileEntity tile = worldIn.getTileEntity(pos);
 
-        if (tile instanceof TileReactorCore && ((TileReactorCore) tile).reactorState.value.isShieldActive()) {
+        if (tile instanceof TileReactorCore
+                && ((TileReactorCore) tile).reactorState.value.isShieldActive()) {
             return NULL_AABB;
         }
 
@@ -105,7 +110,8 @@ public class ReactorCore extends BlockBCore implements ITileEntityProvider, IRen
     @Override
     public void onBlockExploded(World world, BlockPos pos, Explosion explosion) {
         TileEntity tile = world.getTileEntity(pos);
-        if (tile instanceof TileReactorCore && ((TileReactorCore) tile).reactorState.value.isShieldActive()) {
+        if (tile instanceof TileReactorCore
+                && ((TileReactorCore) tile).reactorState.value.isShieldActive()) {
             return;
         }
 
@@ -114,16 +120,19 @@ public class ReactorCore extends BlockBCore implements ITileEntityProvider, IRen
 
     @Nullable
     @Override
-    public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
+    public RayTraceResult collisionRayTrace(
+            IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
         RayTraceResult result = super.collisionRayTrace(blockState, worldIn, pos, start, end);
 
         if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
             TileEntity tile = worldIn.getTileEntity(pos);
-            if (tile instanceof TileReactorCore && ((TileReactorCore) tile).reactorState.value.isShieldActive()) {
-                result = new RayTraceResult(RayTraceResult.Type.MISS, result.hitVec, result.sideHit, pos);
+            if (tile instanceof TileReactorCore
+                    && ((TileReactorCore) tile).reactorState.value.isShieldActive()) {
+                result =
+                        new RayTraceResult(
+                                RayTraceResult.Type.MISS, result.hitVec, result.sideHit, pos);
             }
         }
         return result;
     }
-
 }

@@ -6,15 +6,13 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-/**
- * Created by brandon3055 on 5/06/2016.
- */
+/** Created by brandon3055 on 5/06/2016. */
 public class DraconicAxe extends WyvernAxe {
     public DraconicAxe() {
-        super(/*ToolStats.DRA_AXE_ATTACK_DAMAGE, ToolStats.DRA_AXE_ATTACK_SPEED, */AXE_OVERRIDES);
-//        this.baseMiningSpeed = (float) ToolStats.DRA_AXE_MINING_SPEED;
-//        this.baseAOE = ToolStats.BASE_DRACONIC_MINING_AOE;
-//        setEnergyStats(ToolStats.DRACONIC_BASE_CAPACITY, 8000000, 0);
+        super(/*ToolStats.DRA_AXE_ATTACK_DAMAGE, ToolStats.DRA_AXE_ATTACK_SPEED, */ AXE_OVERRIDES);
+        //        this.baseMiningSpeed = (float) ToolStats.DRA_AXE_MINING_SPEED;
+        //        this.baseAOE = ToolStats.BASE_DRACONIC_MINING_AOE;
+        //        setEnergyStats(ToolStats.DRACONIC_BASE_CAPACITY, 8000000, 0);
         this.setHarvestLevel("axe", 10);
     }
 
@@ -63,12 +61,14 @@ public class DraconicAxe extends WyvernAxe {
         return 3;
     }
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public PairKV<TextureAtlasSprite, ResourceLocation> getModels(ItemStack stack) {
-        return new PairKV<>(DETextures.DRACONIC_AXE, new ResourceLocation("draconicevolution", "models/item/tools/draconic_axe.obj"));
+        return new PairKV<>(
+                DETextures.DRACONIC_AXE,
+                new ResourceLocation("draconicevolution", "models/item/tools/draconic_axe.obj"));
     }
 
-    //endregion
+    // endregion
 }

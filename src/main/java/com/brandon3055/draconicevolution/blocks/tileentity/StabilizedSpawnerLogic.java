@@ -2,18 +2,14 @@ package com.brandon3055.draconicevolution.blocks.tileentity;
 
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.handlers.DEEventHandler;
-import com.google.common.collect.Lists;
+import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
-import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedSpawnerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -24,12 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 7/2/20.
- */
+/** Created by brandon3055 on 7/2/20. */
 public class StabilizedSpawnerLogic extends MobSpawnerBaseLogic {
 
     private TileStabilizedSpawner tile;
@@ -61,15 +52,23 @@ public class StabilizedSpawnerLogic extends MobSpawnerBaseLogic {
                 double d3 = (float) blockpos.getX() + this.getSpawnerWorld().rand.nextFloat();
                 double d4 = (float) blockpos.getY() + this.getSpawnerWorld().rand.nextFloat();
                 double d5 = (float) blockpos.getZ() + this.getSpawnerWorld().rand.nextFloat();
-                this.getSpawnerWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                this.getSpawnerWorld().spawnParticle(EnumParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                this.getSpawnerWorld()
+                        .spawnParticle(
+                                EnumParticleTypes.SMOKE_NORMAL, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                this.getSpawnerWorld()
+                        .spawnParticle(EnumParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
 
                 if (tile.spawnDelay.value > 0) {
                     --tile.spawnDelay.value;
                 }
 
                 this.prevMobRotation = this.mobRotation;
-                this.mobRotation = (this.mobRotation + (double) (1000.0F / ((float) tile.spawnDelay.value + 200.0F))) % 360.0D;
+                this.mobRotation =
+                        (this.mobRotation
+                                        + (double)
+                                                (1000.0F
+                                                        / ((float) tile.spawnDelay.value + 200.0F)))
+                                % 360.0D;
             } else {
                 if (tile.spawnDelay.value == -1) {
                     this.resetTimer();
@@ -89,25 +88,59 @@ public class StabilizedSpawnerLogic extends MobSpawnerBaseLogic {
                     Entity entity = DEFeatures.mobSoul.createEntity(world, tile.mobSoul.value);
 
                     do {
-                        double spawnX = (double) blockpos.getX() + (world.rand.nextDouble() - world.rand.nextDouble()) * (double) this.spawnRange + 0.5D;
+                        double spawnX =
+                                (double) blockpos.getX()
+                                        + (world.rand.nextDouble() - world.rand.nextDouble())
+                                                * (double) this.spawnRange
+                                        + 0.5D;
                         double spawnY = blockpos.getY() + world.rand.nextInt(3) - 1;
-                        double spawnZ = (double) blockpos.getZ() + (world.rand.nextDouble() - world.rand.nextDouble()) * (double) this.spawnRange + 0.5D;
+                        double spawnZ =
+                                (double) blockpos.getZ()
+                                        + (world.rand.nextDouble() - world.rand.nextDouble())
+                                                * (double) this.spawnRange
+                                        + 0.5D;
                         entity.setPositionAndRotation(spawnX, spawnY, spawnZ, 0, 0);
-                    } while (entity.getPosition().getX() == tile.getPos().getX() && entity.getPosition().getZ() == tile.getPos().getZ());
+                    } while (entity.getPosition().getX() == tile.getPos().getX()
+                            && entity.getPosition().getZ() == tile.getPos().getZ());
 
-                    int nearbyCount = world.getEntitiesWithinAABB(entity.getClass(), (new AxisAlignedBB(blockpos.getX(), blockpos.getY(), blockpos.getZ(), blockpos.getX() + 1, blockpos.getY() + 1, blockpos.getZ() + 1)).grow(this.spawnRange)).size();
+                    int nearbyCount =
+                            world.getEntitiesWithinAABB(
+                                            entity.getClass(),
+                                            (new AxisAlignedBB(
+                                                            blockpos.getX(),
+                                                            blockpos.getY(),
+                                                            blockpos.getZ(),
+                                                            blockpos.getX() + 1,
+                                                            blockpos.getY() + 1,
+                                                            blockpos.getZ() + 1))
+                                                    .grow(this.spawnRange))
+                                    .size();
                     if (nearbyCount >= tier.getMaxCluster()) {
                         this.resetTimer();
                         return;
                     }
 
-                    EntityLiving entityliving = entity instanceof EntityLiving ? (EntityLiving) entity : null;
-                    entity.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, world.rand.nextFloat() * 360.0F, 0.0F);
+                    EntityLiving entityliving =
+                            entity instanceof EntityLiving ? (EntityLiving) entity : null;
+                    entity.setLocationAndAngles(
+                            entity.posX,
+                            entity.posY,
+                            entity.posZ,
+                            world.rand.nextFloat() * 360.0F,
+                            0.0F);
 
-                    if (entityliving == null || canEntitySpawnSpawner(entityliving, getSpawnerWorld(), (float) entity.posX, (float) entity.posY, (float) entity.posZ, this)) {
+                    if (entityliving == null
+                            || canEntitySpawnSpawner(
+                                    entityliving,
+                                    getSpawnerWorld(),
+                                    (float) entity.posX,
+                                    (float) entity.posY,
+                                    (float) entity.posZ,
+                                    this)) {
                         if (!tier.requiresPlayer() && entity instanceof EntityLiving) {
                             ((EntityLiving) entity).enablePersistence();
-                            entity.getEntityData().setLong("DESpawnedMob", System.currentTimeMillis());
+                            entity.getEntityData()
+                                    .setLong("DESpawnedMob", System.currentTimeMillis());
                             DEEventHandler.onMobSpawnedBySpawner((EntityLiving) entity);
                         }
 
@@ -140,10 +173,17 @@ public class StabilizedSpawnerLogic extends MobSpawnerBaseLogic {
         }
     }
 
-    public boolean canEntitySpawnSpawner(EntityLiving entity, World world, float x, float y, float z, MobSpawnerBaseLogic spawner) {
+    public boolean canEntitySpawnSpawner(
+            EntityLiving entity,
+            World world,
+            float x,
+            float y,
+            float z,
+            MobSpawnerBaseLogic spawner) {
         Event.Result result = ForgeEventFactory.canEntitySpawn(entity, world, x, y, z, spawner);
         if (result == Event.Result.DEFAULT) {
-            return (tile.spawnerTier.value.ignoreSpawnReq() || entity.getCanSpawnHere()) && entity.isNotColliding();
+            return (tile.spawnerTier.value.ignoreSpawnReq() || entity.getCanSpawnHere())
+                    && entity.isNotColliding();
         } else {
             return result == Event.Result.ALLOW;
         }
@@ -155,7 +195,8 @@ public class StabilizedSpawnerLogic extends MobSpawnerBaseLogic {
             tile.spawnDelay.value = (short) tier.getMinDelay();
         } else {
             int i = tier.getMaxDelay() - tier.getMinDelay();
-            tile.spawnDelay.value = (short) (tier.getMinDelay() + this.getSpawnerWorld().rand.nextInt(i));
+            tile.spawnDelay.value =
+                    (short) (tier.getMinDelay() + this.getSpawnerWorld().rand.nextInt(i));
         }
 
         this.broadcastEvent(1);

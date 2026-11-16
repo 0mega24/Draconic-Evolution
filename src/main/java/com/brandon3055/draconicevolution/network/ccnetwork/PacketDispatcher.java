@@ -2,10 +2,11 @@ package com.brandon3055.draconicevolution.network.ccnetwork;
 
 import codechicken.lib.packet.PacketCustom;
 
-/**
- * Created by brandon3055 on 12/06/2017.
- */
-public class PacketDispatcher {
+/** Created by brandon3055 on 12/06/2017. */
+public final class PacketDispatcher {
+
+    private PacketDispatcher() {}
+
     public static final String NET_CHANNEL = "DEPCChannel";
 
     public static void dispatchToggleDislocators() {
@@ -30,6 +31,7 @@ public class PacketDispatcher {
         packet.writeBoolean(reverse);
         packet.sendToServer();
     }
+
     public static void dispatchToggleShields() {
         PacketCustom packet = new PacketCustom(NET_CHANNEL, 5);
         packet.sendToServer();

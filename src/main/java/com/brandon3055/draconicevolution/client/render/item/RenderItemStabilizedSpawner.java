@@ -1,5 +1,7 @@
 package com.brandon3055.draconicevolution.client.render.item;
 
+import static com.brandon3055.draconicevolution.client.render.tile.RenderTileStabilizedSpawner.renderEffect;
+
 import codechicken.lib.model.ModelRegistryHelper;
 import codechicken.lib.render.item.IItemRenderer;
 import codechicken.lib.texture.TextureUtils;
@@ -9,6 +11,8 @@ import com.brandon3055.brandonscore.utils.ModelUtils;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileStabilizedSpawner.SpawnerTier;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
+import java.util.List;
+import java.util.function.Function;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -22,26 +26,27 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.registry.IRegistry;
 import net.minecraftforge.common.model.IModelState;
 
-import java.util.List;
-import java.util.function.Function;
-
-import static com.brandon3055.draconicevolution.client.render.tile.RenderTileStabilizedSpawner.renderEffect;
-
-/**
- * Created by brandon3055 on 18/04/2017.
- */
+/** Created by brandon3055 on 18/04/2017. */
 public class RenderItemStabilizedSpawner implements IItemRenderer {
 
-    private static ItemStack[] CORE_RENDER_ITEMS = new ItemStack[]{new ItemStack(DEFeatures.draconicCore), new ItemStack(DEFeatures.wyvernCore), new ItemStack(DEFeatures.awakenedCore), new ItemStack(DEFeatures.chaoticCore)};
+    private static ItemStack[] CORE_RENDER_ITEMS =
+            new ItemStack[] {
+                new ItemStack(DEFeatures.draconicCore),
+                new ItemStack(DEFeatures.wyvernCore),
+                new ItemStack(DEFeatures.awakenedCore),
+                new ItemStack(DEFeatures.chaoticCore)
+            };
     private IBakedModel baseModel;
 
-    public RenderItemStabilizedSpawner(Function<IRegistry<ModelResourceLocation, IBakedModel>, IBakedModel> getter) {
-        ModelRegistryHelper.registerPreBakeCallback(modelRegistry -> baseModel = getter.apply(modelRegistry));
-//        syncableEnum.setIndex(0);
-//        syncableStack.setIndex(1);
+    public RenderItemStabilizedSpawner(
+            Function<IRegistry<ModelResourceLocation, IBakedModel>, IBakedModel> getter) {
+        ModelRegistryHelper.registerPreBakeCallback(
+                modelRegistry -> baseModel = getter.apply(modelRegistry));
+        //        syncableEnum.setIndex(0);
+        //        syncableStack.setIndex(1);
     }
 
-    //region Unused
+    // region Unused
 
     @Override
     public boolean isAmbientOcclusion() {
@@ -53,31 +58,33 @@ public class RenderItemStabilizedSpawner implements IItemRenderer {
         return true;
     }
 
-    //endregion
+    // endregion
 
     @Override
     public IModelState getTransforms() {
         return TransformUtils.DEFAULT_BLOCK;
     }
 
-    //Remember GuiInventory.drawEntityOnScreen
+    // Remember GuiInventory.drawEntityOnScreen
     @Override
     public void renderItem(ItemStack stack, ItemCameraTransforms.TransformType transformType) {
         Entity entity = null;
         SpawnerTier tier = SpawnerTier.BASIC;
 
-        if (stack.hasTagCompound() && stack.getOrCreateSubCompound("BCTileData").hasKey("BCManagedData", 10)) {
-            NBTTagCompound dataTag = stack.getOrCreateSubCompound("BCTileData").getCompoundTag("BCManagedData");
+        if (stack.hasTagCompound()
+                && stack.getOrCreateSubCompound("BCTileData").hasKey("BCManagedData", 10)) {
+            NBTTagCompound dataTag =
+                    stack.getOrCreateSubCompound("BCTileData").getCompoundTag("BCManagedData");
             int tierIndex = dataTag.getByte("spawnerTier");
             if (tierIndex >= 0 && tierIndex < SpawnerTier.values().length) {
                 tier = SpawnerTier.values()[tierIndex];
             }
-            String mobID = dataTag.getCompoundTag("mobSoul").getCompoundTag("tag").getString("EntityName");
+            String mobID =
+                    dataTag.getCompoundTag("mobSoul").getCompoundTag("tag").getString("EntityName");
             entity = mobID.isEmpty() ? null : DEFeatures.mobSoul.getRenderEntity(mobID);
         }
 
         Minecraft.getMinecraft().getRenderItem().renderModel(baseModel, 0xFFFFFFFF);
-
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5F, 0, 0.5F);
@@ -93,12 +100,15 @@ public class RenderItemStabilizedSpawner implements IItemRenderer {
 
             float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
             GlStateManager.translate(0.0F, 0.4F, 0.0F);
-            GlStateManager.rotate((ClientEventHandler.elapsedTicks + partialTicks) * 10.0F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(
+                    (ClientEventHandler.elapsedTicks + partialTicks) * 10.0F, 0.0F, 1.0F, 0.0F);
             GlStateManager.translate(0.0F, -0.2F, 0.0F);
             GlStateManager.rotate(-30.0F, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(f, f, f);
             entity.setLocationAndAngles(0, 0, 0, 0.0F, 0.0F);
-            Minecraft.getMinecraft().getRenderManager().renderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, false);
+            Minecraft.getMinecraft()
+                    .getRenderManager()
+                    .renderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, false);
             GlStateManager.popMatrix();
 
             if (transformType != ItemCameraTransforms.TransformType.GROUND) {
@@ -110,9 +120,12 @@ public class RenderItemStabilizedSpawner implements IItemRenderer {
             }
 
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.tryBlendFuncSeparate(
+                    GlStateManager.SourceFactor.SRC_ALPHA,
+                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                    GlStateManager.SourceFactor.ONE,
+                    GlStateManager.DestFactor.ZERO);
         }
-
 
         ItemStack core = CORE_RENDER_ITEMS[tier.ordinal()];
         IBakedModel bakedModel = TESRBase.getStackModel(core);
@@ -131,7 +144,8 @@ public class RenderItemStabilizedSpawner implements IItemRenderer {
         GlStateManager.disableLighting();
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 200, 200);
         renderEffect(quads);
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
+        OpenGlHelper.setLightmapTextureCoords(
+                OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
         GlStateManager.enableLighting();
 
         GlStateManager.translate(0, 0, 1.9);
@@ -140,7 +154,8 @@ public class RenderItemStabilizedSpawner implements IItemRenderer {
         GlStateManager.disableLighting();
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 200, 200);
         renderEffect(quads);
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
+        OpenGlHelper.setLightmapTextureCoords(
+                OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
         GlStateManager.enableLighting();
 
         GlStateManager.popMatrix();

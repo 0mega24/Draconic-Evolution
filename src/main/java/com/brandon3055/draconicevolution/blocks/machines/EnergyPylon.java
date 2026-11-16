@@ -23,17 +23,17 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 30/3/2016.
- */
+/** Created by brandon3055 on 30/3/2016. */
 public class EnergyPylon extends BlockBCore implements ITileEntityProvider, IRenderOverride {
 
     public static final PropertyBool OUTPUT = PropertyBool.create("output");
-    public static final PropertyStringTemp FACING = new PropertyStringTemp("facing", "up", "down", "null");
+    public static final PropertyStringTemp FACING =
+            new PropertyStringTemp("facing", "up", "down", "null");
 
     public EnergyPylon() {
         super(Material.IRON);
-        this.setDefaultState(blockState.getBaseState().withProperty(OUTPUT, false).withProperty(FACING, "null"));
+        this.setDefaultState(
+                blockState.getBaseState().withProperty(OUTPUT, false).withProperty(FACING, "null"));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class EnergyPylon extends BlockBCore implements ITileEntityProvider, IRen
         return new TileEnergyPylon();
     }
 
-    //region BlockState
+    // region BlockState
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, OUTPUT, FACING);
@@ -49,31 +49,44 @@ public class EnergyPylon extends BlockBCore implements ITileEntityProvider, IRen
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(FACING).equals("up") ? 1 : state.getValue(FACING).equals("down") ? 2 : 0;
+        return state.getValue(FACING).equals("up")
+                ? 1
+                : state.getValue(FACING).equals("down") ? 2 : 0;
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return getDefaultState().withProperty(FACING, meta == 1 ? "up" : meta == 2 ? "down" : "null");
+        return getDefaultState()
+                .withProperty(FACING, meta == 1 ? "up" : meta == 2 ? "down" : "null");
     }
 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tile = worldIn.getTileEntity(pos);
-        return state.withProperty(OUTPUT, tile instanceof TileEnergyPylon && ((TileEnergyPylon) tile).isOutputMode.value);
+        return state.withProperty(
+                OUTPUT,
+                tile instanceof TileEnergyPylon && ((TileEnergyPylon) tile).isOutputMode.value);
     }
-    //endregion
+    // endregion
 
-    //region Block Stuff
+    // region Block Stuff
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World worldIn,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer playerIn,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         TileEntity tile = worldIn.getTileEntity(pos);
         if (tile instanceof TileEnergyPylon) {
             if (playerIn.isSneaking()) {
                 ((TileEnergyPylon) tile).selectNextCore();
-            }
-            else {
+            } else {
                 ((TileEnergyPylon) tile).validateStructure();
             }
             return ((TileEnergyPylon) tile).structureValid.value;
@@ -88,7 +101,8 @@ public class EnergyPylon extends BlockBCore implements ITileEntityProvider, IRen
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    public void neighborChanged(
+            IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
         TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileEnergyPylon) {
@@ -97,18 +111,17 @@ public class EnergyPylon extends BlockBCore implements ITileEntityProvider, IRen
     }
 
     @Override
-    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
-    }
+    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {}
 
-//    @Override
-//    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-//        TileEntity tile = worldIn.getTileEntity(pos);
-//
-//        if (tile instanceof TileEnergyPylon){
-//            ((TileEnergyPylon)tile).validateStructure();
-//        }
-//    }
-
+    //    @Override
+    //    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block
+    // neighborBlock) {
+    //        TileEntity tile = worldIn.getTileEntity(pos);
+    //
+    //        if (tile instanceof TileEnergyPylon){
+    //            ((TileEnergyPylon)tile).validateStructure();
+    //        }
+    //    }
 
     @Override
     public boolean hasComparatorInputOverride(IBlockState state) {
@@ -118,20 +131,26 @@ public class EnergyPylon extends BlockBCore implements ITileEntityProvider, IRen
     @Override
     public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
-        if (tile != null && tile instanceof TileEnergyPylon && ((TileEnergyPylon) tile).getExtendedCapacity() > 0) {
-            return (int) ((double) ((TileEnergyPylon) tile).getExtendedStorage() / ((TileEnergyPylon) tile).getExtendedCapacity() * 15D);
+        if (tile != null
+                && tile instanceof TileEnergyPylon
+                && ((TileEnergyPylon) tile).getExtendedCapacity() > 0) {
+            return (int)
+                    ((double) ((TileEnergyPylon) tile).getExtendedStorage()
+                            / ((TileEnergyPylon) tile).getExtendedCapacity()
+                            * 15D);
         }
         return 0;
     }
 
-    //endregion
+    // endregion
 
-    //region Registry
+    // region Registry
 
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEnergyPylon.class, new RenderTileEnergyPylon());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileEnergyPylon.class, new RenderTileEnergyPylon());
     }
 
     @Override
@@ -139,5 +158,5 @@ public class EnergyPylon extends BlockBCore implements ITileEntityProvider, IRen
         return true;
     }
 
-    //endregion
+    // endregion
 }

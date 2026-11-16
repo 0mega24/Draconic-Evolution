@@ -11,10 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
 
-/**
- * DragonWings - brandon3055
- * Created using Tabula 5.0.0
- */
+/** DragonWings - brandon3055 Created using Tabula 5.0.0 */
 public class ModelContributorWings extends ModelBase {
     public ModelRenderer rightBaseStem;
     public ModelRenderer leftBaseStem;
@@ -32,25 +29,69 @@ public class ModelContributorWings extends ModelBase {
         this.leftWingOuter = new ModelRenderer(this, 0, 18);
         this.leftWingOuter.mirror = true;
         this.leftWingOuter.setRotationPoint(0.5F, 0.0F, 0.0F);
-//        this.leftWingOuter.addBox(-0.5F, 0.5F, 0.0F, 15, 14, 0, 0.0F);
-        this.leftWingOuter.cubeList.add(new ModelBoxFace(leftWingOuter, leftWingOuter.textureOffsetX, leftWingOuter.textureOffsetY, -0.5F, 0.5F, 0.0F, 15, 14, 0, 5));
+        //        this.leftWingOuter.addBox(-0.5F, 0.5F, 0.0F, 15, 14, 0, 0.0F);
+        this.leftWingOuter.cubeList.add(
+                new ModelBoxFace(
+                        leftWingOuter,
+                        leftWingOuter.textureOffsetX,
+                        leftWingOuter.textureOffsetY,
+                        -0.5F,
+                        0.5F,
+                        0.0F,
+                        15,
+                        14,
+                        0,
+                        5));
         this.rightOuterStem = new ModelRenderer(this, 0, 2);
         this.rightOuterStem.setRotationPoint(-12.5F, 0.0F, 0.0F);
         this.rightOuterStem.addBox(-15.0F, -0.5F, -0.5F, 15, 1, 1, 0.0F);
         this.setRotateAngle(rightOuterStem, 0.0F, -0.6108652381980153F, 0.0F);
         this.leftWingInner = new ModelRenderer(this, 0, 4);
         this.leftWingInner.setRotationPoint(0.0F, 0.0F, 0.0F);
-//        this.leftWingInner.addBox(-0.5F, 0.5F, 0.0F, 13, 14, 0, 0.0F);
-        this.leftWingInner.cubeList.add(new ModelBoxFace(leftWingInner, leftWingInner.textureOffsetX, leftWingInner.textureOffsetY, -0.5F, 0.5F, 0.0F, 13, 14, 0, 4));
+        //        this.leftWingInner.addBox(-0.5F, 0.5F, 0.0F, 13, 14, 0, 0.0F);
+        this.leftWingInner.cubeList.add(
+                new ModelBoxFace(
+                        leftWingInner,
+                        leftWingInner.textureOffsetX,
+                        leftWingInner.textureOffsetY,
+                        -0.5F,
+                        0.5F,
+                        0.0F,
+                        13,
+                        14,
+                        0,
+                        4));
         this.rightWingInner = new ModelRenderer(this, 0, 4);
         this.rightWingInner.mirror = true;
         this.rightWingInner.setRotationPoint(0.0F, 0.0F, 0.0F);
-//        this.rightWingInner.addBox(-12.5F, 0.5F, 0.0F, 13, 14, 0, 0.0F);
-        this.rightWingInner.cubeList.add(new ModelBoxFace(rightWingInner, rightWingInner.textureOffsetX, rightWingInner.textureOffsetY, -12.5F, 0.5F, 0.0F, 13, 14, 0, 4));
+        //        this.rightWingInner.addBox(-12.5F, 0.5F, 0.0F, 13, 14, 0, 0.0F);
+        this.rightWingInner.cubeList.add(
+                new ModelBoxFace(
+                        rightWingInner,
+                        rightWingInner.textureOffsetX,
+                        rightWingInner.textureOffsetY,
+                        -12.5F,
+                        0.5F,
+                        0.0F,
+                        13,
+                        14,
+                        0,
+                        4));
         this.rightWingOuter = new ModelRenderer(this, 0, 18);
         this.rightWingOuter.setRotationPoint(-0.5F, 0.0F, 0.0F);
-//        this.rightWingOuter.addBox(-14.5F, 0.5F, 0.0F, 15, 14, 0, 0.0F);
-        this.rightWingOuter.cubeList.add(new ModelBoxFace(rightWingOuter, rightWingOuter.textureOffsetX, rightWingOuter.textureOffsetY, -14.5F, 0.5F, 0.0F, 15, 14, 0, 5));
+        //        this.rightWingOuter.addBox(-14.5F, 0.5F, 0.0F, 15, 14, 0, 0.0F);
+        this.rightWingOuter.cubeList.add(
+                new ModelBoxFace(
+                        rightWingOuter,
+                        rightWingOuter.textureOffsetX,
+                        rightWingOuter.textureOffsetY,
+                        -14.5F,
+                        0.5F,
+                        0.0F,
+                        15,
+                        14,
+                        0,
+                        5));
         this.leftBaseStem = new ModelRenderer(this, 0, 0);
         this.leftBaseStem.setRotationPoint(0.5F, 1.0F, 2.0F);
         this.leftBaseStem.addBox(-0.5F, -0.5F, -0.5F, 13, 1, 1, 0.0F);
@@ -71,22 +112,36 @@ public class ModelContributorWings extends ModelBase {
         this.leftBaseStem.addChild(this.leftOuterStem);
     }
 
-
     @Override
-    public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void render(
+            Entity entity,
+            float limbSwing,
+            float limbSwingAmount,
+            float ageInTicks,
+            float netHeadYaw,
+            float headPitch,
+            float scale) {
         GlStateManager.disableRescaleNormal();
         GlStateManager.disableCull();
 
         float baseRot = 0.45906584F;
         float outerRot = 0.61086524F;
 
-        float animation = (float) Math.sin(((float) ClientEventHandler.elapsedTicks + Minecraft.getMinecraft().getRenderPartialTicks()) / 40) * 0.5F;
+        float animation =
+                (float)
+                                Math.sin(
+                                        ((float) ClientEventHandler.elapsedTicks
+                                                        + Minecraft.getMinecraft()
+                                                                .getRenderPartialTicks())
+                                                / 40)
+                        * 0.5F;
 
         if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).isElytraFlying()) {
             float f4 = 1.0F;
 
             if (entity.motionY < 0.0D) {
-                Vec3d vec3d = (new Vec3d(entity.motionX, entity.motionY, entity.motionZ)).normalize();
+                Vec3d vec3d =
+                        (new Vec3d(entity.motionX, entity.motionY, entity.motionZ)).normalize();
                 f4 = 1.0F - (float) Math.pow(-vec3d.y, 1.5D);
             }
 
@@ -98,8 +153,7 @@ public class ModelContributorWings extends ModelBase {
         if (entity.isSneaking()) {
             this.leftBaseStem.rotateAngleX = 0.5F;
             this.rightBaseStem.rotateAngleX = 0.5F;
-        }
-        else {
+        } else {
             this.leftBaseStem.rotateAngleX = 0F;
             this.rightBaseStem.rotateAngleX = 0F;
         }
@@ -113,13 +167,10 @@ public class ModelContributorWings extends ModelBase {
         this.rightBaseStem.render(scale);
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
+    /** This is a helper function from Tabula to set the rotation of model parts */
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
-
 }

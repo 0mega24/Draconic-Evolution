@@ -14,17 +14,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.model.IModelState;
 
-/**
- * Created by brandon3055 on 21/11/2016.
- */
+/** Created by brandon3055 on 21/11/2016. */
 public class RenderItemReactorComponent implements IItemRenderer {
 
     private static RenderTileReactorCore coreRenderer = new RenderTileReactorCore();
 
-    public RenderItemReactorComponent() {
-    }
+    public RenderItemReactorComponent() {}
 
-    //region Unused
+    // region Unused
 
     @Override
     public boolean isAmbientOcclusion() {
@@ -36,7 +33,7 @@ public class RenderItemReactorComponent implements IItemRenderer {
         return false;
     }
 
-    //endregion
+    // endregion
 
     @Override
     public IModelState getTransforms() {
@@ -48,19 +45,22 @@ public class RenderItemReactorComponent implements IItemRenderer {
         boolean isCore = item.getItem() == Item.getItemFromBlock(DEFeatures.reactorCore);
         boolean isStabilizer = !isCore && item.getItemDamage() == 0;
 
-
         GlStateManager.pushMatrix();
         GlStateTracker.pushState();
 
         if (isCore) {
             coreRenderer.renderItem();
-        }
-        else if (isStabilizer) {
+        } else if (isStabilizer) {
             GlStateManager.translate(0.5, 0.5, 0.5);
             float partial = Minecraft.getMinecraft().getRenderPartialTicks();
-            RenderTileReactorComponent.renderStabilizer(ClientEventHandler.elapsedTicks + partial, (ClientEventHandler.elapsedTicks + partial) * 0.6F, 1F, 0, true, -1);
-        }
-        else {
+            RenderTileReactorComponent.renderStabilizer(
+                    ClientEventHandler.elapsedTicks + partial,
+                    (ClientEventHandler.elapsedTicks + partial) * 0.6F,
+                    1F,
+                    0,
+                    true,
+                    -1);
+        } else {
             GlStateManager.translate(0.5, 0.5, 0.5);
             GlStateManager.rotate(90, 1, 0, 0);
             RenderTileReactorComponent.renderInjector(1F, 0, true, -1);

@@ -14,13 +14,15 @@ import codechicken.lib.vec.Vector3;
 import com.brandon3055.brandonscore.client.render.TESRBase;
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.utils.Utils;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.blocks.energynet.tileentity.TileCrystalBase;
 import com.brandon3055.draconicevolution.blocks.energynet.tileentity.TileCrystalDirectIO;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.client.render.shaders.DEShaders;
+import com.brandon3055.draconicevolution.config.ClientConfig;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCrystalVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
+import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -28,11 +30,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.MinecraftForgeClient;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Map;
-
-/**
- * Created by brandon3055 on 6/11/2016.
- */
+/** Created by brandon3055 on 6/11/2016. */
 public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
 
     private CCModel crystalFull;
@@ -42,7 +40,8 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
     private static ShaderProgram shaderProgram;
 
     public RenderTileEnergyCrystal() {
-        Map<String, CCModel> map = OBJParser.parseModels(ResourceHelperDE.getResource("models/crystal.obj"));
+        Map<String, CCModel> map =
+                OBJParser.parseModels(ResourceHelperDE.getResource("models/crystal.obj"));
         crystalFull = CCModel.combine(map.values());
         map = OBJParser.parseModels(ResourceHelperDE.getResource("models/crystal_half.obj"));
         crystalHalf = map.get("Crystal");
@@ -50,7 +49,14 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
     }
 
     @Override
-    public void render(TileCrystalBase te, double x, double y, double z, float partialTicks, int destroyStage, float a) {
+    public void render(
+            TileCrystalBase te,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            int destroyStage,
+            float a) {
         te.getFxHandler().renderCooldown = 5;
         GlStateManager.pushMatrix();
         GlStateTracker.pushState();
@@ -58,9 +64,9 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
         setLighting(200);
 
         if (te instanceof TileCrystalDirectIO) {
-            renderHalfCrystal((TileCrystalDirectIO) te, x, y, z, partialTicks, destroyStage, te.getTier());
-        }
-        else {
+            renderHalfCrystal(
+                    (TileCrystalDirectIO) te, x, y, z, partialTicks, destroyStage, te.getTier());
+        } else {
             renderCrystal(te, x, y, z, partialTicks, destroyStage, te.getTier());
         }
 
@@ -69,11 +75,29 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
         GlStateManager.popMatrix();
     }
 
-    public void renderCrystal(TileCrystalBase te, double x, double y, double z, float partialTicks, int destroyStage, int tier) {
+    public void renderCrystal(
+            TileCrystalBase te,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            int destroyStage,
+            int tier) {
         boolean trans = MinecraftForgeClient.getRenderPass() == 1;
         CCRenderState ccrs = CCRenderState.instance();
-        Matrix4 mat = RenderUtils.getMatrix(new Vector3(x + 0.5, y + 0.5, z + 0.5), new Rotation(180 * MathHelper.torad, 1, 0, 0), -0.5);
-        mat.apply(new Rotation((ClientEventHandler.elapsedTicks + partialTicks) / 400F, 0, 1, 0));
+        Matrix4 mat =
+                RenderUtils.getMatrix(
+                        new Vector3(x + 0.5, y + 0.5, z + 0.5),
+                        new Rotation(180 * MathHelper.torad, 1, 0, 0),
+                        -0.5);
+        mat.apply(
+                new Rotation(
+                        (ClientEventHandler.elapsedTicks + partialTicks)
+                                / 400F
+                                * (float) EnergyCrystalVisuals.rotationSpeed,
+                        0,
+                        1,
+                        0));
 
         if (destroyStage >= 0) {
             bindTexture(DESTROY_STAGES[destroyStage]);
@@ -84,15 +108,14 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
         }
 
         if (!trans) {
-            //Render Crystal
+            // Render Crystal
             bindShader(te, x, y, z, partialTicks, tier);
             ccrs.startDrawing(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX);
             crystalFull.render(ccrs, mat);
             ccrs.draw();
             releaseShader();
-        }
-        else if (!(DEShaders.useShaders() && DEConfig.useCrystalShaders)) {
-            //Render overlay if shaders are not supported
+        } else if (!(DEShaders.useShaders() && ClientConfig.useCrystalShaders)) {
+            // Render overlay if shaders are not supported
             ResourceHelperDE.bindTexture(DETextures.ENERGY_CRYSTAL_BASE);
             GlStateManager.enableBlend();
             ccrs.startDrawing(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX);
@@ -101,62 +124,96 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
         }
     }
 
-    public void renderHalfCrystal(TileCrystalDirectIO te, double x, double y, double z, float partialTicks, int destroyStage, int tier) {
+    public void renderHalfCrystal(
+            TileCrystalDirectIO te,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            int destroyStage,
+            int tier) {
         boolean trans = MinecraftForgeClient.getRenderPass() == 1;
         ResourceHelperDE.bindTexture(DETextures.ENERGY_CRYSTAL_BASE);
         CCRenderState ccrs = CCRenderState.instance();
-        Matrix4 mat = RenderUtils.getMatrix(new Vector3(x + 0.5, y + 1, z + 0.5), new Rotation(0, 0, 0, 0), -0.5);
-        mat.apply(Rotation.sideOrientation(te.facing.value.getOpposite().getIndex(), 0).at(new Vector3(0, 1, 0)));
+        Matrix4 mat =
+                RenderUtils.getMatrix(
+                        new Vector3(x + 0.5, y + 1, z + 0.5), new Rotation(0, 0, 0, 0), -0.5);
+        mat.apply(
+                Rotation.sideOrientation(te.facing.value.getOpposite().getIndex(), 0)
+                        .at(new Vector3(0, 1, 0)));
 
         if (destroyStage >= 0) {
             bindTexture(DESTROY_STAGES[destroyStage]);
             ccrs.startDrawing(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX);
             crystalBase.render(ccrs, mat);
-            mat.apply(new Rotation((ClientEventHandler.elapsedTicks + partialTicks) / 400F, 0, 1, 0));
+            mat.apply(
+                    new Rotation(
+                            (ClientEventHandler.elapsedTicks + partialTicks)
+                                    / 400F
+                                    * (float) EnergyCrystalVisuals.rotationSpeed,
+                            0,
+                            1,
+                            0));
             crystalHalf.render(ccrs, mat);
             ccrs.draw();
             return;
         }
 
-
         if (!trans) {
-            //Render Base
+            // Render Base
             ccrs.startDrawing(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX);
             crystalBase.render(ccrs, mat);
             ccrs.draw();
 
-            //Apply Crystal Rotation
-            mat.apply(new Rotation((ClientEventHandler.elapsedTicks + partialTicks) / 400F, 0, 1, 0));
+            // Apply Crystal Rotation
+            mat.apply(
+                    new Rotation(
+                            (ClientEventHandler.elapsedTicks + partialTicks)
+                                    / 400F
+                                    * (float) EnergyCrystalVisuals.rotationSpeed,
+                            0,
+                            1,
+                            0));
 
-            //Render Crystal
+            // Render Crystal
             ResourceHelperDE.bindTexture(DETextures.REACTOR_CORE);
             bindShader(te, x, y, z, partialTicks, tier);
             ccrs.startDrawing(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX);
             crystalHalf.render(ccrs, mat);
             ccrs.draw();
             releaseShader();
-        }
-        else if (!(DEShaders.useShaders() && DEConfig.useCrystalShaders)) {
-            //Render overlay if shaders are not supported
+        } else if (!(DEShaders.useShaders() && ClientConfig.useCrystalShaders)) {
+            // Render overlay if shaders are not supported
             GlStateManager.enableBlend();
-            mat.apply(new Rotation((ClientEventHandler.elapsedTicks + partialTicks) / 400F, 0, 1, 0)).apply(new Scale(1.001));
+            mat.apply(
+                            new Rotation(
+                                    (ClientEventHandler.elapsedTicks + partialTicks)
+                                            / 400F
+                                            * (float) EnergyCrystalVisuals.rotationSpeed,
+                                    0,
+                                    1,
+                                    0))
+                    .apply(new Scale(1.001));
             ccrs.startDrawing(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX);
             crystalHalf.render(ccrs, mat);
             ccrs.draw();
         }
     }
 
-    private static float[] r = {0.0F, 0.55F, 1.0F};
-    private static float[] g = {0.35F, 0.3F, 0.572F};
-    private static float[] b = {0.65F, 0.9F, 0.172F};
-
-    public void bindShader(TileCrystalBase te, double x, double y, double z, float partialTicks, int tier) {
+    public void bindShader(
+            TileCrystalBase te, double x, double y, double z, float partialTicks, int tier) {
         BlockPos pos = te == null ? new BlockPos(0, 0, 0) : te.getPos();
         double mm = MathHelper.clip((((x * x) + (y * y) + (z * z) - 5) / 512), 0, 1);
-        if (DEShaders.useShaders() && DEConfig.useCrystalShaders && mm < 1) {
+        if (DEShaders.useShaders() && ClientConfig.useCrystalShaders && mm < 1) {
 
             float xrot = (float) Math.atan2(x + 0.5, z + 0.5);
-            float dist = (float) Utils.getDistanceAtoB(Vec3D.getCenter(pos).x, Vec3D.getCenter(pos).z, Minecraft.getMinecraft().player.posX, Minecraft.getMinecraft().player.posZ);
+            float dist =
+                    (float)
+                            Utils.getDistanceAtoB(
+                                    Vec3D.getCenter(pos).x,
+                                    Vec3D.getCenter(pos).z,
+                                    Minecraft.getMinecraft().player.posX,
+                                    Minecraft.getMinecraft().player.posZ);
             float yrot = (float) net.minecraft.util.math.MathHelper.atan2(dist, y + 0.5);
 
             if (shaderProgram == null) {
@@ -165,22 +222,29 @@ public class RenderTileEnergyCrystal extends TESRBase<TileCrystalBase> {
                 shaderProgram.attachShader(DEShaders.energyCrystal_F);
             }
 
-            shaderProgram.useShader(cache -> {
-                cache.glUniform1F("time", (ClientEventHandler.elapsedTicks + partialTicks) / 50);
-                cache.glUniform1F("mipmap", (float) mm);
-                cache.glUniform1I("type", tier);
-                cache.glUniform2F("angle", xrot / -3.125F, yrot / 3.125F);
-            });
-        }
-        else {
+            shaderProgram.useShader(
+                    cache -> {
+                        cache.glUniform1F(
+                                "time",
+                                (ClientEventHandler.elapsedTicks + partialTicks)
+                                        / 50
+                                        * (float) EnergyCrystalVisuals.crystalAnimationSpeed);
+                        cache.glUniform1F("mipmap", (float) mm);
+                        float[] tint = EnergyCrystalVisuals.crystalTints[tier];
+                        cache.glUniform3F("tint", tint[0], tint[1], tint[2]);
+                        cache.glUniform2F("angle", xrot / -3.125F, yrot / 3.125F);
+                    });
+        } else {
             ResourceHelperDE.bindTexture(DETextures.ENERGY_CRYSTAL_NO_SHADER);
             GlStateManager.disableLighting();
-            GlStateManager.color(r[tier], g[tier], b[tier], 0.5F);
+            int rgb = EnergyCrystalVisuals.crystalRGBNoShaders[tier];
+            GlStateManager.color(
+                    (rgb >> 16 & 0xFF) / 255F, (rgb >> 8 & 0xFF) / 255F, (rgb & 0xFF) / 255F, 0.5F);
         }
     }
 
     private void releaseShader() {
-        if (DEShaders.useShaders() && DEConfig.useCrystalShaders && shaderProgram != null) {
+        if (DEShaders.useShaders() && ClientConfig.useCrystalShaders && shaderProgram != null) {
             shaderProgram.releaseShader();
         }
     }

@@ -1,6 +1,9 @@
 package com.brandon3055.draconicevolution.lib;
 
-import com.brandon3055.draconicevolution.DEConfig;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -8,29 +11,29 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+/** Created by brandon3055 on 9/06/2017. */
+public final class OreDoublingRegistry {
 
-/**
- * Created by brandon3055 on 9/06/2017.
- */
-public class OreDoublingRegistry {
+    private OreDoublingRegistry() {}
 
     public static Map<String, ItemStack> oreRecipes = new HashMap<>();
     public static Map<ItemStack, ItemStack> stackToStackRecipes = new HashMap<>();
 
     public static void init() {
         for (String oreName : OreDictionary.getOreNames()) {
-            if (!oreName.startsWith("ore") || DEConfig.oreBlacklist.contains(oreName)) {
+            if (!oreName.startsWith("ore") || TweaksConfig.oreBlacklist.contains(oreName)) {
                 continue;
             }
 
             String ingot = oreName.replace("ore", "ingot");
 
-            if (!OreDictionary.doesOreNameExist(ingot) || OreDictionary.getOres(ingot).isEmpty() || OreDictionary.getOres(oreName).isEmpty()) {
+            if (!OreDictionary.doesOreNameExist(ingot)
+                    || OreDictionary.getOres(ingot).isEmpty()
+                    || OreDictionary.getOres(oreName).isEmpty()) {
                 ingot = oreName.replace("ore", "gem");
-                if (!OreDictionary.doesOreNameExist(ingot) || OreDictionary.getOres(ingot).isEmpty() || OreDictionary.getOres(oreName).isEmpty()) {
+                if (!OreDictionary.doesOreNameExist(ingot)
+                        || OreDictionary.getOres(ingot).isEmpty()
+                        || OreDictionary.getOres(oreName).isEmpty()) {
                     continue;
                 }
             }
@@ -52,7 +55,10 @@ public class OreDoublingRegistry {
                 }
                 stack = candidate;
                 ResourceLocation registryName = candidate.getItem().getRegistryName();
-                if (registryName != null && registryName.getResourceDomain().equals(DEConfig.oreDoublingOutputPriority)) {
+                if (registryName != null
+                        && registryName
+                                .getResourceDomain()
+                                .equals(TweaksConfig.oreDoublingOutputPriority)) {
                     break;
                 }
             }
@@ -88,7 +94,7 @@ public class OreDoublingRegistry {
             return stackToStackRecipes.get(stack);
         }
 
-        int ids[] = OreDictionary.getOreIDs(stack);
+        int[] ids = OreDictionary.getOreIDs(stack);
         for (int id : ids) {
             String sid = OreDictionary.getOreName(id);
             if (oreRecipes.containsKey(sid)) {
@@ -108,5 +114,4 @@ public class OreDoublingRegistry {
         registerResult(new ItemStack(Items.CLAY_BALL), new ItemStack(Items.BRICK, 2));
         registerResult(new ItemStack(Blocks.CACTUS), new ItemStack(Items.DYE, 2, 2));
     }
-
 }

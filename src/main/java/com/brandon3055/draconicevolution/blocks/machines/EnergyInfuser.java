@@ -23,9 +23,7 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by brandon3055 on 30/05/2016.
- */
+/** Created by brandon3055 on 30/05/2016. */
 public class EnergyInfuser extends BlockBCore implements ITileEntityProvider, IRenderOverride {
 
     public EnergyInfuser() {
@@ -37,7 +35,7 @@ public class EnergyInfuser extends BlockBCore implements ITileEntityProvider, IR
         return false;
     }
 
-    //region Block
+    // region Block
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
@@ -45,27 +43,43 @@ public class EnergyInfuser extends BlockBCore implements ITileEntityProvider, IR
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityPlayer player,
+            EnumHand hand,
+            EnumFacing side,
+            float hitX,
+            float hitY,
+            float hitZ) {
         if (!world.isRemote) {
-            FMLNetworkHandler.openGui(player, DraconicEvolution.instance, GuiHandler.GUIID_ENERGY_INFUSER, world, pos.getX(), pos.getY(), pos.getZ());
+            FMLNetworkHandler.openGui(
+                    player,
+                    DraconicEvolution.instance,
+                    GuiHandler.GUIID_ENERGY_INFUSER,
+                    world,
+                    pos.getX(),
+                    pos.getY(),
+                    pos.getZ());
         }
         return true;
     }
 
-    //endregion
+    // endregion
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return new AxisAlignedBB(0, 0, 0, 1, 0.375, 1);
     }
 
-
     @SideOnly(Side.CLIENT)
     @Override
     public void registerRenderer(Feature feature) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEnergyInfuser.class, new RenderTileEnergyInfuser());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+                TileEnergyInfuser.class, new RenderTileEnergyInfuser());
     }
 
     @Override
@@ -73,5 +87,5 @@ public class EnergyInfuser extends BlockBCore implements ITileEntityProvider, IR
         return true;
     }
 
-    //endregion
+    // endregion
 }

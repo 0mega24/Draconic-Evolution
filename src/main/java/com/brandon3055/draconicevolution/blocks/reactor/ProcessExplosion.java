@@ -11,6 +11,10 @@ import com.brandon3055.draconicevolution.DraconicEvolution;
 import com.brandon3055.draconicevolution.lib.ExplosionHelper;
 import com.brandon3055.draconicevolution.network.PacketExplosionFX;
 import com.brandon3055.draconicevolution.utils.LogHelper;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.BlockLiquid;
@@ -28,22 +32,18 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 11/03/2017.
- */
+/** Created by brandon3055 on 11/03/2017. */
 public class ProcessExplosion implements IProcess {
 
-    public static DamageSource fusionExplosion = new DamageSource("damage.de.fusionExplode").setExplosion().setDamageBypassesArmor().setDamageIsAbsolute();
+    public static DamageSource fusionExplosion =
+            new DamageSource("damage.de.fusionExplode")
+                    .setExplosion()
+                    .setDamageBypassesArmor()
+                    .setDamageIsAbsolute();
 
-    /**
-     * The origin of the explosion.
-     */
+    /** The origin of the explosion. */
     public final Vec3D origin;
+
     private final WorldServer world;
     private final MinecraftServer server;
     private final int minimumDelay;
@@ -57,10 +57,9 @@ public class ProcessExplosion implements IProcess {
     protected boolean detonated = false;
     protected long startTime = -1;
     protected long calcWait = 0;
-    /**
-     * Set this to false to disable the laval dropped by the explosion.
-     */
+    /** Set this to false to disable the laval dropped by the explosion. */
     public boolean lava = true;
+
     public HashSet<Integer> blocksToUpdate = new HashSet<>();
     public LinkedList<HashSet<Integer>> destroyedBlocks = new LinkedList<>();
     public HashSet<Integer> lavaPositions = new HashSet<>();
@@ -68,24 +67,26 @@ public class ProcessExplosion implements IProcess {
     public HashSet<Integer> destroyedCache = new HashSet<>();
     public HashSet<Integer> scannedCache = new HashSet<>();
     public ShortPos shortPos;
-//    public File cacheFile;
-//    public BufferedWriter writer;
+    //    public File cacheFile;
+    //    public BufferedWriter writer;
 
     private IBlockState lavaState;
 
-//    private ProcessThread thread;
+    //    private ProcessThread thread;
 
     /**
-     * This process is responsible for handling some extremely large explosions as efficiently as possible.
-     * The absolute max recommended radius is 500 (that's 1000 across) However this has only been tested on a high end system and
-     * may crash on systems with less ram and processing power. Recommended max is 350 - 400;
+     * This process is responsible for handling some extremely large explosions as efficiently as
+     * possible. The absolute max recommended radius is 500 (that's 1000 across) However this has
+     * only been tested on a high end system and may crash on systems with less ram and processing
+     * power. Recommended max is 350 - 400;
      *
-     * @param origin           The origin of the explosion.
-     * @param radius           The radius of the explosion (Note depending on terrain the actual destruction radius will be slightly less then this)
-     * @param world            The server world.
-     * @param minimumDelayTime The minimum delay in seconds before detonation.
-     *                         If the explosion calculation completes before this time is up the process will wait till this amount of time has based before detonating.
-     *                         Use -1 for manual detonation.
+     * @param origin The origin of the explosion.
+     * @param radius The radius of the explosion (Note depending on terrain the actual destruction
+     *     radius will be slightly less then this)
+     * @param world The server world.
+     * @param minimumDelayTime The minimum delay in seconds before detonation. If the explosion
+     *     calculation completes before this time is up the process will wait till this amount of
+     *     time has based before detonating. Use -1 for manual detonation.
      */
     public ProcessExplosion(BlockPos origin, int radius, WorldServer world, int minimumDelayTime) {
         this.origin = Vec3D.getCenter(origin);
@@ -126,15 +127,22 @@ public class ProcessExplosion implements IProcess {
             updateCalculation();
             t = System.currentTimeMillis() - t;
             calcWait = t / 40;
-            LogHelper.dev("Calculation Progress: " + Utils.round((((double) radius / (double) maxRadius) * 100D), 100) + "% " + (Runtime.getRuntime().freeMemory() / 1000000));
+            LogHelper.dev(
+                    "Calculation Progress: "
+                            + Utils.round((((double) radius / (double) maxRadius) * 100D), 100)
+                            + "% "
+                            + (Runtime.getRuntime().freeMemory() / 1000000));
             if (calcWait > 0) {
-                LogHelper.dev("Explosion Calc loop took " + t + "ms! Waiting " + calcWait + " ticks before continuing");
+                LogHelper.dev(
+                        "Explosion Calc loop took "
+                                + t
+                                + "ms! Waiting "
+                                + calcWait
+                                + " ticks before continuing");
             }
-        }
-        else if (minimumDelay == -1) {
+        } else if (minimumDelay == -1) {
             isDead = true;
-        }
-        else {
+        } else {
             if ((System.currentTimeMillis() - startTime) / 1000 >= minimumDelay) {
                 detonate();
             }
@@ -165,15 +173,26 @@ public class ProcessExplosion implements IProcess {
                     double sim = SimplexNoise.noise(x / 50D, z / 50D);
                     edgeNoise = 1 + (Math.abs(sim) * edgeNoise * 8);
 
-                    double power = (10000 * radialPos * radialPos * radialPos * angularLoad * edgeNoise) + edgeScatter;
+                    double power =
+                            (10000 * radialPos * radialPos * radialPos * angularLoad * edgeNoise)
+                                    + edgeScatter;
                     double heightUp = 20 + ((5D + (radius / 10D)) * angularLoad);
-                    double heightDown = coreHeight + ((5D + (radius / 10D)) * angularLoad * (1 - coreFalloff));
+                    double heightDown =
+                            coreHeight + ((5D + (radius / 10D)) * angularLoad * (1 - coreFalloff));
                     heightDown += (Math.abs(sim) * 4) + world.rand.nextDouble();
                     heightUp += (Math.abs(sim) * 4) + world.rand.nextDouble();
 
                     posVecDown.set(posVecUp);
-                    double resist = trace(posVecUp, power/* * (1 + 8 * radialPos)*/, (int) heightUp * 3, 1, 0, 0);
-                    resist += trace(posVecDown.subtract(0, 1, 0), power, (int) heightDown, -1, 0, 0);
+                    double resist =
+                            trace(
+                                    posVecUp,
+                                    power /* * (1 + 8 * radialPos)*/,
+                                    (int) heightUp * 3,
+                                    1,
+                                    0,
+                                    0);
+                    resist +=
+                            trace(posVecDown.subtract(0, 1, 0), power, (int) heightDown, -1, 0, 0);
                     resist *= 1 / angularLoad;
 
                     if (radialPos < 0.8) {
@@ -197,8 +216,7 @@ public class ProcessExplosion implements IProcess {
         }
     }
 
-
-    //region Math Stuff
+    // region Math Stuff
 
     private void recalcResist() {
         double total = 0;
@@ -250,9 +268,10 @@ public class ProcessExplosion implements IProcess {
         angularResistance[max] += power * delta;
     }
 
-    //endregion
+    // endregion
 
-    private double trace(Vec3D posVec, double power, int dist, int traceDir, double totalResist, int travel) {
+    private double trace(
+            Vec3D posVec, double power, int dist, int traceDir, double totalResist, int travel) {
         if (dist > 100) {
             dist = 100;
         }
@@ -283,18 +302,19 @@ public class ProcessExplosion implements IProcess {
 
             if (effectivePower >= r) {
                 destroyedCache.add(iPos);
-            }
-            else if (mat == Material.WATER || mat == Material.LAVA) {
+            } else if (mat == Material.WATER || mat == Material.LAVA) {
                 if (effectivePower > 5) {
                     destroyedCache.add(iPos);
-                }
-                else {
+                } else {
                     blocksToUpdate.add(iPos);
                 }
                 r = 10;
-            }
-            else {
-                if (mat == Material.LAVA || mat == Material.WATER || block instanceof BlockLiquid || block instanceof IFluidBlock || block instanceof BlockFalling) {
+            } else {
+                if (mat == Material.LAVA
+                        || mat == Material.WATER
+                        || block instanceof BlockLiquid
+                        || block instanceof IFluidBlock
+                        || block instanceof BlockFalling) {
                     blocksToUpdate.add(iPos);
                 }
                 scannedCache.add(iPos);
@@ -303,22 +323,25 @@ public class ProcessExplosion implements IProcess {
             if (r > 1000) {
                 r = 1000;
             }
-        }
-        else {
+        } else {
             scannedCache.add(iPos);
         }
 
-        r = (r / radius) / travel;//?
+        r = (r / radius) / travel; // ?
 
         totalResist += r;
         power -= r;
 
-        if (dist == 1 && traceDir == -1 && lava && world.rand.nextInt(250) == 0 && !world.isAirBlock(pos.down())) {
+        if (dist == 1
+                && traceDir == -1
+                && lava
+                && world.rand.nextInt(250) == 0
+                && !world.isAirBlock(pos.down())) {
             dist = 0;
             if (destroyedCache.contains(iPos)) {
                 destroyedCache.remove(iPos);
             }
-//            world.setBlockState(pos, lavaState);
+            //            world.setBlockState(pos, lavaState);
             lavaPositions.add(iPos);
             blocksToUpdate.add(iPos);
             scannedCache.add(iPos);
@@ -328,9 +351,7 @@ public class ProcessExplosion implements IProcess {
         return trace(posVec, power, dist, traceDir, totalResist, travel);
     }
 
-    /**
-     * @return true if explosion calculation is complete.
-     */
+    /** @return true if explosion calculation is complete. */
     public boolean isCalculationComplete() {
         return calculationComplete;
     }
@@ -375,15 +396,27 @@ public class ProcessExplosion implements IProcess {
 
         final BlockPos pos = origin.getPos();
         PacketExplosionFX packet = new PacketExplosionFX(pos, radius, false);
-        DraconicEvolution.network.sendToAllAround(packet, new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), radius * 4));
+        DraconicEvolution.network.sendToAllAround(
+                packet,
+                new NetworkRegistry.TargetPoint(
+                        world.provider.getDimension(),
+                        pos.getX(),
+                        pos.getY(),
+                        pos.getZ(),
+                        radius * 4));
 
         new DelayedExecutor(30) {
             @Override
             public void execute(Object[] args) {
-                List<Entity> list = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).grow(radius * 2.5, radius * 2.5, radius * 2.5));
+                List<Entity> list =
+                        world.getEntitiesWithinAABB(
+                                Entity.class,
+                                new AxisAlignedBB(pos, pos.add(1, 1, 1))
+                                        .grow(radius * 2.5, radius * 2.5, radius * 2.5));
 
                 for (Entity e : list) {
-                    double dist = e.getDistance(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                    double dist =
+                            e.getDistance(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                     float dmg = 10000F * (1F - (float) (dist / (radius * 1.2D)));
                     e.attackEntityFrom(fusionExplosion, dmg);
                 }
@@ -399,25 +432,26 @@ public class ProcessExplosion implements IProcess {
         return isDead;
     }
 
-//    private class ProcessThread extends Thread {
-//        private WorldServer world;
-//
-//        public ProcessThread(WorldServer world) {
-//            super("DE Explosion Calculator");
-//            this.world = world;
-//            this.setDaemon(true);
-//        }
-//
-//        @Override
-//        public void run() {
-//            long t = System.currentTimeMillis();
-//            while (!ProcessExplosion.this.calculationComplete) {
-//                LogHelper.dev("Calculation Progress: " + Utils.round((((double) radius / (double) maxRadius) * 100D), 100) + "% " + (Runtime.getRuntime().freeMemory() / 1000000));
-//                ProcessExplosion.this.updateCalculation();
-//            }
-//            t = System.currentTimeMillis() - t;
-//            LogHelper.dev("Threaded Explosion Calculation took " + t + "ms!");
-//        }
-//    }
+    //    private class ProcessThread extends Thread {
+    //        private WorldServer world;
+    //
+    //        public ProcessThread(WorldServer world) {
+    //            super("DE Explosion Calculator");
+    //            this.world = world;
+    //            this.setDaemon(true);
+    //        }
+    //
+    //        @Override
+    //        public void run() {
+    //            long t = System.currentTimeMillis();
+    //            while (!ProcessExplosion.this.calculationComplete) {
+    //                LogHelper.dev("Calculation Progress: " + Utils.round((((double) radius /
+    // (double) maxRadius) * 100D), 100) + "% " + (Runtime.getRuntime().freeMemory() / 1000000));
+    //                ProcessExplosion.this.updateCalculation();
+    //            }
+    //            t = System.currentTimeMillis() - t;
+    //            LogHelper.dev("Threaded Explosion Calculation took " + t + "ms!");
+    //        }
+    //    }
 
 }

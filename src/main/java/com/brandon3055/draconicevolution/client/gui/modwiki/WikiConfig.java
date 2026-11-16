@@ -3,25 +3,24 @@ package com.brandon3055.draconicevolution.client.gui.modwiki;
 import com.brandon3055.brandonscore.utils.Utils;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- * Created by brandon3055 on 3/09/2016.
- */
-public class WikiConfig {
+/** Created by brandon3055 on 3/09/2016. */
+public final class WikiConfig {
+
+    private WikiConfig() {}
 
     public static File configJSON;
 
-    //Windows
+    // Windows
     public static volatile int NAV_WINDOW = 0xFF3c3f41;
     public static volatile int CONTENT_WINDOW = 0xFF3c3f41;
     public static volatile int MENU_BAR = 0xFF3c3f41;
 
-    //Text
+    // Text
     public static volatile int NAV_TEXT = 0x00FFFF;
     public static volatile int TEXT_COLOUR = 0x8c8c8c;
 
@@ -77,8 +76,7 @@ public class WikiConfig {
 
             reader.endObject();
             reader.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -99,10 +97,8 @@ public class WikiConfig {
 
             writer.endObject();
             writer.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }

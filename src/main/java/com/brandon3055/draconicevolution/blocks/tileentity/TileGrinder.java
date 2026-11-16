@@ -1,15 +1,16 @@
 package com.brandon3055.draconicevolution.blocks.tileentity;
 
-import cofh.redstoneflux.api.IEnergyContainerItem;
 import cofh.redstoneflux.api.IEnergyReceiver;
 import com.brandon3055.brandonscore.blocks.TileEnergyInventoryBase;
 import com.brandon3055.brandonscore.lib.EnergyHelper;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.blocks.machines.Grinder;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.google.common.base.Predicate;
 import com.mojang.authlib.GameProfile;
+import java.util.List;
+import java.util.UUID;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,12 +27,14 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 
-import java.util.List;
-import java.util.UUID;
-
 public class TileGrinder extends TileEnergyInventoryBase implements IEnergyReceiver, ITickable {
 
-    public final ManagedBool active = register("active", new ManagedBool(false)).syncViaTile().saveToTile().trigerUpdate().finish();
+    public final ManagedBool active =
+            register("active", new ManagedBool(false))
+                    .syncViaTile()
+                    .saveToTile()
+                    .trigerUpdate()
+                    .finish();
     public static FakePlayer fakePlayer;
     private AxisAlignedBB killBox;
     public boolean powered = false;
@@ -57,64 +60,72 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
         }
 
         if (getEnergyStored() < getMaxEnergyStored() && getStackInSlot(0) != null) {
-            energyStorage.receiveEnergy(extractEnergyFromItem(getStackInSlot(0), energyStorage.receiveEnergy(32000, true), false), false);
+            energyStorage.receiveEnergy(
+                    extractEnergyFromItem(
+                            getStackInSlot(0), energyStorage.receiveEnergy(32000, true), false),
+                    false);
         }
     }
 
-    //region Killing Code
+    // region Killing Code
 
     private int coolDown = 0;
 
     private void updateGrinding() {
-        //Create the fake player if it does not already exist
+        // Create the fake player if it does not already exist
         if (fakePlayer == null) {
-            fakePlayer = FakePlayerFactory.get((WorldServer) world, new GameProfile(UUID.fromString("5b5689b9-e43d-4282-a42a-dc916f3616b7"), "[Draconic-Evolution]"));
+            fakePlayer =
+                    FakePlayerFactory.get(
+                            (WorldServer) world,
+                            new GameProfile(
+                                    UUID.fromString("5b5689b9-e43d-4282-a42a-dc916f3616b7"),
+                                    "[Draconic-Evolution]"));
         }
 
-        //Create the kill box if it does not already exist
+        // Create the kill box if it does not already exist
         if (killBox == null) {
             updateKillBox();
         }
 
-        int eph = DEConfig.grinderEnergyPerHeart;
+        int eph = TweaksConfig.grinderEnergyPerHeart;
 
-        //Only run if there is a reasonable energy buffer
+        // Only run if there is a reasonable energy buffer
         if (getEnergyStored() < eph * 50) {
             return;
         }
 
-        //If the grinder is currently in cooldown mode tick down the timer and return.
+        // If the grinder is currently in cooldown mode tick down the timer and return.
         if (coolDown > 0) {
             coolDown--;
             return;
         }
 
-        //Find an attack target
+        // Find an attack target
         EntityLivingBase target = findTarget();
 
-        //If no target was found go back into cooldown mode for 5 seconds
+        // If no target was found go back into cooldown mode for 5 seconds
         if (target == null) {
-//            LogHelper.dev("Grinder: No targets found. Waiting 5 seconds...");
+            //            LogHelper.dev("Grinder: No targets found. Waiting 5 seconds...");
             coolDown = 100;
             return;
         }
 
         float health = target.getHealth();
 
-        //Ensure teh minimum damage dealt is 5 hearts. This is to help prevent endless hurt loops due to mobs with armor.
+        // Ensure teh minimum damage dealt is 5 hearts. This is to help prevent endless hurt loops
+        // due to mobs with armor.
         if (health < 5) {
             health = 5;
         }
 
-        //Calculate energy cost
+        // Calculate energy cost
         int cost = (int) (health * (float) eph);
         boolean isConfirmedKill = false;
 
-        //Restrict to the current energy stored if the cost is higher than the energy stored.
+        // Restrict to the current energy stored if the cost is higher than the energy stored.
         if (cost > getEnergyStored()) {
             cost = getEnergyStored();
-        }
-        else {
+        } else {
             isConfirmedKill = true;
         }
 
@@ -122,26 +133,30 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
 
         DamageSource source = DamageSource.causePlayerDamage(fakePlayer);
 
-        //Dont mess around. If we know the mob should die lets just make it die!
+        // Dont mess around. If we know the mob should die lets just make it die!
         if (isConfirmedKill) {
             damage = Float.MAX_VALUE;
         }
 
-        //Attack the mob and enter cooldown mode for 5 ticks is successful. Else cooldown for 3 ticks.
+        // Attack the mob and enter cooldown mode for 5 ticks is successful. Else cooldown for 3
+        // ticks.
         if (target.attackEntityFrom(source, damage)) {
             LogHelper.dev("Grinder: Dealt " + damage + " damage to entity: " + target);
             energyStorage.modifyEnergyStored(-cost);
             coolDown = 2;
-        }
-        else {
-            LogHelper.dev("Grinder: Failed to deal damage to entity: " + EntityList.getEntityString(target) + " Waiting 3 ticks...");
-            LogHelper.dev("Grinder: Blacklisted Entities: " + DEConfig.grinderBlacklist);
+        } else {
+            LogHelper.dev(
+                    "Grinder: Failed to deal damage to entity: "
+                            + EntityList.getEntityString(target)
+                            + " Waiting 3 ticks...");
+            LogHelper.dev("Grinder: Blacklisted Entities: " + TweaksConfig.grinderBlacklist);
             coolDown = 3;
         }
 
-        //If a mob was killed reduce the despawn time of any xp dropped.
+        // If a mob was killed reduce the despawn time of any xp dropped.
         if (coolDown == 2) {
-            List<EntityXPOrb> xp = world.getEntitiesWithinAABB(EntityXPOrb.class, killBox.grow(4, 4, 4));
+            List<EntityXPOrb> xp =
+                    world.getEntitiesWithinAABB(EntityXPOrb.class, killBox.grow(4, 4, 4));
             for (EntityXPOrb orb : xp) {
                 if (orb.xpOrbAge < 5400) {
                     orb.xpOrbAge = 5700;
@@ -155,7 +170,8 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
             return null;
         }
 
-        List<EntityLivingBase> entitiesInRange = world.getEntitiesWithinAABB(EntityLivingBase.class, killBox, grinderPredicate);
+        List<EntityLivingBase> entitiesInRange =
+                world.getEntitiesWithinAABB(EntityLivingBase.class, killBox, grinderPredicate);
 
         EntityLivingBase found = null;
         for (EntityLivingBase livingBase : entitiesInRange) {
@@ -163,7 +179,8 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
                 found = livingBase;
                 LogHelper.dev("Grinder: Found next target: " + livingBase);
                 if (found.getIsInvulnerable()) {
-                    LogHelper.dev("Grinder: Target is invulnerable! searching for softer target...");
+                    LogHelper.dev(
+                            "Grinder: Target is invulnerable! searching for softer target...");
                     continue;
                 }
                 return found;
@@ -174,9 +191,11 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
     }
 
     private boolean isBlackListed(EntityLivingBase livingBase) {
-        if (DEConfig.grinderBlacklist.isEmpty()) return false;
+        if (TweaksConfig.grinderBlacklist.isEmpty()) {
+            return false;
+        }
         ResourceLocation reg = EntityList.getKey(livingBase);
-        return reg != null && DEConfig.grinderBlacklist.contains(reg.toString());
+        return reg != null && TweaksConfig.grinderBlacklist.contains(reg.toString());
     }
 
     public void updateKillBox() {
@@ -197,8 +216,7 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
         return killBox;
     }
 
-
-    //endregion
+    // endregion
 
     @Override
     public void updateBlock() {
@@ -206,7 +224,7 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
         updateKillBox();
     }
 
-    //region IEnergyProvider
+    // region IEnergyProvider
     @Override
     public boolean canConnectEnergy(EnumFacing from) {
         return true;
@@ -226,7 +244,7 @@ public class TileGrinder extends TileEnergyInventoryBase implements IEnergyRecei
     public int getMaxEnergyStored(EnumFacing from) {
         return super.getMaxEnergyStored();
     }
-    //endregion
+    // endregion
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {

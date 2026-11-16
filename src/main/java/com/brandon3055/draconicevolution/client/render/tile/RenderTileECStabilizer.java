@@ -8,9 +8,7 @@ import com.brandon3055.draconicevolution.utils.DETextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumFacing;
 
-/**
- * Created by brandon3055 on 19/4/2016.
- */
+/** Created by brandon3055 on 19/4/2016. */
 public class RenderTileECStabilizer extends TESRBase<TileEnergyCoreStabilizer> {
 
     private static ModelLargeECStabilizer largeModel;
@@ -20,28 +18,35 @@ public class RenderTileECStabilizer extends TESRBase<TileEnergyCoreStabilizer> {
     }
 
     @Override
-    public void render(TileEnergyCoreStabilizer te, double x, double y, double z, float partialTicks, int destroyStage, float a) {
+    public void render(
+            TileEnergyCoreStabilizer te,
+            double x,
+            double y,
+            double z,
+            float partialTicks,
+            int destroyStage,
+            float a) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x + 0.5, y + 0.5, z + 0.5);
         GlStateManager.disableBlend();
         setLighting(200F);
 
-        //region Rotate Renderer
+        // region Rotate Renderer
         EnumFacing facing;
         if (te.isCoreActive.value) {
             facing = te.coreDirection;
-        }
-        else {
-            facing = EnumFacing.getFacingFromAxis(EnumFacing.AxisDirection.POSITIVE, te.multiBlockAxis);
+        } else {
+            facing =
+                    EnumFacing.getFacingFromAxis(
+                            EnumFacing.AxisDirection.POSITIVE, te.multiBlockAxis);
         }
 
         if (facing.getAxis() == EnumFacing.Axis.X || facing.getAxis() == EnumFacing.Axis.Y) {
             GlStateManager.rotate(-90F, -facing.getFrontOffsetY(), facing.getFrontOffsetX(), 0);
-        }
-        else if (facing == EnumFacing.SOUTH) {
+        } else if (facing == EnumFacing.SOUTH) {
             GlStateManager.rotate(180F, 0, 1, 0);
         }
-        //endregion
+        // endregion
 
         renderRing(te, partialTicks);
 

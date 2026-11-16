@@ -112,7 +112,8 @@ public abstract class AbstractLayout implements LayoutManager2 {
 
         GridConstraints[] newConstraints = new GridConstraints[this.myConstraints.length + 1];
         System.arraycopy(this.myConstraints, 0, newConstraints, 0, this.myConstraints.length);
-        newConstraints[this.myConstraints.length] = ((GridConstraints) ((GridConstraints) constraints).clone());
+        newConstraints[this.myConstraints.length] =
+                ((GridConstraints) ((GridConstraints) constraints).clone());
         this.myConstraints = newConstraints;
     }
 
@@ -127,20 +128,24 @@ public abstract class AbstractLayout implements LayoutManager2 {
         }
         if (this.myComponents.length == 1) {
             this.myComponents = COMPONENT_EMPTY_ARRAY;
-        }
-        else {
+        } else {
             Component[] newComponents = new Component[this.myComponents.length - 1];
             System.arraycopy(this.myComponents, 0, newComponents, 0, i);
-            System.arraycopy(this.myComponents, i + 1, newComponents, i, this.myComponents.length - i - 1);
+            System.arraycopy(
+                    this.myComponents, i + 1, newComponents, i, this.myComponents.length - i - 1);
             this.myComponents = newComponents;
         }
         if (this.myConstraints.length == 1) {
             this.myConstraints = GridConstraints.EMPTY_ARRAY;
-        }
-        else {
+        } else {
             GridConstraints[] newConstraints = new GridConstraints[this.myConstraints.length - 1];
             System.arraycopy(this.myConstraints, 0, newConstraints, 0, i);
-            System.arraycopy(this.myConstraints, i + 1, newConstraints, i, this.myConstraints.length - i - 1);
+            System.arraycopy(
+                    this.myConstraints,
+                    i + 1,
+                    newConstraints,
+                    i,
+                    this.myConstraints.length - i - 1);
             this.myConstraints = newConstraints;
         }
     }

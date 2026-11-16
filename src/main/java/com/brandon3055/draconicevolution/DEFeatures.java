@@ -8,18 +8,89 @@ import com.brandon3055.brandonscore.registry.Feature;
 import com.brandon3055.brandonscore.registry.IModFeatures;
 import com.brandon3055.brandonscore.registry.ModFeature;
 import com.brandon3055.brandonscore.registry.ModFeatures;
-import com.brandon3055.draconicevolution.blocks.*;
+import com.brandon3055.draconicevolution.blocks.ChaosCrystal;
+import com.brandon3055.draconicevolution.blocks.ChaosShardAtmos;
+import com.brandon3055.draconicevolution.blocks.CreativeRFSource;
+import com.brandon3055.draconicevolution.blocks.DislocatorPedestal;
+import com.brandon3055.draconicevolution.blocks.DislocatorReceptacle;
+import com.brandon3055.draconicevolution.blocks.DraconiumBlock;
+import com.brandon3055.draconicevolution.blocks.DraconiumChest;
+import com.brandon3055.draconicevolution.blocks.DraconiumOre;
+import com.brandon3055.draconicevolution.blocks.InvisECoreBlock;
+import com.brandon3055.draconicevolution.blocks.ItemDislocationInhibitor;
+import com.brandon3055.draconicevolution.blocks.ParticleGenerator;
+import com.brandon3055.draconicevolution.blocks.PlacedItem;
+import com.brandon3055.draconicevolution.blocks.Portal;
+import com.brandon3055.draconicevolution.blocks.Potentiometer;
+import com.brandon3055.draconicevolution.blocks.RainSensor;
 import com.brandon3055.draconicevolution.blocks.energynet.EnergyCrystal;
 import com.brandon3055.draconicevolution.blocks.itemblock.ItemDraconiumBlock;
-import com.brandon3055.draconicevolution.blocks.machines.*;
+import com.brandon3055.draconicevolution.blocks.machines.CelestialManipulator;
+import com.brandon3055.draconicevolution.blocks.machines.CraftingInjector;
+import com.brandon3055.draconicevolution.blocks.machines.DissEnchanter;
+import com.brandon3055.draconicevolution.blocks.machines.EnergyInfuser;
+import com.brandon3055.draconicevolution.blocks.machines.EnergyPylon;
+import com.brandon3055.draconicevolution.blocks.machines.EnergyStorageCore;
+import com.brandon3055.draconicevolution.blocks.machines.EntityDetector;
+import com.brandon3055.draconicevolution.blocks.machines.FlowGate;
+import com.brandon3055.draconicevolution.blocks.machines.FusionCraftingCore;
+import com.brandon3055.draconicevolution.blocks.machines.Generator;
+import com.brandon3055.draconicevolution.blocks.machines.Grinder;
+import com.brandon3055.draconicevolution.blocks.machines.StabilizedSpawner;
 import com.brandon3055.draconicevolution.blocks.reactor.ReactorComponent;
 import com.brandon3055.draconicevolution.blocks.reactor.ReactorCore;
 import com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorCore;
-import com.brandon3055.draconicevolution.blocks.tileentity.*;
-import com.brandon3055.draconicevolution.items.*;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileCelestialManipulator;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileChaosCrystal;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileCraftingInjector;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileCreativeRFCapacitor;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileDislocatorPedestal;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileDislocatorReceptacle;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileDissEnchanter;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileDraconiumChest;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyInfuser;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyPylon;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEntityDetector;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileFusionCraftingCore;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileGenerator;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileGrinder;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileInvisECoreBlock;
+import com.brandon3055.draconicevolution.blocks.tileentity.TilePlacedItem;
+import com.brandon3055.draconicevolution.blocks.tileentity.TilePortal;
+import com.brandon3055.draconicevolution.blocks.tileentity.TilePotentiometer;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileRainSensor;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileStabilizedSpawner;
+import com.brandon3055.draconicevolution.items.Debugger;
+import com.brandon3055.draconicevolution.items.EnderEnergyManipulator;
+import com.brandon3055.draconicevolution.items.InfoTablet;
+import com.brandon3055.draconicevolution.items.ItemCore;
+import com.brandon3055.draconicevolution.items.ItemPersistent;
+import com.brandon3055.draconicevolution.items.MobSoul;
+import com.brandon3055.draconicevolution.items.ReactorPart;
+import com.brandon3055.draconicevolution.items.ToolUpgrade;
 import com.brandon3055.draconicevolution.items.armor.DraconicArmor;
 import com.brandon3055.draconicevolution.items.armor.WyvernArmor;
-import com.brandon3055.draconicevolution.items.tools.*;
+import com.brandon3055.draconicevolution.items.tools.CreativeExchanger;
+import com.brandon3055.draconicevolution.items.tools.CrystalBinder;
+import com.brandon3055.draconicevolution.items.tools.Dislocator;
+import com.brandon3055.draconicevolution.items.tools.DislocatorAdvanced;
+import com.brandon3055.draconicevolution.items.tools.DislocatorBound;
+import com.brandon3055.draconicevolution.items.tools.DraconicAxe;
+import com.brandon3055.draconicevolution.items.tools.DraconicBow;
+import com.brandon3055.draconicevolution.items.tools.DraconicHoe;
+import com.brandon3055.draconicevolution.items.tools.DraconicPick;
+import com.brandon3055.draconicevolution.items.tools.DraconicShovel;
+import com.brandon3055.draconicevolution.items.tools.DraconicStaffOfPower;
+import com.brandon3055.draconicevolution.items.tools.DraconicSword;
+import com.brandon3055.draconicevolution.items.tools.DraconiumCapacitor;
+import com.brandon3055.draconicevolution.items.tools.Magnet;
+import com.brandon3055.draconicevolution.items.tools.WyvernAxe;
+import com.brandon3055.draconicevolution.items.tools.WyvernBow;
+import com.brandon3055.draconicevolution.items.tools.WyvernPick;
+import com.brandon3055.draconicevolution.items.tools.WyvernShovel;
+import com.brandon3055.draconicevolution.items.tools.WyvernSword;
+import javax.annotation.Nullable;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -29,17 +100,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import javax.annotation.Nullable;
-
 /**
- * Created by brandon3055 on 18/3/2016.
- * This class contains a reference to all blocks and items in Draconic Evolution
+ * Created by brandon3055 on 18/3/2016. This class contains a reference to all blocks and items in
+ * Draconic Evolution
  */
 @GameRegistry.ObjectHolder(DraconicEvolution.MODID)
 @ModFeatures(modid = DraconicEvolution.MODID)
 public class DEFeatures implements IModFeatures {
 
-    private CreativeTabs[] tabs = new CreativeTabs[]{DraconicEvolution.tabBlocksItems, DraconicEvolution.tabToolsWeapons};
+    private CreativeTabs[] tabs =
+            new CreativeTabs[] {
+                DraconicEvolution.tabBlocksItems, DraconicEvolution.tabToolsWeapons
+            };
 
     @Nullable
     @Override
@@ -49,47 +121,92 @@ public class DEFeatures implements IModFeatures {
 
     /* ------------------ Blocks ------------------ */
 
-    //region Simple Blocks
-    @ModFeature(name = "draconium_ore", variantMap = {"0:type=normal", "1:type=nether", "2:type=end"}, itemBlock = ItemBlockBCore.class)
-    public static DraconiumOre draconiumOre = (DraconiumOre) new DraconiumOre().setHardness(10f).setResistance(20.0f);
+    // region Simple Blocks
+    @ModFeature(
+            name = "draconium_ore",
+            variantMap = {"0:type=normal", "1:type=nether", "2:type=end"},
+            itemBlock = ItemBlockBCore.class)
+    public static DraconiumOre draconiumOre =
+            (DraconiumOre) new DraconiumOre().setHardness(10f).setResistance(20.0f);
 
-    @ModFeature(name = "draconium_block", variantMap = {"0:charged=false", "1:charged=true"}, itemBlock = ItemDraconiumBlock.class)
-    public static DraconiumBlock draconiumBlock = (DraconiumBlock) new DraconiumBlock().setHardness(10f).setResistance(20.0f);
+    @ModFeature(
+            name = "draconium_block",
+            variantMap = {"0:charged=false", "1:charged=true"},
+            itemBlock = ItemDraconiumBlock.class)
+    public static DraconiumBlock draconiumBlock =
+            (DraconiumBlock) new DraconiumBlock().setHardness(10f).setResistance(20.0f);
 
     @ModFeature(name = "draconic_block")
-    public static BlockMobSafe draconicBlock = (BlockMobSafe) ((BlockBCore) new BlockMobSafe(Material.IRON) {
-        @Override//TODO add a way to override this in BlockBCore
-        public float getEnchantPowerBonus(World world, BlockPos pos) {
-            return 12f;
-        }
-    }.setHardness(20F).setResistance(1000F)).setHarvestTool("pickaxe", 4);
+    public static BlockMobSafe draconicBlock =
+            (BlockMobSafe)
+                    ((BlockBCore)
+                                    new BlockMobSafe(Material.IRON) {
+                                        @Override // TODO add a way to override this in BlockBCore
+                                        public float getEnchantPowerBonus(
+                                                World world, BlockPos pos) {
+                                            return 12f;
+                                        }
+                                    }.setHardness(20F).setResistance(1000F))
+                            .setHarvestTool("pickaxe", 4);
 
     @ModFeature(name = "infused_obsidian")
-    public static BlockMobSafe infusedObsidian = (BlockMobSafe) ((BlockBCore) new BlockMobSafe(Material.IRON).setHardness(100F).setResistance(4000F)).setHarvestTool("pickaxe", 4);
+    public static BlockMobSafe infusedObsidian =
+            (BlockMobSafe)
+                    ((BlockBCore)
+                                    new BlockMobSafe(Material.IRON)
+                                            .setHardness(100F)
+                                            .setResistance(4000F))
+                            .setHarvestTool("pickaxe", 4);
 
     @ModFeature(name = "portal", tileEntity = TilePortal.class)
     public static Portal portal = new Portal();
 
     @ModFeature(name = "item_dislocation_inhibitor")
-    public static ItemDislocationInhibitor itemDislocationInhibitor = new ItemDislocationInhibitor();
+    public static ItemDislocationInhibitor itemDislocationInhibitor =
+            new ItemDislocationInhibitor();
 
-    //endregion
+    // endregion
 
-    //region Machines
+    // region Machines
 
-    @ModFeature(name = "generator", tileEntity = TileGenerator.class, itemBlock = ItemBlockBCore.class, cTab = 1)
+    @ModFeature(
+            name = "generator",
+            tileEntity = TileGenerator.class,
+            itemBlock = ItemBlockBCore.class,
+            cTab = 1)
     public static Generator generator = new Generator();
 
-    @ModFeature(name = "grinder", tileEntity = TileGrinder.class, itemBlock = ItemBlockBCore.class, cTab = 1)
+    @ModFeature(
+            name = "grinder",
+            tileEntity = TileGrinder.class,
+            itemBlock = ItemBlockBCore.class,
+            cTab = 1)
     public static Grinder grinder = new Grinder();
 
-    @ModFeature(name = "particle_generator", variantMap = {"0:type=normal", "1:type=inverted", "2:type=stabilizer", "3:type=stabilizer"}, cTab = 1, itemBlock = ItemBlockBCore.class)
+    @ModFeature(
+            name = "particle_generator",
+            variantMap = {
+                "0:type=normal",
+                "1:type=inverted",
+                "2:type=stabilizer",
+                "3:type=stabilizer"
+            },
+            cTab = 1,
+            itemBlock = ItemBlockBCore.class)
     public static ParticleGenerator particleGenerator = new ParticleGenerator();
 
-    @ModFeature(name = "energy_infuser", tileEntity = TileEnergyInfuser.class, itemBlock = ItemBlockBCore.class, cTab = 1)
+    @ModFeature(
+            name = "energy_infuser",
+            tileEntity = TileEnergyInfuser.class,
+            itemBlock = ItemBlockBCore.class,
+            cTab = 1)
     public static EnergyInfuser energyInfuser = new EnergyInfuser();
 
-    @ModFeature(name = "dislocator_receptacle", tileEntity = TileDislocatorReceptacle.class, itemBlock = ItemBlockBCore.class, cTab = 1)
+    @ModFeature(
+            name = "dislocator_receptacle",
+            tileEntity = TileDislocatorReceptacle.class,
+            itemBlock = ItemBlockBCore.class,
+            cTab = 1)
     public static DislocatorReceptacle dislocatorReceptacle = new DislocatorReceptacle();
 
     @ModFeature(name = "dislocator_pedestal", tileEntity = TileDislocatorPedestal.class, cTab = 1)
@@ -98,18 +215,27 @@ public class DEFeatures implements IModFeatures {
     @ModFeature(name = "rain_sensor", tileEntity = TileRainSensor.class, cTab = 1)
     public static RainSensor rainSensor = new RainSensor();
 
-    @ModFeature(name = "diss_enchanter", tileEntity = TileDissEnchanter.class, itemBlock = ItemBlockBCore.class, cTab = 1)
+    @ModFeature(
+            name = "diss_enchanter",
+            tileEntity = TileDissEnchanter.class,
+            itemBlock = ItemBlockBCore.class,
+            cTab = 1)
     public static DissEnchanter dissEnchanter = new DissEnchanter();
 
     @ModFeature(name = "potentiometer", tileEntity = TilePotentiometer.class, cTab = 1)
     public static Potentiometer potentiometer = new Potentiometer();
 
-    @ModFeature(name = "entity_detector", tileEntity = TileEntityDetector.class, variantMap = {"0:advanced=false", "1:advanced=true"}, itemBlock = ItemBlockBCore.class, cTab = 1)
+    @ModFeature(
+            name = "entity_detector",
+            tileEntity = TileEntityDetector.class,
+            variantMap = {"0:advanced=false", "1:advanced=true"},
+            itemBlock = ItemBlockBCore.class,
+            cTab = 1)
     public static EntityDetector entityDetector = new EntityDetector();
 
-    //endregion
+    // endregion
 
-    //region Advanced Machines
+    // region Advanced Machines
 
     @ModFeature(name = "energy_storage_core", tileEntity = TileEnergyStorageCore.class, cTab = 1)
     public static EnergyStorageCore energyStorageCore = new EnergyStorageCore();
@@ -120,22 +246,47 @@ public class DEFeatures implements IModFeatures {
     @ModFeature(name = "invis_e_core_block", tileEntity = TileInvisECoreBlock.class, cTab = -1)
     public static InvisECoreBlock invisECoreBlock = new InvisECoreBlock();
 
-    @ModFeature(name = "fusion_crafting_core", tileEntity = TileFusionCraftingCore.class, itemBlock = ItemBlockBCore.class, cTab = 1)
+    @ModFeature(
+            name = "fusion_crafting_core",
+            tileEntity = TileFusionCraftingCore.class,
+            itemBlock = ItemBlockBCore.class,
+            cTab = 1)
     public static FusionCraftingCore fusionCraftingCore = new FusionCraftingCore();
 
-    @ModFeature(name = "crafting_injector", variantMap = {"0:facing=up,tier=basic", "1:facing=up,tier=wyvern", "2:facing=up,tier=draconic", "3:facing=up,tier=chaotic"}, tileEntity = TileCraftingInjector.class, itemBlock = ItemBlockBCore.class, cTab = 1)
+    @ModFeature(
+            name = "crafting_injector",
+            variantMap = {
+                "0:facing=up,tier=basic",
+                "1:facing=up,tier=wyvern",
+                "2:facing=up,tier=draconic",
+                "3:facing=up,tier=chaotic"
+            },
+            tileEntity = TileCraftingInjector.class,
+            itemBlock = ItemBlockBCore.class,
+            cTab = 1)
     public static CraftingInjector craftingInjector = new CraftingInjector();
 
-    @ModFeature(name = "celestial_manipulator", tileEntity = TileCelestialManipulator.class, cTab = 1)//, itemBlock = ItemBlockBCore.class, cTab = 1)
+    @ModFeature(
+            name = "celestial_manipulator",
+            tileEntity = TileCelestialManipulator.class,
+            cTab = 1) // , itemBlock = ItemBlockBCore.class, cTab = 1)
     public static CelestialManipulator celestialManipulator = new CelestialManipulator();
 
     @ModFeature(name = "energy_crystal", itemBlock = ItemBlockBCore.class)
     public static EnergyCrystal energyCrystal = new EnergyCrystal();
 
-    @ModFeature(name = "flow_gate", variantMap = {"0:facing=north,type=flux", "8:facing=north,type=fluid"}, itemBlock = ItemBlockBCore.class, cTab = 1)
+    @ModFeature(
+            name = "flow_gate",
+            variantMap = {"0:facing=north,type=flux", "8:facing=north,type=fluid"},
+            itemBlock = ItemBlockBCore.class,
+            cTab = 1)
     public static FlowGate flowGate = new FlowGate();
 
-    @ModFeature(name = "reactor_core", tileEntity = TileReactorCore.class, itemBlock = ItemBlockBCore.class, cTab = 1)
+    @ModFeature(
+            name = "reactor_core",
+            tileEntity = TileReactorCore.class,
+            itemBlock = ItemBlockBCore.class,
+            cTab = 1)
     public static ReactorCore reactorCore = new ReactorCore();
 
     @ModFeature(name = "reactor_part", cTab = 1)
@@ -144,15 +295,21 @@ public class DEFeatures implements IModFeatures {
     @ModFeature(name = "reactor_component", itemBlock = ItemBlockBCore.class, cTab = 1)
     public static ReactorComponent reactorComponent = new ReactorComponent();
 
-    @ModFeature(name = "draconic_spawner", tileEntity = TileStabilizedSpawner.class, itemBlock = ItemBlockBCore.class)
+    @ModFeature(
+            name = "draconic_spawner",
+            tileEntity = TileStabilizedSpawner.class,
+            itemBlock = ItemBlockBCore.class)
     public static StabilizedSpawner stabilizedSpawner = new StabilizedSpawner();
 
-    @ModFeature(name = "draconium_chest", tileEntity = TileDraconiumChest.class, itemBlock = ItemBlockBCore.class)
+    @ModFeature(
+            name = "draconium_chest",
+            tileEntity = TileDraconiumChest.class,
+            itemBlock = ItemBlockBCore.class)
     public static DraconiumChest draconiumChest = new DraconiumChest();
 
-    //endregion
+    // endregion
 
-    //region Exotic Blocks
+    // region Exotic Blocks
 
     @ModFeature(name = "chaos_crystal", tileEntity = TileChaosCrystal.class, cTab = -1)
     public static ChaosCrystal chaosCrystal = new ChaosCrystal();
@@ -166,11 +323,11 @@ public class DEFeatures implements IModFeatures {
     @ModFeature(name = "placed_item", tileEntity = TilePlacedItem.class, cTab = -1)
     public static PlacedItem placedItem = new PlacedItem();
 
-    //endregion
+    // endregion
 
-	/* ------------------ Items ------------------ */
+    /* ------------------ Items ------------------ */
 
-    //region Crafting Components / Base items
+    // region Crafting Components / Base items
     @ModFeature(name = "draconium_dust", stateOverride = "simple_components#type=draconiumDust")
     public static Item draconiumDust = new Item();
 
@@ -195,7 +352,9 @@ public class DEFeatures implements IModFeatures {
     @ModFeature(name = "wyvern_energy_core", stateOverride = "simple_components#type=wyvernECore")
     public static Item wyvernEnergyCore = new Item();
 
-    @ModFeature(name = "draconic_energy_core", stateOverride = "simple_components#type=draconicECore")
+    @ModFeature(
+            name = "draconic_energy_core",
+            stateOverride = "simple_components#type=draconicECore")
     public static Item draconicEnergyCore = new Item();
 
     @ModFeature(name = "dragon_heart", stateOverride = "simple_components#type=dragonHeart")
@@ -204,19 +363,34 @@ public class DEFeatures implements IModFeatures {
     @ModFeature(name = "debugger", stateOverride = "simple_components#type=draconicIngot")
     public static Item debugger = new Debugger();
 
-    @ModFeature(name = "nugget", variantMap = {"0:type=draconium", "1:type=awakened"})
-    public static ItemSimpleSubs nugget = new ItemSimpleSubs(new String[]{"0:draconium", "1:awakened"});
+    @ModFeature(
+            name = "nugget",
+            variantMap = {"0:type=draconium", "1:type=awakened"})
+    public static ItemSimpleSubs nugget =
+            new ItemSimpleSubs(new String[] {"0:draconium", "1:awakened"});
 
-    @ModFeature(name = "chaos_shard", variantMap = {"0:type=shard", "1:type=fragLarge", "2:type=fragMedium", "3:type=fragSmall"})
-    public static ItemSimpleSubs chaosShard = new ItemSimpleSubs(new String[]{"0:shard", "1:fragLarge", "2:fragMedium", "3:fragSmall"});
+    @ModFeature(
+            name = "chaos_shard",
+            variantMap = {
+                "0:type=shard",
+                "1:type=fragLarge",
+                "2:type=fragMedium",
+                "3:type=fragSmall"
+            })
+    public static ItemSimpleSubs chaosShard =
+            new ItemSimpleSubs(
+                    new String[] {"0:shard", "1:fragLarge", "2:fragMedium", "3:fragSmall"});
 
+    // endregion
 
-    //endregion
+    // region Tools
 
-    //region Tools
-
-    @ModFeature(name = "draconium_capacitor", variantMap = {"0:type=wyvern", "1:type=draconic", "2:type=creative"}, cTab = 1)
+    @ModFeature(
+            name = "draconium_capacitor",
+            variantMap = {"0:type=wyvern", "1:type=draconic", "2:type=creative"},
+            cTab = 1)
     public static DraconiumCapacitor draconiumCapacitor = new DraconiumCapacitor();
+
     public static ItemStack wyvernCapacitor = new ItemStack(draconiumCapacitor, 1, 0);
     public static ItemStack draconicCapacitor = new ItemStack(draconiumCapacitor, 1, 1);
     public static ItemStack creativeCapacitor = new ItemStack(draconiumCapacitor, 1, 2);
@@ -269,15 +443,19 @@ public class DEFeatures implements IModFeatures {
     @ModFeature(name = "dislocator_bound", cTab = 1)
     public static DislocatorBound dislocatorBound = new DislocatorBound();
 
-    @ModFeature(name = "magnet", cTab = 1, stateOverride = "misc", variantMap = {"0:type=magnet_basic", "1:type=magnet_advanced"})
+    @ModFeature(
+            name = "magnet",
+            cTab = 1,
+            stateOverride = "misc",
+            variantMap = {"0:type=magnet_basic", "1:type=magnet_advanced"})
     public static Magnet magnet = new Magnet();
 
     @ModFeature(name = "crystal_binder", stateOverride = "misc#type=crystal_binder")
     public static CrystalBinder crystalBinder = new CrystalBinder();
 
-    //endregion
+    // endregion
 
-    //region Armor
+    // region Armor
     @ModFeature(name = "wyvern_helm", cTab = 1, stateOverride = "armor#type=wyvernHelm")
     public static WyvernArmor wyvernHelm = new WyvernArmor(0, EntityEquipmentSlot.HEAD);
 
@@ -302,42 +480,45 @@ public class DEFeatures implements IModFeatures {
     @ModFeature(name = "draconic_boots", cTab = 1, stateOverride = "armor#type=draconicBoots")
     public static DraconicArmor draconicBoots = new DraconicArmor(3, EntityEquipmentSlot.FEET);
 
-    //endregion
+    // endregion
 
-    //region Misc
+    // region Misc
 
-    @ModFeature(name = "info_tablet", stateOverride = "simple_components#type=info_tablet", cTab = 1)
+    @ModFeature(
+            name = "info_tablet",
+            stateOverride = "simple_components#type=info_tablet",
+            cTab = 1)
     public static InfoTablet infoTablet = new InfoTablet();
 
     @ModFeature(name = "mob_soul")
     public static MobSoul mobSoul = new MobSoul();
 
+    // endregion
 
-    //endregion
+    // region Exotic Items
 
-    //region Exotic Items
-
-    @ModFeature(name = "creative_exchanger", stateOverride = "misc#type=creative_exchanger", cTab = 1)
+    @ModFeature(
+            name = "creative_exchanger",
+            stateOverride = "misc#type=creative_exchanger",
+            cTab = 1)
     public static CreativeExchanger creativeExchanger = new CreativeExchanger();
 
     @ModFeature(name = "ender_energy_manipulator", cTab = 1)
     public static EnderEnergyManipulator enderEnergyManipulator = new EnderEnergyManipulator();
 
-    //endregion
+    // endregion
 
+    // In Progress... To be sorted into categories when done*
 
-    //In Progress... To be sorted into categories when done*
+    // These are not ready for release and so are commented out for release builds
 
-    //These are not ready for release and so are commented out for release builds
+    //
 
+    //
 
-//
-
-//
-
-//
-//
-//
-//
+    //
+    //
+    //
+    //
 
 }

@@ -10,6 +10,7 @@ import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.api.ICrystalLink;
 import com.brandon3055.draconicevolution.api.IENetEffectTile;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
+import com.brandon3055.draconicevolution.config.visuals.EnergyCrystalVisuals;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -21,9 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Created by brandon3055 on 29/11/2016.
- */
+/** Created by brandon3055 on 29/11/2016. */
 public class CrystalFXBeam extends CrystalGLFXBase<IENetEffectTile> {
 
     private final Vec3D linkTarget;
@@ -54,22 +53,22 @@ public class CrystalFXBeam extends CrystalGLFXBase<IENetEffectTile> {
         if (ticksTillDeath-- <= 0) {
             setExpired();
         }
-//        setExpired();
-
-        float[] r = {0.0F, 0.8F, 1.0F};
-        float[] g = {0.8F, 0.1F, 0.7F};
-        float[] b = {1F, 1F, 0.2F};
-
-        particleRed = r[tile.getTier()];
-        particleGreen = g[tile.getTier()];
-        particleBlue = b[tile.getTier()];
+        //        setExpired();
 
         powerLevel = (float) MathHelper.approachExp(powerLevel, fxState, 0.05);
         BCProfiler.TICK.stop();
     }
 
     @Override
-    public void renderParticle(BufferBuilder buffer, Entity entity, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+    public void renderParticle(
+            BufferBuilder buffer,
+            Entity entity,
+            float partialTicks,
+            float rotationX,
+            float rotationZ,
+            float rotationYZ,
+            float rotationXY,
+            float rotationXZ) {
         if (powerLevel <= 0 && !ClientEventHandler.playerHoldingWrench) {
             return;
         }
@@ -92,7 +91,10 @@ public class CrystalFXBeam extends CrystalGLFXBase<IENetEffectTile> {
         planeC.multiply(scale);
         planeD.multiply(scale);
         double dist = 0.2 * Utils.getDistanceAtoB(new Vec3D(source), new Vec3D(target));
-        double anim = (ClientEventHandler.elapsedTicks + partialTicks) / -15D;
+        double anim =
+                (ClientEventHandler.elapsedTicks + partialTicks)
+                        / -15D
+                        * EnergyCrystalVisuals.beamAnimationSpeed;
 
         Vector3 p1 = source.copy().add(planeA);
         Vector3 p2 = target.copy().add(planeA);
@@ -125,23 +127,70 @@ public class CrystalFXBeam extends CrystalGLFXBase<IENetEffectTile> {
         double maxV = 0.53;
 
         if (terminateSource) {
-            buffer.pos((source.x - rotationX * scale - rotationXY * scale), (source.y - rotationZ * scale), (source.z - rotationYZ * scale - rotationXZ * scale)).tex(maxU, maxV).endVertex();
-            buffer.pos((source.x - rotationX * scale + rotationXY * scale), (source.y + rotationZ * scale), (source.z - rotationYZ * scale + rotationXZ * scale)).tex(maxU, minV).endVertex();
-            buffer.pos((source.x + rotationX * scale + rotationXY * scale), (source.y + rotationZ * scale), (source.z + rotationYZ * scale + rotationXZ * scale)).tex(minU, minV).endVertex();
-            buffer.pos((source.x + rotationX * scale - rotationXY * scale), (source.y - rotationZ * scale), (source.z + rotationYZ * scale - rotationXZ * scale)).tex(minU, maxV).endVertex();
+            buffer.pos(
+                            (source.x - rotationX * scale - rotationXY * scale),
+                            (source.y - rotationZ * scale),
+                            (source.z - rotationYZ * scale - rotationXZ * scale))
+                    .tex(maxU, maxV)
+                    .endVertex();
+            buffer.pos(
+                            (source.x - rotationX * scale + rotationXY * scale),
+                            (source.y + rotationZ * scale),
+                            (source.z - rotationYZ * scale + rotationXZ * scale))
+                    .tex(maxU, minV)
+                    .endVertex();
+            buffer.pos(
+                            (source.x + rotationX * scale + rotationXY * scale),
+                            (source.y + rotationZ * scale),
+                            (source.z + rotationYZ * scale + rotationXZ * scale))
+                    .tex(minU, minV)
+                    .endVertex();
+            buffer.pos(
+                            (source.x + rotationX * scale - rotationXY * scale),
+                            (source.y - rotationZ * scale),
+                            (source.z + rotationYZ * scale - rotationXZ * scale))
+                    .tex(minU, maxV)
+                    .endVertex();
         }
 
         if (terminateTarget) {
-            buffer.pos((target.x - rotationX * scale - rotationXY * scale), (target.y - rotationZ * scale), (target.z - rotationYZ * scale - rotationXZ * scale)).tex(maxU, maxV).endVertex();
-            buffer.pos((target.x - rotationX * scale + rotationXY * scale), (target.y + rotationZ * scale), (target.z - rotationYZ * scale + rotationXZ * scale)).tex(maxU, minV).endVertex();
-            buffer.pos((target.x + rotationX * scale + rotationXY * scale), (target.y + rotationZ * scale), (target.z + rotationYZ * scale + rotationXZ * scale)).tex(minU, minV).endVertex();
-            buffer.pos((target.x + rotationX * scale - rotationXY * scale), (target.y - rotationZ * scale), (target.z + rotationYZ * scale - rotationXZ * scale)).tex(minU, maxV).endVertex();
+            buffer.pos(
+                            (target.x - rotationX * scale - rotationXY * scale),
+                            (target.y - rotationZ * scale),
+                            (target.z - rotationYZ * scale - rotationXZ * scale))
+                    .tex(maxU, maxV)
+                    .endVertex();
+            buffer.pos(
+                            (target.x - rotationX * scale + rotationXY * scale),
+                            (target.y + rotationZ * scale),
+                            (target.z - rotationYZ * scale + rotationXZ * scale))
+                    .tex(maxU, minV)
+                    .endVertex();
+            buffer.pos(
+                            (target.x + rotationX * scale + rotationXY * scale),
+                            (target.y + rotationZ * scale),
+                            (target.z + rotationYZ * scale + rotationXZ * scale))
+                    .tex(minU, minV)
+                    .endVertex();
+            buffer.pos(
+                            (target.x + rotationX * scale - rotationXY * scale),
+                            (target.y - rotationZ * scale),
+                            (target.z + rotationYZ * scale - rotationXZ * scale))
+                    .tex(minU, maxV)
+                    .endVertex();
         }
 
         BCProfiler.RENDER.stop();
     }
 
-    private void bufferQuad(BufferBuilder buffer, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, double anim, double dist) {
+    private void bufferQuad(
+            BufferBuilder buffer,
+            Vector3 p1,
+            Vector3 p2,
+            Vector3 p3,
+            Vector3 p4,
+            double anim,
+            double dist) {
         BCProfiler.RENDER.start("buffer_quad");
         buffer.pos(p1.x, p1.y, p1.z).tex(0.5, anim).endVertex();
         buffer.pos(p2.x, p2.y, p2.z).tex(0.5, dist + anim).endVertex();
@@ -152,35 +201,63 @@ public class CrystalFXBeam extends CrystalGLFXBase<IENetEffectTile> {
 
     @Override
     public IGLFXHandler getFXHandler() {
-        return tile.getTier() == 0 ? BASIC_HANDLER : tile.getTier() == 1 ? WYVERN_HANDLER : DRACONIC_HANDLER;
+        return tile.getTier() == 0
+                ? BASIC_HANDLER
+                : tile.getTier() == 1 ? WYVERN_HANDLER : DRACONIC_HANDLER;
     }
 
-    private static final FXHandler BASIC_HANDLER = new FXHandler(DETextures.ENERGY_BEAM_BASIC);
-    private static final FXHandler WYVERN_HANDLER = new FXHandler(DETextures.ENERGY_BEAM_WYVERN);
-    private static final FXHandler DRACONIC_HANDLER = new FXHandler(DETextures.ENERGY_BEAM_DRACONIC);
+    private static final FXHandler BASIC_HANDLER =
+            new FXHandler(0, DETextures.ENERGY_BEAM_BASIC, DETextures.ENERGY_BEAM_BASIC_TINT);
+    private static final FXHandler WYVERN_HANDLER =
+            new FXHandler(1, DETextures.ENERGY_BEAM_WYVERN, DETextures.ENERGY_BEAM_WYVERN_TINT);
+    private static final FXHandler DRACONIC_HANDLER =
+            new FXHandler(2, DETextures.ENERGY_BEAM_DRACONIC, DETextures.ENERGY_BEAM_DRACONIC_TINT);
 
     public static class FXHandler implements IGLFXHandler {
 
-        private String texture;
-        private float green;
+        private final int tier;
+        private final String texture;
+        private final String tintTexture;
+        private final float green;
 
-        public FXHandler(String texture) {
+        public FXHandler(int tier, String texture, String tintTexture) {
+            this.tier = tier;
             this.texture = texture;
+            this.tintTexture = tintTexture;
             this.green = texture.endsWith(DETextures.ENERGY_BEAM_WYVERN) ? 0.3F : 1F;
         }
 
         @Override
-        public void preDraw(int layer, BufferBuilder vertexbuffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
-            GlStateManager.color(1.0F, green, 1.0F, 1.0F);
+        public void preDraw(
+                int layer,
+                BufferBuilder vertexbuffer,
+                Entity entityIn,
+                float partialTicks,
+                float rotationX,
+                float rotationZ,
+                float rotationYZ,
+                float rotationXY,
+                float rotationXZ) {
+            int rgb = EnergyCrystalVisuals.beamRGB[tier];
+            if (rgb < 0) {
+                GlStateManager.color(1.0F, green, 1.0F, 1.0F);
+            } else {
+                GlStateManager.color(
+                        (rgb >> 16 & 0xFF) / 255F,
+                        (rgb >> 8 & 0xFF) / 255F,
+                        (rgb & 0xFF) / 255F,
+                        1F);
+            }
             GlStateTracker.pushState();
             GlStateManager.depthMask(false);
             GlStateManager.glTexParameterf(3553, 10242, 10497.0F);
             GlStateManager.glTexParameterf(3553, 10243, 10497.0F);
             GlStateManager.disableCull();
             GlStateManager.alphaFunc(GL11.GL_GREATER, 0F);
-            ResourceHelperDE.bindTexture(texture);
+            ResourceHelperDE.bindTexture(rgb < 0 ? texture : tintTexture);
             GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+            GlStateManager.blendFunc(
+                    GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
 
             if (ClientEventHandler.playerHoldingWrench) {
                 GlStateManager.color(0, 0, 1, 1);
@@ -192,7 +269,9 @@ public class CrystalFXBeam extends CrystalGLFXBase<IENetEffectTile> {
         @Override
         public void postDraw(int layer, BufferBuilder vertexbuffer, Tessellator tessellator) {
             tessellator.draw();
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            GlStateManager.blendFunc(
+                    GlStateManager.SourceFactor.SRC_ALPHA,
+                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             GlStateTracker.popState();
         }
     }

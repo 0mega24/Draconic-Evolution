@@ -2,21 +2,20 @@ package com.brandon3055.draconicevolution.integration;
 
 import baubles.api.BaublesApi;
 import baubles.api.cap.IBaublesItemHandler;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.fml.common.Optional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+/** Created by brandon3055 on 27/05/19. */
+public final class BaublesHelper {
 
-/**
- * Created by brandon3055 on 27/05/19.
- */
-public class BaublesHelper {
+    private BaublesHelper() {}
 
     @CapabilityInject(IBaublesItemHandler.class)
     public static Capability<IBaublesItemHandler> CAPABILITY_BAUBLES = null;
@@ -33,7 +32,9 @@ public class BaublesHelper {
             return new ArrayList<>();
         }
 
-        return IntStream.range(0, handler.getSlots()).mapToObj(handler::getStackInSlot).filter(stack -> !stack.isEmpty()).collect(Collectors.toList());
+        return IntStream.range(0, handler.getSlots())
+                .mapToObj(handler::getStackInSlot)
+                .filter(stack -> !stack.isEmpty())
+                .collect(Collectors.toList());
     }
-
 }

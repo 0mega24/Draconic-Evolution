@@ -5,10 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 
-/**
- * ModelChaosCrystal - Mojang-(Original) modified by brandon3055
- * Created using Tabula 5.0.0
- */
+/** ModelChaosCrystal - Mojang-(Original) modified by brandon3055 Created using Tabula 5.0.0 */
 public class ModelGuardianCrystal extends ModelBase {
     public ModelRenderer base;
     public ModelRenderer glass;
@@ -82,7 +79,14 @@ public class ModelGuardianCrystal extends ModelBase {
         this.ringBase2.addChild(this.RingSegment1_1);
     }
 
-    public void render(Entity entity, float f1, float f2, float f3, float deathAnimation, float health, float scale) {
+    public void render(
+            Entity entity,
+            float f1,
+            float f2,
+            float f3,
+            float deathAnimation,
+            float health,
+            float scale) {
         GlStateManager.pushMatrix();
         GlStateManager.scale(2.0F, 2.0F, 2.0F);
         GlStateManager.translate(0.0F, -0.5F, 0.0F);
@@ -115,9 +119,7 @@ public class ModelGuardianCrystal extends ModelBase {
         GlStateManager.popMatrix();
     }
 
-    /**
-     * This is a helper function from Tabula to set the ROTATION of model parts
-     */
+    /** This is a helper function from Tabula to set the ROTATION of model parts */
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

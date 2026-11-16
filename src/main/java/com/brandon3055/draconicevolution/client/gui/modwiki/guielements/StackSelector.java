@@ -5,16 +5,13 @@ import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.IMGuiListener;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiStackIcon;
 import com.brandon3055.brandonscore.lib.StackReference;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
 
-/**
- * Created by brandon3055 on 13/09/2016.
- */
+/** Created by brandon3055 on 13/09/2016. */
 public class StackSelector extends MGuiElementBase {
 
     public IMGuiListener listener;
@@ -25,7 +22,8 @@ public class StackSelector extends MGuiElementBase {
     }
 
     @Override
-    public void renderBackgroundLayer(Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
+    public void renderBackgroundLayer(
+            Minecraft minecraft, int mouseX, int mouseY, float partialTicks) {
         drawBorderedRect(xPos, yPos, xSize, ySize, 1, 0xFF707070, 0xFF000000);
         super.renderBackgroundLayer(minecraft, mouseX, mouseY, partialTicks);
     }
@@ -37,15 +35,22 @@ public class StackSelector extends MGuiElementBase {
     public void setStacks(List<ItemStack> stacks) {
         toRemove.addAll(selection);
         int cols = (int) Math.floor(xSize / 19D);
-//        LogHelper.dev("Cols "+cols);
+        //        LogHelper.dev("Cols "+cols);
         int index = 0;
         for (ItemStack stack : stacks) {
             if (!stack.isEmpty()) {
                 int x = index % cols;
-//                LogHelper.dev(index+" Col "+x+" "+cols);
+                //                LogHelper.dev(index+" Col "+x+" "+cols);
                 int y = index / cols;
 
-                MGuiStackIcon stackIcon = new MGuiStackIcon(modularGui, xPos + 2 + (x * 19), yPos + 2 + (y * 19), 18, 18, new StackReference(stack));
+                MGuiStackIcon stackIcon =
+                        new MGuiStackIcon(
+                                modularGui,
+                                xPos + 2 + (x * 19),
+                                yPos + 2 + (y * 19),
+                                18,
+                                18,
+                                new StackReference(stack));
                 addChild(stackIcon);
                 selection.add(stackIcon);
                 index++;
@@ -62,8 +67,8 @@ public class StackSelector extends MGuiElementBase {
                         listener.onMGuiEvent("SELECTOR_PICK", element);
                     }
                     return true;
-                }
-                else if (element.isEnabled() && element.mouseClicked(mouseX, mouseY, mouseButton)) {
+                } else if (element.isEnabled()
+                        && element.mouseClicked(mouseX, mouseY, mouseButton)) {
                     return true;
                 }
             }

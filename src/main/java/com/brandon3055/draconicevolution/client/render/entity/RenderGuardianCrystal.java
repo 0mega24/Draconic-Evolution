@@ -1,6 +1,7 @@
 package com.brandon3055.draconicevolution.client.render.entity;
 
 import com.brandon3055.draconicevolution.client.model.ModelGuardianCrystal;
+import com.brandon3055.draconicevolution.config.visuals.EffectVisuals;
 import com.brandon3055.draconicevolution.entity.EntityGuardianCrystal;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import com.brandon3055.draconicevolution.utils.DETextures;
@@ -16,9 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Created by brandon3055 on 30/8/2015.
- */
+/** Created by brandon3055 on 30/8/2015. */
 public class RenderGuardianCrystal extends Render<EntityGuardianCrystal> {
     private ModelBase model;
 
@@ -29,14 +28,27 @@ public class RenderGuardianCrystal extends Render<EntityGuardianCrystal> {
     }
 
     @Override
-    public void doRender(EntityGuardianCrystal crystal, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(
+            EntityGuardianCrystal crystal,
+            double x,
+            double y,
+            double z,
+            float entityYaw,
+            float partialTicks) {
         float rotation = (float) crystal.innerRotation + (crystal.health > 0 ? partialTicks : 0);
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         ResourceHelperDE.bindTexture(DETextures.CHAOS_GUARDIAN_CRYSTAL);
         float r2 = MathHelper.sin(rotation * 0.2F) / 2.0F + 0.5F;
         r2 += r2 * r2;
-        this.model.render(crystal, 0.0F, rotation * 3.0F, r2 * 0.2F, crystal.deathAnimation, crystal.health, 0.0625F);
+        this.model.render(
+                crystal,
+                0.0F,
+                rotation * 3.0F,
+                r2 * 0.2F,
+                crystal.deathAnimation,
+                crystal.health,
+                0.0625F);
 
         GL11.glPopMatrix();
 
@@ -45,7 +57,8 @@ public class RenderGuardianCrystal extends Render<EntityGuardianCrystal> {
             GlStateManager.translate(-0.5, -1.5, -0.5);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder buffer = tessellator.getBuffer();
-            ResourceHelperDE.bindTexture(ResourceHelperDE.getResourceRAW("textures/entity/beacon_beam.png"));
+            ResourceHelperDE.bindTexture(
+                    ResourceHelperDE.getResourceRAW("textures/entity/beacon_beam.png"));
             GlStateManager.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
             GlStateManager.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497.0F);
             GlStateManager.disableLighting();
@@ -71,23 +84,62 @@ public class RenderGuardianCrystal extends Render<EntityGuardianCrystal> {
             double d24 = (double) (-1.0F + f3);
             double d26 = (double) (256.0F) + d24;
 
+            int beamR = Math.round(EffectVisuals.chaosBeamRGB[0] * 255);
+            int beamG = Math.round(EffectVisuals.chaosBeamRGB[1] * 255);
+            int beamB = Math.round(EffectVisuals.chaosBeamRGB[2] * 255);
             buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-            buffer.pos(x + d30, y + d18, z + d4).tex(d22, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d30, y, z + d4).tex(d22, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d6, y, z + d8).tex(d20, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d6, y + d18, z + d8).tex(d20, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d14, y + d18, z + d16).tex(d22, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d14, y, z + d16).tex(d22, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d10, y, z + d12).tex(d20, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d10, y + d18, z + d12).tex(d20, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d6, y + d18, z + d8).tex(d22, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d6, y, z + d8).tex(d22, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d14, y, z + d16).tex(d20, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d14, y + d18, z + d16).tex(d20, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d10, y + d18, z + d12).tex(d22, d26).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d10, y, z + d12).tex(d22, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d30, y, z + d4).tex(d20, d24).color(200, 0, 0, 32).endVertex();
-            buffer.pos(x + d30, y + d18, z + d4).tex(d20, d26).color(200, 0, 0, 32).endVertex();
+            buffer.pos(x + d30, y + d18, z + d4)
+                    .tex(d22, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d30, y, z + d4).tex(d22, d24).color(beamR, beamG, beamB, 32).endVertex();
+            buffer.pos(x + d6, y, z + d8).tex(d20, d24).color(beamR, beamG, beamB, 32).endVertex();
+            buffer.pos(x + d6, y + d18, z + d8)
+                    .tex(d20, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d14, y + d18, z + d16)
+                    .tex(d22, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d14, y, z + d16)
+                    .tex(d22, d24)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d10, y, z + d12)
+                    .tex(d20, d24)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d10, y + d18, z + d12)
+                    .tex(d20, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d6, y + d18, z + d8)
+                    .tex(d22, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d6, y, z + d8).tex(d22, d24).color(beamR, beamG, beamB, 32).endVertex();
+            buffer.pos(x + d14, y, z + d16)
+                    .tex(d20, d24)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d14, y + d18, z + d16)
+                    .tex(d20, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d10, y + d18, z + d12)
+                    .tex(d22, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d10, y, z + d12)
+                    .tex(d22, d24)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
+            buffer.pos(x + d30, y, z + d4).tex(d20, d24).color(beamR, beamG, beamB, 32).endVertex();
+            buffer.pos(x + d30, y + d18, z + d4)
+                    .tex(d20, d26)
+                    .color(beamR, beamG, beamB, 32)
+                    .endVertex();
             tessellator.draw();
             GlStateManager.enableLighting();
             GlStateManager.enableTexture2D();
@@ -100,5 +152,4 @@ public class RenderGuardianCrystal extends Render<EntityGuardianCrystal> {
     protected ResourceLocation getEntityTexture(EntityGuardianCrystal entity) {
         return ResourceHelperDE.getResource(DETextures.CHAOS_GUARDIAN_CRYSTAL);
     }
-
 }

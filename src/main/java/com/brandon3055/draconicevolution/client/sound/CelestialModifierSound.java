@@ -6,9 +6,7 @@ import net.minecraft.client.audio.PositionedSound;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 
-/**
- * Created by brandon3055 on 24/06/2016.
- */
+/** Created by brandon3055 on 24/06/2016. */
 public class CelestialModifierSound extends PositionedSound implements ITickableSound {
 
     private int timer = 0;

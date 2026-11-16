@@ -4,11 +4,44 @@ import com.brandon3055.brandonscore.inventory.ContainerBCBase;
 import com.brandon3055.brandonscore.inventory.PlayerSlot;
 import com.brandon3055.draconicevolution.blocks.energynet.tileentity.TileCrystalBase;
 import com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorCore;
-import com.brandon3055.draconicevolution.blocks.tileentity.*;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileCelestialManipulator;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileDissEnchanter;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileDraconiumChest;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyInfuser;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEntityDetector;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileFusionCraftingCore;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileGenerator;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileGrinder;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileParticleGenerator;
 import com.brandon3055.draconicevolution.blocks.tileentity.flowgate.TileFlowGate;
-import com.brandon3055.draconicevolution.client.gui.*;
+import com.brandon3055.draconicevolution.client.gui.GuiCelestialManipulator;
+import com.brandon3055.draconicevolution.client.gui.GuiDislocator;
+import com.brandon3055.draconicevolution.client.gui.GuiDissEnchanter;
+import com.brandon3055.draconicevolution.client.gui.GuiDraconiumChest;
+import com.brandon3055.draconicevolution.client.gui.GuiEnergyCore;
+import com.brandon3055.draconicevolution.client.gui.GuiEnergyCrystal;
+import com.brandon3055.draconicevolution.client.gui.GuiEnergyinfuser;
+import com.brandon3055.draconicevolution.client.gui.GuiEntityDetector;
+import com.brandon3055.draconicevolution.client.gui.GuiFlowGate;
+import com.brandon3055.draconicevolution.client.gui.GuiFusionCraftingCore;
+import com.brandon3055.draconicevolution.client.gui.GuiGenerator;
+import com.brandon3055.draconicevolution.client.gui.GuiGrinder;
+import com.brandon3055.draconicevolution.client.gui.GuiParticleGenerator;
+import com.brandon3055.draconicevolution.client.gui.GuiReactor;
+import com.brandon3055.draconicevolution.client.gui.GuiRecipeBuilder;
 import com.brandon3055.draconicevolution.client.gui.toolconfig.GuiJunkFilter;
-import com.brandon3055.draconicevolution.inventory.*;
+import com.brandon3055.draconicevolution.inventory.ContainerDissEnchanter;
+import com.brandon3055.draconicevolution.inventory.ContainerDraconiumChest;
+import com.brandon3055.draconicevolution.inventory.ContainerDummy;
+import com.brandon3055.draconicevolution.inventory.ContainerEnergyCrystal;
+import com.brandon3055.draconicevolution.inventory.ContainerEnergyInfuser;
+import com.brandon3055.draconicevolution.inventory.ContainerFusionCraftingCore;
+import com.brandon3055.draconicevolution.inventory.ContainerGenerator;
+import com.brandon3055.draconicevolution.inventory.ContainerGrinder;
+import com.brandon3055.draconicevolution.inventory.ContainerJunkFilter;
+import com.brandon3055.draconicevolution.inventory.ContainerReactor;
+import com.brandon3055.draconicevolution.inventory.ContainerRecipeBuilder;
 import com.brandon3055.draconicevolution.items.tools.MiningToolBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -51,7 +84,8 @@ public class GuiHandler implements IGuiHandler {
     }
 
     @Override
-    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+    public Object getServerGuiElement(
+            int ID, EntityPlayer player, World world, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
         TileEntity tile = world.getTileEntity(pos);
         switch (ID) {
@@ -96,13 +130,15 @@ public class GuiHandler implements IGuiHandler {
                 }
                 break;
             case GUIID_UPGRADE_MODIFIER:
-//                if (tile instanceof TileUpgradeModifier) {
-//                    return new ContainerUpgradeModifier(player, (TileUpgradeModifier) tile);
-//                }
+                //                if (tile instanceof TileUpgradeModifier) {
+                //                    return new ContainerUpgradeModifier(player,
+                // (TileUpgradeModifier) tile);
+                //                }
                 break;
             case GUIID_ENERGY_CORE:
                 if (tile instanceof TileEnergyStorageCore) {
-                    return new ContainerBCBase<>(player, (TileEnergyStorageCore) tile).addPlayerSlots(10, 116);
+                    return new ContainerBCBase<>(player, (TileEnergyStorageCore) tile)
+                            .addPlayerSlots(10, 116);
                 }
                 break;
             case GUIID_FUSION_CRAFTING:
@@ -123,29 +159,37 @@ public class GuiHandler implements IGuiHandler {
             case GUIID_JUNK_FILTER:
                 PlayerSlot slot = PlayerSlot.fromIndexes(x, y);
                 ItemStack stack = slot.getStackInSlot(player);
-                if (stack.getItem() instanceof MiningToolBase && stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
-                    IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+                if (stack.getItem() instanceof MiningToolBase
+                        && stack.hasCapability(
+                                CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+                    IItemHandler handler =
+                            stack.getCapability(
+                                    CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
                     return new ContainerJunkFilter(player, slot, handler);
                 }
                 break;
 
-//			case GUIID_CONTAINER_TEMPLATE:
-//				if (containerTemp != null && containerTemp instanceof TileContainerTemplate) {
-//					return new ContainerTemplate(player.inventory, (TileContainerTemplate) containerTemp);
-//				}
-//				break;
+                //			case GUIID_CONTAINER_TEMPLATE:
+                //				if (containerTemp != null && containerTemp instanceof TileContainerTemplate) {
+                //					return new ContainerTemplate(player.inventory, (TileContainerTemplate)
+                // containerTemp);
+                //				}
+                //				break;
 
-
-            case 2016: {
-                return new ContainerRecipeBuilder(player);
-            }
+            case 2016:
+                {
+                    return new ContainerRecipeBuilder(player);
+                }
+            default:
+                break;
         }
 
         return null;
     }
 
     @Override
-    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+    public Object getClientGuiElement(
+            int ID, EntityPlayer player, World world, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
         TileEntity tile = world.getTileEntity(pos);
         switch (ID) {
@@ -165,6 +209,7 @@ public class GuiHandler implements IGuiHandler {
                 if (tile instanceof TileParticleGenerator) {
                     return new GuiParticleGenerator((TileParticleGenerator) tile);
                 }
+                break;
             case GUIID_ENTITY_DETECTOR:
                 if (tile instanceof TileEntityDetector) {
                     return new GuiEntityDetector(player, (TileEntityDetector) tile);
@@ -182,12 +227,16 @@ public class GuiHandler implements IGuiHandler {
                 break;
             case GUIID_DISSENCHANTER:
                 if (tile instanceof TileDissEnchanter) {
-                    return new GuiDissEnchanter(player, new ContainerDissEnchanter(player.inventory, (TileDissEnchanter) tile));
+                    return new GuiDissEnchanter(
+                            player,
+                            new ContainerDissEnchanter(player.inventory, (TileDissEnchanter) tile));
                 }
                 break;
             case GUIID_DRACONIUM_CHEST:
                 if (tile instanceof TileDraconiumChest) {
-                    return new GuiDraconiumChest((TileDraconiumChest) tile, new ContainerDraconiumChest(player, (TileDraconiumChest) tile));
+                    return new GuiDraconiumChest(
+                            (TileDraconiumChest) tile,
+                            new ContainerDraconiumChest(player, (TileDraconiumChest) tile));
                 }
                 break;
             case GUIID_REACTOR:
@@ -201,9 +250,10 @@ public class GuiHandler implements IGuiHandler {
                 }
                 break;
             case GUIID_UPGRADE_MODIFIER:
-//                if (tile instanceof TileUpgradeModifier) {
-//                    return new GuiUpgradeModifier(player, (TileUpgradeModifier) tile, new ContainerUpgradeModifier(player, (TileUpgradeModifier) tile));
-//                }
+                //                if (tile instanceof TileUpgradeModifier) {
+                //                    return new GuiUpgradeModifier(player, (TileUpgradeModifier)
+                // tile, new ContainerUpgradeModifier(player, (TileUpgradeModifier) tile));
+                //                }
                 break;
             case GUIID_ENERGY_CORE:
                 if (tile instanceof TileEnergyStorageCore) {
@@ -223,26 +273,31 @@ public class GuiHandler implements IGuiHandler {
             case GUIID_JUNK_FILTER:
                 PlayerSlot slot = PlayerSlot.fromIndexes(x, y);
                 ItemStack stack = slot.getStackInSlot(player);
-                if (stack.getItem() instanceof MiningToolBase && stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
-                    IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+                if (stack.getItem() instanceof MiningToolBase
+                        && stack.hasCapability(
+                                CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+                    IItemHandler handler =
+                            stack.getCapability(
+                                    CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
                     return new GuiJunkFilter(player, slot, handler);
                 }
                 break;
 
+                //			case GUIID_CONTAINER_TEMPLATE:
+                //				if (containerTemp != null && containerTemp instanceof TileContainerTemplate) {
+                //					return new GUIContainerTemplate(player.inventory, (TileContainerTemplate)
+                // containerTemp);
+                //				}
+                //				break;
 
-//			case GUIID_CONTAINER_TEMPLATE:
-//				if (containerTemp != null && containerTemp instanceof TileContainerTemplate) {
-//					return new GUIContainerTemplate(player.inventory, (TileContainerTemplate) containerTemp);
-//				}
-//				break;
-
-
-            case 2016: {
-                return new GuiRecipeBuilder(player);
-            }
+            case 2016:
+                {
+                    return new GuiRecipeBuilder(player);
+                }
+            default:
+                break;
         }
 
         return null;
     }
-
 }

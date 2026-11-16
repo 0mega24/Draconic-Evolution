@@ -2,12 +2,20 @@ package com.brandon3055.draconicevolution.client.gui.modwiki.moddata.displaycont
 
 import com.brandon3055.brandonscore.client.gui.modulargui_old.MGuiElementBase;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.lib.EnumAlignment;
-import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.*;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiButtonSolid;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiHoverPopup;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiLabel;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiSlotRender;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiStackIcon;
+import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiTextField;
 import com.brandon3055.brandonscore.lib.StackReference;
 import com.brandon3055.draconicevolution.client.gui.modwiki.GuiModWiki;
 import com.brandon3055.draconicevolution.client.gui.modwiki.guielements.StackSelector;
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree.TreeBranchRoot;
 import com.google.common.base.Predicate;
+import java.util.LinkedList;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,13 +23,7 @@ import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.TextFormatting;
 import org.w3c.dom.Element;
 
-import javax.annotation.Nullable;
-import java.util.LinkedList;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 8/09/2016.
- */
+/** Created by brandon3055 on 8/09/2016. */
 public class DCStack extends DisplayComponentBase {
 
     public static final String ATTRIB_SCALE = "scale";
@@ -45,14 +47,16 @@ public class DCStack extends DisplayComponentBase {
         stackIcon.setBackground(iconBackground);
     }
 
-    //region List
+    // region List
 
     @Override
     public void setXSize(int xSize) {
         super.setXSize(xSize);
         int size = Math.min(xSize - 4, (int) ((scale / 100D) * 18D));
-        stackIcon.ySize = stackIcon.xSize = size;
-        iconBackground.ySize = iconBackground.xSize = size;
+        stackIcon.xSize = size;
+        stackIcon.ySize = stackIcon.xSize;
+        iconBackground.xSize = size;
+        iconBackground.ySize = iconBackground.xSize;
         iconBackground.setEnabled(renderSlot);
         iconBackground.yPos = stackIcon.yPos;
 
@@ -67,6 +71,8 @@ public class DCStack extends DisplayComponentBase {
             case RIGHT:
                 xOffset = xSize - size - 2;
                 break;
+            default:
+                break;
         }
 
         stackIcon.xPos = xPos + xOffset;
@@ -76,60 +82,91 @@ public class DCStack extends DisplayComponentBase {
         iconBackground.yPos = stackIcon.yPos;
     }
 
+    // endregion
 
-    //endregion
-
-    //region Edit
+    // region Edit
 
     @Override
     public LinkedList<MGuiElementBase> getEditControls() {
         LinkedList<MGuiElementBase> list = super.getEditControls();
 
-        list.add(new MGuiButtonSolid(modularGui, "TOGGLE_ALIGN", 0, 0, 26, 12, "Align") {
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return hovering ? 0xFF00FF00 : 0xFFFF0000;
-            }
-        }.setListener(this).setToolTip(new String[]{"Toggle Horizontal Alignment"}));
+        list.add(
+                new MGuiButtonSolid(modularGui, "TOGGLE_ALIGN", 0, 0, 26, 12, "Align") {
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                    }
+                }.setListener(this).setToolTip(new String[] {"Toggle Horizontal Alignment"}));
 
-        list.add(new MGuiButtonSolid(modularGui, "SELECT_STACK", 0, 0, 56, 12, "Pick Stack") {
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return hovering ? 0xFF00FF00 : 0xFFFF0000;
-            }
-        }.setListener(this).setToolTip(new String[]{"Select a stack from your inventory"}));
+        list.add(
+                new MGuiButtonSolid(modularGui, "SELECT_STACK", 0, 0, 56, 12, "Pick Stack") {
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                    }
+                }.setListener(this)
+                        .setToolTip(new String[] {"Select a stack from your inventory"}));
 
         String s = "Turn ToolTip: " + (toolTip ? "Off" : "On");
-        list.add(new MGuiButtonSolid(modularGui, "TOGGLE_TOOLTIP", 0, 0, fontRenderer.getStringWidth(s) + 4, 12, s) {
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return hovering ? 0xFF00FF00 : 0xFFFF0000;
-            }
-        }.setListener(this).setToolTip(new String[]{"Toggle item tool tip on or off"}));
+        list.add(
+                new MGuiButtonSolid(
+                        modularGui,
+                        "TOGGLE_TOOLTIP",
+                        0,
+                        0,
+                        fontRenderer.getStringWidth(s) + 4,
+                        12,
+                        s) {
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                    }
+                }.setListener(this).setToolTip(new String[] {"Toggle item tool tip on or off"}));
 
         s = "Turn Slot: " + (toolTip ? "Off" : "On");
-        list.add(new MGuiButtonSolid(modularGui, "TOGGLE_SLOT", 0, 0, fontRenderer.getStringWidth(s) + 4, 12, s) {
-            @Override
-            public int getBorderColour(boolean hovering, boolean disabled) {
-                return hovering ? 0xFF00FF00 : 0xFFFF0000;
-            }
-        }.setListener(this).setToolTip(new String[]{"Toggle Slot Renderer on or off"}));
+        list.add(
+                new MGuiButtonSolid(
+                        modularGui,
+                        "TOGGLE_SLOT",
+                        0,
+                        0,
+                        fontRenderer.getStringWidth(s) + 4,
+                        12,
+                        s) {
+                    @Override
+                    public int getBorderColour(boolean hovering, boolean disabled) {
+                        return hovering ? 0xFF00FF00 : 0xFFFF0000;
+                    }
+                }.setListener(this).setToolTip(new String[] {"Toggle Slot Renderer on or off"}));
 
-        list.add(new MGuiLabel(modularGui, 0, 0, 30, 12, "Scale:").setAlignment(EnumAlignment.CENTER));
-        MGuiTextField scaleField = new MGuiTextField(modularGui, 0, 0, 36, 12, fontRenderer).setListener(this).setMaxStringLength(2048).setText(String.valueOf(scale));
-        scaleField.addChild(new MGuiHoverPopup(modularGui, new String[]{"Set the stack scale (100 = normal stack size)", TextFormatting.GOLD + "The size of the image will be limited by both this and the width of the GUI.", TextFormatting.GOLD + "Whichever value is smaller will take priority.", TextFormatting.GREEN + "Will save as you type."}, scaleField));
+        list.add(
+                new MGuiLabel(modularGui, 0, 0, 30, 12, "Scale:")
+                        .setAlignment(EnumAlignment.CENTER));
+        MGuiTextField scaleField =
+                new MGuiTextField(modularGui, 0, 0, 36, 12, fontRenderer)
+                        .setListener(this)
+                        .setMaxStringLength(2048)
+                        .setText(String.valueOf(scale));
+        scaleField.addChild(
+                new MGuiHoverPopup(
+                        modularGui,
+                        new String[] {
+                            "Set the stack scale (100 = normal stack size)",
+                            TextFormatting.GOLD
+                                    + "The size of the image will be limited by both this and the width of the GUI.",
+                            TextFormatting.GOLD + "Whichever value is smaller will take priority.",
+                            TextFormatting.GREEN + "Will save as you type."
+                        },
+                        scaleField));
         scaleField.setId("SCALE");
-        scaleField.setValidator(new Predicate<String>() {
-            @Override
-            public boolean apply(@Nullable String input) {
-                try {
-                    Integer.parseInt(input);
-                }
-                catch (Exception e) {
-                }
-                return true;
-            }
-        });
+        scaleField.setValidator(
+                new Predicate<String>() {
+                    @Override
+                    public boolean apply(@Nullable String input) {
+                        // Any text is allowed; the scale is parsed with a fallback when applied.
+                        return true;
+                    }
+                });
         list.add(scaleField);
 
         return list;
@@ -139,8 +176,9 @@ public class DCStack extends DisplayComponentBase {
     public void onMGuiEvent(String eventString, MGuiElementBase eventElement) {
         super.onMGuiEvent(eventString, eventElement);
 
-
-        if (eventElement.id.equals("SCALE") && eventString.equals("TEXT_FIELD_CHANGED") && eventElement instanceof MGuiTextField) {
+        if ("SCALE".equals(eventElement.id)
+                && "TEXT_FIELD_CHANGED".equals(eventString)
+                && eventElement instanceof MGuiTextField) {
             if (StringUtils.isNullOrEmpty(((MGuiTextField) eventElement).getText())) {
                 return;
             }
@@ -148,8 +186,8 @@ public class DCStack extends DisplayComponentBase {
             int newScale = 1;
             try {
                 newScale = Integer.parseInt(((MGuiTextField) eventElement).getText());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
+                // Not a number: keep the default scale.
             }
 
             if (newScale < 30) {
@@ -161,24 +199,30 @@ public class DCStack extends DisplayComponentBase {
             save();
 
             for (MGuiElementBase element : branch.guiWiki.contentWindow.editControls) {
-                if (element instanceof MGuiTextField && element.id.equals("SCALE")) {
+                if (element instanceof MGuiTextField && "SCALE".equals(element.id)) {
                     ((MGuiTextField) element).setFocused(true);
                     ((MGuiTextField) element).setCursorPosition(pos);
                     break;
                 }
             }
-        }
-        else if (eventElement instanceof MGuiButtonSolid && ((MGuiButtonSolid) eventElement).buttonName.equals("TOGGLE_TOOLTIP")) {
+        } else if (eventElement instanceof MGuiButtonSolid
+                && "TOGGLE_TOOLTIP".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             element.setAttribute(ATTRIB_TIP, String.valueOf(!toolTip));
             save();
-        }
-        else if (eventElement instanceof MGuiButtonSolid && ((MGuiButtonSolid) eventElement).buttonName.equals("TOGGLE_SLOT")) {
+        } else if (eventElement instanceof MGuiButtonSolid
+                && "TOGGLE_SLOT".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             element.setAttribute(ATTRIB_SLOT, String.valueOf(!renderSlot));
             save();
-        }
-        else if (eventElement instanceof MGuiButtonSolid && ((MGuiButtonSolid) eventElement).buttonName.equals("SELECT_STACK")) {
+        } else if (eventElement instanceof MGuiButtonSolid
+                && "SELECT_STACK".equals(((MGuiButtonSolid) eventElement).buttonName)) {
             EntityPlayer player = Minecraft.getMinecraft().player;
-            selector = new StackSelector(modularGui, list.xPos + list.leftPadding, list.yPos + list.topPadding, list.xSize - list.leftPadding - list.rightPadding, list.ySize - list.topPadding - list.bottomPadding);
+            selector =
+                    new StackSelector(
+                            modularGui,
+                            list.xPos + list.leftPadding,
+                            list.yPos + list.topPadding,
+                            list.xSize - list.leftPadding - list.rightPadding,
+                            list.ySize - list.topPadding - list.bottomPadding);
             selector.setListener(this);
 
             List<ItemStack> stacks = new LinkedList<ItemStack>();
@@ -189,17 +233,26 @@ public class DCStack extends DisplayComponentBase {
                 }
             }
             selector.setStacks(stacks);
-            selector.addChild(new MGuiButtonSolid(modularGui, "CANCEL_PICK", selector.xPos + selector.xSize - 42, selector.yPos + selector.ySize - 22, 40, 20, "Cancel").setListener(this).setId("CANCEL_PICK"));
+            selector.addChild(
+                    new MGuiButtonSolid(
+                                    modularGui,
+                                    "CANCEL_PICK",
+                                    selector.xPos + selector.xSize - 42,
+                                    selector.yPos + selector.ySize - 22,
+                                    40,
+                                    20,
+                                    "Cancel")
+                            .setListener(this)
+                            .setId("CANCEL_PICK"));
             selector.initElement();
             modularGui.getManager().add(selector, 2);
-        }
-        else if (eventElement.id.equals("CANCEL_PICK") && selector != null) {
+        } else if ("CANCEL_PICK".equals(eventElement.id) && selector != null) {
             modularGui.getManager().remove(selector);
-        }
-        else if (eventString.equals("SELECTOR_PICK")) {
+        } else if ("SELECTOR_PICK".equals(eventString)) {
             boolean shouldSave = false;
             if (eventElement instanceof MGuiStackIcon) {
-                StackReference reference = new StackReference(((MGuiStackIcon) eventElement).getStack());
+                StackReference reference =
+                        new StackReference(((MGuiStackIcon) eventElement).getStack());
                 stackIcon.setStack(reference);
                 element.setTextContent(reference.toString());
                 shouldSave = true;
@@ -210,7 +263,6 @@ public class DCStack extends DisplayComponentBase {
                 save();
             }
         }
-
     }
 
     @Override
@@ -220,15 +272,19 @@ public class DCStack extends DisplayComponentBase {
         element.setAttribute(ATTRIB_SLOT, "true");
     }
 
-    //endregion
+    // endregion
 
-    //region XML & Factory
+    // region XML & Factory
 
     @Override
     public void loadFromXML(Element element) {
         super.loadFromXML(element);
-        toolTip = !element.hasAttribute(ATTRIB_TIP) || Boolean.parseBoolean(element.getAttribute(ATTRIB_TIP));
-        renderSlot = !element.hasAttribute(ATTRIB_SLOT) || Boolean.parseBoolean(element.getAttribute(ATTRIB_SLOT));
+        toolTip =
+                !element.hasAttribute(ATTRIB_TIP)
+                        || Boolean.parseBoolean(element.getAttribute(ATTRIB_TIP));
+        renderSlot =
+                !element.hasAttribute(ATTRIB_SLOT)
+                        || Boolean.parseBoolean(element.getAttribute(ATTRIB_SLOT));
         stackString = element.getTextContent();
         StackReference ref = StackReference.fromString(stackString);
         if (ref == null) {
@@ -240,8 +296,8 @@ public class DCStack extends DisplayComponentBase {
 
         try {
             scale = Integer.parseInt(element.getAttribute(ATTRIB_SCALE));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
+            // Not a number: keep the default scale.
         }
 
         if (scale < 30) {
@@ -253,7 +309,8 @@ public class DCStack extends DisplayComponentBase {
         @Override
         public DisplayComponentBase createNewInstance(GuiModWiki guiWiki, TreeBranchRoot branch) {
             DisplayComponentBase component = new DCStack(guiWiki, getID(), branch);
-            component.setWorldAndResolution(guiWiki.mc, guiWiki.screenWidth(), guiWiki.screenHeight());
+            component.setWorldAndResolution(
+                    guiWiki.mc, guiWiki.screenWidth(), guiWiki.screenHeight());
             return component;
         }
 
@@ -263,5 +320,5 @@ public class DCStack extends DisplayComponentBase {
         }
     }
 
-    //endregion
+    // endregion
 }

@@ -1,25 +1,29 @@
 package com.brandon3055.draconicevolution.client.gui.modwiki.guielements;
 
+import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_WINDOW;
+
 import com.brandon3055.brandonscore.client.gui.modulargui_old.IModularGui;
 import com.brandon3055.brandonscore.client.gui.modulargui_old.modularelements.MGuiVerticalButton;
 import com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig;
 import com.brandon3055.draconicevolution.client.gui.modwiki.moddata.guidoctree.TreeBranchRoot;
+import java.io.IOException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
 
-import java.io.IOException;
-
-import static com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig.NAV_WINDOW;
-
-/**
- * Created by brandon3055 on 8/09/2016.
- */
+/** Created by brandon3055 on 8/09/2016. */
 public class WikiTreeButton extends MGuiVerticalButton {
 
     private final TreeBranchRoot branch;
 
-    public WikiTreeButton(IModularGui gui, int xPos, int yPos, int xSize, int ySize, String buttonText, TreeBranchRoot branch) {
+    public WikiTreeButton(
+            IModularGui gui,
+            int xPos,
+            int yPos,
+            int xSize,
+            int ySize,
+            String buttonText,
+            TreeBranchRoot branch) {
         super(gui, "", xPos, yPos, xSize, ySize, buttonText);
         this.branch = branch;
         setShadow(false);
@@ -34,7 +38,10 @@ public class WikiTreeButton extends MGuiVerticalButton {
     @Override
     public void renderBackgroundLayer(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
         int fill = isMouseOver(mouseX, mouseY) ? mixColours(NAV_WINDOW, 0x00202020, true) : 0;
-        int border = isMouseOver(mouseX, mouseY) ? mixColours(NAV_WINDOW, 0x00404040, false) : mixColours(NAV_WINDOW, 0x00202020, true);
+        int border =
+                isMouseOver(mouseX, mouseY)
+                        ? mixColours(NAV_WINDOW, 0x00404040, false)
+                        : mixColours(NAV_WINDOW, 0x00202020, true);
         drawBorderedRect(xPos + 0.5, yPos + 0.5, xSize - 1.5, ySize - 1, 0.5, fill, border);
         super.renderBackgroundLayer(mc, mouseX, mouseY, partialTicks);
     }
@@ -42,11 +49,15 @@ public class WikiTreeButton extends MGuiVerticalButton {
     @Override
     public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (isMouseOver(mouseX, mouseY)) {
-            modularGui.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            modularGui
+                    .getMinecraft()
+                    .getSoundHandler()
+                    .playSound(
+                            PositionedSoundRecord.getMasterRecord(
+                                    SoundEvents.UI_BUTTON_CLICK, 1.0F));
             branch.guiWiki.wikiDataTree.setActiveBranch(branch);
             return true;
         }
         return false;
     }
-
 }

@@ -15,9 +15,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-/**
- * Created by brandon3055 on 18/3/2016.
- */
+/** Created by brandon3055 on 18/3/2016. */
 public class DraconiumBlock extends BlockMobSafe {
     public static PropertyBool CHARGED = PropertyBool.create("charged");
 
@@ -35,7 +33,7 @@ public class DraconiumBlock extends BlockMobSafe {
         list.add(new ItemStack(this, 1, 1));
     }
 
-    //region BlockState
+    // region BlockState
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, CHARGED);
@@ -57,16 +55,25 @@ public class DraconiumBlock extends BlockMobSafe {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    public void onBlockPlacedBy(
+            World world,
+            BlockPos pos,
+            IBlockState state,
+            EntityLivingBase placer,
+            ItemStack stack) {
         world.setBlockState(pos, state.withProperty(CHARGED, stack.getItemDamage() == 1));
     }
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+    public ItemStack getPickBlock(
+            IBlockState state,
+            RayTraceResult target,
+            World world,
+            BlockPos pos,
+            EntityPlayer player) {
         return new ItemStack(this, 1, world.getBlockState(pos).getValue(CHARGED) ? 1 : 0);
     }
-    //endregion
-
+    // endregion
 
     @Override
     public float getEnchantPowerBonus(World world, BlockPos pos) {

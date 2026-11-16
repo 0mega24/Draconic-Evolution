@@ -9,6 +9,8 @@ import com.brandon3055.brandonscore.utils.InventoryUtils;
 import com.brandon3055.brandonscore.utils.Utils;
 import com.brandon3055.draconicevolution.client.render.item.RenderItemEnderEnergyManipulator;
 import com.brandon3055.draconicevolution.entity.EntityEnderEnergyManipulator;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -25,12 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-/**
- * Created by brandon3055 on 9/05/2017.
- */
+/** Created by brandon3055 on 9/05/2017. */
 public class EnderEnergyManipulator extends ItemBCore implements IRenderOverride {
 
     public EnderEnergyManipulator() {
@@ -38,11 +35,23 @@ public class EnderEnergyManipulator extends ItemBCore implements IRenderOverride
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(
+            EntityPlayer player,
+            World world,
+            BlockPos pos,
+            EnumHand hand,
+            EnumFacing facing,
+            float hitX,
+            float hitY,
+            float hitZ) {
         ItemStack stack = player.getHeldItem(hand);
         IBlockState state = world.getBlockState(pos);
-        List<EntityEnderEnergyManipulator> list = world.getEntities(EntityEnderEnergyManipulator.class, EntitySelectors.IS_ALIVE);
-        if (world.provider.getDimension() == 1 && Utils.getDistanceAtoB(Vec3D.getCenter(pos), new Vec3D(0, pos.getY(), 0)) <= 8 && state.getBlock() == Blocks.BEDROCK && list.isEmpty()) {
+        List<EntityEnderEnergyManipulator> list =
+                world.getEntities(EntityEnderEnergyManipulator.class, EntitySelectors.IS_ALIVE);
+        if (world.provider.getDimension() == 1
+                && Utils.getDistanceAtoB(Vec3D.getCenter(pos), new Vec3D(0, pos.getY(), 0)) <= 8
+                && state.getBlock() == Blocks.BEDROCK
+                && list.isEmpty()) {
             if (!world.isRemote) {
                 EntityEnderEnergyManipulator entity = new EntityEnderEnergyManipulator(world);
                 entity.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
@@ -55,10 +64,13 @@ public class EnderEnergyManipulator extends ItemBCore implements IRenderOverride
 
         if (!world.isRemote) {
             if (!list.isEmpty()) {
-                player.sendMessage(new TextComponentTranslation("info.de.ender_energy_manipulator.running.msg"));
-            }
-            else {
-                player.sendMessage(new TextComponentTranslation("info.de.ender_energy_manipulator.location.msg"));
+                player.sendMessage(
+                        new TextComponentTranslation(
+                                "info.de.ender_energy_manipulator.running.msg"));
+            } else {
+                player.sendMessage(
+                        new TextComponentTranslation(
+                                "info.de.ender_energy_manipulator.location.msg"));
             }
         }
         return super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
@@ -77,7 +89,11 @@ public class EnderEnergyManipulator extends ItemBCore implements IRenderOverride
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World playerIn, List<String> tooltip, ITooltipFlag advanced) {
+    public void addInformation(
+            ItemStack stack,
+            @Nullable World playerIn,
+            List<String> tooltip,
+            ITooltipFlag advanced) {
         tooltip.add(I18n.format("info.de.ender_energy_manipulator.info.txt"));
         tooltip.add(I18n.format("info.de.ender_energy_manipulator.info2.txt"));
     }

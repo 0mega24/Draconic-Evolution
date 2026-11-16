@@ -5,31 +5,42 @@ import com.brandon3055.brandonscore.handlers.IProcess;
 import com.brandon3055.draconicevolution.client.gui.modwiki.WikiConfig;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.google.gson.stream.JsonReader;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- * Created by brandon3055 on 20/09/2016.
- */
-public class WikiDownloadManager {
+/** Created by brandon3055 on 20/09/2016. */
+public final class WikiDownloadManager {
+
+    private WikiDownloadManager() {}
 
     public static List<ManifestEntry> manifest = new ArrayList<>();
-    public static List<DownloadThread> dlThreads = Collections.synchronizedList(new ArrayList<DownloadThread>());
+    public static List<DownloadThread> dlThreads =
+            Collections.synchronizedList(new ArrayList<DownloadThread>());
     public static DLMonitor monitor = null;
 
     public static void downloadManifest() {
         if (WikiConfig.editMode) {
             LogHelper.info("Wiki is in edit mode. Canceling update check!");
             return;
-        }
-        else if (!WikiConfig.docLocation.equals("[CONFIG]")) {
+        } else if (!WikiConfig.docLocation.equals("[CONFIG]")) {
             LogHelper.info("Wiki document home location has been changed! Canceling update check!");
             return;
         }
         LogHelper.info("Downloading Project Intelligence Mod Manifest...");
-        DownloadThread thread = new DownloadThread("https://raw.githubusercontent.com/brandon3055/Project-Intelligence-Docs/master/ModDocs/manifest.json", WikiDocManager.wikiFolder.getAbsolutePath() + "/manifest.json");
+        DownloadThread thread =
+                new DownloadThread(
+                        "https://raw.githubusercontent.com/brandon3055/Project-Intelligence-Docs/master/ModDocs/manifest.json",
+                        WikiDocManager.wikiFolder.getAbsolutePath() + "/manifest.json");
         thread.setDaemon(true);
         thread.start();
         ProcessHandlerClient.addProcess(new ManifestDLMonitor(thread));
@@ -40,14 +51,18 @@ public class WikiDownloadManager {
         File modDocs = new File(WikiDocManager.wikiFolder, "ModDocs");
 
         if (!modDocs.exists() && !modDocs.mkdirs()) {
-            LogHelper.error("Can not download mod documentation because could not create the ModDocs folder: " + modDocs);
+            LogHelper.error(
+                    "Can not download mod documentation because could not create the ModDocs folder: "
+                            + modDocs);
             return;
         }
 
         for (ManifestEntry entry : manifest) {
             File mod = new File(modDocs, entry.modName);
             if (!mod.exists() && !mod.mkdirs()) {
-                LogHelper.error("Can not download mod documentation because could not create the mod folder: " + mod);
+                LogHelper.error(
+                        "Can not download mod documentation because could not create the mod folder: "
+                                + mod);
                 return;
             }
 
@@ -57,17 +72,38 @@ public class WikiDownloadManager {
                 try {
                     String lang = url.substring(url.lastIndexOf("-") + 1).replace(".xml", "");
 
-                    if (WikiDocManager.modDocMap.containsKey(entry.modid) && WikiDocManager.modDocMap.get(entry.modid).langToVersion.containsKey(lang)) {
-                        LogHelper.dev("Version : " + WikiDocManager.modDocMap.get(entry.modid).langToVersion.get(lang));
+                    if (WikiDocManager.modDocMap.containsKey(entry.modid)
+                            && WikiDocManager.modDocMap
+                                    .get(entry.modid)
+                                    .langToVersion
+                                    .containsKey(lang)) {
+                        LogHelper.dev(
+                                "Version : "
+                                        + WikiDocManager.modDocMap
+                                                .get(entry.modid)
+                                                .langToVersion
+                                                .get(lang));
                     }
 
-                    if (WikiDocManager.modDocMap.containsKey(entry.modid) && WikiDocManager.modDocMap.get(entry.modid).langToVersion.containsKey(lang) && WikiDocManager.modDocMap.get(entry.modid).langToVersion.get(lang) >= entry.downloadToVersion.get(url)) {
+                    if (WikiDocManager.modDocMap.containsKey(entry.modid)
+                            && WikiDocManager.modDocMap
+                                    .get(entry.modid)
+                                    .langToVersion
+                                    .containsKey(lang)
+                            && WikiDocManager.modDocMap.get(entry.modid).langToVersion.get(lang)
+                                    >= entry.downloadToVersion.get(url)) {
                         LogHelper.dev(entry.modName + ": Current Doc Version Up To Date.");
                         continue;
                     }
-                    LogHelper.info("Found Doc update for %s downloading updated documentation.", entry.modName);
+                    LogHelper.info(
+                            "Found Doc update for %s downloading updated documentation.",
+                            entry.modName);
 
-                    DownloadThread thread = new DownloadThread(url, new File(mod, entry.modid + "-" + lang + ".xml").getAbsolutePath());
+                    DownloadThread thread =
+                            new DownloadThread(
+                                    url,
+                                    new File(mod, entry.modid + "-" + lang + ".xml")
+                                            .getAbsolutePath());
                     thread.start();
                     dlThreads.add(thread);
 
@@ -75,8 +111,7 @@ public class WikiDownloadManager {
                         monitor = new DLMonitor();
                         ProcessHandlerClient.addProcess(monitor);
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -94,8 +129,7 @@ public class WikiDownloadManager {
                 if (thread.failed) {
                     LogHelper.dev("Download Failed: " + thread.url);
                     thread.failed = false;
-                }
-                else if (!thread.finished) {
+                } else if (!thread.finished) {
                     foundActive = true;
                 }
             }
@@ -128,8 +162,7 @@ public class WikiDownloadManager {
             if (thread.failed) {
                 LogHelper.error("Failed to download mod manifest.");
                 isDead = true;
-            }
-            else if (thread.finished) {
+            } else if (thread.finished) {
                 try {
                     JsonReader reader = new JsonReader(new FileReader(thread.file));
                     manifest.clear();
@@ -161,6 +194,8 @@ public class WikiDownloadManager {
 
                                     reader.endObject();
                                     break;
+                                default:
+                                    break;
                             }
                         }
 
@@ -171,12 +206,10 @@ public class WikiDownloadManager {
                     reader.endArray();
 
                     downloadDocs();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     LogHelper.error("Failed to load manifest!");
                     e.printStackTrace();
-                }
-                finally {
+                } finally {
                     isDead = true;
                 }
             }
@@ -235,8 +268,7 @@ public class WikiDownloadManager {
                 is.close();
                 os.close();
                 LogHelper.dev("Download Complete");
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
                 failed = true;
                 LogHelper.dev("Download Failed");
@@ -250,7 +282,7 @@ public class WikiDownloadManager {
         private DownloadThread targetThread;
         private double lastCheckProgress = 0;
 
-        public DLWatcher(DownloadThread targetThread) {
+        DLWatcher(DownloadThread targetThread) {
             this.targetThread = targetThread;
         }
 
@@ -266,13 +298,11 @@ public class WikiDownloadManager {
                         targetThread.interrupt();
                         LogHelper.error("Download Timed Out: " + targetThread.url);
                         break;
-                    }
-                    else {
+                    } else {
                         lastCheckProgress = targetThread.progress;
                     }
                 }
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -291,7 +321,8 @@ public class WikiDownloadManager {
 
         @Override
         public String toString() {
-            return String.format("Name: %s, ModId: %s, Downloads: %s", modName, modid, downloadToVersion);
+            return String.format(
+                    "Name: %s, ModId: %s, Downloads: %s", modName, modid, downloadToVersion);
         }
     }
 }

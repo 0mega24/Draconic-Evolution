@@ -1,5 +1,7 @@
 package com.brandon3055.draconicevolution.blocks.tileentity;
 
+import static com.brandon3055.draconicevolution.DEFeatures.dislocatorBound;
+
 import appeng.api.movable.IMovableTile;
 import com.brandon3055.brandonscore.blocks.TileInventoryBase;
 import com.brandon3055.brandonscore.lib.ChatHelper;
@@ -19,15 +21,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.Optional;
 
-import static com.brandon3055.draconicevolution.DEFeatures.dislocatorBound;
-
-/**
- * Created by brandon3055 on 27/09/2016.
- */
+/** Created by brandon3055 on 27/09/2016. */
 @Optional.Interface(modid = "appliedenergistics2", iface = "appeng.api.movable.IMovableTile")
-public class TileDislocatorPedestal extends TileInventoryBase implements ITeleportEndPoint, IMovableTile {
+public class TileDislocatorPedestal extends TileInventoryBase
+        implements ITeleportEndPoint, IMovableTile {
 
-    public final ManagedInt rotation = register("rotation", new ManagedInt(0)).saveToTile().syncViaTile().trigerUpdate().finish();
+    public final ManagedInt rotation =
+            register("rotation", new ManagedInt(0))
+                    .saveToTile()
+                    .syncViaTile()
+                    .trigerUpdate()
+                    .finish();
 
     public TileDislocatorPedestal() {
         setInventorySize(1);
@@ -40,15 +44,21 @@ public class TileDislocatorPedestal extends TileInventoryBase implements ITelepo
         ItemStack stack = getStackInSlot(0);
         if (!player.isSneaking() && !stack.isEmpty()) {
             if (stack.getItem() instanceof Dislocator) {
-                TeleportLocation location = ((Dislocator) stack.getItem()).getLocation(stack, world);
+                TeleportLocation location =
+                        ((Dislocator) stack.getItem()).getLocation(stack, world);
 
                 if (location == null) {
                     if (dislocatorBound.isValid(stack)) {
                         if (dislocatorBound.isPlayer(stack)) {
-                            ChatHelper.translate(player, "info.de.bound_dislocator.cant_find_player", TextFormatting.RED);
-                        }
-                        else {
-                            ChatHelper.translate(player, "info.de.bound_dislocator.cant_find_target", TextFormatting.RED);
+                            ChatHelper.translate(
+                                    player,
+                                    "info.de.bound_dislocator.cant_find_player",
+                                    TextFormatting.RED);
+                        } else {
+                            ChatHelper.translate(
+                                    player,
+                                    "info.de.bound_dislocator.cant_find_target",
+                                    TextFormatting.RED);
                         }
                     }
                     return true;
@@ -62,14 +72,34 @@ public class TileDislocatorPedestal extends TileInventoryBase implements ITelepo
                 boolean silenced = world.getBlockState(pos.down()).getBlock() == Blocks.WOOL;
 
                 if (!silenced) {
-                    DESoundHandler.playSoundFromServer(player.world, player.posX, player.posY, player.posZ, DESoundHandler.portal, SoundCategory.PLAYERS, 0.1F, player.world.rand.nextFloat() * 0.1F + 0.9F, false, 32);
+                    DESoundHandler.playSoundFromServer(
+                            player.world,
+                            player.posX,
+                            player.posY,
+                            player.posZ,
+                            DESoundHandler.portal,
+                            SoundCategory.PLAYERS,
+                            0.1F,
+                            player.world.rand.nextFloat() * 0.1F + 0.9F,
+                            false,
+                            32);
                 }
 
                 dislocatorBound.notifyArriving(stack, player.world, player);
                 location.teleport(player);
 
                 if (!silenced) {
-                    DESoundHandler.playSoundFromServer(player.world, player.posX, player.posY, player.posZ, DESoundHandler.portal, SoundCategory.PLAYERS, 0.1F, player.world.rand.nextFloat() * 0.1F + 0.9F, false, 32);
+                    DESoundHandler.playSoundFromServer(
+                            player.world,
+                            player.posX,
+                            player.posY,
+                            player.posZ,
+                            DESoundHandler.portal,
+                            SoundCategory.PLAYERS,
+                            0.1F,
+                            player.world.rand.nextFloat() * 0.1F + 0.9F,
+                            false,
+                            32);
                 }
             }
 
@@ -78,8 +108,10 @@ public class TileDislocatorPedestal extends TileInventoryBase implements ITelepo
 
         InventoryUtils.handleHeldStackTransfer(0, this, player);
 
-        //Transfer the dislocator that was in the pedestal to the players inventory
-        if (dislocatorBound.isValid(stack) && !dislocatorBound.isPlayer(stack) && getStackInSlot(0).isEmpty()) {
+        // Transfer the dislocator that was in the pedestal to the players inventory
+        if (dislocatorBound.isValid(stack)
+                && !dislocatorBound.isPlayer(stack)
+                && getStackInSlot(0).isEmpty()) {
             DislocatorLinkHandler.updateLink(world, stack, player);
         }
 
@@ -98,16 +130,15 @@ public class TileDislocatorPedestal extends TileInventoryBase implements ITelepo
 
     @Override
     public BlockPos getArrivalPos(String linkID) {
-        if (!dislocatorBound.isValid(getStackInSlot(0)) || !dislocatorBound.getLinkID(getStackInSlot(0)).equals(linkID)) {
+        if (!dislocatorBound.isValid(getStackInSlot(0))
+                || !dislocatorBound.getLinkID(getStackInSlot(0)).equals(linkID)) {
             return null;
         }
         return getPos();
     }
 
     @Override
-    public void entityArriving(Entity entity) {
-
-    }
+    public void entityArriving(Entity entity) {}
 
     public void checkIn() {
         ItemStack stack = getStackInSlot(0);

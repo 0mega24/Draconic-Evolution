@@ -1,0 +1,331 @@
+package com.brandon3055.draconicevolution.config;
+
+import com.brandon3055.brandonscore.registry.ModConfigContainer;
+import com.brandon3055.brandonscore.registry.ModConfigProperty;
+import com.brandon3055.draconicevolution.DraconicEvolution;
+import com.google.common.collect.Sets;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+/** Config category "Tweaks". Gameplay tweaks. */
+@ModConfigContainer(modid = DraconicEvolution.MODID)
+public final class TweaksConfig {
+
+    //    @ModConfigProperty(category = "Tweaks", name = "rapidDespawnAOEMinedItems", comment = "If
+    // true, items dropped by tools in AOE mode will despawn after 5 seconds if not picked up.")
+    //    public static boolean rapidDespawnAOEMinedItems = false;
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "disableGuardianCrystalRespawn",
+            comment =
+                    "(Wuss mode) Setting this to true will disable the Chaos Guardian's ability to respawn healing crystals.")
+    public static boolean disableGuardianCrystalRespawn = false;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "enableFlight",
+            comment = "Set this to false if you would like to disable the draconic armors flight.",
+            autoSync = true)
+    public static boolean enableFlight = true;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "dislocatorUsesPerPearl",
+            comment =
+                    "Sets the number of teleports you get per ender pearl with the Advanced Dislocator.")
+    public static int dislocatorUsesPerPearl = 1;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "hardMode",
+            comment =
+                    "When true, everything is just a little harder. (Currently only effects recipes but that will probably change in the future)",
+            requiresMCRestart = true,
+            requiresSync = true)
+    public static boolean hardMode = false;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "bowBlockDamage",
+            comment = "Set to false to prevent the bows explosion effect from breaking blocks.")
+    public static boolean bowBlockDamage = true;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "grinderEnergyPerHeart",
+            comment = "Sets the energy per use per heart of damage for the grinder.")
+    public static int grinderEnergyPerHeart = 80;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "dragonEggSpawnOverride",
+            comment =
+                    "By default, the dragon egg only ever spawns once. This forces it to spawn every time the dragon is killed.")
+    public static boolean dragonEggSpawnOverride = true;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "expensiveDragonRitual",
+            comment =
+                    "Lets face it. The biggest issue with the new dragon ritual is it is too darn cheap! This modifies the recipe to make it a bit more expensive.")
+    public static boolean expensiveDragonRitual = true;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "itemDislocatorBlacklist",
+            comment =
+                    "A list of items of items that should be ignored by the item dislocator. Use the item's registry name (e.g. minecraft:apple) You can also add a meta value after the name (e.g. minecraft:wool|4).",
+            autoSync = true)
+    public static String[] itemDislocatorBlacklist =
+            new String[] {"appliedenergistics2:crystal_seed"};
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "reactorOutputMultiplier",
+            comment = "Adjusts the energy output multiplier of the reactor.")
+    public static double reactorOutputMultiplier = 1;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "reactorFuelUsageMultiplier",
+            comment = "Adjusts the fuel usage multiplier of the reactor.")
+    public static double reactorFuelUsageMultiplier = 1;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "dragonDustLootModifier",
+            comment =
+                    "This can be used to adjust the amount of Draconium Dust the Ender Dragon drops when killed.\nThe amount dropped will be this number +/- 10%")
+    public static int dragonDustLootModifier = 1;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "disableLargeReactorBoom",
+            comment =
+                    "If true, this will disable the massive reactor explosion and replace it with a much smaller one.")
+    public static boolean disableLargeReactorBoom = false;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "disableChaosIslandExplosion",
+            comment =
+                    "If true, this will disable the destruction of chaos islands after the chaos crystal is broken.")
+    public static boolean disableChaosIslandExplosion = false;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "disableLootCores",
+            comment =
+                    "This will disable loot cores (The \"Blobs\" of items dropped by the tools.).")
+    public static boolean disableLootCores = false;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "reactorExplosionScale",
+            comment =
+                    "Allows you to adjust the overall scale of the reactor explosion. Use \"disableLargeReactorBoom\" to disable explosion completely.")
+    public static double reactorExplosionScale = 1;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "soulDropChance",
+            comment =
+                    "Mobs have a 1 in {this number} chance to drop a soul when killed with the Reaper enchantment.  Note: This is the base value; higher enchantment levels increase this chance.")
+    public static int soulDropChance = 1000;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "passiveSoulDropChance",
+            comment =
+                    "Passive (Animals) Mobs have a 1 in {this number} chance to drop a soul when killed with the Reaper enchantment.  Note: This is the base value; higher enchantment levels increase this chance.")
+    public static int passiveSoulDropChance = 800;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "spawnerList",
+            comment =
+                    "By default, any entities added to this list will not drop their souls and will not be spawnable by the Stabilized Spawner.",
+            autoSync = true)
+    public static String[] spawnerList = {};
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "spawnerListWhiteList",
+            comment = "Changes the spawner list to a whitelist instead of a blacklist.",
+            autoSync = true)
+    public static boolean spawnerListWhiteList = false;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "allowBossSouls",
+            comment = "Enabling this allows boss souls to drop. Use with caution!")
+    public static boolean allowBossSouls = false;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "spawnerDelays",
+            comment =
+                    "Sets the min and max spawn delay in ticks for each spawner tier. Order is as follows.\nBasic MIN, MAX, Wyvern MIN, MAX, Draconic MIN, MAX, Chaotic MIN MAX")
+    public static int[] spawnerDelays = new int[] {200, 800, 100, 400, 50, 200, 25, 100};
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "oreDoublingBlacklist",
+            comment =
+                    "Add ore names (e.g. oreIron) to this list to prevent them from being doubled by the DE chest.",
+            autoSync = true)
+    public static String[] oreDoublingBlacklist = {};
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "dissenchnaterCostMultiplier",
+            comment = "Allows you to adjust the cost of disenchanting items via the Disenchanter.",
+            autoSync = true)
+    public static double disenchnaterCostMultiplyer = 1;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "forceDroppedItemOwner",
+            comment =
+                    "For some reason, Forge decided to not set the owner of an item when dropped from an inventory screen.\nDE overrides this and sets the stack owner when possible.\nIf this causes issues, set this value to false.",
+            autoSync = true)
+    public static boolean forceDroppedItemOwner = true;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "clearDataRecipes",
+            comment =
+                    "Adds recipes to clear all nbt data from items such as Energy Crystals and Crafting Injectors.",
+            requiresMCRestart = true,
+            requiresSync = true)
+    public static boolean clearDataRecipes = false;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "chaosGuardianHealth",
+            comment =
+                    "Allows you to tweak the chaos guardians health (will only affect new guardians).")
+    public static int chaosGuardianHealth = 2000;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "flightSpeedLimit",
+            autoSync = true,
+            comment =
+                    "Use this to limit the max flight speed modifier a player can set on the draconic chestplate.\nSetting this to 200 for example would limit the flight speed to +200%.\nDefault -1 removes the limit and allows the full +600% flight speed.")
+    public static int flightSpeedLimit = -1;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "oreDoublingOutputPriority",
+            comment =
+                    "When doubling ores with the Draconium Chest, the output will prioritise thermal ingots if TF is installed. This allows you to change that by specifying a different mod id to target.")
+    public static String oreDoublingOutputPriority = "thermalfoundation";
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "grinderBlackList",
+            comment =
+                    "This allows you to prevent the mob grinder from attempting to kill specific entities.")
+    public static String[] grinderBlackList = {"evilcraft:vengeance_spirit"};
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "chestBlackList",
+            comment =
+                    "This allows you to prevent certain items from being placed in the draconium chest using their registry name")
+    public static String[] chestBlackList = {};
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "coreCapacity",
+            comment =
+                    "Allows you to adjust the capacity of each energy core tier.\nWarning changing the number entries in this list will crash your game.")
+    public static double[] coreCapacity =
+            new double[] {
+                45500000L,
+                273000000L,
+                1640000000L,
+                9880000000L,
+                59300000000L,
+                356000000000L,
+                2140000000000L,
+                Long.MAX_VALUE
+            };
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "wyvernFluxCapBaseCap",
+            comment = "This allows you to adjust the base capacity of the Wyvern Flux Capacitor.")
+    public static int wyvernFluxCapBaseCap = 64000000;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "draconicFluxCapBaseCap",
+            comment = "This allows you to adjust the base capacity of the Draconic Flux Capacitor.")
+    public static int draconicFluxCapBaseCap = 256000000;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "basicWirelessMaxTransfer",
+            comment =
+                    "This allows you to adjust the maximum transfer rate of the Basic Wireless Energy Crystal.")
+    public static int basicWirelessMaxTransfer = 32000;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "wyvernWirelessMaxTransfer",
+            comment =
+                    "This allows you to adjust the maximum transfer rate of the Wyvern Wireless Energy Crystal.")
+    public static int wyvernWirelessMaxTransfer = 128000;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "draconicWirelessMaxTransfer",
+            comment =
+                    "This allows you to adjust the maximum transfer rate of the Draconic Wireless Energy Crystal.")
+    public static int draconicWirelessMaxTransfer = 512000;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "guardianCanKillCreative",
+            comment =
+                    "Set to false if you dont want the guardian to be able to kill creative players.\nAlternatively... Just dont poke the guardian if you dont want to die!")
+    public static boolean guardianCanKillCreative = true;
+
+    @ModConfigProperty(
+            category = "Tweaks",
+            name = "entityDetectorPowerModifier",
+            comment =
+                    "Allows you to adjust the power requirement of the entity detector.\nSet to 0 to disable completely",
+            autoSync = true)
+    public static double entityDetectorPowerModifier = 1D;
+
+    public static Map<String, Integer> itemDislocatorBlacklistMap = new HashMap<String, Integer>();
+    public static Set<String> oreBlacklist = new HashSet<>();
+    public static Set<String> grinderBlacklist = new HashSet<>();
+    public static Set<String> chestBlacklist = new HashSet<>();
+
+    private TweaksConfig() {}
+
+    /** Builds the lookup sets from the list options. Called on config load. */
+    public static void load() {
+        itemDislocatorBlacklistMap.clear();
+        grinderBlacklist.clear();
+        for (String s : itemDislocatorBlacklist) {
+            if (s.contains("|")) {
+                itemDislocatorBlacklistMap.put(
+                        s.substring(0, s.indexOf("|")),
+                        Integer.parseInt(s.substring(s.indexOf("|") + 1)));
+            } else {
+                itemDislocatorBlacklistMap.put(s, -1);
+            }
+        }
+
+        oreBlacklist = Sets.newHashSet(oreDoublingBlacklist);
+        grinderBlacklist = Sets.newHashSet(grinderBlackList);
+        chestBlacklist = Sets.newHashSet(chestBlackList);
+    }
+}

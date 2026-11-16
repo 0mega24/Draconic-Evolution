@@ -12,11 +12,13 @@ public class ClientPacketHandler implements ICustomPacketHandler.IClientPacketHa
     @Override
     public void handlePacket(PacketCustom packet, Minecraft mc, INetHandlerPlayClient handler) {
         switch (packet.getType()) {
-            case 1: //Portal Arrival
+            case 1: // Portal Arrival
                 TileEntity tile = mc.world.getTileEntity(packet.readPos());
                 if (tile instanceof TileDislocatorReceptacle) {
                     ((TileDislocatorReceptacle) tile).setHidden();
                 }
+                break;
+            default:
                 break;
         }
     }

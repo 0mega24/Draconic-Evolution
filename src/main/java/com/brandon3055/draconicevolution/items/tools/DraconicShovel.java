@@ -1,21 +1,19 @@
 package com.brandon3055.draconicevolution.items.tools;
 
 import com.brandon3055.brandonscore.lib.PairKV;
-import com.brandon3055.brandonscore.lib.Set3;
 import com.brandon3055.draconicevolution.utils.DETextures;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-/**
- * Created by brandon3055 on 5/06/2016.
- */
+/** Created by brandon3055 on 5/06/2016. */
 public class DraconicShovel extends WyvernShovel {
     public DraconicShovel() {
-        super(/*ToolStats.DRA_SHOVEL_ATTACK_DAMAGE, ToolStats.DRA_SHOVEL_ATTACK_SPEED, */SHOVEL_OVERRIDES);
-//        this.baseMiningSpeed = (float) ToolStats.DRA_SHOVEL_MINING_SPEED;
-//        this.baseAOE = ToolStats.BASE_DRACONIC_MINING_AOE;
-//        setEnergyStats(ToolStats.DRACONIC_BASE_CAPACITY, 8000000, 0);
+        super(
+                /*ToolStats.DRA_SHOVEL_ATTACK_DAMAGE, ToolStats.DRA_SHOVEL_ATTACK_SPEED, */ SHOVEL_OVERRIDES);
+        //        this.baseMiningSpeed = (float) ToolStats.DRA_SHOVEL_MINING_SPEED;
+        //        this.baseAOE = ToolStats.BASE_DRACONIC_MINING_AOE;
+        //        setEnergyStats(ToolStats.DRACONIC_BASE_CAPACITY, 8000000, 0);
         this.setHarvestLevel("shovel", 10);
     }
 
@@ -54,12 +52,14 @@ public class DraconicShovel extends WyvernShovel {
         return 3;
     }
 
-    //region Rendering
+    // region Rendering
 
     @Override
     public PairKV<TextureAtlasSprite, ResourceLocation> getModels(ItemStack stack) {
-        return new PairKV<>(DETextures.DRACONIC_SHOVEL, new ResourceLocation("draconicevolution", "models/item/tools/draconic_shovel.obj"));
+        return new PairKV<>(
+                DETextures.DRACONIC_SHOVEL,
+                new ResourceLocation("draconicevolution", "models/item/tools/draconic_shovel.obj"));
     }
 
-    //endregion
+    // endregion
 }

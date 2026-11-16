@@ -1,13 +1,15 @@
 package com.brandon3055.draconicevolution.lib;
 
+import static com.brandon3055.draconicevolution.lib.RecipeManager.RecipeDifficulty.ALL;
+
 import com.brandon3055.brandonscore.handlers.FileHandler;
 import com.brandon3055.brandonscore.lib.StackReference;
 import com.brandon3055.brandonscore.registry.ModFeatureParser;
-import com.brandon3055.draconicevolution.DEConfig;
 import com.brandon3055.draconicevolution.api.OreDictHelper;
 import com.brandon3055.draconicevolution.api.fusioncrafting.FusionRecipeAPI;
 import com.brandon3055.draconicevolution.api.fusioncrafting.IFusionRecipe;
 import com.brandon3055.draconicevolution.api.fusioncrafting.SimpleFusionRecipe;
+import com.brandon3055.draconicevolution.config.TweaksConfig;
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
 import com.brandon3055.draconicevolution.utils.LogHelper;
 import com.google.gson.JsonArray;
@@ -15,12 +17,23 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.*;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -33,19 +46,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.minecraftforge.registries.GameData;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-
-import static com.brandon3055.draconicevolution.lib.RecipeManager.RecipeDifficulty.ALL;
-
-/**
- * Created by brandon3055 on 20/07/2016.
- */
+/** Created by brandon3055 on 20/07/2016. */
 public class RecipeManager {
 
     public static final FusionRecipeRegistry FUSION_REGISTRY = new FusionRecipeRegistry();
@@ -61,40 +62,54 @@ public class RecipeManager {
 
         ModContainer container = Loader.instance().activeModContainer();
         Loader.instance().setActiveModContainer(Loader.instance().getMinecraftModContainer());
-        if (DEConfig.expensiveDragonRitual) {
+        if (TweaksConfig.expensiveDragonRitual) {
             List<IRecipe> replacements = new LinkedList<>();
-            event.getRegistry().getEntries().forEach(entry -> {
-                if (entry.getValue().getRecipeOutput().getItem() == Items.END_CRYSTAL) {
-                    ShapedOreRecipe recipe = new ShapedOreRecipe(new ResourceLocation(entry.getValue().getGroup()), new ItemStack(Items.END_CRYSTAL), "AAA", "ABA", "ACA", 'A', "paneGlassColorless", 'B', "netherStar", 'C', Items.GHAST_TEAR);
-                    recipe.setRegistryName(entry.getValue().getRegistryName());
-                    replacements.add(recipe);
-                }
-            });
+            event.getRegistry()
+                    .getEntries()
+                    .forEach(
+                            entry -> {
+                                if (entry.getValue().getRecipeOutput().getItem()
+                                        == Items.END_CRYSTAL) {
+                                    ShapedOreRecipe recipe =
+                                            new ShapedOreRecipe(
+                                                    new ResourceLocation(
+                                                            entry.getValue().getGroup()),
+                                                    new ItemStack(Items.END_CRYSTAL),
+                                                    "AAA",
+                                                    "ABA",
+                                                    "ACA",
+                                                    'A',
+                                                    "paneGlassColorless",
+                                                    'B',
+                                                    "netherStar",
+                                                    'C',
+                                                    Items.GHAST_TEAR);
+                                    recipe.setRegistryName(entry.getValue().getRegistryName());
+                                    replacements.add(recipe);
+                                }
+                            });
 
             replacements.forEach(GameData::register_impl);
         }
         Loader.instance().setActiveModContainer(container);
     }
 
-    //region Initialization
+    // region Initialization
 
-    /**
-     * Creates the FusionRecipeRegistry and Initializes the FusionRecipeAPI
-     */
+    /** Creates the FusionRecipeRegistry and Initializes the FusionRecipeAPI */
     public static void initialize() {
         FusionRecipeAPI.registry = FUSION_REGISTRY;
         MinecraftForge.EVENT_BUS.register(new RecipeManager());
     }
 
     /**
-     * Loads all recipes from {@link DERecipes} If recipes have already been loaded
-     * it will first remove all currently loaded recipes before reloading.
+     * Loads all recipes from {@link DERecipes} If recipes have already been loaded it will first
+     * remove all currently loaded recipes before reloading.
      */
     private static void loadRecipes() {
-        if (DEConfig.hardMode) {
+        if (TweaksConfig.hardMode) {
             LogHelper.info("Loading Hard Mode Recipes...");
-        }
-        else {
+        } else {
             LogHelper.info("Loading Default Recipes...");
         }
 
@@ -119,19 +134,19 @@ public class RecipeManager {
         loadRecipesFromConfig();
     }
 
-    //endregion
+    // endregion
 
-    //region Config Recipes
+    // region Config Recipes
 
     public static void loadJsonRecipeModifications() {
         try {
             loadRecipesFromConfig();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             if (e instanceof WTFException) {
                 throw (WTFException) e;
             }
-            LogHelper.error("Something when wrong while attempting to load recipes from CustomFusionRecipes.json");
+            LogHelper.error(
+                    "Something when wrong while attempting to load recipes from CustomFusionRecipes.json");
             e.printStackTrace();
         }
     }
@@ -169,18 +184,26 @@ public class RecipeManager {
                 Object catalyst = readStackEntry(entry.get("catalyst").getAsString());
                 long energy = entry.has("energy") ? entry.get("energy").getAsLong() : 0;
                 int tier = entry.has("tier") ? entry.get("tier").getAsInt() : 0;
-                JsonArray ingredients = entry.has("ingredients") ? entry.get("ingredients").getAsJsonArray() : null;
+                JsonArray ingredients =
+                        entry.has("ingredients") ? entry.get("ingredients").getAsJsonArray() : null;
 
                 if (!validateRecipe(add, result, catalyst, energy, tier)) {
                     LogHelper.error("Failed to load recipe entry!\n" + entry);
-                    if (add) failedToAdd++;
-                    else failedToRemove++;
+                    if (add) {
+                        failedToAdd++;
+                    } else {
+                        failedToRemove++;
+                    }
                     continue;
                 }
 
                 if (add) {
                     if (ingredients == null) {
-                        LogHelper.error("No ingredients found for recipe! Catalyst:" + catalyst + " = Result:" + result);
+                        LogHelper.error(
+                                "No ingredients found for recipe! Catalyst:"
+                                        + catalyst
+                                        + " = Result:"
+                                        + result);
                         failedToAdd++;
                         continue;
                     }
@@ -191,16 +214,23 @@ public class RecipeManager {
                         ingredientObjs.add(readStackEntry(ing.getAsString()));
                     }
 
-                    toAdd.add(new SimpleFusionRecipe((ItemStack) result, (ItemStack) catalyst, energy, tier, ingredientObjs.toArray()));
-                }
-                else {
-                    //region Remove
+                    toAdd.add(
+                            new SimpleFusionRecipe(
+                                    (ItemStack) result,
+                                    (ItemStack) catalyst,
+                                    energy,
+                                    tier,
+                                    ingredientObjs.toArray()));
+                } else {
+                    // region Remove
                     boolean found1 = false;
                     for (IFusionRecipe recipe : FUSION_REGISTRY.getRecipes()) {
-                        if (recipe.getRecipeCatalyst() == null || !recipe.getRecipeCatalyst().isItemEqual((ItemStack) catalyst)) {
+                        if (recipe.getRecipeCatalyst() == null
+                                || !recipe.getRecipeCatalyst().isItemEqual((ItemStack) catalyst)) {
                             continue;
                         }
-                        if (!recipe.getRecipeOutput((ItemStack) catalyst).isItemEqual((ItemStack) result)) {
+                        if (!recipe.getRecipeOutput((ItemStack) catalyst)
+                                .isItemEqual((ItemStack) result)) {
                             continue;
                         }
                         if (ingredients != null) {
@@ -210,7 +240,9 @@ public class RecipeManager {
                                 for (Object tIng : recipe.getRecipeIngredients()) {
                                     ItemStack stack1 = OreDictHelper.resolveObject(rIng);
                                     ItemStack stack2 = OreDictHelper.resolveObject(tIng);
-                                    if (stack1 != null && stack2 != null && stack1.isItemEqual(stack2)) {
+                                    if (stack1 != null
+                                            && stack2 != null
+                                            && stack1.isItemEqual(stack2)) {
                                         found = true;
                                         break;
                                     }
@@ -228,13 +260,19 @@ public class RecipeManager {
                         toRemove.add(recipe);
                     }
                     if (!found1) {
-                        LogHelper.warn("Did not find a recipe matching \"Catalyst:" + catalyst + ", Result:" + result + ", Ingredients:" + ingredients + "\" to remove.");
+                        LogHelper.warn(
+                                "Did not find a recipe matching \"Catalyst:"
+                                        + catalyst
+                                        + ", Result:"
+                                        + result
+                                        + ", Ingredients:"
+                                        + ingredients
+                                        + "\" to remove.");
                         failedToRemove++;
                     }
-                    //endregion
+                    // endregion
                 }
-            }
-            catch (Exception exception) {
+            } catch (Exception exception) {
                 if (exception instanceof WTFException) {
                     throw exception;
                 }
@@ -278,9 +316,9 @@ public class RecipeManager {
         }
 
         StackReference stackReference = StackReference.fromString(entry);
-        ItemStack stack;
+        ItemStack stack = stackReference == null ? null : stackReference.createStack();
 
-        if (stackReference == null || (stack = stackReference.createStack()) == null) {
+        if (stack == null) {
             LogHelper.dev("Could not find item stack! - " + entry);
             return null;
         }
@@ -329,28 +367,26 @@ public class RecipeManager {
         return true;
     }
 
-    private static boolean validateRecipe(boolean add, Object result, Object catalyst, long energy, int tier) {
+    private static boolean validateRecipe(
+            boolean add, Object result, Object catalyst, long energy, int tier) {
         if (result == null) {
             LogHelper.error("Recipe result could not be found! Recipe will not be added/removed");
             return false;
-        }
-        else if (catalyst == null) {
+        } else if (catalyst == null) {
             LogHelper.error("Recipe catalyst could not be found! Recipe will not be added/removed");
             return false;
-        }
-        else if (result instanceof String) {
-            LogHelper.error("Recipe result does not support ore dictionary! Recipe will not be added/removed");
+        } else if (result instanceof String) {
+            LogHelper.error(
+                    "Recipe result does not support ore dictionary! Recipe will not be added/removed");
             return false;
-        }
-        else if (catalyst instanceof String) {
-            LogHelper.error("Recipe catalyst does not support ore dictionary! Recipe will not be added/removed");
+        } else if (catalyst instanceof String) {
+            LogHelper.error(
+                    "Recipe catalyst does not support ore dictionary! Recipe will not be added/removed");
             return false;
-        }
-        else if (energy <= 0 && add) {
+        } else if (energy <= 0 && add) {
             LogHelper.error("Invalid energy value specified for recipe!");
             return false;
-        }
-        else if (tier < 0 && add) {
+        } else if (tier < 0 && add) {
             LogHelper.error("Invalid tier specified for recipe! Tier must be >= 0");
             return false;
         }
@@ -372,19 +408,26 @@ public class RecipeManager {
         int count = 1;
         int meta = 0;
         if (!rawString.contains("[") || !rawString.contains("]")) {
-            LogHelper.error("Detected invalid formatting for stack string \"" + rawString + "\" (Missing \"[\" and or \"]\")");
+            LogHelper.error(
+                    "Detected invalid formatting for stack string \""
+                            + rawString
+                            + "\" (Missing \"[\" and or \"]\")");
             return null;
         }
 
-        String itemString = rawString.substring(rawString.indexOf("[") + 1, rawString.lastIndexOf("]"));
+        String itemString =
+                rawString.substring(rawString.indexOf("[") + 1, rawString.lastIndexOf("]"));
         rawString = rawString.replace("[" + itemString + "]", "");
 
         if (rawString.contains(":")) {
             try {
                 meta = Integer.parseInt(rawString.substring(rawString.indexOf(":") + 1));
-            }
-            catch (Exception e) {
-                LogHelper.error("Could not read meta value for stack: " + stackString + " Error: " + e.getMessage());
+            } catch (Exception e) {
+                LogHelper.error(
+                        "Could not read meta value for stack: "
+                                + stackString
+                                + " Error: "
+                                + e.getMessage());
                 return null;
             }
         }
@@ -392,26 +435,28 @@ public class RecipeManager {
         if (rawString.toLowerCase(Locale.ENGLISH).contains("x")) {
             try {
                 count = Integer.parseInt(rawString.substring(0, rawString.indexOf("x")));
-            }
-            catch (Exception e) {
-                LogHelper.error("Could not read meta value for stack: " + stackString + " Error: " + e.getMessage());
+            } catch (Exception e) {
+                LogHelper.error(
+                        "Could not read meta value for stack: "
+                                + stackString
+                                + " Error: "
+                                + e.getMessage());
                 return null;
             }
         }
 
         if (itemString.contains(":")) {
             if (Item.REGISTRY.containsKey(new ResourceLocation(itemString))) {
-                return new ItemStack(Item.REGISTRY.getObject(new ResourceLocation(itemString)), count, meta);
-            }
-            else if (Block.REGISTRY.containsKey(new ResourceLocation(itemString))) {
-                return new ItemStack(Block.REGISTRY.getObject(new ResourceLocation(itemString)), count, meta);
-            }
-            else {
+                return new ItemStack(
+                        Item.REGISTRY.getObject(new ResourceLocation(itemString)), count, meta);
+            } else if (Block.REGISTRY.containsKey(new ResourceLocation(itemString))) {
+                return new ItemStack(
+                        Block.REGISTRY.getObject(new ResourceLocation(itemString)), count, meta);
+            } else {
                 LogHelper.error("Could not find item or block - " + itemString);
                 return null;
             }
-        }
-        else {
+        } else {
             return itemString;
         }
     }
@@ -424,20 +469,143 @@ public class RecipeManager {
 
         LogHelper.info("Generating custom fusion recipe Documentation.");
 
-        String infoText = "//The recipe format has recently been updated! Old recipes will still work but may be disabled in a future MC version.\n" + "\n" + "It is now possible to add custom fusion recipes and/or remove existing ones.\n" + "This feature is intended for Mod pack creators.\n" + "\n" + "Recipes are specified using json file which you will need to place in config/brandon3055 (The same folder you should have found this text document in)\n" + "The json MUST be named \"CustomFusionRecipes.json\" (Without the quotes)\n" + "\n" + "The following is an example of what the json file should look like (See further down for an explanation of what everything means)\n" + "\n" + "[\n" + "    {\n" + "        \"mode\": \"ADD\",\n" + "        \"result\": \"minecraft:beacon\",\n" + "        \"catalyst\": \"minecraft:nether_star\",\n" + "        \"energy\": 1000,\n" + "        \"tier\": 1,\n" + "        \"ingredients\": [\n" + "            \"minecraft:glass\",\n" + "            \"minecraft:glass\",\n" + "            \"minecraft:glass\",\n" + "            \"minecraft:glass\",\n" + "            \"minecraft:glass\",\n" + "            \"minecraft:obsidian\"\n" + "        ]\n" + "    },\n" + "    {\n" + "        \"mode\": \"ADD\",\n" + "        \"result\": \"minecraft:diamond_sword,1,0,{ench:[0:{lvl:5s,id:21s},1:{lvl:5s,id:20s},2:{lvl:5s,id:19s}]}\",\n" + "        \"catalyst\": \"minecraft:golden_apple,1,1\",\n" + "        \"energy\": 1000,\n" + "        \"tier\": 1,\n" + "        \"ingredients\": [\n" + "            \"ore:oreGold\",\n" + "            \"ore:blockGold\",\n" + "            \"ore:ingotGold\",\n" + "            \"minecraft:stone,1,0,{ench:[0:{lvl:5s,id:21s},1:{lvl:5s,id:20s},2:{lvl:5s,id:19s}]}\"\n" + "        ]\n" + "    },\n" + "    {\n" + "        \"mode\": \"REMOVE\",\n" + "        \"result\": \"draconicevolution:draconic_staff_of_power\",\n" + "        \"catalyst\": \"draconicevolution:draconic_pick\",\n" + "        \"ingredients\": [\n" + "            \"draconicevolution:draconic_ingot\",\n" + "            \"draconicevolution:draconic_ingot\",\n" + "            \"draconicevolution:draconic_ingot\",\n" + "            \"draconicevolution:draconic_ingot\",\n" + "            \"draconicevolution:draconic_ingot\",\n" + "            \"draconicevolution:draconic_shovel\",\n" + "            \"draconicevolution:draconic_sword\",\n" + "            \"draconicevolution:awakened_core\"\n" + "        ]\n" + "    },\n" + "    {\n" + "        \"mode\": \"REMOVE\",\n" + "        \"result\": \"draconicevolution:draconic_shovel\",\n" + "        \"catalyst\": \"draconicevolution:wyvern_shovel\"\n" + "    }    \n" + "]\n" + "\n" + "\n" + "The above json adds 2 recipes for vanilla items and removes 2 recipes from Draconic Evolution. It should be fairly clear how those examples work\n" + "The following explains the recipes in more detail\n" + "\n" + "# Adding Recipes #\n" + "\n" + "\"mode\":\n" + "- For adding recipes mode can be set to \"ADD\" or it can be left out and the recipe will default to the ADD function\n" + "\n" + "\"result\":\n" + "- This is the item stack that the recipe will create.\n" + "- This should be a specific item. It can not be an ore dictionary item.\n" + "\n" + "\"catalyst\":\n" + "- The catalyst is the item that gets combined with the ingredients to create the result. \n" + "- This should be a specific item. It can not be an ore dictionary item.\n" + "\n" + "\"energy\":\n" + "- This id the energy required for the crafting. Note that this number is multiplied by the number of ingredients.\n" + "Meaning if you specifies 1000 for a recipe that has 8 ingredients the total energy cost would be 8000RF.\n" + "\n" + "\"tier\":\n" + "- This is the crafting tier of this recipe 0 = basic, 1 = wyvern, 2 = awakened, 3 = chaotic\n" + "\n" + "\"ingredients\":\n" + "- This is a list of ingredients required for the recipe.\n" + "- These can be ore dictionary items.\n" + "\n" + "\n" + "# Removing Recipes #\n" + "\n" + "\"mode\":\n" + "- Mode must be set to \"REMOVE\" when removing a recipe\n" + "\n" + "When removing recipes you to not need to specify the tier or energy cost of the target recipe.\n" + "You can instead just specify the result, catalyst and ingredients of the target recipe.\n" + "Optionally if you leave out the ingredients it will remove any recipe matching the result and catalyst items.\n" + "\n" + "\n" + "## Item Stack Strings ##\n" + "\n" + "Example:      minecraft:wool,16,14     - This is 16 red wool\n" + "Ore Example:  ore:ingotCopper          - This is 1 copper ingots using the ore dictionary\n" + "Note: Ore entries do not support more that 1 stack size, Item damage or nbt\n" + "More on the ore dictionary http://www.minecraftuniversity.com/forge/ore_dictionary_list/\n" + "\n" + "The name used in the item/block registry name or an ore dictionary name. Both the number of items and the damage value are optional\n" + "\n" + "Examples:\n" + "name, stack size, meta, NBT\n" + "ore:stone\n" + "minecraft:stone         \n" + "minecraft:stone,64       \n" + "minecraft:stone,64,3 \n" + "minecraft:stone,64,3,{NBT}\n" + "\n" + "\n" + "### Notes ###\n" + "The order in which you add/remove recipes does not matter when replacing recipes. \n" + "Meaning for example you can add a recipe for a DE item then remove the original recipe and it will not remove the one you jsut added.\n" + "\n" + "You can use ore dictionary items for the catalyst and result when adding recipes but the default fusion implementation does not support that. \n" + "So they will be replaced with the first item stack from the ore dictionary that matches that name.";
+        String infoText =
+                "//The recipe format has recently been updated! Old recipes will still work but may be disabled in a future MC version.\n"
+                        + "\n"
+                        + "It is now possible to add custom fusion recipes and/or remove existing ones.\n"
+                        + "This feature is intended for Mod pack creators.\n"
+                        + "\n"
+                        + "Recipes are specified using json file which you will need to place in config/brandon3055 (The same folder you should have found this text document in)\n"
+                        + "The json MUST be named \"CustomFusionRecipes.json\" (Without the quotes)\n"
+                        + "\n"
+                        + "The following is an example of what the json file should look like (See further down for an explanation of what everything means)\n"
+                        + "\n"
+                        + "[\n"
+                        + "    {\n"
+                        + "        \"mode\": \"ADD\",\n"
+                        + "        \"result\": \"minecraft:beacon\",\n"
+                        + "        \"catalyst\": \"minecraft:nether_star\",\n"
+                        + "        \"energy\": 1000,\n"
+                        + "        \"tier\": 1,\n"
+                        + "        \"ingredients\": [\n"
+                        + "            \"minecraft:glass\",\n"
+                        + "            \"minecraft:glass\",\n"
+                        + "            \"minecraft:glass\",\n"
+                        + "            \"minecraft:glass\",\n"
+                        + "            \"minecraft:glass\",\n"
+                        + "            \"minecraft:obsidian\"\n"
+                        + "        ]\n"
+                        + "    },\n"
+                        + "    {\n"
+                        + "        \"mode\": \"ADD\",\n"
+                        + "        \"result\": \"minecraft:diamond_sword,1,0,{ench:[0:{lvl:5s,id:21s},1:{lvl:5s,id:20s},2:{lvl:5s,id:19s}]}\",\n"
+                        + "        \"catalyst\": \"minecraft:golden_apple,1,1\",\n"
+                        + "        \"energy\": 1000,\n"
+                        + "        \"tier\": 1,\n"
+                        + "        \"ingredients\": [\n"
+                        + "            \"ore:oreGold\",\n"
+                        + "            \"ore:blockGold\",\n"
+                        + "            \"ore:ingotGold\",\n"
+                        + "            \"minecraft:stone,1,0,{ench:[0:{lvl:5s,id:21s},1:{lvl:5s,id:20s},2:{lvl:5s,id:19s}]}\"\n"
+                        + "        ]\n"
+                        + "    },\n"
+                        + "    {\n"
+                        + "        \"mode\": \"REMOVE\",\n"
+                        + "        \"result\": \"draconicevolution:draconic_staff_of_power\",\n"
+                        + "        \"catalyst\": \"draconicevolution:draconic_pick\",\n"
+                        + "        \"ingredients\": [\n"
+                        + "            \"draconicevolution:draconic_ingot\",\n"
+                        + "            \"draconicevolution:draconic_ingot\",\n"
+                        + "            \"draconicevolution:draconic_ingot\",\n"
+                        + "            \"draconicevolution:draconic_ingot\",\n"
+                        + "            \"draconicevolution:draconic_ingot\",\n"
+                        + "            \"draconicevolution:draconic_shovel\",\n"
+                        + "            \"draconicevolution:draconic_sword\",\n"
+                        + "            \"draconicevolution:awakened_core\"\n"
+                        + "        ]\n"
+                        + "    },\n"
+                        + "    {\n"
+                        + "        \"mode\": \"REMOVE\",\n"
+                        + "        \"result\": \"draconicevolution:draconic_shovel\",\n"
+                        + "        \"catalyst\": \"draconicevolution:wyvern_shovel\"\n"
+                        + "    }    \n"
+                        + "]\n"
+                        + "\n"
+                        + "\n"
+                        + "The above json adds 2 recipes for vanilla items and removes 2 recipes from Draconic Evolution. It should be fairly clear how those examples work\n"
+                        + "The following explains the recipes in more detail\n"
+                        + "\n"
+                        + "# Adding Recipes #\n"
+                        + "\n"
+                        + "\"mode\":\n"
+                        + "- For adding recipes mode can be set to \"ADD\" or it can be left out and the recipe will default to the ADD function\n"
+                        + "\n"
+                        + "\"result\":\n"
+                        + "- This is the item stack that the recipe will create.\n"
+                        + "- This should be a specific item. It can not be an ore dictionary item.\n"
+                        + "\n"
+                        + "\"catalyst\":\n"
+                        + "- The catalyst is the item that gets combined with the ingredients to create the result. \n"
+                        + "- This should be a specific item. It can not be an ore dictionary item.\n"
+                        + "\n"
+                        + "\"energy\":\n"
+                        + "- This id the energy required for the crafting. Note that this number is multiplied by the number of ingredients.\n"
+                        + "Meaning if you specifies 1000 for a recipe that has 8 ingredients the total energy cost would be 8000RF.\n"
+                        + "\n"
+                        + "\"tier\":\n"
+                        + "- This is the crafting tier of this recipe 0 = basic, 1 = wyvern, 2 = awakened, 3 = chaotic\n"
+                        + "\n"
+                        + "\"ingredients\":\n"
+                        + "- This is a list of ingredients required for the recipe.\n"
+                        + "- These can be ore dictionary items.\n"
+                        + "\n"
+                        + "\n"
+                        + "# Removing Recipes #\n"
+                        + "\n"
+                        + "\"mode\":\n"
+                        + "- Mode must be set to \"REMOVE\" when removing a recipe\n"
+                        + "\n"
+                        + "When removing recipes you to not need to specify the tier or energy cost of the target recipe.\n"
+                        + "You can instead just specify the result, catalyst and ingredients of the target recipe.\n"
+                        + "Optionally if you leave out the ingredients it will remove any recipe matching the result and catalyst items.\n"
+                        + "\n"
+                        + "\n"
+                        + "## Item Stack Strings ##\n"
+                        + "\n"
+                        + "Example:      minecraft:wool,16,14     - This is 16 red wool\n"
+                        + "Ore Example:  ore:ingotCopper          - This is 1 copper ingots using the ore dictionary\n"
+                        + "Note: Ore entries do not support more that 1 stack size, Item damage or nbt\n"
+                        + "More on the ore dictionary http://www.minecraftuniversity.com/forge/ore_dictionary_list/\n"
+                        + "\n"
+                        + "The name used in the item/block registry name or an ore dictionary name. Both the number of items and the damage value are optional\n"
+                        + "\n"
+                        + "Examples:\n"
+                        + "name, stack size, meta, NBT\n"
+                        + "ore:stone\n"
+                        + "minecraft:stone         \n"
+                        + "minecraft:stone,64       \n"
+                        + "minecraft:stone,64,3 \n"
+                        + "minecraft:stone,64,3,{NBT}\n"
+                        + "\n"
+                        + "\n"
+                        + "### Notes ###\n"
+                        + "The order in which you add/remove recipes does not matter when replacing recipes. \n"
+                        + "Meaning for example you can add a recipe for a DE item then remove the original recipe and it will not remove the one you jsut added.\n"
+                        + "\n"
+                        + "You can use ore dictionary items for the catalyst and result when adding recipes but the default fusion implementation does not support that. \n"
+                        + "So they will be replaced with the first item stack from the ore dictionary that matches that name.";
         try {
             FileWriter writer = new FileWriter(file);
             writer.write(infoText);
             writer.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    //endregion
+    // endregion
 
-    //region Registration
+    // region Registration
 
     public static void addShaped(RecipeDifficulty difficulty, Block result, Object... recipe) {
         addShaped(difficulty, new ItemStack(result), recipe);
@@ -473,11 +641,16 @@ public class RecipeManager {
             ShapedOreRecipe shapedOreRecipe = new ShapedOreRecipe(location, result, recipe);
             shapedOreRecipe.setRegistryName(location);
             GameData.register_impl(shapedOreRecipe);
-        }
-        else {
+        } else {
             ResourceLocation location = getNameForRecipe(result);
             CraftingHelper.ShapedPrimer primer = CraftingHelper.parseShaped(recipe);
-            ShapedRecipes shapedRecipes = new ShapedRecipes(result.getItem().getRegistryName().toString(), primer.width, primer.height, primer.input, result);
+            ShapedRecipes shapedRecipes =
+                    new ShapedRecipes(
+                            result.getItem().getRegistryName().toString(),
+                            primer.width,
+                            primer.height,
+                            primer.input,
+                            result);
             shapedRecipes.setRegistryName(location);
             GameData.register_impl(shapedRecipes);
         }
@@ -491,7 +664,8 @@ public class RecipeManager {
         addShapeless(difficulty, new ItemStack(result), recipe);
     }
 
-    public static void addShapeless(RecipeDifficulty difficulty, ItemStack result, Object... recipe) {
+    public static void addShapeless(
+            RecipeDifficulty difficulty, ItemStack result, Object... recipe) {
         if (difficulty != ALL && RecipeDifficulty.getDifficulty() != difficulty) {
             return;
         }
@@ -517,20 +691,20 @@ public class RecipeManager {
             ShapelessOreRecipe oreRecipe = new ShapelessOreRecipe(location, result, recipe);
             oreRecipe.setRegistryName(location);
             GameData.register_impl(oreRecipe);
-        }
-        else {
+        } else {
             List<ItemStack> list = new ArrayList<ItemStack>();
 
             for (Object object : recipe) {
                 if (object instanceof ItemStack) {
                     list.add(((ItemStack) object).copy());
-                }
-                else if (object instanceof Item) {
+                } else if (object instanceof Item) {
                     list.add(new ItemStack((Item) object));
-                }
-                else {
+                } else {
                     if (!(object instanceof Block)) {
-                        throw new IllegalArgumentException("Invalid shapeless recipe: unknown type " + object.getClass().getName() + "!");
+                        throw new IllegalArgumentException(
+                                "Invalid shapeless recipe: unknown type "
+                                        + object.getClass().getName()
+                                        + "!");
                     }
 
                     list.add(new ItemStack((Block) object));
@@ -538,13 +712,20 @@ public class RecipeManager {
             }
 
             ResourceLocation location = getNameForRecipe(result);
-            ShapelessRecipes shapelessRecipe = new ShapelessRecipes(location.getResourceDomain(), result, buildInput(recipe));
+            ShapelessRecipes shapelessRecipe =
+                    new ShapelessRecipes(location.getResourceDomain(), result, buildInput(recipe));
             shapelessRecipe.setRegistryName(location);
             GameData.register_impl(shapelessRecipe);
         }
     }
 
-    public static void addFusion(RecipeDifficulty difficulty, ItemStack result, ItemStack catalyst, int energyCost, int craftingTier, Object... ingredients) {
+    public static void addFusion(
+            RecipeDifficulty difficulty,
+            ItemStack result,
+            ItemStack catalyst,
+            int energyCost,
+            int craftingTier,
+            Object... ingredients) {
         if (difficulty != ALL && RecipeDifficulty.getDifficulty() != difficulty) {
             return;
         }
@@ -559,12 +740,19 @@ public class RecipeManager {
             }
         }
 
-        IFusionRecipe recipe = new SimpleFusionRecipe(result, catalyst, energyCost, craftingTier, ingredients);
+        IFusionRecipe recipe =
+                new SimpleFusionRecipe(result, catalyst, energyCost, craftingTier, ingredients);
         activeFusion.add(recipe);
         FUSION_REGISTRY.add(recipe);
     }
 
-    public static void addFusionTool(RecipeDifficulty difficulty, ItemStack result, ItemStack catalyst, int energyCost, int craftingTier, Object... ingredients) {
+    public static void addFusionTool(
+            RecipeDifficulty difficulty,
+            ItemStack result,
+            ItemStack catalyst,
+            int energyCost,
+            int craftingTier,
+            Object... ingredients) {
         if (difficulty != ALL && RecipeDifficulty.getDifficulty() != difficulty) {
             return;
         }
@@ -579,7 +767,8 @@ public class RecipeManager {
             }
         }
 
-        IFusionRecipe recipe = new ToolUpgradeRecipe(result, catalyst, energyCost, craftingTier, ingredients);
+        IFusionRecipe recipe =
+                new ToolUpgradeRecipe(result, catalyst, energyCost, craftingTier, ingredients);
         activeFusion.add(recipe);
         FUSION_REGISTRY.add(recipe);
     }
@@ -587,7 +776,7 @@ public class RecipeManager {
     public static void addRecipe(IRecipe recipe) {
         activeCrafting.add(recipe);
         GameData.register_impl(recipe);
-//        GameRegistry.addRecipe(recipe);
+        //        GameRegistry.addRecipe(recipe);
     }
 
     public static boolean isEnabled(Object stack) {
@@ -595,8 +784,7 @@ public class RecipeManager {
             Item item = ((ItemStack) stack).getItem();
             Object o = item instanceof ItemBlock ? ((ItemBlock) item).getBlock() : item;
             return !ModFeatureParser.isFeature(o) || ModFeatureParser.isEnabled(o);
-        }
-        else if (stack instanceof Item || stack instanceof Block) {
+        } else if (stack instanceof Item || stack instanceof Block) {
             return !ModFeatureParser.isFeature(stack) || ModFeatureParser.isEnabled(stack);
         }
         return true;
@@ -604,16 +792,20 @@ public class RecipeManager {
 
     public static ResourceLocation getNameForRecipe(ItemStack output) {
         ModContainer activeContainer = Loader.instance().activeModContainer();
-        ResourceLocation baseLoc = new ResourceLocation(activeContainer.getModId(), output.getItem().getRegistryName().getResourcePath());
+        ResourceLocation baseLoc =
+                new ResourceLocation(
+                        activeContainer.getModId(),
+                        output.getItem().getRegistryName().getResourcePath());
         ResourceLocation recipeLoc = baseLoc;
         int index = 0;
         while (CraftingManager.REGISTRY.containsKey(recipeLoc)) {
             index++;
-            recipeLoc = new ResourceLocation(activeContainer.getModId(), baseLoc.getResourcePath() + "_" + index);
+            recipeLoc =
+                    new ResourceLocation(
+                            activeContainer.getModId(), baseLoc.getResourcePath() + "_" + index);
         }
         return recipeLoc;
     }
-
 
     public static NonNullList<Ingredient> buildInput(Object... input) {
 
@@ -634,13 +826,15 @@ public class RecipeManager {
         return list;
     }
 
-    public static enum RecipeDifficulty {
-        ALL, NORMAL, HARD;
+    public enum RecipeDifficulty {
+        ALL,
+        NORMAL,
+        HARD;
 
         public static RecipeDifficulty getDifficulty() {
-            return DEConfig.hardMode ? HARD : NORMAL;
+            return TweaksConfig.hardMode ? HARD : NORMAL;
         }
     }
 
-//endregion
+    // endregion
 }

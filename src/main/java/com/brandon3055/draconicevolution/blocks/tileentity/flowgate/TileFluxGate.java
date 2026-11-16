@@ -8,21 +8,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 
-/**
- * Created by brandon3055 on 15/11/2016.
- */
+/** Created by brandon3055 on 15/11/2016. */
 public class TileFluxGate extends TileFlowGate implements IEnergyReceiver {
 
-    //region Gate
+    // region Gate
 
     @Override
     public String getUnits() {
         return "RF/t";
     }
 
-    //endregion
+    // endregion
 
-    //region IEnergy
+    // region IEnergy
 
     @Override
     public boolean canConnectEnergy(EnumFacing from) {
@@ -58,7 +56,12 @@ public class TileFluxGate extends TileFlowGate implements IEnergyReceiver {
         }
 
         int sim = EnergyHelper.insertEnergy(target, maxReceive, getDirection().getOpposite(), true);
-        int transfer = EnergyHelper.insertEnergy(target, Math.min(Math.max(0, getFlow() - transferThisTick), sim), getDirection().getOpposite(), simulate);
+        int transfer =
+                EnergyHelper.insertEnergy(
+                        target,
+                        Math.min(Math.max(0, getFlow() - transferThisTick), sim),
+                        getDirection().getOpposite(),
+                        simulate);
 
         if (!simulate) {
             transferThisTick += transfer;
@@ -66,9 +69,9 @@ public class TileFluxGate extends TileFlowGate implements IEnergyReceiver {
         return transfer;
     }
 
-    //endregion
+    // endregion
 
-    //region Capability
+    // region Capability
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
@@ -84,7 +87,7 @@ public class TileFluxGate extends TileFlowGate implements IEnergyReceiver {
         return super.getCapability(capability, facing);
     }
 
-    //endregion
+    // endregion
 
     @Override
     public String getPeripheralName() {

@@ -3,14 +3,12 @@ package com.brandon3055.draconicevolution.api.itemconfig;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * Created by brandon3055 on 1/06/2016.
- */
-public class ToolConfigHelper {
+/** Created by brandon3055 on 1/06/2016. */
+public final class ToolConfigHelper {
 
-    /**
-     * Returns the current selected config profile.
-     */
+    private ToolConfigHelper() {}
+
+    /** Returns the current selected config profile. */
     public static int getProfile(ItemStack stack) {
         if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("ToolProfile")) {
             return 0;
@@ -19,7 +17,8 @@ public class ToolConfigHelper {
     }
 
     public static String getProfileName(ItemStack stack, int profile) {
-        if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("ToolProfileName" + profile)) {
+        if (stack.getTagCompound() == null
+                || !stack.getTagCompound().hasKey("ToolProfileName" + profile)) {
             return "Profile " + (profile + 1);
         }
 
@@ -34,10 +33,7 @@ public class ToolConfigHelper {
         stack.getTagCompound().setString("ToolProfileName" + profile, name);
     }
 
-
-    /**
-     * Increments the current selected config profile.
-     */
+    /** Increments the current selected config profile. */
     public static void incrementProfile(ItemStack stack) {
         IConfigurableItem item = getTool(stack);
         if (item == null || item.getProfileCount(stack) == 1) {
@@ -58,25 +54,21 @@ public class ToolConfigHelper {
         stack.getTagCompound().setByte("ToolProfile", (byte) profile);
     }
 
-    /**
-     * Returns the compound to which the fields for the currently selected profile are saved.
-     */
+    /** Returns the compound to which the fields for the currently selected profile are saved. */
     public static NBTTagCompound getFieldStorage(ItemStack stack) {
         String tag = "Profile_" + getProfile(stack);
         return stack.getOrCreateSubCompound(tag);
     }
 
-    /**
-     * Returns the value of the specified boolean field.
-     * Or false if field is not found.
-     */
+    /** Returns the value of the specified boolean field. Or false if field is not found. */
     public static boolean getBooleanField(String fieldName, ItemStack stack) {
         IConfigurableItem item = getTool(stack);
         if (item == null) {
             return false;
         }
 
-        ItemConfigFieldRegistry fieldRegistry = item.getFields(stack, new ItemConfigFieldRegistry());
+        ItemConfigFieldRegistry fieldRegistry =
+                item.getFields(stack, new ItemConfigFieldRegistry());
 
         if (fieldRegistry.getField(fieldName) == null) {
             return false;
@@ -98,7 +90,8 @@ public class ToolConfigHelper {
             return false;
         }
 
-        ItemConfigFieldRegistry fieldRegistry = item.getFields(stack, new ItemConfigFieldRegistry());
+        ItemConfigFieldRegistry fieldRegistry =
+                item.getFields(stack, new ItemConfigFieldRegistry());
 
         if (fieldRegistry.getField(fieldName) == null) {
             return false;
@@ -115,17 +108,15 @@ public class ToolConfigHelper {
         return false;
     }
 
-    /**
-     * Returns the value of the specified integer field.
-     * Or 0 if field is not found.
-     */
+    /** Returns the value of the specified integer field. Or 0 if field is not found. */
     public static int getIntegerField(String fieldName, ItemStack stack) {
         IConfigurableItem item = getTool(stack);
         if (item == null) {
             return 0;
         }
 
-        ItemConfigFieldRegistry fieldRegistry = item.getFields(stack, new ItemConfigFieldRegistry());
+        ItemConfigFieldRegistry fieldRegistry =
+                item.getFields(stack, new ItemConfigFieldRegistry());
 
         if (fieldRegistry.getField(fieldName) == null) {
             return 0;
@@ -147,7 +138,8 @@ public class ToolConfigHelper {
             return false;
         }
 
-        ItemConfigFieldRegistry fieldRegistry = item.getFields(stack, new ItemConfigFieldRegistry());
+        ItemConfigFieldRegistry fieldRegistry =
+                item.getFields(stack, new ItemConfigFieldRegistry());
 
         if (fieldRegistry.getField(fieldName) == null) {
             return false;
@@ -164,17 +156,15 @@ public class ToolConfigHelper {
         return false;
     }
 
-    /**
-     * Returns the value of the specified double field.
-     * Or 0 if field is not found.
-     */
+    /** Returns the value of the specified double field. Or 0 if field is not found. */
     public static double getDoubleField(String fieldName, ItemStack stack) {
         IConfigurableItem item = getTool(stack);
         if (item == null) {
             return 0;
         }
 
-        ItemConfigFieldRegistry fieldRegistry = item.getFields(stack, new ItemConfigFieldRegistry());
+        ItemConfigFieldRegistry fieldRegistry =
+                item.getFields(stack, new ItemConfigFieldRegistry());
 
         if (fieldRegistry.getField(fieldName) == null) {
             return 0;
@@ -196,7 +186,8 @@ public class ToolConfigHelper {
             return false;
         }
 
-        ItemConfigFieldRegistry fieldRegistry = item.getFields(stack, new ItemConfigFieldRegistry());
+        ItemConfigFieldRegistry fieldRegistry =
+                item.getFields(stack, new ItemConfigFieldRegistry());
 
         if (fieldRegistry.getField(fieldName) == null) {
             return false;

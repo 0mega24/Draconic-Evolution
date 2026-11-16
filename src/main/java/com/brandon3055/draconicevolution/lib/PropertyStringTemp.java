@@ -2,15 +2,14 @@ package com.brandon3055.draconicevolution.lib;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.block.properties.PropertyHelper;
-
-import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import net.minecraft.block.properties.PropertyHelper;
 
-//TODO replace with PropString in CCL when CCL3 is ready
+// TODO replace with PropString in CCL when CCL3 is ready
 public class PropertyStringTemp extends PropertyHelper<String> {
 
     private final List<String> valuesSet;
@@ -36,7 +35,7 @@ public class PropertyStringTemp extends PropertyHelper<String> {
         return ImmutableList.copyOf(valuesSet);
     }
 
-    @SuppressWarnings ("Guava")
+    @SuppressWarnings("Guava")
     @Nonnull
     @Override
     public Optional<String> parseValue(@Nonnull String value) {

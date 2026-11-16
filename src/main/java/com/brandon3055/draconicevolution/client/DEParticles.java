@@ -1,17 +1,30 @@
 package com.brandon3055.draconicevolution.client;
 
 import com.brandon3055.brandonscore.client.particle.BCEffectHandler;
-import com.brandon3055.draconicevolution.client.render.particle.*;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleArrowShockwave;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleAxeSelection;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleChaosImplosion;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleCustom;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleDragonHeart;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleEnergy;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleEnergyCoreFX;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleGuardianProjectile;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleInfuser;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleLineIndicator;
+import com.brandon3055.draconicevolution.client.render.particle.ParticlePortal;
+import com.brandon3055.draconicevolution.client.render.particle.ParticleSoulExtraction;
 import com.brandon3055.draconicevolution.helpers.ResourceHelperDE;
 import net.minecraft.util.ResourceLocation;
 
-/**
- * Created by brandon3055 on 23/4/2016.
- * A list of all of DE's particles
- */
-public class DEParticles {
-    public static final ResourceLocation DE_SHEET = ResourceHelperDE.getResource("textures/particle/particles.png");
-    public static final ResourceLocation CUSTOM_SHEET = ResourceHelperDE.getResource("textures/particle/particle_generator.png");
+/** Created by brandon3055 on 23/4/2016. A list of all of DE's particles */
+public final class DEParticles {
+
+    private DEParticles() {}
+
+    public static final ResourceLocation DE_SHEET =
+            ResourceHelperDE.getResource("textures/particle/particles.png");
+    public static final ResourceLocation CUSTOM_SHEET =
+            ResourceHelperDE.getResource("textures/particle/particle_generator.png");
 
     public static int ENERGY_PARTICLE;
     public static int ENERGY_CORE_FX;
@@ -31,13 +44,20 @@ public class DEParticles {
         ENERGY_CORE_FX = BCEffectHandler.registerFX(DE_SHEET, new ParticleEnergyCoreFX.Factory());
         LINE_INDICATOR = BCEffectHandler.registerFX(DE_SHEET, new ParticleLineIndicator.Factory());
         INFUSER = BCEffectHandler.registerFX(DE_SHEET, new ParticleInfuser.Factory());
-        GUARDIAN_PROJECTILE = BCEffectHandler.registerFX(DE_SHEET, new ParticleGuardianProjectile.Factory());
-        CHAOS_IMPLOSION = BCEffectHandler.registerFX(DE_SHEET, new ParticleChaosImplosion.Factory());
+        GUARDIAN_PROJECTILE =
+                BCEffectHandler.registerFX(DE_SHEET, new ParticleGuardianProjectile.Factory());
+        CHAOS_IMPLOSION =
+                BCEffectHandler.registerFX(DE_SHEET, new ParticleChaosImplosion.Factory());
         PORTAL = BCEffectHandler.registerFX(DE_SHEET, new ParticlePortal.Factory());
         DRAGON_HEART = BCEffectHandler.registerFX(DE_SHEET, new ParticleDragonHeart.Factory());
-        AXE_SELECTION = BCEffectHandler.registerFX(new ResourceLocation("textures/items/diamond_axe.png"), new ParticleAxeSelection.Factory());
-        SOUL_EXTRACTION = BCEffectHandler.registerFX(DE_SHEET, new ParticleSoulExtraction.Factory());
-        ARROW_SHOCKWAVE = BCEffectHandler.registerFX(DE_SHEET, new ParticleArrowShockwave.Factory());
+        AXE_SELECTION =
+                BCEffectHandler.registerFX(
+                        new ResourceLocation("textures/items/diamond_axe.png"),
+                        new ParticleAxeSelection.Factory());
+        SOUL_EXTRACTION =
+                BCEffectHandler.registerFX(DE_SHEET, new ParticleSoulExtraction.Factory());
+        ARROW_SHOCKWAVE =
+                BCEffectHandler.registerFX(DE_SHEET, new ParticleArrowShockwave.Factory());
         CUSTOM = BCEffectHandler.registerFX(CUSTOM_SHEET, new ParticleCustom.Factory());
     }
 

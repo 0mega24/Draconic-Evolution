@@ -1,54 +1,57 @@
-//package com.brandon3055.draconicevolution.entity;
+// package com.brandon3055.draconicevolution.entity;
 //
-//import com.brandon3055.brandonscore.utils.Utils;
-//import com.brandon3055.draconicevolution.DEConfig;
-//import com.brandon3055.draconicevolution.blocks.tileentity.TileChaosCrystal;
-//import com.brandon3055.draconicevolution.lib.DEDamageSources;
-//import com.google.common.base.Optional;
-//import com.google.common.collect.Lists;
-//import net.minecraft.block.Block;
-//import net.minecraft.block.state.IBlockState;
-//import net.minecraft.entity.Entity;
-//import net.minecraft.entity.EntityLivingBase;
-//import net.minecraft.entity.SharedMonsterAttributes;
-//import net.minecraft.entity.boss.EntityDragon;
-//import net.minecraft.entity.boss.EntityDragonPart;
-//import net.minecraft.entity.boss.dragon.phase.PhaseList;
-//import net.minecraft.entity.effect.EntityLightningBolt;
-//import net.minecraft.entity.item.EntityXPOrb;
-//import net.minecraft.entity.player.EntityPlayer;
-//import net.minecraft.entity.player.EntityPlayerMP;
-//import net.minecraft.init.SoundEvents;
-//import net.minecraft.nbt.NBTTagCompound;
-//import net.minecraft.network.datasync.DataParameter;
-//import net.minecraft.network.datasync.DataSerializers;
-//import net.minecraft.network.datasync.EntityDataManager;
-//import net.minecraft.tileentity.TileEntity;
-//import net.minecraft.util.*;
-//import net.minecraft.util.math.AxisAlignedBB;
-//import net.minecraft.util.math.BlockPos;
-//import net.minecraft.util.math.MathHelper;
-//import net.minecraft.util.math.Vec3d;
-//import net.minecraft.util.text.Style;
-//import net.minecraft.util.text.TextComponentTranslation;
-//import net.minecraft.util.text.TextFormatting;
-//import net.minecraft.world.BossInfo;
-//import net.minecraft.world.BossInfoServer;
-//import net.minecraft.world.Explosion;
-//import net.minecraft.world.World;
+// import com.brandon3055.brandonscore.utils.Utils;
+// import com.brandon3055.draconicevolution.DEConfig;
+// import com.brandon3055.draconicevolution.blocks.tileentity.TileChaosCrystal;
+// import com.brandon3055.draconicevolution.lib.DEDamageSources;
+// import com.google.common.base.Optional;
+// import com.google.common.collect.Lists;
+// import net.minecraft.block.Block;
+// import net.minecraft.block.state.IBlockState;
+// import net.minecraft.entity.Entity;
+// import net.minecraft.entity.EntityLivingBase;
+// import net.minecraft.entity.SharedMonsterAttributes;
+// import net.minecraft.entity.boss.EntityDragon;
+// import net.minecraft.entity.boss.EntityDragonPart;
+// import net.minecraft.entity.boss.dragon.phase.PhaseList;
+// import net.minecraft.entity.effect.EntityLightningBolt;
+// import net.minecraft.entity.item.EntityXPOrb;
+// import net.minecraft.entity.player.EntityPlayer;
+// import net.minecraft.entity.player.EntityPlayerMP;
+// import net.minecraft.init.SoundEvents;
+// import net.minecraft.nbt.NBTTagCompound;
+// import net.minecraft.network.datasync.DataParameter;
+// import net.minecraft.network.datasync.DataSerializers;
+// import net.minecraft.network.datasync.EntityDataManager;
+// import net.minecraft.tileentity.TileEntity;
+// import net.minecraft.util.*;
+// import net.minecraft.util.math.AxisAlignedBB;
+// import net.minecraft.util.math.BlockPos;
+// import net.minecraft.util.math.MathHelper;
+// import net.minecraft.util.math.Vec3d;
+// import net.minecraft.util.text.Style;
+// import net.minecraft.util.text.TextComponentTranslation;
+// import net.minecraft.util.text.TextFormatting;
+// import net.minecraft.world.BossInfo;
+// import net.minecraft.world.BossInfoServer;
+// import net.minecraft.world.Explosion;
+// import net.minecraft.world.World;
 //
-//import javax.annotation.Nullable;
-//import java.util.ArrayList;
-//import java.util.Iterator;
-//import java.util.List;
+// import javax.annotation.Nullable;
+// import java.util.ArrayList;
+// import java.util.Iterator;
+// import java.util.List;
 //
-///**
+/// **
 // * Created by Brandon on 4/07/2014.
 // * Initial broken port of the chaos guardian. Keeping this here just in case.
 // */
-//public class EntityChaosGuardian_ip extends EntityDragon {//summon DraconicEvolution.ChaosGuardian
+// public class EntityChaosGuardian_ip extends EntityDragon {//summon
+// DraconicEvolution.ChaosGuardian
 //
-//    private static final DataParameter<Optional<BlockPos>> CRYSTAL_POSITION = EntityDataManager.<Optional<BlockPos>>createKey(EntityChaosGuardian_ip.class, DataSerializers.OPTIONAL_BLOCK_POS);
+//    private static final DataParameter<Optional<BlockPos>> CRYSTAL_POSITION =
+// EntityDataManager.<Optional<BlockPos>>createKey(EntityChaosGuardian_ip.class,
+// DataSerializers.OPTIONAL_BLOCK_POS);
 //
 //    private Entity target;
 //
@@ -80,7 +83,8 @@
 //     */
 //    private int attackTimer = 0;
 //    /**
-//     * The behaviour before the attack started (used to reset to previous behaviour after charge attacks)
+//     * The behaviour before the attack started (used to reset to previous behaviour after charge
+// attacks)
 //     */
 //    private EnumBehaviour previousBehaviour = EnumBehaviour.ROAMING;
 //    /**
@@ -113,7 +117,9 @@
 //    public float circleDirection = 1;
 //
 //    public EnumBehaviour behaviour = EnumBehaviour.ROAMING;
-//    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS)).setDarkenSky(true).setCreateFog(true).setPlayEndBossMusic(true);
+//    private final BossInfoServer bossInfo = (BossInfoServer) (new
+// BossInfoServer(this.getDisplayName(), BossInfo.Color.RED,
+// BossInfo.Overlay.PROGRESS)).setDarkenSky(true).setCreateFog(true).setPlayEndBossMusic(true);
 //
 //    public EntityChaosGuardian_ip(World par1World) {
 //        super(par1World);
@@ -147,7 +153,8 @@
 //        //setHealth(0);
 //        //  setHealth(1);
 //        //setDead();
-//        //LogHelper.info(getMaxHealth()+" "+getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue());
+//        //LogHelper.info(getMaxHealth()+"
+// "+getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue());
 //
 //        //if (!world.isRemote)LogHelper.info(homeX+" "+homeY+" "+ homeZ);
 //        //LogHelper.info(getHealth());
@@ -179,7 +186,9 @@
 ////            crystalX = dataWatcher.getWatchableObjectInt(21);
 ////            crystalY = dataWatcher.getWatchableObjectInt(22);
 ////            crystalZ = dataWatcher.getWatchableObjectInt(23);
-////			if (ticksExisted % 10 == 0 && connectedCrystalID != -1 && world.getEntityByID(connectedCrystalID) instanceof EntityChaosCrystal) healingChaosCrystal = (EntityChaosCrystal)world.getEntityByID(connectedCrystalID);
+////			if (ticksExisted % 10 == 0 && connectedCrystalID != -1 &&
+// world.getEntityByID(connectedCrystalID) instanceof EntityChaosCrystal) healingChaosCrystal =
+// (EntityChaosCrystal)world.getEntityByID(connectedCrystalID);
 ////			else if (connectedCrystalID == -1 && healingChaosCrystal != null) healingChaosCrystal = null;
 //
 //            f = MathHelper.cos(this.animTime * (float) Math.PI * 2.0F);
@@ -187,7 +196,9 @@
 //
 //            if (f1 <= -0.3F && f >= -0.3F) {
 //                if (deathTicks <= 0) {
-//                    this.world.playSound(this.posX, this.posY, this.posZ, SoundEvents.ENTITY_ENDERDRAGON_FLAP, SoundCategory.HOSTILE, 5.0F, 0.8F + this.rand.nextFloat() * 0.3F, false);
+//                    this.world.playSound(this.posX, this.posY, this.posZ,
+// SoundEvents.ENTITY_ENDERDRAGON_FLAP, SoundCategory.HOSTILE, 5.0F, 0.8F + this.rand.nextFloat() *
+// 0.3F, false);
 //                }
 //            }
 //        }
@@ -199,7 +210,8 @@
 //            updateTarget();
 //
 ////
-////            if (world.getClosestPlayer(posX, posY, posZ, 500, true) == null && getDistance(homeX, homeY, homeZ) < 100) {
+////            if (world.getClosestPlayer(posX, posY, posZ, 500, true) == null &&
+// getDistance(homeX, homeY, homeZ) < 100) {
 ////                DragonChunkLoader.stopLoading(this);
 ////            } else {
 ////                if (getHealth() > 0) {
@@ -212,7 +224,8 @@
 ////            }
 //
 //            customAIUpdate();
-//            if (behaviour == EnumBehaviour.FIREBOMB && Utils.getDistanceAtoB(posX, posY, posZ, homeX, homeY + 30, homeZ) <= 3) {
+//            if (behaviour == EnumBehaviour.FIREBOMB && Utils.getDistanceAtoB(posX, posY, posZ,
+// homeX, homeY + 30, homeZ) <= 3) {
 //                moveSpeedMultiplier = 0;
 //            }
 //        }
@@ -222,12 +235,15 @@
 //            f = (this.rand.nextFloat() - 0.5F) * 8.0F;
 //            f1 = (this.rand.nextFloat() - 0.5F) * 4.0F;
 //            f2 = (this.rand.nextFloat() - 0.5F) * 8.0F;
-//            world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX + (double) f, this.posY + 2.0D + (double) f1, this.posZ + (double) f2, 0.0D, 0.0D, 0.0D);
-////            this.world.spawnParticle("largeexplode", this.posX + (double) f, this.posY + 2.0D + (double) f1, this.posZ + (double) f2, 0.0D, 0.0D, 0.0D);
+//            world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX + (double) f,
+// this.posY + 2.0D + (double) f1, this.posZ + (double) f2, 0.0D, 0.0D, 0.0D);
+////            this.world.spawnParticle("largeexplode", this.posX + (double) f, this.posY + 2.0D +
+// (double) f1, this.posZ + (double) f2, 0.0D, 0.0D, 0.0D);
 //        }
 //
 //        this.updateDragonEnderCrystal();
-//        f = 0.2F / (MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ) * 10.0F + 1.0F);
+//        f = 0.2F / (MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ *
+// this.motionZ) * 10.0F + 1.0F);
 //        f *= moveSpeedMultiplier == 0 ? 1 : moveSpeedMultiplier;
 //        f *= (float) Math.pow(2.0D, this.motionY);
 //
@@ -260,12 +276,17 @@
 //
 //        if (this.world.isRemote) {
 //            if (this.newPosRotationIncrements > 0) {
-//                d10 = this.posX + (this.interpTargetX - this.posX) / (double) this.newPosRotationIncrements;
-//                d0 = this.posY + (this.interpTargetY - this.posY) / (double) this.newPosRotationIncrements;
-//                d1 = this.posZ + (this.interpTargetZ - this.posZ) / (double) this.newPosRotationIncrements;
+//                d10 = this.posX + (this.interpTargetX - this.posX) / (double)
+// this.newPosRotationIncrements;
+//                d0 = this.posY + (this.interpTargetY - this.posY) / (double)
+// this.newPosRotationIncrements;
+//                d1 = this.posZ + (this.interpTargetZ - this.posZ) / (double)
+// this.newPosRotationIncrements;
 //                d2 = MathHelper.wrapDegrees(this.interpTargetYaw - (double) this.rotationYaw);
-//                this.rotationYaw = (float) ((double) this.rotationYaw + d2 / (double) this.newPosRotationIncrements);
-//                this.rotationPitch = (float) ((double) this.rotationPitch + (this.interpTargetPitch - (double) this.rotationPitch) / (double) this.newPosRotationIncrements);
+//                this.rotationYaw = (float) ((double) this.rotationYaw + d2 / (double)
+// this.newPosRotationIncrements);
+//                this.rotationPitch = (float) ((double) this.rotationPitch +
+// (this.interpTargetPitch - (double) this.rotationPitch) / (double) this.newPosRotationIncrements);
 //                --this.newPosRotationIncrements;
 //                this.setPosition(d10, d0, d1);
 //                this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -281,7 +302,8 @@
 //                if (behaviour == EnumBehaviour.CIRCLE_PLAYER) {
 //                    this.targetX = this.target.posX + (int) (Math.cos(circlePosition) * 60);
 //                    this.targetZ = this.target.posZ + (int) (Math.sin(circlePosition) * 60);
-//                    moveSpeedMultiplier = 1F + Math.min(((float) Utils.getDistanceAtoB(targetX, targetZ, posX, posZ) / 50) * 3F, 3F);
+//                    moveSpeedMultiplier = 1F + Math.min(((float) Utils.getDistanceAtoB(targetX,
+// targetZ, posX, posZ) / 50) * 3F, 3F);
 //                } else {
 //                    this.targetX = this.target.posX;
 //                    this.targetZ = this.target.posZ;
@@ -296,13 +318,15 @@
 //                    d8 = 10.0D;
 //                }
 //
-//                this.targetY = this.target.getEntityBoundingBox().minY + d8 + (behaviour == EnumBehaviour.CIRCLE_PLAYER ? 25 : 0);
+//                this.targetY = this.target.getEntityBoundingBox().minY + d8 + (behaviour ==
+// EnumBehaviour.CIRCLE_PLAYER ? 25 : 0);
 //            } else if (behaviour != EnumBehaviour.FIREBOMB) {
 //                this.targetX += this.rand.nextGaussian() * 2.0D;
 //                this.targetZ += this.rand.nextGaussian() * 2.0D;
 //            }
 //
-//            if (this.forceNewTarget || d2 < 100.0D || d2 > 22500.0D || this.isCollidedHorizontally || this.isCollidedVertically) {
+//            if (this.forceNewTarget || d2 < 100.0D || d2 > 22500.0D || this.isCollidedHorizontally
+// || this.isCollidedVertically) {
 //                this.setNewTarget();
 //            }
 //
@@ -333,8 +357,11 @@
 //                d6 = -50.0D;
 //            }
 //
-//            Vec3d vec3 = new Vec3d(this.targetX - this.posX, this.targetY - this.posY, this.targetZ - this.posZ).normalize();
-//            Vec3d vec32 = new Vec3d((double) MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F), this.motionY, (double) (-MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F))).normalize();
+//            Vec3d vec3 = new Vec3d(this.targetX - this.posX, this.targetY - this.posY,
+// this.targetZ - this.posZ).normalize();
+//            Vec3d vec32 = new Vec3d((double) MathHelper.sin(this.rotationYaw * (float) Math.PI /
+// 180.0F), this.motionY, (double) (-MathHelper.cos(this.rotationYaw * (float) Math.PI /
+// 180.0F))).normalize();
 //            float f5 = (float) (vec32.dotProduct(vec3) + 0.5D) / 1.5F;
 //
 //            if (f5 < 0.0F) {
@@ -342,23 +369,29 @@
 //            }
 //
 //            this.randomYawVelocity *= 0.8F;
-//            float f6 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ) * 1.0F + 1.0F;
-//            double d9 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ) * 1.0D + 1.0D;
+//            float f6 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ *
+// this.motionZ) * 1.0F + 1.0F;
+//            double d9 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ) *
+// 1.0D + 1.0D;
 //
 //            if (d9 > 40.0D) {
 //                d9 = 40.0D;
 //            }
 //
-//            this.randomYawVelocity = (float) ((double) this.randomYawVelocity + d6 * (0.699999988079071D / d9 / (double) f6));
+//            this.randomYawVelocity = (float) ((double) this.randomYawVelocity + d6 *
+// (0.699999988079071D / d9 / (double) f6));
 //            this.rotationYaw += this.randomYawVelocity * 0.1F;
 //            float f7 = (float) (2.0D / (d9 + 1.0D));
 //            float f8 = 0.06F;
 //            this.moveRelative(0.0F, -1.0F, f8 * (f5 * f7 + (1.0F - f7)));
 //
 //            if (this.slowed) {
-//                this.moveEntity(this.motionX * 0.800000011920929D * moveSpeedMultiplier, this.motionY * 0.800000011920929D * moveSpeedMultiplier, this.motionZ * 0.800000011920929D * moveSpeedMultiplier);
+//                this.moveEntity(this.motionX * 0.800000011920929D * moveSpeedMultiplier,
+// this.motionY * 0.800000011920929D * moveSpeedMultiplier, this.motionZ * 0.800000011920929D *
+// moveSpeedMultiplier);
 //            } else {
-//                this.moveEntity(this.motionX * moveSpeedMultiplier, this.motionY * moveSpeedMultiplier, this.motionZ * moveSpeedMultiplier);
+//                this.moveEntity(this.motionX * moveSpeedMultiplier, this.motionY *
+// moveSpeedMultiplier, this.motionZ * moveSpeedMultiplier);
 //            }
 //
 //            Vec3d vec31 = new Vec3d(this.motionX, this.motionY, this.motionZ).normalize();
@@ -380,31 +413,42 @@
 //        this.dragonPartWing1.width = 4.0F;
 //        this.dragonPartWing2.height = 3.0F;
 //        this.dragonPartWing2.width = 4.0F;
-//        f1 = (float) (this.getMovementOffsets(5, 1.0F)[1] - this.getMovementOffsets(10, 1.0F)[1]) * 10.0F / 180.0F * (float) Math.PI;
+//        f1 = (float) (this.getMovementOffsets(5, 1.0F)[1] - this.getMovementOffsets(10, 1.0F)[1])
+// * 10.0F / 180.0F * (float) Math.PI;
 //        f2 = MathHelper.cos(f1);
 //        float f10 = -MathHelper.sin(f1);
 //        float f3 = this.rotationYaw * (float) Math.PI / 180.0F;
 //        float f11 = MathHelper.sin(f3);
 //        float f4 = MathHelper.cos(f3);
 //        this.dragonPartBody.onUpdate();
-//        this.dragonPartBody.setLocationAndAngles(this.posX + (double) (f11 * 0.5F), this.posY, this.posZ - (double) (f4 * 0.5F), 0.0F, 0.0F);
+//        this.dragonPartBody.setLocationAndAngles(this.posX + (double) (f11 * 0.5F), this.posY,
+// this.posZ - (double) (f4 * 0.5F), 0.0F, 0.0F);
 //        this.dragonPartWing1.onUpdate();
-//        this.dragonPartWing1.setLocationAndAngles(this.posX + (double) (f4 * 4.5F), this.posY + 2.0D, this.posZ + (double) (f11 * 4.5F), 0.0F, 0.0F);
+//        this.dragonPartWing1.setLocationAndAngles(this.posX + (double) (f4 * 4.5F), this.posY +
+// 2.0D, this.posZ + (double) (f11 * 4.5F), 0.0F, 0.0F);
 //        this.dragonPartWing2.onUpdate();
-//        this.dragonPartWing2.setLocationAndAngles(this.posX - (double) (f4 * 4.5F), this.posY + 2.0D, this.posZ - (double) (f11 * 4.5F), 0.0F, 0.0F);
+//        this.dragonPartWing2.setLocationAndAngles(this.posX - (double) (f4 * 4.5F), this.posY +
+// 2.0D, this.posZ - (double) (f11 * 4.5F), 0.0F, 0.0F);
 //
 //        if (!this.world.isRemote && this.hurtTime == 0) {
-//            this.collideWithEntities(this.world.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartWing1.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D).offset(0.0D, -2.0D, 0.0D)));
-//            this.collideWithEntities(this.world.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartWing2.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D).offset(0.0D, -2.0D, 0.0D)));
-//            this.attackEntitiesInList(this.world.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartHead.getEntityBoundingBox().expand(1.0D, 1.0D, 1.0D)));
+//            this.collideWithEntities(this.world.getEntitiesWithinAABBExcludingEntity(this,
+// this.dragonPartWing1.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D).offset(0.0D, -2.0D, 0.0D)));
+//            this.collideWithEntities(this.world.getEntitiesWithinAABBExcludingEntity(this,
+// this.dragonPartWing2.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D).offset(0.0D, -2.0D, 0.0D)));
+//            this.attackEntitiesInList(this.world.getEntitiesWithinAABBExcludingEntity(this,
+// this.dragonPartHead.getEntityBoundingBox().expand(1.0D, 1.0D, 1.0D)));
 //        }
 //
 //        double[] adouble1 = this.getMovementOffsets(5, 1.0F);
 //        double[] adouble = this.getMovementOffsets(0, 1.0F);
-//        f12 = MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F - this.randomYawVelocity * 0.01F);
-//        float f13 = MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F - this.randomYawVelocity * 0.01F);
+//        f12 = MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F - this.randomYawVelocity
+// * 0.01F);
+//        float f13 = MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F -
+// this.randomYawVelocity * 0.01F);
 //        this.dragonPartHead.onUpdate();
-//        this.dragonPartHead.setLocationAndAngles(this.posX + (double) (f12 * 5.5F * f2), this.posY + (adouble[1] - adouble1[1]) * 1.0D + (double) (f10 * 5.5F), this.posZ - (double) (f13 * 5.5F * f2), 0.0F, 0.0F);
+//        this.dragonPartHead.setLocationAndAngles(this.posX + (double) (f12 * 5.5F * f2), this.posY
+// + (adouble[1] - adouble1[1]) * 1.0D + (double) (f10 * 5.5F), this.posZ - (double) (f13 * 5.5F *
+// f2), 0.0F, 0.0F);
 //
 //        for (int j = 0; j < 3; ++j) {
 //            EntityDragonPart entitydragonpart = null;
@@ -422,17 +466,21 @@
 //            }
 //
 //            double[] adouble2 = this.getMovementOffsets(12 + j * 2, 1.0F);
-//            float f14 = this.rotationYaw * (float) Math.PI / 180.0F + this.simplifyAngle(adouble2[0] - adouble1[0]) * (float) Math.PI / 180.0F * 1.0F;
+//            float f14 = this.rotationYaw * (float) Math.PI / 180.0F +
+// this.simplifyAngle(adouble2[0] - adouble1[0]) * (float) Math.PI / 180.0F * 1.0F;
 //            float f15 = MathHelper.sin(f14);
 //            float f16 = MathHelper.cos(f14);
 //            float f17 = 1.5F;
 //            float f18 = (float) (j + 1) * 2.0F;
 //            entitydragonpart.onUpdate();
-//            entitydragonpart.setLocationAndAngles(this.posX - (double) ((f11 * f17 + f15 * f18) * f2), this.posY + (adouble2[1] - adouble1[1]) * 1.0D - (double) ((f18 + f17) * f10) + 1.5D, this.posZ + (double) ((f4 * f17 + f16 * f18) * f2), 0.0F, 0.0F);
+//            entitydragonpart.setLocationAndAngles(this.posX - (double) ((f11 * f17 + f15 * f18) *
+// f2), this.posY + (adouble2[1] - adouble1[1]) * 1.0D - (double) ((f18 + f17) * f10) + 1.5D,
+// this.posZ + (double) ((f4 * f17 + f16 * f18) * f2), 0.0F, 0.0F);
 //        }
 //
 //        if (!this.world.isRemote) {
-//            this.slowed = this.destroyBlocksInAABB(this.dragonPartHead.getEntityBoundingBox()) | this.destroyBlocksInAABB(this.dragonPartBody.getEntityBoundingBox());
+//            this.slowed = this.destroyBlocksInAABB(this.dragonPartHead.getEntityBoundingBox()) |
+// this.destroyBlocksInAABB(this.dragonPartBody.getEntityBoundingBox());
 //        }
 //
 //        getPhaseManager().setPhase(PhaseList.HOLDING_PATTERN);
@@ -455,13 +503,17 @@
 //            attackTimer = 1000;
 //        }
 //        if (deathTicks <= 0) {
-//            this.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDERDRAGON_GROWL, SoundCategory.HOSTILE, 20.0F, 0.8F + this.rand.nextFloat() * 0.3F, false);
+//            this.world.playSound(player.posX, player.posY, player.posZ,
+// SoundEvents.ENTITY_ENDERDRAGON_GROWL, SoundCategory.HOSTILE, 20.0F, 0.8F + this.rand.nextFloat()
+// * 0.3F, false);
 //        }
 //    }
 //
 //    public void updateCrystals() {
 //        if (crystals == null) crystals = new ArrayList<EntityGuardianCrystal>();
-//        List<EntityGuardianCrystal> list = world.getEntitiesWithinAABB(EntityGuardianCrystal.class, new AxisAlignedBB(homeX, homeY, homeZ, homeX, homeY, homeZ).expand(200, 200, 200));
+//        List<EntityGuardianCrystal> list =
+// world.getEntitiesWithinAABB(EntityGuardianCrystal.class, new AxisAlignedBB(homeX, homeY, homeZ,
+// homeX, homeY, homeZ).expand(200, 200, 200));
 //        activeCrystals = 0;
 //        for (EntityGuardianCrystal crystal : list) {
 //            if (!crystals.contains(crystal)) crystals.add(crystal);
@@ -471,7 +523,8 @@
 //
 //    private void customAIUpdate() {
 //
-//        if (getHealth() > 0 && getHealth() < getMaxHealth() * 0.2F) behaviour = EnumBehaviour.LOW_HEALTH_STRATEGY;
+//        if (getHealth() > 0 && getHealth() < getMaxHealth() * 0.2F) behaviour =
+// EnumBehaviour.LOW_HEALTH_STRATEGY;
 //
 //        if (ticksExisted % 200 == 0) {
 //            crystals = null;
@@ -486,7 +539,8 @@
 //
 //        switch (behaviour) {
 //            case ROAMING:
-//                if (world.getClosestPlayer(homeX, homeY, homeZ, 200, true) != null) selectNewBehaviour();
+//                if (world.getClosestPlayer(homeX, homeY, homeZ, 200, true) != null)
+// selectNewBehaviour();
 //                break;
 //
 //            case GO_HOME:
@@ -497,7 +551,8 @@
 //                break;
 //
 //            case CHARGING:
-//                if (Utils.getDistanceAtoB(posX, posZ, homeX, homeZ) > 300) behaviour = EnumBehaviour.GO_HOME;
+//                if (Utils.getDistanceAtoB(posX, posZ, homeX, homeZ) > 300) behaviour =
+// EnumBehaviour.GO_HOME;
 //                break;
 //
 //            case CIRCLE_PLAYER:
@@ -507,14 +562,16 @@
 //                break;
 //
 //            case LOW_HEALTH_STRATEGY:
-//                if (world.getClosestPlayer(targetX, targetY, targetZ, 60, true) != null && attackInProgress != ATTACK_TELEPORT) {
+//                if (world.getClosestPlayer(targetX, targetY, targetZ, 60, true) != null &&
+// attackInProgress != ATTACK_TELEPORT) {
 //                    int escape = 0;
 //                    boolean flag = false;
 //                    while (!flag && escape < 50) {
 //                        targetX = homeX + ((rand.nextDouble() - 0.5D) * 220D);
 //                        targetY = homeY + 30 + rand.nextDouble() * 20D;
 //                        targetZ = homeZ + ((rand.nextDouble() - 0.5D) * 220D);
-//                        if (world.getClosestPlayer(targetX, targetY, targetZ, 60D, true) == null) {
+//                        if (world.getClosestPlayer(targetX, targetY, targetZ, 60D, true) == null)
+// {
 //                            flag = true;
 //                        }
 //                        escape++;
@@ -531,30 +588,36 @@
 //                targetZ = homeZ;
 //                break;
 //        }
-////ignitionChargeTimer = 10;
+//// ignitionChargeTimer = 10;
 //
 //        if (behaviour == EnumBehaviour.DEAD) return;
 //
 //        if (ticksExisted % 1000 == 0 && rand.nextBoolean()) selectNewBehaviour();
 //
-//        if (ignitionChargeTimer > 1 || (ignitionChargeTimer == 1 && ticksExisted % 20 == 0) && !DEConfig.disableGuardianCrystalRespawn) {
+//        if (ignitionChargeTimer > 1 || (ignitionChargeTimer == 1 && ticksExisted % 20 == 0) &&
+// !DEConfig.disableGuardianCrystalRespawn) {
 //            ignitionChargeTimer--;
 //        }
 //        if (ignitionChargeTimer <= 0 && !world.isRemote) {
 //            if ((ticksExisted - 19) % 20 == 0) {
-//                ignitionChargeTimer = (behaviour == EnumBehaviour.LOW_HEALTH_STRATEGY ? 1000 : 2000) + rand.nextInt(600);
+//                ignitionChargeTimer = (behaviour == EnumBehaviour.LOW_HEALTH_STRATEGY ? 1000 :
+// 2000) + rand.nextInt(600);
 //            }
 //
 //            if (activeCrystals < crystals.size() && ticksExisted % 10 == 0) {
 //                EntityGuardianCrystal closest = null;
 //                for (EntityGuardianCrystal crystal : crystals) {
-//                    if (!crystal.isAlive() && (closest == null || getDistanceToEntity(crystal) < getDistanceToEntity(closest))) {
+//                    if (!crystal.isAlive() && (closest == null || getDistanceToEntity(crystal) <
+// getDistanceToEntity(closest))) {
 //                        closest = crystal;
 //                    }
 //                }
 //                if (closest != null) {
-//                    EntityGuardianProjectile charge = new EntityGuardianProjectile(world, EntityGuardianProjectile.IGNITION_CHARGE, closest, 0, this);
-//                    charge.setPosition(dragonPartHead.posX + Math.cos((rotationYaw - 90) / 180.0F * (float) Math.PI) * 2, dragonPartHead.posY + 1.5, dragonPartHead.posZ + Math.sin((rotationYaw - 90) / 180.0F * (float) Math.PI) * 2);
+//                    EntityGuardianProjectile charge = new EntityGuardianProjectile(world,
+// EntityGuardianProjectile.IGNITION_CHARGE, closest, 0, this);
+//                    charge.setPosition(dragonPartHead.posX + Math.cos((rotationYaw - 90) / 180.0F
+// * (float) Math.PI) * 2, dragonPartHead.posY + 1.5, dragonPartHead.posZ + Math.sin((rotationYaw -
+// 90) / 180.0F * (float) Math.PI) * 2);
 //                    world.spawnEntityInWorld(charge);
 //                }
 //            }
@@ -567,23 +630,32 @@
 //    private void updateAttack() {
 //        if (world.isRemote || behaviour == EnumBehaviour.DEAD) return;
 //
-//        if (behaviour == EnumBehaviour.FIREBOMB && Utils.getDistanceAtoB(posX, posY, posZ, homeX, homeY + 30, homeZ) <= 3) {
+//        if (behaviour == EnumBehaviour.FIREBOMB && Utils.getDistanceAtoB(posX, posY, posZ, homeX,
+// homeY + 30, homeZ) <= 3) {
 //            if (target == null || ticksExisted % 100 == 0) {
 //                setNewTarget();
 //            }
 //            if (target != null) {
-//                double distance = Utils.getDistanceAtoB(target.posX, target.posZ, dragonPartHead.posX, dragonPartHead.posZ);
-//                if (Utils.getDistanceAtoB(target.posX, target.posZ, posX, posZ) < 5) distance *= -1;
-//                float anglePitch = (float) Math.toDegrees(Math.atan2(target.posY - dragonPartHead.posY, distance)) * -1F;
-//                float angleYaw = (float) Math.toDegrees(Math.atan2(target.posX - dragonPartHead.posX, target.posZ - posZ)) * -1F;
+//                double distance = Utils.getDistanceAtoB(target.posX, target.posZ,
+// dragonPartHead.posX, dragonPartHead.posZ);
+//                if (Utils.getDistanceAtoB(target.posX, target.posZ, posX, posZ) < 5) distance *=
+// -1;
+//                float anglePitch = (float) Math.toDegrees(Math.atan2(target.posY -
+// dragonPartHead.posY, distance)) * -1F;
+//                float angleYaw = (float) Math.toDegrees(Math.atan2(target.posX -
+// dragonPartHead.posX, target.posZ - posZ)) * -1F;
 //                rotationPitch = anglePitch;
 //                if (Utils.getDistanceAtoB(target.posX, target.posZ, posX, posZ) > 8) {
 //                    rotationYaw = angleYaw + 180;
 //                }
 //
 //                if (ticksExisted % 2 == 0) {
-//                    EntityGuardianProjectile projectile = new EntityGuardianProjectile(world, EntityGuardianProjectile.FIREBOMB, target instanceof EntityLivingBase ? (EntityLivingBase) target : null, 5F + (rand.nextFloat() * 8F), this);
-//                    projectile.setPosition(dragonPartHead.posX + Math.cos((rotationYaw - 90) / 180.0F * (float) Math.PI) * 2, dragonPartHead.posY + 1.5, dragonPartHead.posZ + Math.sin((rotationYaw - 90) / 180.0F * (float) Math.PI) * 2);
+//                    EntityGuardianProjectile projectile = new EntityGuardianProjectile(world,
+// EntityGuardianProjectile.FIREBOMB, target instanceof EntityLivingBase ? (EntityLivingBase) target
+// : null, 5F + (rand.nextFloat() * 8F), this);
+//                    projectile.setPosition(dragonPartHead.posX + Math.cos((rotationYaw - 90) /
+// 180.0F * (float) Math.PI) * 2, dragonPartHead.posY + 1.5, dragonPartHead.posZ +
+// Math.sin((rotationYaw - 90) / 180.0F * (float) Math.PI) * 2);
 //                    world.spawnEntityInWorld(projectile);
 //                }
 //            }
@@ -593,7 +665,9 @@
 //        else if (nextAttackTimer == 0) {
 //
 //            Entity attackTarget = target;
-//            @SuppressWarnings("unchecked") List<EntityPlayer> targets = attackTarget == null ? world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(homeX, homeY, homeZ, homeX, homeY, homeZ).expand(100, 100, 100)) : null;
+//            @SuppressWarnings("unchecked") List<EntityPlayer> targets = attackTarget == null ?
+// world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(homeX, homeY, homeZ, homeX,
+// homeY, homeZ).expand(100, 100, 100)) : null;
 //
 //            if (targets != null && targets.size() > 0) {
 //                Iterator<EntityPlayer> i = targets.iterator();
@@ -634,56 +708,79 @@
 //
 //            switch (attackInProgress) {
 //                case ATTACK_FIREBALL_CHARGE:
-//                    if (target == null && behaviour == EnumBehaviour.CHARGING) target = attackTarget;
-//                    if (Utils.getDistanceAtoB(posX, posY, posZ, attackTarget.posX, attackTarget.posY, attackTarget.posZ) > 10) {
+//                    if (target == null && behaviour == EnumBehaviour.CHARGING) target =
+// attackTarget;
+//                    if (Utils.getDistanceAtoB(posX, posY, posZ, attackTarget.posX,
+// attackTarget.posY, attackTarget.posZ) > 10) {
 //                        if (attackTimer % 2 == 0) {
-//                            EntityGuardianProjectile projectile = new EntityGuardianProjectile(world, EntityGuardianProjectile.FIREBOMB, attackTarget instanceof EntityLivingBase ? (EntityLivingBase) attackTarget : null, 5F + (rand.nextFloat() * 8F), this);
-//                            projectile.setPosition(dragonPartHead.posX, dragonPartHead.posY, dragonPartHead.posZ);
+//                            EntityGuardianProjectile projectile = new
+// EntityGuardianProjectile(world, EntityGuardianProjectile.FIREBOMB, attackTarget instanceof
+// EntityLivingBase ? (EntityLivingBase) attackTarget : null, 5F + (rand.nextFloat() * 8F), this);
+//                            projectile.setPosition(dragonPartHead.posX, dragonPartHead.posY,
+// dragonPartHead.posZ);
 //                            world.spawnEntityInWorld(projectile);
 //                        }
 //
-//                        double distance = Utils.getDistanceAtoB(attackTarget.posX, attackTarget.posZ, dragonPartHead.posX, dragonPartHead.posZ);
-//                        float angle = (float) Math.toDegrees(Math.atan2(attackTarget.posY - dragonPartHead.posY, distance)) * -1F;
+//                        double distance = Utils.getDistanceAtoB(attackTarget.posX,
+// attackTarget.posZ, dragonPartHead.posX, dragonPartHead.posZ);
+//                        float angle = (float) Math.toDegrees(Math.atan2(attackTarget.posY -
+// dragonPartHead.posY, distance)) * -1F;
 //                        rotationPitch = angle;
 //
 //                    } else attackTimer = 0;
 //                    break;
 //                case ATTACK_FIREBALL_CHASER:
 //                    if (attackTimer % 10 == 0) {
-//                        EntityGuardianProjectile projectile = new EntityGuardianProjectile(world, EntityGuardianProjectile.FIRE_CHASER, attackTarget instanceof EntityLivingBase ? (EntityLivingBase) attackTarget : null, 5F + (rand.nextFloat() * 2F), this);
-//                        projectile.setPosition(dragonPartHead.posX, dragonPartHead.posY, dragonPartHead.posZ);
+//                        EntityGuardianProjectile projectile = new EntityGuardianProjectile(world,
+// EntityGuardianProjectile.FIRE_CHASER, attackTarget instanceof EntityLivingBase ?
+// (EntityLivingBase) attackTarget : null, 5F + (rand.nextFloat() * 2F), this);
+//                        projectile.setPosition(dragonPartHead.posX, dragonPartHead.posY,
+// dragonPartHead.posZ);
 //                        world.spawnEntityInWorld(projectile);
 //                    }
 //                    break;
 //                case ATTACK_ENERGY_CHASER:
 //                    if (attackTimer % 10 == 0) {
-//                        EntityGuardianProjectile projectile = new EntityGuardianProjectile(world, EntityGuardianProjectile.ENERGY_CHASER, attackTarget instanceof EntityLivingBase ? (EntityLivingBase) attackTarget : null, 5F + (rand.nextFloat() * 10F), this);
-//                        projectile.setPosition(dragonPartHead.posX, dragonPartHead.posY, dragonPartHead.posZ);
+//                        EntityGuardianProjectile projectile = new EntityGuardianProjectile(world,
+// EntityGuardianProjectile.ENERGY_CHASER, attackTarget instanceof EntityLivingBase ?
+// (EntityLivingBase) attackTarget : null, 5F + (rand.nextFloat() * 10F), this);
+//                        projectile.setPosition(dragonPartHead.posX, dragonPartHead.posY,
+// dragonPartHead.posZ);
 //                        world.spawnEntityInWorld(projectile);
 //                    }
 //                    break;
 //                case ATTACK_CHAOS_CHASER:
 //                    if (attackTimer % 10 == 0) {
-//                        EntityGuardianProjectile projectile = new EntityGuardianProjectile(world, EntityGuardianProjectile.CHAOS_CHASER, attackTarget instanceof EntityLivingBase ? (EntityLivingBase) attackTarget : null, 5F + (rand.nextFloat() * 10F), this);
-//                        projectile.setPosition(dragonPartHead.posX, dragonPartHead.posY, dragonPartHead.posZ);
+//                        EntityGuardianProjectile projectile = new EntityGuardianProjectile(world,
+// EntityGuardianProjectile.CHAOS_CHASER, attackTarget instanceof EntityLivingBase ?
+// (EntityLivingBase) attackTarget : null, 5F + (rand.nextFloat() * 10F), this);
+//                        projectile.setPosition(dragonPartHead.posX, dragonPartHead.posY,
+// dragonPartHead.posZ);
 //                        world.spawnEntityInWorld(projectile);
 //                    }
 //                    break;
 //                case ATTACK_TELEPORT:
-//                    if (target == null) target = world.getClosestPlayer(posX, posY, posZ, 100, true);
+//                    if (target == null) target = world.getClosestPlayer(posX, posY, posZ, 100,
+// true);
 //                    if (target == null) {
 //                        attackInProgress = -1;
 //                        return;
 //                    }
-//                    if (Utils.getDistanceAtoB(posX, posY, posZ, attackTarget.posX, attackTarget.posY, attackTarget.posZ) > 15) {
+//                    if (Utils.getDistanceAtoB(posX, posY, posZ, attackTarget.posX,
+// attackTarget.posY, attackTarget.posZ) > 15) {
 //                        if (attackTimer % 2 == 0) {
-//                            EntityGuardianProjectile projectile = new EntityGuardianProjectile(world, EntityGuardianProjectile.TELEPORT, attackTarget instanceof EntityLivingBase ? (EntityLivingBase) attackTarget : null, 5F + (rand.nextFloat() * 8F), this);
-//                            projectile.setPosition(dragonPartHead.posX, dragonPartHead.posY, dragonPartHead.posZ);
+//                            EntityGuardianProjectile projectile = new
+// EntityGuardianProjectile(world, EntityGuardianProjectile.TELEPORT, attackTarget instanceof
+// EntityLivingBase ? (EntityLivingBase) attackTarget : null, 5F + (rand.nextFloat() * 8F), this);
+//                            projectile.setPosition(dragonPartHead.posX, dragonPartHead.posY,
+// dragonPartHead.posZ);
 //                            world.spawnEntityInWorld(projectile);
 //                        }
 //
-//                        double distance = Utils.getDistanceAtoB(attackTarget.posX, attackTarget.posZ, dragonPartHead.posX, dragonPartHead.posZ);
-//                        float angle = (float) Math.toDegrees(Math.atan2(attackTarget.posY - dragonPartHead.posY, distance)) * -1F;
+//                        double distance = Utils.getDistanceAtoB(attackTarget.posX,
+// attackTarget.posZ, dragonPartHead.posX, dragonPartHead.posZ);
+//                        float angle = (float) Math.toDegrees(Math.atan2(attackTarget.posY -
+// dragonPartHead.posY, distance)) * -1F;
 //                        rotationPitch = angle;
 //
 //                    } else attackTimer = 0;
@@ -697,21 +794,32 @@
 //                nextAttackTimer = -1;
 //            }
 //        } else
-//            nextAttackTimer = behaviour == EnumBehaviour.LOW_HEALTH_STRATEGY ? 10 + rand.nextInt(50) : 60 + rand.nextInt(200);
+//            nextAttackTimer = behaviour == EnumBehaviour.LOW_HEALTH_STRATEGY ? 10 +
+// rand.nextInt(50) : 60 + rand.nextInt(200);
 //    }
 //
-//    private static final List<WeightedAttack> weightedAttacks = Lists.newArrayList(new WeightedAttack(16, ATTACK_FIREBALL_CHARGE), new WeightedAttack(14, ATTACK_FIREBALL_CHASER), new WeightedAttack(12, ATTACK_ENERGY_CHASER), new WeightedAttack(10, ATTACK_CHAOS_CHASER));
+//    private static final List<WeightedAttack> weightedAttacks = Lists.newArrayList(new
+// WeightedAttack(16, ATTACK_FIREBALL_CHARGE), new WeightedAttack(14, ATTACK_FIREBALL_CHASER), new
+// WeightedAttack(12, ATTACK_ENERGY_CHASER), new WeightedAttack(10, ATTACK_CHAOS_CHASER));
 //
-//    private static final List<WeightedAttack> weightedLowHealthAttaxks = Lists.newArrayList(new WeightedAttack(5, ATTACK_FIREBALL_CHASER), new WeightedAttack(5, ATTACK_TELEPORT), new WeightedAttack(10, ATTACK_ENERGY_CHASER), new WeightedAttack(15, ATTACK_CHAOS_CHASER));
+//    private static final List<WeightedAttack> weightedLowHealthAttaxks = Lists.newArrayList(new
+// WeightedAttack(5, ATTACK_FIREBALL_CHASER), new WeightedAttack(5, ATTACK_TELEPORT), new
+// WeightedAttack(10, ATTACK_ENERGY_CHASER), new WeightedAttack(15, ATTACK_CHAOS_CHASER));
 //
-//    private static final List<WeightedBehaviour> weightedBehaviours = Lists.newArrayList(new WeightedBehaviour(1, EnumBehaviour.LOW_HEALTH_STRATEGY), new WeightedBehaviour(10, EnumBehaviour.GUARDING), new WeightedBehaviour(4, EnumBehaviour.CHARGING), new WeightedBehaviour(12, EnumBehaviour.FIREBOMB), new WeightedBehaviour(20, EnumBehaviour.CIRCLE_PLAYER));
+//    private static final List<WeightedBehaviour> weightedBehaviours = Lists.newArrayList(new
+// WeightedBehaviour(1, EnumBehaviour.LOW_HEALTH_STRATEGY), new WeightedBehaviour(10,
+// EnumBehaviour.GUARDING), new WeightedBehaviour(4, EnumBehaviour.CHARGING), new
+// WeightedBehaviour(12, EnumBehaviour.FIREBOMB), new WeightedBehaviour(20,
+// EnumBehaviour.CIRCLE_PLAYER));
 //
 //    private void selectNewAttack() {
 //        if (behaviour == EnumBehaviour.DEAD) return;
 //        if (behaviour == EnumBehaviour.LOW_HEALTH_STRATEGY) {
-//            attackInProgress = ((WeightedAttack) WeightedRandom.getRandomItem(rand, weightedLowHealthAttaxks)).attack;
+//            attackInProgress = ((WeightedAttack) WeightedRandom.getRandomItem(rand,
+// weightedLowHealthAttaxks)).attack;
 //        } else if (behaviour != EnumBehaviour.FIREBOMB) {
-//            attackInProgress = ((WeightedAttack) WeightedRandom.getRandomItem(rand, weightedAttacks)).attack;
+//            attackInProgress = ((WeightedAttack) WeightedRandom.getRandomItem(rand,
+// weightedAttacks)).attack;
 //        } else {
 //            attackInProgress = ATTACK_ENERGY_CHASER;
 //        }
@@ -811,11 +919,14 @@
 //
 //                break;
 //            case FIREBOMB:
-//                @SuppressWarnings("unchecked") List<EntityPlayer> targets = world.getEntitiesWithinAABB(EntityPlayer.class, getEntityBoundingBox().expand(150, 150, 150), EntitySelectors.CAN_AI_TARGET);
+//                @SuppressWarnings("unchecked") List<EntityPlayer> targets =
+// world.getEntitiesWithinAABB(EntityPlayer.class, getEntityBoundingBox().expand(150, 150, 150),
+// EntitySelectors.CAN_AI_TARGET);
 //                target = null;
 //                while (targets.size() > 0 && target == null) {
 //                    EntityPlayer potentialTarget = targets.get(rand.nextInt(targets.size()));
-//                    if (world.rayTraceBlocks(new Vec3d(posX, posY, posZ), new Vec3d(potentialTarget.posX, potentialTarget.posY, potentialTarget.posZ)) == null) {
+//                    if (world.rayTraceBlocks(new Vec3d(posX, posY, posZ), new
+// Vec3d(potentialTarget.posX, potentialTarget.posY, potentialTarget.posZ)) == null) {
 //                        target = potentialTarget;
 //                    } else targets.remove(potentialTarget);
 //                }
@@ -830,7 +941,8 @@
 //    }
 //
 //    @Override
-//    public boolean attackEntityFromPart(EntityDragonPart part, DamageSource damageSource, float dmg) {
+//    public boolean attackEntityFromPart(EntityDragonPart part, DamageSource damageSource, float
+// dmg) {
 //        if (behaviour == EnumBehaviour.DEAD) return false;
 //
 //        if (part != this.dragonPartHead) {
@@ -861,7 +973,8 @@
 //                if (rand.nextInt(6) == 0 && getHealth() >= getMaxHealth() * 0.2F) {
 //                    selectNewBehaviour();
 //                }
-//                if (damageSource.getEntity() instanceof EntityPlayer && attackInProgress != ATTACK_TELEPORT) {
+//                if (damageSource.getEntity() instanceof EntityPlayer && attackInProgress !=
+// ATTACK_TELEPORT) {
 //                    int escape = 0;
 //                    boolean flag = false;
 //                    while (!flag && escape < 50) {
@@ -878,10 +991,14 @@
 //
 //                break;
 //            case FIREBOMB:
-//                if ((target == null && Utils.getDistanceAtoB(posX, posY, posZ, homeX, homeY + 30, homeZ) <= 3) || rand.nextInt(5) == 0) {
+//                if ((target == null && Utils.getDistanceAtoB(posX, posY, posZ, homeX, homeY + 30,
+// homeZ) <= 3) || rand.nextInt(5) == 0) {
 //                    selectNewBehaviour();
 //                }
-//                if (damageSource.getEntity() instanceof EntityPlayer && damageSource.getEntity() != target && world.rayTraceBlocks(new Vec3d(posX, posY, posZ), new Vec3d(damageSource.getEntity().posX, damageSource.getEntity().posY, damageSource.getEntity().posZ)) == null) {
+//                if (damageSource.getEntity() instanceof EntityPlayer && damageSource.getEntity()
+// != target && world.rayTraceBlocks(new Vec3d(posX, posY, posZ), new
+// Vec3d(damageSource.getEntity().posX, damageSource.getEntity().posY,
+// damageSource.getEntity().posZ)) == null) {
 //                    target = damageSource.getEntity();
 //                }
 //                break;
@@ -889,11 +1006,14 @@
 //                break;
 //        }
 //
-//        if ((damageSource.getEntity() instanceof EntityPlayer || damageSource.isExplosion()) && healingChaosCrystal == null)//tod reanable this
+//        if ((damageSource.getEntity() instanceof EntityPlayer || damageSource.isExplosion()) &&
+// healingChaosCrystal == null)//tod reanable this
 //        {
 //            super.attackDragonFrom(damageSource, dmg);
 //        } else if (damageSource.getEntity() instanceof EntityPlayer) {
-//            ((EntityPlayer) damageSource.getEntity()).addChatComponentMessage(new TextComponentTranslation("msg.de.guardianAttackBlocked.txt").setStyle(new Style().setColor(TextFormatting.DARK_PURPLE)));
+//            ((EntityPlayer) damageSource.getEntity()).addChatComponentMessage(new
+// TextComponentTranslation("msg.de.guardianAttackBlocked.txt").setStyle(new
+// Style().setColor(TextFormatting.DARK_PURPLE)));
 //        }
 //
 //        return true;
@@ -997,18 +1117,21 @@
 //            float f = (this.rand.nextFloat() - 0.5F) * 8.0F;
 //            float f1 = (this.rand.nextFloat() - 0.5F) * 4.0F;
 //            float f2 = (this.rand.nextFloat() - 0.5F) * 8.0F;
-//            world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX + (double) f, this.posY + 2.0D + (double) f1, this.posZ + (double) f2, 0.0D, 0.0D, 0.0D);
+//            world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX + (double) f,
+// this.posY + 2.0D + (double) f1, this.posZ + (double) f2, 0.0D, 0.0D, 0.0D);
 //        }
 //
 //        int i;
 //        int j;
 //
 //        if (this.deathTicks == 1) {
-//            this.world.playSound(this.posX, this.posY, this.posZ, SoundEvents.ENTITY_ENDERDRAGON_DEATH, SoundCategory.HOSTILE, 50.0F, 1F, false);
+//            this.world.playSound(this.posX, this.posY, this.posZ,
+// SoundEvents.ENTITY_ENDERDRAGON_DEATH, SoundCategory.HOSTILE, 50.0F, 1F, false);
 //        }
 //
 //        if (getDistance(homeX, homeY, homeZ) < 20 && deathTicks % 2 == 0) {
-//            EntityLightningBolt bolt = new EntityLightningBolt(world, homeX, homeY + 1, homeZ, true);
+//            EntityLightningBolt bolt = new EntityLightningBolt(world, homeX, homeY + 1, homeZ,
+// true);
 //            bolt.ignoreFrustumCheck = true;
 //            world.addWeatherEffect(bolt);
 //        }
@@ -1019,7 +1142,8 @@
 //            while (i > 0) {
 //                j = EntityXPOrb.getXPSplit(i);
 //                i -= j;
-//                this.world.spawnEntityInWorld(new EntityXPOrb(this.world, this.posX, this.posY, this.posZ, j));
+//                this.world.spawnEntityInWorld(new EntityXPOrb(this.world, this.posX, this.posY,
+// this.posZ, j));
 //            }
 //
 //            //spawnEgg();
@@ -1032,8 +1156,10 @@
 //    private void collideWithEntities(List par1List) {
 ////		if (true) return;
 ////
-////		double d0 = (this.dragonPartBody.getEntityBoundingBox().minX + this.dragonPartBody.getEntityBoundingBox().maxX) / 2.0D;
-////		double d1 = (this.dragonPartBody.getEntityBoundingBox().minZ + this.dragonPartBody.getEntityBoundingBox().maxZ) / 2.0D;
+////		double d0 = (this.dragonPartBody.getEntityBoundingBox().minX +
+// this.dragonPartBody.getEntityBoundingBox().maxX) / 2.0D;
+////		double d1 = (this.dragonPartBody.getEntityBoundingBox().minZ +
+// this.dragonPartBody.getEntityBoundingBox().maxZ) / 2.0D;
 ////		Iterator iterator = par1List.iterator();
 ////
 ////		while (iterator.hasNext()) {
@@ -1043,7 +1169,8 @@
 ////				double d2 = entity.posX - d0;
 ////				double d3 = entity.posZ - d1;
 ////				double d4 = d2 * d2 + d3 * d3;
-////				if (rand.nextInt(isUber ? 3 : 10) == 0) entity.addVelocity(d2 / d4 * 8.0D, 5.20000000298023224D, d3 / d4 * 8.0D);
+////				if (rand.nextInt(isUber ? 3 : 10) == 0) entity.addVelocity(d2 / d4 * 8.0D,
+// 5.20000000298023224D, d3 / d4 * 8.0D);
 ////				entity.velocityChanged = true;
 ////				((EntityLivingBase)entity).setLastAttacker(this);
 ////			}
@@ -1075,12 +1202,15 @@
 //        if (world.isRemote) {
 //            BlockPos pos = getCrystalPos();
 //            if (healingChaosCrystal == null && pos != null && ticksExisted % 10 == 0) {
-//                List<EntityGuardianCrystal> list = world.getEntitiesWithinAABB(EntityGuardianCrystal.class, new AxisAlignedBB(pos.add(-2, -2, -2), pos.add(3, 3, 3)));
+//                List<EntityGuardianCrystal> list =
+// world.getEntitiesWithinAABB(EntityGuardianCrystal.class, new AxisAlignedBB(pos.add(-2, -2, -2),
+// pos.add(3, 3, 3)));
 //                if (list.size() > 0) {
 //                    healingChaosCrystal = list.get(0);
 //                }
 //            } else if (healingChaosCrystal != null) {
-//                if (pos == null || Utils.getDistanceSq(healingChaosCrystal.posX, healingChaosCrystal.posY, healingChaosCrystal.posZ, pos.getX(), pos.getY(), pos.getZ()) > 10) {
+//                if (pos == null || Utils.getDistanceSq(healingChaosCrystal.posX,
+// healingChaosCrystal.posY, healingChaosCrystal.posZ, pos.getX(), pos.getY(), pos.getZ()) > 10) {
 //                    healingChaosCrystal = null;
 //                }
 //            }
@@ -1097,7 +1227,8 @@
 //
 //        if (this.healingChaosCrystal != null) {
 //            if (!healingChaosCrystal.isAlive()) {
-//                this.attackEntityFromPart(this.dragonPartHead, DamageSource.causeExplosionDamage((Explosion) null), 10.0F);
+//                this.attackEntityFromPart(this.dragonPartHead,
+// DamageSource.causeExplosionDamage((Explosion) null), 10.0F);
 //                healingChaosCrystal = null;
 //            } else if (this.ticksExisted % 10 == 0 && this.getHealth() < this.getMaxHealth()) {
 //                this.setHealth(this.getHealth() + 2F);
@@ -1107,12 +1238,14 @@
 //        if (this.rand.nextInt(10) == 0) {
 //            EntityGuardianCrystal closest = null;
 //            for (EntityGuardianCrystal crystal : crystals)
-//                if (crystal.isAlive() && (closest == null || getDistanceToEntity(crystal) < getDistanceToEntity(closest)))
+//                if (crystal.isAlive() && (closest == null || getDistanceToEntity(crystal) <
+// getDistanceToEntity(closest)))
 //                    closest = crystal;
 //            healingChaosCrystal = closest;
 //            if (healingChaosCrystal != null) {
 ////				connectedCrystalID = healingChaosCrystal.getEntityId();
-//                setCrystalPos(new BlockPos((int) Math.floor(healingChaosCrystal.posX), (int) Math.floor(healingChaosCrystal.posY), (int) Math.floor(healingChaosCrystal.posZ)));
+//                setCrystalPos(new BlockPos((int) Math.floor(healingChaosCrystal.posX), (int)
+// Math.floor(healingChaosCrystal.posY), (int) Math.floor(healingChaosCrystal.posZ)));
 ////                crystalX = (int) Math.floor(healingChaosCrystal.posX);
 ////                crystalY = (int) Math.floor(healingChaosCrystal.posY);
 ////                crystalZ = (int) Math.floor(healingChaosCrystal.posZ);
@@ -1148,7 +1281,8 @@
 //                    Block block = state.getBlock();
 //
 //                    if (!world.isAirBlock(pos)) {
-//                        if (block.canEntityDestroy(state, world, pos, this) && this.world.getGameRules().getBoolean("mobGriefing")) {
+//                        if (block.canEntityDestroy(state, world, pos, this) &&
+// this.world.getGameRules().getBoolean("mobGriefing")) {
 //                            flag1 = this.world.setBlockToAir(pos) || flag1;
 //                        } else {
 //                            flag = true;
@@ -1159,17 +1293,22 @@
 //        }
 //
 //        if (flag1) {
-//            double d1 = par1AxisAlignedBB.minX + (par1AxisAlignedBB.maxX - par1AxisAlignedBB.minX) * (double) this.rand.nextFloat();
-//            double d2 = par1AxisAlignedBB.minY + (par1AxisAlignedBB.maxY - par1AxisAlignedBB.minY) * (double) this.rand.nextFloat();
-//            double d0 = par1AxisAlignedBB.minZ + (par1AxisAlignedBB.maxZ - par1AxisAlignedBB.minZ) * (double) this.rand.nextFloat();
-//            this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, d1, d2, d0, 0.0D, 0.0D, 0.0D);
+//            double d1 = par1AxisAlignedBB.minX + (par1AxisAlignedBB.maxX - par1AxisAlignedBB.minX)
+// * (double) this.rand.nextFloat();
+//            double d2 = par1AxisAlignedBB.minY + (par1AxisAlignedBB.maxY - par1AxisAlignedBB.minY)
+// * (double) this.rand.nextFloat();
+//            double d0 = par1AxisAlignedBB.minZ + (par1AxisAlignedBB.maxZ - par1AxisAlignedBB.minZ)
+// * (double) this.rand.nextFloat();
+//            this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, d1, d2, d0, 0.0D, 0.0D,
+// 0.0D);
 //        }
 //
 //        return flag;
 //    }
 //
 //    private void spawnEgg() {
-////		if (ConfigHandler.dragonEggSpawnLocation[0] != 0 || ConfigHandler.dragonEggSpawnLocation[1] != 0 || ConfigHandler.dragonEggSpawnLocation[1] != 0 && !isUber) {
+////		if (ConfigHandler.dragonEggSpawnLocation[0] != 0 || ConfigHandler.dragonEggSpawnLocation[1] !=
+// 0 || ConfigHandler.dragonEggSpawnLocation[1] != 0 && !isUber) {
 ////			homeX = ConfigHandler.dragonEggSpawnLocation[0];
 ////			homeY = ConfigHandler.dragonEggSpawnLocation[1];
 ////			homeZ = ConfigHandler.dragonEggSpawnLocation[2];
@@ -1234,7 +1373,8 @@
 ////                            }
 ////                        } else if (k > b0) {
 ////                            this.world.setBlock(l, k, i1, Blocks.air);
-////                        } else if (d2 > ((double) (b1 - 1) - 0.5D) * ((double) (b1 - 1) - 0.5D)) {
+////                        } else if (d2 > ((double) (b1 - 1) - 0.5D) * ((double) (b1 - 1) - 0.5D))
+// {
 ////                            this.world.setBlock(l, k, i1, Blocks.bedrock);
 ////                        }
 ////                    }
@@ -1265,7 +1405,8 @@
 //        homeX = compound.getInteger("HomeXCoord");
 //        homeY = compound.getInteger("HomeYCoord");
 //        homeZ = compound.getInteger("HomeZCoord");
-//        if (compound.hasKey("Behaviour")) behaviour = EnumBehaviour.valueOf(compound.getString("Behaviour"));
+//        if (compound.hasKey("Behaviour")) behaviour =
+// EnumBehaviour.valueOf(compound.getString("Behaviour"));
 //        homeSet = compound.getBoolean("HomeSet");
 //        targetX = homeX;
 //        targetZ = homeZ;
@@ -1313,4 +1454,4 @@
 //        super.removeTrackingPlayer(player);
 //        bossInfo.removePlayer(player);
 //    }
-//}
+// }

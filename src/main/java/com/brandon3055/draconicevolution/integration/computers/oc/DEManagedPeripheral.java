@@ -1,6 +1,5 @@
 package com.brandon3055.draconicevolution.integration.computers.oc;
 
-
 import com.brandon3055.draconicevolution.integration.computers.ArgHelper;
 import com.brandon3055.draconicevolution.integration.computers.IDEPeripheral;
 import li.cil.oc.api.Network;
@@ -11,15 +10,17 @@ import li.cil.oc.api.network.ManagedPeripheral;
 import li.cil.oc.api.network.Visibility;
 import li.cil.oc.api.prefab.AbstractManagedEnvironment;
 
-/**
- * Created by brandon3055 on 22/9/2015.
- */
-public class DEManagedPeripheral extends AbstractManagedEnvironment implements ManagedPeripheral, NamedBlock {
+/** Created by brandon3055 on 22/9/2015. */
+public class DEManagedPeripheral extends AbstractManagedEnvironment
+        implements ManagedPeripheral, NamedBlock {
     private IDEPeripheral peripheral;
 
     public DEManagedPeripheral(IDEPeripheral peripheral) {
         this.peripheral = peripheral;
-        this.setNode(Network.newNode(this, Visibility.Network).withComponent(peripheral.getPeripheralName(), Visibility.Network).create());
+        this.setNode(
+                Network.newNode(this, Visibility.Network)
+                        .withComponent(peripheral.getPeripheralName(), Visibility.Network)
+                        .create());
     }
 
     @Override
@@ -42,4 +43,3 @@ public class DEManagedPeripheral extends AbstractManagedEnvironment implements M
         return 10;
     }
 }
-

@@ -16,8 +16,7 @@ public class PacketToolProfile implements IMessage {
     private PlayerSlot slot;
     public String name = "";
 
-    public PacketToolProfile() {
-    }
+    public PacketToolProfile() {}
 
     public PacketToolProfile(PlayerSlot slot, String name) {
         this.slot = slot;
@@ -44,11 +43,11 @@ public class PacketToolProfile implements IMessage {
             ItemStack stack = message.slot.getStackInSlot(player);
 
             if (!stack.isEmpty() && stack.getItem() instanceof IConfigurableItem) {
-                ToolConfigHelper.setProfileName(stack, ToolConfigHelper.getProfile(stack), message.name);
+                ToolConfigHelper.setProfileName(
+                        stack, ToolConfigHelper.getProfile(stack), message.name);
             }
 
             return null;
         }
-
     }
 }
